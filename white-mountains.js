@@ -57,7 +57,6 @@ function init() {
   // document.body.addEventListener( 'mousemove', mouseSteering);
   scene.add( controls.getObject() );
   var onKeyDown = function ( event ) {
-    console.log('onKeyDown');
     switch ( event.keyCode ) {
       case 87: moveForward = true; break; // w
       case 65: moveLeft = true; break; // a
