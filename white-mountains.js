@@ -1,1 +1,1 @@
-import THREE from './three.module.js';
+import THREE from './three.js';
