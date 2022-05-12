@@ -10,28 +10,28 @@ init();
 function init() {
 
 	const container = document.getElementById( 'container' );
-//
-//   scene = new THREE.Scene();
-//
-// 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
-// 	scene.add( camera );
-//
-// 	const renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
-//
+
+  scene = new THREE.Scene();
+
+	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
+	scene.add( camera );
+
+	const renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
+
 }
-//
-// function onWindowResize() {
-//
-// 	camera.aspect = window.innerWidth / window.innerHeight;
-// 	camera.updateProjectionMatrix();
-//
-// 	renderer.setSize( window.innerWidth, window.innerHeight );
-//
-// }
-//
-// function animate() {
-//
-//   requestAnimationFrame( animate );
-// 	renderer.render( scene, camera );
-//
-// }
+
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+function animate() {
+
+  requestAnimationFrame( animate );
+	renderer.render( scene, camera );
+
+}
