@@ -47,12 +47,13 @@ function init() {
 
   controls = new PointerLockControls( camera, document.body );
   document.body.addEventListener( 'click', function () {
-      if ( controls.isLocked ) {
-        controls.unlock();
-      } else {
-        controls.lock();
-      }
-  }, false );
+    console.log('click');
+    if ( controls.isLocked ) {
+      controls.unlock();
+    } else {
+      controls.lock();
+    }
+  });
   // document.body.addEventListener( 'mousemove', mouseSteering);
   scene.add( controls.getObject() );
   var onKeyDown = function ( event ) {
