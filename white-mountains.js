@@ -3,7 +3,7 @@ import * as THREE from 'three';
 let scene, renderer, camera;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
-// const NEAR = 1e-6, FAR = 1e27;
+const NEAR = 1e-6, FAR = 1e27;
 
 init();
 
