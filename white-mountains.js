@@ -9,7 +9,7 @@ init();
 
 function init() {
 
-	container = document.getElementById( 'container' );
+	const container = document.getElementById( 'container' );
 //
 //   scene = new THREE.Scene();
 //
