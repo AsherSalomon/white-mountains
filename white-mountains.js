@@ -80,6 +80,7 @@ function init() {
   document.addEventListener( 'keyup', onKeyUp, false );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 }
 
