@@ -1,5 +1,5 @@
 import * as THREE from './lib/three.module.js';
-// import { PointerLockControls } from './lib/PointerLockControls.js';
+import { PointerLockControls } from './lib/PointerLockControls.js';
 //
 // var moveForward = false;
 // var moveBackward = false;
