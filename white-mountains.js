@@ -45,7 +45,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
 
-  controls = new PointerLockControls( camera, document.body );
+  controls = new PointerLockControls( camera, container );
   document.body.addEventListener( 'click', function () {
     console.log('click');
     if ( controls.isLocked ) {
