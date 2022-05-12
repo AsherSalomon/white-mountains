@@ -6,10 +6,10 @@ let scene, renderer, camera;
 const NEAR = 1e-6, FAR = 1e27;
 
 init();
-//
+
 function init() {
-//
-// 	container = document.getElementById( 'container' );
+
+	container = document.getElementById( 'container' );
 //
 //   scene = new THREE.Scene();
 //
