@@ -14,6 +14,7 @@ let scene, renderer, camera, controls;
 const NEAR = 1e-6, FAR = 1e27;
 
 init();
+animate();
 
 function init() {
 
