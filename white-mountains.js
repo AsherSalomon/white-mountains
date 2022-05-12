@@ -53,7 +53,7 @@ function init() {
         controls.lock();
       }
   }, false );
-      document.body.addEventListener( 'mousemove', mouseSteering);
+  // document.body.addEventListener( 'mousemove', mouseSteering);
   scene.add( controls.getObject() );
   var onKeyDown = function ( event ) {
     switch ( event.keyCode ) {
