@@ -18,7 +18,7 @@ animate();
 
 function init() {
 
-	const container = document.getElementById( 'container' );
+	// const container = document.getElementById( 'container' );
 
   scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0xa0a0a0 );
@@ -81,6 +81,7 @@ function init() {
   document.addEventListener( 'keyup', onKeyUp, false );
 
 	const renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
+	document.body.appendChild( renderer.domElement );
 }
 
 function onWindowResize() {
