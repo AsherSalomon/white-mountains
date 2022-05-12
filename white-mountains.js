@@ -45,9 +45,8 @@ function init() {
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
 
-  controls = new PointerLockControls( camera, container );
+  controls = new PointerLockControls( camera, document.body );
   document.body.addEventListener( 'click', function () {
-    console.log('click');
     if ( controls.isLocked ) {
       controls.unlock();
     } else {
@@ -57,6 +56,7 @@ function init() {
   // document.body.addEventListener( 'mousemove', mouseSteering);
   scene.add( controls.getObject() );
   var onKeyDown = function ( event ) {
+    console.log('onKeyDown');
     switch ( event.keyCode ) {
       case 87: moveForward = true; break; // w
       case 65: moveLeft = true; break; // a
