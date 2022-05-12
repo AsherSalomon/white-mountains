@@ -39,6 +39,7 @@ function init() {
 
 	const renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 
+  console.log('init done.')
 }
 
 function onWindowResize() {
