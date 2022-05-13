@@ -31,7 +31,8 @@ function init() {
 	mesh.rotation.x = - Math.PI / 2;
 	scene.add( mesh );
 
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
+	// camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
+	camera = new THREE.PerspectiveCamera( 45, container.clientWidth / container.clientHeight, NEAR, FAR );
 	camera.position.set( 1, 2, - 3 );
 	scene.add( camera );
 
