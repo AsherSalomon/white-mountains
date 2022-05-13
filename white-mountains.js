@@ -24,7 +24,7 @@ function init() {
 	scene.background = new THREE.Color( 0x000000 );
 	scene.fog = new THREE.Fog( 0x000000, 10, 50 );
 	const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-	hemiLight.position.set( 0, 1000, 0 );
+	hemiLight.position.set( 0, 20, 0 );
 	scene.add( hemiLight );
 
 	const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } ) );
