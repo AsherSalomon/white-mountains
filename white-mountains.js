@@ -1,5 +1,4 @@
-// import * as THREE from 'three';
-import * as THREE from './src/Three.js';
+import * as THREE from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
 
 var moveForward = false;
