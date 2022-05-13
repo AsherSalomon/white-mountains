@@ -68,7 +68,9 @@ function init() {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
 
-  window.addEventListener('deviceorientation', onWindowResize, false);
+  // window.addEventListener('deviceorientation', onWindowResize, false);
+	// window.addEventListener( 'wheel', onMouseWheel );
+	document.style.touchAction = 'none'; // disable touch scroll
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
