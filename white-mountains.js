@@ -43,7 +43,7 @@ function init() {
       controls.lock();
     }
   });
-  
+
   scene.add( controls.getObject() );
   var onKeyDown = function ( event ) {
     switch ( event.keyCode ) {
@@ -67,6 +67,8 @@ function init() {
   };
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
+
+  window.addEventListener('deviceorientation', onWindowResize);
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
