@@ -27,9 +27,15 @@ function init() {
 	hemiLight.position.set( 0, 20, 0 );
 	scene.add( hemiLight );
 
-	const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } ) );
-	mesh.rotation.x = - Math.PI / 2;
-	scene.add( mesh );
+	// const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } ) );
+	// mesh.rotation.x = - Math.PI / 2;
+	// scene.add( mesh );
+
+	const size = 10;
+	const divisions = 10;
+
+	const gridHelper = new THREE.GridHelper( size, divisions );
+	scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	camera.position.set( 1, 2, - 3 );
