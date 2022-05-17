@@ -152,6 +152,7 @@ export function init( scene, camera ) {
   document.body.addEventListener('touchend', handleEnd, false);
   document.body.addEventListener('touchcancel', handleCancel, false);
 
+  console.log('hi ash');
 }
 
 export function animate( camera ) {
