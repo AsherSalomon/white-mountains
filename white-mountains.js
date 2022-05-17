@@ -82,6 +82,9 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize );
 
 	renderer.domElement.style.touchAction = 'none'; // disable touch scroll
+
+	hello();
+
 }
 
 function onWindowResize() {
