@@ -15,6 +15,7 @@ function init() {
 	const container = document.getElementById( 'container' );
 
   scene = new THREE.Scene();
+
 	scene.background = new THREE.Color( 0x000000 );
 	scene.fog = new THREE.Fog( 0x000000, 10, 50 );
 	const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
@@ -41,7 +42,7 @@ function init() {
 
 	window.addEventListener( 'resize', onWindowResize );
 
-	renderer.domElement.style.touchAction = 'none'; // disable touch scroll
+	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
 
