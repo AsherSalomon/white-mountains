@@ -1,6 +1,6 @@
+
 import * as THREE from 'three';
 import { Controls } from './controls.js';
-
 
 let scene, renderer, camera;
 
