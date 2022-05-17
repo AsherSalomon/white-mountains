@@ -148,10 +148,10 @@ export function init( scene, camera ) {
     }
   }
 
-  document.body.addEventListener('touchstart', handleStart, false);
-  document.body.addEventListener('touchmove', handleMove, false);
-  document.body.addEventListener('touchend', handleEnd, false);
-  document.body.addEventListener('touchcancel', handleCancel, false);
+  document.addEventListener('touchstart', handleStart, false);
+  document.addEventListener('touchmove', handleMove, false);
+  document.addEventListener('touchend', handleEnd, false);
+  document.addEventListener('touchcancel', handleCancel, false);
 
 }
 
