@@ -2,8 +2,7 @@
 import { Vector3 } from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
 
-let controls, tempY;
-let delta = new Vector3();
+let controls;
 
 var moveForward = false;
 var moveBackward = false;
@@ -54,12 +53,13 @@ export function init( scene, camera ) {
 
 export function animate( camera ) {
 
+  let delta = new Vector3();
   delta.z = moveBackward - moveForward;
   delta.x = moveRight - moveLeft;
   delta.y = moveUp - moveDown;
   delta.multiplyScalar( this.speed );
 
-  tempY = delta.y;
+  let tempY = delta.y;
   delta.y = 0;
 
   delta = camera.localToWorld( delta );
@@ -67,6 +67,6 @@ export function animate( camera ) {
 
   delta.y += tempY;
 
-  camera.position.add( delta );
+  // camera.position.add( delta );
 
 }
