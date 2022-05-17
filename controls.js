@@ -66,7 +66,7 @@ export function animate( camera ) {
   delta.sub( camera.position );
 
   delta.y += tempY;
-  
-  // camera.position.add( delta );
+
+  camera.position.add( delta );
 
 }
