@@ -12,6 +12,7 @@ var moveUp = false;
 var moveDown = false;
 
 var speed = 0.1;
+var touchSpeed = 0.01;
 
 const ongoingTouches = [];
 
@@ -77,15 +78,15 @@ export function init( scene, camera ) {
       ongoingTouches.push(copyTouch(touches[i]));
       if ( touches[i].pageX > window.innerWidth / 2 ) {
         if ( rightTouch.identifier == -1 ) {
-          rightTouch = touches[i]
-          rightTouch.prevX = rightTouch.pageX
-          rightTouch.prevY = rightTouch.pageY
+          rightTouch = copyTouch( touches[i] );
+          rightTouch.prevX = rightTouch.pageX;
+          rightTouch.prevY = rightTouch.pageY;
         }
       } else {
         if ( leftTouch.identifier == -1 ) {
-          leftTouch = touches[i]
-          leftTouch.prevX = leftTouch.pageX
-          leftTouch.prevY = leftTouch.pageY
+          leftTouch = copyTouch( touches[i] );
+          leftTouch.prevX = leftTouch.pageX;
+          leftTouch.prevY = leftTouch.pageY;
         }
       }
     }
@@ -160,6 +161,11 @@ export function animate( camera ) {
   delta.x = moveRight - moveLeft;
   delta.y = moveUp - moveDown;
   delta.multiplyScalar( speed );
+
+  if ( leftTouch.identifier == -1 ) {
+    delta.x += ( leftTouch.pageX - leftTouch.prevX ) * touchSpeed
+    delta.z += ( leftTouch.pageY - leftTouch.prevY ) * touchSpeed
+  }
 
   let tempY = delta.y;
   delta.y = 0;
