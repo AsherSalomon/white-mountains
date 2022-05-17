@@ -163,10 +163,10 @@ export function animate( camera ) {
   delta.y = moveUp - moveDown;
   delta.multiplyScalar( speed );
 
-  if ( leftTouch.identifier > -1 ) {
-    delta.x += ( leftTouch.pageX - leftTouch.prevX ) * touchSpeed
-    delta.z += ( leftTouch.pageY - leftTouch.prevY ) * touchSpeed
-  }
+  // if ( leftTouch.identifier > -1 ) {
+  //   delta.x += ( leftTouch.pageX - leftTouch.prevX ) * touchSpeed
+  //   delta.z += ( leftTouch.pageY - leftTouch.prevY ) * touchSpeed
+  // }
 
   let tempY = delta.y;
   delta.y = 0;
