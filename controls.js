@@ -13,6 +13,8 @@ var moveDown = false;
 
 var speed = 0.1;
 
+const ongoingTouches = [];
+
 export function init( scene, camera ) {
 
   controls = new PointerLockControls( camera, document.body );
@@ -26,7 +28,7 @@ export function init( scene, camera ) {
 
   scene.add( controls.getObject() );
 
-  var onKeyDown = function ( event ) {
+  function onKeyDown( event ) {
     switch ( event.keyCode ) {
       case 87: moveForward = true; break; // w
       case 65: moveLeft = true; break; // a
@@ -36,7 +38,7 @@ export function init( scene, camera ) {
       case 16: moveDown = true; break; // shift
     }
   };
-  var onKeyUp = function ( event ) {
+  function onKeyUp( event ) {
     switch ( event.keyCode ) {
       case 87: moveForward = false; break; // w
       case 65: moveLeft = false; break; // a
@@ -49,8 +51,9 @@ export function init( scene, camera ) {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
 
-
-
+  // function handleStart(evt) {
+  //
+  //
   // document.body.addEventListener('touchstart', process_touchstart, false);
   // document.body.addEventListener('touchmove', process_touchmove, false);
   // document.body.addEventListener('touchcancel', process_touchcancel, false);
