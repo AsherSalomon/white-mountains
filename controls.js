@@ -31,29 +31,29 @@ export function init( scene, camera ) {
   }, false );
 
   scene.add( controls.getObject() );
-  
-  // function onKeyDown( event ) {
-  //   switch ( event.keyCode ) {
-  //     case 87: moveForward = true; break; // w
-  //     case 65: moveLeft = true; break; // a
-  //     case 83: moveBackward = true; break; // s
-  //     case 68: moveRight = true; break; // d
-  //     case 32: moveUp = true; break; // space
-  //     case 16: moveDown = true; break; // shift
-  //   }
-  // };
-  // function onKeyUp( event ) {
-  //   switch ( event.keyCode ) {
-  //     case 87: moveForward = false; break; // w
-  //     case 65: moveLeft = false; break; // a
-  //     case 83: moveBackward = false; break; // s
-  //     case 68: moveRight = false; break; // d
-  //     case 32: moveUp = false; break; // space
-  //     case 16: moveDown = false; break; // shift
-  //   }
-  // };
-  // document.addEventListener( 'keydown', onKeyDown, false );
-  // document.addEventListener( 'keyup', onKeyUp, false );
+
+  function onKeyDown( event ) {
+    switch ( event.keyCode ) {
+      case 87: moveForward = true; break; // w
+      case 65: moveLeft = true; break; // a
+      case 83: moveBackward = true; break; // s
+      case 68: moveRight = true; break; // d
+      case 32: moveUp = true; break; // space
+      case 16: moveDown = true; break; // shift
+    }
+  };
+  function onKeyUp( event ) {
+    switch ( event.keyCode ) {
+      case 87: moveForward = false; break; // w
+      case 65: moveLeft = false; break; // a
+      case 83: moveBackward = false; break; // s
+      case 68: moveRight = false; break; // d
+      case 32: moveUp = false; break; // space
+      case 16: moveDown = false; break; // shift
+    }
+  };
+  document.addEventListener( 'keydown', onKeyDown, false );
+  document.addEventListener( 'keyup', onKeyUp, false );
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
 
