@@ -58,10 +58,10 @@ export function animate( camera ) {
   delta.x = moveRight - moveLeft;
   delta.y = moveUp - moveDown;
   delta.multiplyScalar( this.speed );
-  //
-  // tempY = delta.y;
-  // delta.y = 0;
-  //
+
+  tempY = delta.y;
+  delta.y = 0;
+  
   // delta = camera.localToWorld( delta );
   // delta.sub( camera.position );
   //
