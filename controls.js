@@ -53,9 +53,9 @@ export const Controls = {
   animate: function( camera ) {
 
     var delta = new Vector3();
-    delta.x = moveForward - moveBackward;
-    delta.y = moveLeft - moveRight;
-    delta.z = moveUp - moveDown;
+    delta.z = moveForward - moveBackward;
+    delta.z = moveLeft - moveRight;
+    delta.y = moveUp - moveDown;
     delta.multiplyScalar( this.speed );
     camera.position.add( delta );
 
