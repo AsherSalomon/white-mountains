@@ -72,6 +72,7 @@ export function init( scene, camera ) {
   }
 
   function handleStart(evt) {
+    console.log('hi ash');
     evt.preventDefault();
     const touches = evt.changedTouches;
     for (let i = 0; i < touches.length; i++) {
@@ -152,7 +153,6 @@ export function init( scene, camera ) {
   document.body.addEventListener('touchend', handleEnd, false);
   document.body.addEventListener('touchcancel', handleCancel, false);
 
-  console.log('hi ash');
 }
 
 export function animate( camera ) {
