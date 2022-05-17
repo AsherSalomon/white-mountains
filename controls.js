@@ -51,7 +51,7 @@ export function init( scene, camera ) {
 
 }
 
-export function update( camera ) {
+export function animate( camera ) {
 
   let delta = new Vector3();
   delta.z = moveBackward - moveForward;
@@ -67,6 +67,7 @@ export function update( camera ) {
 
   delta.y += tempY;
 
+  console.log()
   camera.position.add( delta );
 
 }
