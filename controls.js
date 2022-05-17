@@ -8,4 +8,4 @@ const Controls = {
   }
 };
 
-export default Controls;
+export Controls;
