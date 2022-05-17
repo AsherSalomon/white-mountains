@@ -56,10 +56,14 @@ export const Controls = {
     delta.z = moveBackward - moveForward;
     delta.x = moveRight - moveLeft;
     delta.y = moveUp - moveDown;
+    var tempY = delta.y;
+    delta.y = 0;
     delta.multiplyScalar( this.speed );
 
     delta = camera.localToWorld( delta );
     delta.sub( camera.position );
+
+    delta.y += tempY;
 
     camera.position.add( delta );
 
