@@ -32,7 +32,7 @@ function init() {
 	scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
-	camera.position.set( 1, 2, - 3 );
+	camera.position.set( 0, 2, 5 );
 	scene.add( camera );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
