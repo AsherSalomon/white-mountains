@@ -1,5 +1,5 @@
 
-const Controls = {
+export const Controls = {
   type: 'first person',
   init: function() {
     console.log( this.type );
@@ -7,5 +7,3 @@ const Controls = {
   animate: function() {
   }
 };
-
-export Controls;
