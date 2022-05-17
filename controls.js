@@ -12,7 +12,7 @@ var moveUp = false;
 var moveDown = false;
 
 var speed = 0.1;
-var touchSpeed = 0.01;
+var touchSpeed = 0.001;
 
 const ongoingTouches = [];
 
