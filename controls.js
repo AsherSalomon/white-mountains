@@ -12,7 +12,7 @@ var moveUp = false;
 var moveDown = false;
 
 export const Controls = {
-  type: 'first person',
+  speed: 0.01,
   init: function( scene, camera ) {
 
     controls = new PointerLockControls( camera, document.body );
@@ -56,6 +56,7 @@ export const Controls = {
     delta.x = moveForward - moveBackward;
     delta.y = moveLeft - moveRight;
     delta.z = moveUp - moveDown;
+    delta.multiplyScalar( this.speed );
     camera.position.add( delta );
 
   }
