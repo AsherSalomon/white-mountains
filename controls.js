@@ -169,8 +169,8 @@ export function animate( camera ) {
     delta.z += ( leftTouch.pageY - leftTouch.prevY ) * touchSpeed
   }
   if ( rightTouch.identifier != 0 ) {
-    var azimuth = ( rightTouch.pageX - rightTouch.prevX ) * touchAngular
-    var elevate = ( rightTouch.pageY - rightTouch.prevY ) * touchAngular
+    var azimuth = -( rightTouch.pageX - rightTouch.prevX ) * touchAngular
+    var elevate = -( rightTouch.pageY - rightTouch.prevY ) * touchAngular
     camera.rotateOnWorldAxis( new Vector3(0,1,0), azimuth );
     camera.rotateX( elevate );
   }
