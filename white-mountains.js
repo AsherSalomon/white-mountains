@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
+import { hello } from './controls.js';
 
 var moveForward = false;
 var moveBackward = false;
@@ -74,9 +75,6 @@ function init() {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
 
-  // window.addEventListener('deviceorientation', onWindowResize, false);
-	// window.addEventListener( 'wheel', onMouseWheel );
-
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
@@ -96,6 +94,8 @@ function onWindowResize() {
 }
 
 function animate() {
+
+
 
   requestAnimationFrame( animate );
 	renderer.render( scene, camera );
