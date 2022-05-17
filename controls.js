@@ -77,7 +77,6 @@ export function init( scene, camera ) {
     for (let i = 0; i < touches.length; i++) {
       ongoingTouches.push(copyTouch(touches[i]));
       if ( touches[i].pageX > window.innerWidth / 2 ) {
-        console.log('hi ash');
         if ( rightTouch.identifier == -1 ) {
           rightTouch = copyTouch( touches[i] );
           rightTouch.prevX = rightTouch.pageX;
@@ -85,6 +84,7 @@ export function init( scene, camera ) {
         }
       } else {
         if ( leftTouch.identifier == -1 ) {
+          console.log('hi ash');
           leftTouch = copyTouch( touches[i] );
           leftTouch.prevX = leftTouch.pageX;
           leftTouch.prevY = leftTouch.pageY;
