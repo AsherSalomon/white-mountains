@@ -75,7 +75,7 @@ export function init( scene, camera ) {
       // touches[i].pageX
       // touches[i].pageY
     }
-    moveBackward = true;
+    // moveBackward = true;
   }
 
   function handleMove(evt) {
@@ -102,7 +102,7 @@ export function init( scene, camera ) {
         ongoingTouches.splice(idx, 1);
       }
     }
-    moveBackward = false;
+    // moveBackward = false;
   }
 
   function handleCancel(evt) {
