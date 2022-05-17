@@ -62,6 +62,6 @@ function animate() {
   requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 
-	// Controls.animate( camera );
+	Controls.animate( camera );
 
 }
