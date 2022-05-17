@@ -15,16 +15,16 @@ var speed = 0.1;
 
 export function init( scene, camera ) {
 
-  // controls = new PointerLockControls( camera, document.body );
-  // document.body.addEventListener( 'click', function () {
-  //   if ( controls.isLocked ) {
-  //     controls.unlock();
-  //   } else {
-  //     controls.lock();
-  //   }
-  // }, false );
-  //
-  // scene.add( controls.getObject() );
+  controls = new PointerLockControls( camera, document.body );
+  document.body.addEventListener( 'click', function () {
+    if ( controls.isLocked ) {
+      controls.unlock();
+    } else {
+      controls.lock();
+    }
+  }, false );
+
+  scene.add( controls.getObject() );
   //
   // var onKeyDown = function ( event ) {
   //   switch ( event.keyCode ) {
