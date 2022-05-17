@@ -44,7 +44,7 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none';
 
-	Controls.init( scene, camera, renderer );
+	Controls.init( scene, camera );
 
 }
 
