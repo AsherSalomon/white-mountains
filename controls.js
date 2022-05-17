@@ -13,6 +13,7 @@ var moveDown = false;
 
 var speed = 0.1;
 var touchSpeed = 0.001;
+var touchAngular = 0.001;
 
 const ongoingTouches = [];
 
@@ -166,6 +167,12 @@ export function animate( camera ) {
   if ( leftTouch.identifier != 0 ) {
     delta.x += ( leftTouch.pageX - leftTouch.prevX ) * touchSpeed
     delta.z += ( leftTouch.pageY - leftTouch.prevY ) * touchSpeed
+  }
+  if ( rightTouch.identifier != 0 ) {
+    var azimuth = ( rightTouch.pageX - rightTouch.prevX ) * touchAngular
+    var elevate = ( rightTouch.pageY - rightTouch.prevY ) * touchAngular
+    camera.rotateOnWorldAxis( new Vector3(0,1,0), azimuth );
+    camera.rotateX( elevate );
   }
 
   let tempY = delta.y;
