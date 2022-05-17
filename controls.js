@@ -51,13 +51,73 @@ export function init( scene, camera ) {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
 
-  // function handleStart(evt) {
-  //
-  //
-  // document.body.addEventListener('touchstart', process_touchstart, false);
-  // document.body.addEventListener('touchmove', process_touchmove, false);
-  // document.body.addEventListener('touchcancel', process_touchcancel, false);
-  // document.body.addEventListener('touchend', process_touchend, false);
+  // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+
+  function copyTouch({ identifier, pageX, pageY }) {
+    return { identifier, pageX, pageY };
+  }
+
+  function ongoingTouchIndexById(idToFind) {
+    for (let i = 0; i < ongoingTouches.length; i++) {
+      const id = ongoingTouches[i].identifier;
+      if (id == idToFind) {
+        return i;
+      }
+    }
+    return -1;    // not found
+  }
+
+  function handleStart(evt) {
+    evt.preventDefault();
+    const touches = evt.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
+      ongoingTouches.push(copyTouch(touches[i]));
+      // touches[i].pageX
+      // touches[i].pageY
+    }
+    moveBackward = true;
+  }
+
+  function handleMove(evt) {
+    evt.preventDefault();
+    const touches = evt.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
+      const idx = ongoingTouchIndexById(touches[i].identifier);
+      if (idx >= 0) {
+        // ongoingTouches[idx].pageX
+        // ongoingTouches[idx].pageY
+        ongoingTouches.splice(idx, 1, copyTouch(touches[i]));
+      }
+    }
+  }
+
+  function handleEnd(evt) {
+    evt.preventDefault();
+    const touches = evt.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
+      let idx = ongoingTouchIndexById(touches[i].identifier);
+      if (idx >= 0) {
+        // touches[i].pageX
+        // touches[i].pageY
+        ongoingTouches.splice(idx, 1);
+      }
+    }
+    moveBackward = false;
+  }
+
+  function handleCancel(evt) {
+    evt.preventDefault();
+    const touches = evt.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
+      let idx = ongoingTouchIndexById(touches[i].identifier);
+      ongoingTouches.splice(idx, 1);
+    }
+  }
+
+  document.body.addEventListener('touchstart', handleStart, false);
+  document.body.addEventListener('touchmove', handleMove, false);
+  document.body.addEventListener('touchend', handleEnd, false);
+  document.body.addEventListener('touchcancel', handleCancel, false);
 
 }
 
