@@ -1,6 +1,7 @@
 
 import * as THREE from 'three';
 import { Controls } from './controls.js';
+import * as test from './test.js';
 
 let scene, renderer, camera;
 
@@ -45,6 +46,9 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
+
+	test.hello();
+	test.world();
 
 }
 
