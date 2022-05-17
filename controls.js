@@ -61,12 +61,12 @@ export function animate( camera ) {
 
   tempY = delta.y;
   delta.y = 0;
+
+  delta = camera.localToWorld( delta );
+  delta.sub( camera.position );
+
+  delta.y += tempY;
   
-  // delta = camera.localToWorld( delta );
-  // delta.sub( camera.position );
-  //
-  // delta.y += tempY;
-  //
   // camera.position.add( delta );
 
 }
