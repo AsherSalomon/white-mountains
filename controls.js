@@ -13,7 +13,7 @@ var moveDown = false;
 
 var speed = 0.1;
 
-export function init( scene, camera, renderer ) {
+export function init( scene, camera ) {
 
   controls = new PointerLockControls( camera, document.body );
   document.body.addEventListener( 'click', function () {
@@ -48,6 +48,10 @@ export function init( scene, camera, renderer ) {
   };
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
+
+  document.body.addEventListener('touchstart', function () {
+    moveForward = true;
+  }, false );
 
 }
 
