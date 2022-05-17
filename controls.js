@@ -85,7 +85,7 @@ export function init( scene, camera ) {
       } else {
         if ( leftTouch.identifier == 0 ) {
           leftTouch = copyTouch( touches[i] );
-          console.log( leftTouch.identifier );
+          // console.log( leftTouch.identifier );
           leftTouch.prevX = leftTouch.pageX;
           leftTouch.prevY = leftTouch.pageY;
         }
