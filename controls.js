@@ -54,10 +54,10 @@ export function init( scene, camera ) {
 
 export function animate( camera ) {
 
-  // delta.z = moveBackward - moveForward;
-  // delta.x = moveRight - moveLeft;
-  // delta.y = moveUp - moveDown;
-  // delta.multiplyScalar( this.speed );
+  delta.z = moveBackward - moveForward;
+  delta.x = moveRight - moveLeft;
+  delta.y = moveUp - moveDown;
+  delta.multiplyScalar( this.speed );
   //
   // tempY = delta.y;
   // delta.y = 0;
