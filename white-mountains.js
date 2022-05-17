@@ -44,7 +44,7 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none';
 
-	Controls.init( scene, camera );
+	// Controls.init( scene, camera );
 
 }
 
@@ -62,6 +62,6 @@ function animate() {
   requestAnimationFrame( animate );
 	renderer.render( scene, camera );
 
-	Controls.animate( camera );
+	// Controls.animate( camera );
 
 }
