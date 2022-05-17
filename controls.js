@@ -1,4 +1,5 @@
 
+import { Vector3 } from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
 
 let controls;
@@ -50,5 +51,12 @@ export const Controls = {
 
   },
   animate: function() {
+
+    var delta = new Vector3();
+    delta.x = moveForward - moveBackward;
+    delta.y = moveLeft - moveRight;
+    delta.z = moveUp - moveDown;
+    camera.position.add( delta );
+
   }
 };
