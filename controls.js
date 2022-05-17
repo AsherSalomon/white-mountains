@@ -84,8 +84,9 @@ export function init( scene, camera ) {
         }
       } else {
         if ( leftTouch.identifier == -1 ) {
-          console.log('hi ash');
+          console.log(leftTouch.identifier);
           leftTouch = copyTouch( touches[i] );
+          console.log(touches[i]);
           leftTouch.prevX = leftTouch.pageX;
           leftTouch.prevY = leftTouch.pageY;
         }
