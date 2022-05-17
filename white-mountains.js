@@ -32,6 +32,7 @@ function init() {
 	// scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
+	Controls.init( scene, camera );
 	camera.position.set( 0, 2, 5 );
 	scene.add( camera );
 
@@ -43,7 +44,6 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none'; // disable touch scroll
 
-	Controls.init( scene, camera );
 
 }
 
