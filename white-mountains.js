@@ -72,7 +72,7 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none'; // disable touch scroll
 
-	Controls.init();
+	Controls.init( scene, camera );
 
 }
 
