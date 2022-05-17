@@ -57,7 +57,7 @@ export function animate( camera ) {
   delta.z = moveBackward - moveForward;
   delta.x = moveRight - moveLeft;
   delta.y = moveUp - moveDown;
-  delta.multiplyScalar( this.speed );
+  delta.multiplyScalar( speed );
 
   let tempY = delta.y;
   delta.y = 0;
