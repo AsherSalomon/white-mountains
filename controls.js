@@ -13,7 +13,7 @@ var moveDown = false;
 
 var speed = 0.1;
 
-export function init( scene, camera ) {
+export function init( scene, camera, renderer ) {
 
   controls = new PointerLockControls( camera, document.body );
   document.body.addEventListener( 'click', function () {
