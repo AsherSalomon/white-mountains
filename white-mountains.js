@@ -58,7 +58,7 @@ function onWindowResize() {
 
 function animate() {
 
-	Controls.animate();
+	Controls.animate( camera );
 
   requestAnimationFrame( animate );
 	renderer.render( scene, camera );
