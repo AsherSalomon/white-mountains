@@ -1,2 +1,10 @@
-export function hello() { console.log('hello') };
-export function goodbye() { console.log('goodbye') };
+
+const Controls = {
+  type: 'first person',
+  init: function() {
+  }
+  animate: function() {
+  }
+};
+
+export default Controls;
