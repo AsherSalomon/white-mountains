@@ -21,17 +21,17 @@ var leftTouch = { identifier: 0 };
 
 export function init( scene, camera ) {
 
-  // controls = new PointerLockControls( camera, document.body );
-  // document.body.addEventListener( 'click', function () {
-  //   if ( controls.isLocked ) {
-  //     controls.unlock();
-  //   } else {
-  //     controls.lock();
-  //   }
-  // }, false );
-  //
-  // scene.add( controls.getObject() );
-  //
+  controls = new PointerLockControls( camera, document.body );
+  document.body.addEventListener( 'click', function () {
+    if ( controls.isLocked ) {
+      controls.unlock();
+    } else {
+      controls.lock();
+    }
+  }, false );
+
+  scene.add( controls.getObject() );
+  
   // function onKeyDown( event ) {
   //   switch ( event.keyCode ) {
   //     case 87: moveForward = true; break; // w
