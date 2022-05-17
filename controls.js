@@ -15,6 +15,9 @@ var speed = 0.1;
 
 const ongoingTouches = [];
 
+var rightTouch = { identifier: -1 };
+var leftTouch = { identifier: -1 };
+
 export function init( scene, camera ) {
 
   controls = new PointerLockControls( camera, document.body );
@@ -72,10 +75,20 @@ export function init( scene, camera ) {
     const touches = evt.changedTouches;
     for (let i = 0; i < touches.length; i++) {
       ongoingTouches.push(copyTouch(touches[i]));
-      // touches[i].pageX
-      // touches[i].pageY
+      if ( touches[i].pageX > window.innerWidth / 2 ) {
+        if ( rightTouch.identifier == -1 ) {
+          rightTouch = touches[i]
+          rightTouch.prevX = rightTouch.pageX
+          rightTouch.prevY = rightTouch.pageY
+        }
+      } else {
+        if ( leftTouch.identifier == -1 ) {
+          leftTouch = touches[i]
+          leftTouch.prevX = leftTouch.pageX
+          leftTouch.prevY = leftTouch.pageY
+        }
+      }
     }
-    // moveBackward = true;
   }
 
   function handleMove(evt) {
@@ -87,6 +100,14 @@ export function init( scene, camera ) {
         // ongoingTouches[idx].pageX
         // ongoingTouches[idx].pageY
         ongoingTouches.splice(idx, 1, copyTouch(touches[i]));
+      }
+      if ( touches[i].identifier == rightTouch.identifier ) {
+        rightTouch.pageX = touches[i].pageX;
+        rightTouch.pageY = touches[i].pageY;
+      }
+      if ( touches[i].identifier == leftTouch.identifier ) {
+        leftTouch.pageX = touches[i].pageX;
+        leftTouch.pageY = touches[i].pageY;
       }
     }
   }
@@ -101,8 +122,13 @@ export function init( scene, camera ) {
         // touches[i].pageY
         ongoingTouches.splice(idx, 1);
       }
+      if ( touches[i].identifier == rightTouch.identifier ) {
+        rightTouch.identifier = -1;
+      }
+      if ( touches[i].identifier == leftTouch.identifier ) {
+        leftTouch.identifier = -1;
+      }
     }
-    // moveBackward = false;
   }
 
   function handleCancel(evt) {
@@ -111,6 +137,12 @@ export function init( scene, camera ) {
     for (let i = 0; i < touches.length; i++) {
       let idx = ongoingTouchIndexById(touches[i].identifier);
       ongoingTouches.splice(idx, 1);
+      if ( touches[i].identifier == rightTouch.identifier ) {
+        rightTouch.identifier = -1;
+      }
+      if ( touches[i].identifier == leftTouch.identifier ) {
+        leftTouch.identifier = -1;
+      }
     }
   }
 
