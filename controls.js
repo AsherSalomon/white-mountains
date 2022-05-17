@@ -50,7 +50,6 @@ export function init( scene, camera ) {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
 
-
 }
 
 export function animate( camera ) {
