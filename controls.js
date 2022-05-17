@@ -51,7 +51,7 @@ export function init( scene, camera ) {
 
 }
 
-export function animate( camera ) {
+export function update( camera ) {
 
   let delta = new Vector3();
   delta.z = moveBackward - moveForward;
