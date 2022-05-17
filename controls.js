@@ -2,7 +2,8 @@
 import { Vector3 } from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
 
-let controls, delta, tempY;
+let controls, tempY;
+let delta = new Vector3();
 
 var moveForward = false;
 var moveBackward = false;
@@ -48,8 +49,7 @@ export function init( scene, camera ) {
   };
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
-  
-  // delta = new Vector3();
+
 
 }
 
