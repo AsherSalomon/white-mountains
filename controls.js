@@ -11,63 +11,63 @@ var moveRight = false;
 var moveUp = false;
 var moveDown = false;
 
-export const Controls = {
-  speed: 0.1,
-  init: function( scene, camera ) {
+var speed = 0.1;
 
-    controls = new PointerLockControls( camera, document.body );
-    document.body.addEventListener( 'click', function () {
-      if ( controls.isLocked ) {
-        controls.unlock();
-      } else {
-        controls.lock();
-      }
-    }, false );
+export function init( scene, camera ) {
 
-    scene.add( controls.getObject() );
+  controls = new PointerLockControls( camera, document.body );
+  document.body.addEventListener( 'click', function () {
+    if ( controls.isLocked ) {
+      controls.unlock();
+    } else {
+      controls.lock();
+    }
+  }, false );
 
-    var onKeyDown = function ( event ) {
-      switch ( event.keyCode ) {
-        case 87: moveForward = true; break; // w
-        case 65: moveLeft = true; break; // a
-        case 83: moveBackward = true; break; // s
-        case 68: moveRight = true; break; // d
-        case 32: moveUp = true; break; // space
-        case 16: moveDown = true; break; // shift
-      }
-    };
-    var onKeyUp = function ( event ) {
-      switch ( event.keyCode ) {
-        case 87: moveForward = false; break; // w
-        case 65: moveLeft = false; break; // a
-        case 83: moveBackward = false; break; // s
-        case 68: moveRight = false; break; // d
-        case 32: moveUp = false; break; // space
-        case 16: moveDown = false; break; // shift
-      }
-    };
-    document.addEventListener( 'keydown', onKeyDown, false );
-    document.addEventListener( 'keyup', onKeyUp, false );
+  scene.add( controls.getObject() );
 
-    delta = new Vector3();
+  var onKeyDown = function ( event ) {
+    switch ( event.keyCode ) {
+      case 87: moveForward = true; break; // w
+      case 65: moveLeft = true; break; // a
+      case 83: moveBackward = true; break; // s
+      case 68: moveRight = true; break; // d
+      case 32: moveUp = true; break; // space
+      case 16: moveDown = true; break; // shift
+    }
+  };
+  var onKeyUp = function ( event ) {
+    switch ( event.keyCode ) {
+      case 87: moveForward = false; break; // w
+      case 65: moveLeft = false; break; // a
+      case 83: moveBackward = false; break; // s
+      case 68: moveRight = false; break; // d
+      case 32: moveUp = false; break; // space
+      case 16: moveDown = false; break; // shift
+    }
+  };
+  document.addEventListener( 'keydown', onKeyDown, false );
+  document.addEventListener( 'keyup', onKeyUp, false );
 
-  },
-  animate: function( camera ) {
+  delta = new Vector3();
 
-    delta.z = moveBackward - moveForward;
-    delta.x = moveRight - moveLeft;
-    delta.y = moveUp - moveDown;
-    delta.multiplyScalar( this.speed );
+}
 
-    tempY = delta.y;
-    delta.y = 0;
+export function animate( camera ) {
 
-    delta = camera.localToWorld( delta );
-    delta.sub( camera.position );
+  delta.z = moveBackward - moveForward;
+  delta.x = moveRight - moveLeft;
+  delta.y = moveUp - moveDown;
+  delta.multiplyScalar( this.speed );
 
-    delta.y += tempY;
+  tempY = delta.y;
+  delta.y = 0;
 
-    camera.position.add( delta );
+  delta = camera.localToWorld( delta );
+  delta.sub( camera.position );
 
-  }
-};
+  delta.y += tempY;
+
+  camera.position.add( delta );
+
+}
