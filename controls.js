@@ -2,7 +2,7 @@
 import { Vector3 } from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
 
-let camera, controls;
+let controls;
 
 var moveForward = false;
 var moveBackward = false;
@@ -14,7 +14,6 @@ var moveDown = false;
 export const Controls = {
   type: 'first person',
   init: function( scene, camera ) {
-    camera = camera;
 
     controls = new PointerLockControls( camera, document.body );
     document.body.addEventListener( 'click', function () {
@@ -51,7 +50,7 @@ export const Controls = {
     document.addEventListener( 'keyup', onKeyUp, false );
 
   },
-  animate: function() {
+  animate: function( camera ) {
 
     var delta = new Vector3();
     delta.x = moveForward - moveBackward;
