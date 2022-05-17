@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { PointerLockControls } from './lib/PointerLockControls.js';
-import { hello, goodbye } from './controls.js';
+import { Controls } from './controls.js';
 
 var moveForward = false;
 var moveBackward = false;
@@ -83,8 +83,7 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none'; // disable touch scroll
 
-	hello();
-	goodbye();
+	Controls.init();
 
 }
 
@@ -99,7 +98,7 @@ function onWindowResize() {
 
 function animate() {
 
-
+	Controls.animate();
 
   requestAnimationFrame( animate );
 	renderer.render( scene, camera );
