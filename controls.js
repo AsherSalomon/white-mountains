@@ -72,12 +72,12 @@ export function init( scene, camera ) {
   }
 
   function handleStart(evt) {
-    console.log('hi ash');
     evt.preventDefault();
     const touches = evt.changedTouches;
     for (let i = 0; i < touches.length; i++) {
       ongoingTouches.push(copyTouch(touches[i]));
       if ( touches[i].pageX > window.innerWidth / 2 ) {
+        console.log('hi ash');
         if ( rightTouch.identifier == -1 ) {
           rightTouch = copyTouch( touches[i] );
           rightTouch.prevX = rightTouch.pageX;
