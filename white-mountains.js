@@ -84,6 +84,7 @@ function init() {
 	renderer.domElement.style.touchAction = 'none'; // disable touch scroll
 
 	hello();
+	goodbye();
 
 }
 
