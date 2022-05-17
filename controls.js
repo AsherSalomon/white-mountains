@@ -67,7 +67,6 @@ export function animate( camera ) {
 
   delta.y += tempY;
 
-  console.log(delta)
   camera.position.add( delta );
 
 }
