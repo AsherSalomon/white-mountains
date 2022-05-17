@@ -16,8 +16,8 @@ var touchSpeed = 0.01;
 
 const ongoingTouches = [];
 
-var rightTouch = { identifier: -1 };
-var leftTouch = { identifier: -1 };
+var rightTouch = { identifier: 0 };
+var leftTouch = { identifier: 0 };
 
 export function init( scene, camera ) {
 
@@ -77,16 +77,15 @@ export function init( scene, camera ) {
     for (let i = 0; i < touches.length; i++) {
       ongoingTouches.push(copyTouch(touches[i]));
       if ( touches[i].pageX > window.innerWidth / 2 ) {
-        if ( rightTouch.identifier == -1 ) {
+        if ( rightTouch.identifier == 0 ) {
           rightTouch = copyTouch( touches[i] );
           rightTouch.prevX = rightTouch.pageX;
           rightTouch.prevY = rightTouch.pageY;
         }
       } else {
-        if ( leftTouch.identifier == -1 ) {
-          console.log(leftTouch.identifier);
+        if ( leftTouch.identifier == 0 ) {
           leftTouch = copyTouch( touches[i] );
-          console.log(touches[i]);
+          console.log( leftTouch.identifier );
           leftTouch.prevX = leftTouch.pageX;
           leftTouch.prevY = leftTouch.pageY;
         }
@@ -126,10 +125,10 @@ export function init( scene, camera ) {
         ongoingTouches.splice(idx, 1);
       }
       if ( touches[i].identifier == rightTouch.identifier ) {
-        rightTouch.identifier = -1;
+        rightTouch.identifier = 0;
       }
       if ( touches[i].identifier == leftTouch.identifier ) {
-        leftTouch.identifier = -1;
+        leftTouch.identifier = 0;
       }
     }
   }
