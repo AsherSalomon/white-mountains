@@ -49,9 +49,12 @@ export function init( scene, camera ) {
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
 
-  document.body.addEventListener('touchstart', function () {
-    moveForward = true;
-  }, false );
+
+
+  // document.body.addEventListener('touchstart', process_touchstart, false);
+  // document.body.addEventListener('touchmove', process_touchmove, false);
+  // document.body.addEventListener('touchcancel', process_touchcancel, false);
+  // document.body.addEventListener('touchend', process_touchend, false);
 
 }
 
