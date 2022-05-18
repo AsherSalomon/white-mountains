@@ -1,6 +1,7 @@
 
 // import proj4 from './lib/proj4.js';
 // import tilebelt from './lib/tilebelt.js';
+import * as tilebelt from 'tilebelt';
 
 let spacing = 0.05;
 let latitude = 44.2705;
