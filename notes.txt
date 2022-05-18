@@ -1,0 +1,16 @@
+
+    datasource = {
+      elevation: {
+        apiKey: datasource.apiKey,
+        maxZoom: 12,
+        pixelEncoding: PIXEL_ENCODING_TERRAIN_RGB,
+        urlFormat: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}'
+      },
+      imagery: {
+        apiKey: datasource.apiKey,
+        attribution: '<a href="https://www.maptiler.com/copyright/">Maptiler</a> <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        urlFormat: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
+      }
+    }
+
+THREE.ImageLoader
