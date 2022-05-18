@@ -1,5 +1,5 @@
 
-import proj4 from './lib/proj4.js';
+import * as proj4 from './lib/proj4.js';
 import tilebelt from './lib/tilebelt.js';
 
 let spacing = 0.05;
