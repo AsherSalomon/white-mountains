@@ -1,6 +1,7 @@
 
 import * as THREE from 'three';
 import * as Controls from './controls.js';
+import * as Terrain from './terrain.js';
 
 let scene, renderer, camera;
 
@@ -45,6 +46,7 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
+	Terrain.init( scene, camera );
 
 }
 
