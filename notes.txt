@@ -48,3 +48,20 @@ GeoprojectStore.prototype.setCurrentPlace = function ( place ) {
   // at the location of the place
   this.globalOffset = geoproject.calculateGlobalOffset( lon, lat );
 };
+
+
+  urlForTile( x, y, z ) {
+    return this.urlFormat.replace( '{x}', x ).replace( '{y}', y )
+      .replace( '{z}', z ).replace( '{apiKey}', this.apiKey );
+  }
+
+    let url = this.urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
+
+
+    if ( p.longitude ) {
+      tile = tilebelt.pointToTileFraction( p.longitude, p.latitude, 10 );
+    } else {
+      tile = GeoprojectStore.positionToTileFraction( p, 10 );
+    }
+
+    const q = tilebelt.tileToQuadkey( tile );
