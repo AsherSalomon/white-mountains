@@ -14,3 +14,37 @@
     }
 
 THREE.ImageLoader
+
+import tilebelt from '@mapbox/tilebelt';
+
+    let url = this.urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
+
+        let [ x, y, z ] = tilebelt.quadkeyToTile( q );
+
+      tile = tilebelt.pointToTileFraction( p.longitude, p.latitude, 10 );
+
+
+GeoprojectStore.prototype.setCurrentPlace = function ( place ) {
+  this.location = [ place.longitude, place.latitude ];
+  this.projection = 'EPSG:3857';
+
+  // Setup projectors
+  const lon = ApiUtils.snap( this.location[ 0 ] );
+  const lat = ApiUtils.snap( this.location[ 1 ] );
+  geoproject.projector = proj4( this.projection );
+  geoproject.center = geoproject.project( [ lon, lat ], true );
+
+  // For testing new data create temporary projector for 3035
+  // TODO remove this once we don't use 3035 data
+  geoproject.projector3035 = proj4( 'EPSG:3035' );
+  var projected3035 = geoproject.projector3035.forward( [ lon, lat ] );
+  geoproject.center3035 = { x: projected3035[ 0 ], y: projected3035[ 1 ] };
+
+  // To make the heights match the projection, we need to obtain the
+  // scene scale
+  this.sceneScale = geoproject.calculateSceneScale( lon, lat );
+
+  // Re-center our THREE Scene coordinate system such that it is 0, 0
+  // at the location of the place
+  this.globalOffset = geoproject.calculateGlobalOffset( lon, lat );
+};
