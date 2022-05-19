@@ -13,7 +13,7 @@ let urlFormat = {
 }
 
 function urlForTile( x, y, z ) {
-  return urlFormat['terrain'].replace( '{x}', x ).replace( '{y}', y )
+  return urlFormat['satellite'].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
@@ -50,7 +50,8 @@ function loadData( z ){
 }
 
 export function init() {
-  
-  loadData( 10 );
+
+  loadData( -1 );
+  loadData( 13 );
 
 }
