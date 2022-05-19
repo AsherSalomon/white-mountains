@@ -2,8 +2,10 @@ import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
 let projection = 'EPSG:3857';
-// let maxZoom = 12;
-let maxZoom = 20;
+let maxZoom = {
+  terrain: 12,
+  satellite: 20
+}
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -14,15 +16,15 @@ let urlFormat = {
 }
 
 function urlForTile( x, y, z ) {
-  return urlFormat['satellite'].replace( '{x}', x ).replace( '{y}', y )
+  return urlFormat['terrain'].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
 function loadData( z ){
 
-  // if ( z < 0 || z > maxZoom ) {
-  //   console.error('z < 0 || z > maxZoom');
-  // }
+  if ( z < 0 || z > maxZoom['terrain'] ) {
+    console.error('z < 0 || z > maxZoom');
+  }
 
   let latitude = 44.2705;
   let longitude = -71.30325;
@@ -52,9 +54,6 @@ function loadData( z ){
 
 export function init() {
 
-  // loadData( -1 );
-  for ( var i=20; i<=21;i++){
-    loadData( i );
-  }
+  loadData( 10 );
 
 }
