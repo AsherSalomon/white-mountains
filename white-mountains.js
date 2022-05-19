@@ -47,7 +47,7 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none';
 
-	Physics.someVariable = 'hi ash';
+	Physics.setVariable( 'hi ash' );
 	Controls.init( scene, camera );
 	Terrain.init( scene, camera );
 
