@@ -1,6 +1,7 @@
 import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
+
 let projection = 'EPSG:3857';
 let maxZoom = {
   terrain: 12,
@@ -55,17 +56,21 @@ function loadData( z ){
   // height = -10000 + ((R * 256 * 256 + G * 256 + B) * 0.1)
 }
 
-const MULTIPLIER_TERRAIN_RGB = [ 0.1 * 256 * 256, 0.1 * 256, 0.1, -10000 ];
-function dataToHeight( data, pixelEncoding ) {
-  let m = MULTIPLIER_TERRAIN_RGB;
-  return m[ 0 ] * data[ 0 ] +
-         m[ 1 ] * data[ 1 ] +
-         m[ 2 ] * data[ 2 ] +
-         m[ 3 ];
+function dataToHeight( data ) {
+  // Elevation in meters
+  return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
 }
 
 export function init() {
 
-  loadData( 10 );
+  let latitude = 44.2705; // Mt. Washington
+  let longitude = -71.30325;
+  let tile = tilebelt.pointToTile( longitude, latitude, 10 );
+  let bbox = tilebelt.tileToBBOX( tile );
+  console.log( bbox[0] - bbbox[2] );
+  console.log( bbox[1] - bbbox[3] );
+  let earthsRaius = 6371000; // meters
+
+  // loadData( 10 );
 
 }
