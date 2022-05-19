@@ -32,7 +32,7 @@ let timeNextSpawn = time + objectTimePeriod;
 const maxNumObjects = 30;
 
 export function init( scene ) {
-  
+
 	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
 	geometry.rotateX( - Math.PI / 2 );
 
@@ -53,6 +53,35 @@ export function init( scene ) {
 	terrainMesh.castShadow = true;
 
 	scene.add( terrainMesh );
+
+	const textureLoader = new THREE.TextureLoader();
+	textureLoader.load( './grid.png', function ( texture ) {
+
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
+		groundMaterial.map = texture;
+		groundMaterial.needsUpdate = true;
+
+	} );
+
+	const light = new THREE.DirectionalLight( 0xffffff, 1 );
+	light.position.set( 100, 100, 50 );
+	light.castShadow = true;
+	const dLight = 200;
+	const sLight = dLight * 0.25;
+	light.shadow.camera.left = - sLight;
+	light.shadow.camera.right = sLight;
+	light.shadow.camera.top = sLight;
+	light.shadow.camera.bottom = - sLight;
+
+	light.shadow.camera.near = dLight / 30;
+	light.shadow.camera.far = dLight;
+
+	light.shadow.mapSize.x = 1024 * 2;
+	light.shadow.mapSize.y = 1024 * 2;
+
+	scene.add( light );
 
 }
 
