@@ -31,6 +31,9 @@ const objectTimePeriod = 3;
 let timeNextSpawn = time + objectTimePeriod;
 const maxNumObjects = 30;
 
+export function init() {
+  
+}
 
 export function initPhysics() {
 
