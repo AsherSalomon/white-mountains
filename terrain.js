@@ -12,7 +12,6 @@ let urlFormat = {
 // let urlFormat = 'https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key={apiKey}'
 // https://wiki.openstreetmap.org/wiki/PBF_Format
 
-// https://github.com/mapbox/tilebelt/blob/master/index.js
 
 var d2r = Math.PI / 180,
     r2d = 180 / Math.PI;
@@ -74,11 +73,11 @@ function loadData(){
   let latitude = 44.2705;
   let longitude = -71.30325;
 
-  let tile = pointToTileFraction( longitude, latitude, 10 );
+  let tile = tilebelt.pointToTileFraction( longitude, latitude, 10 );
   console.log(tile);
-  let quadkey = tileToQuadkey( tile );
+  let quadkey = tilebelt.tileToQuadkey( tile );
   console.log( quadkey );
-  let url = urlForTile( ...quadkeyToTile( quadkey ) );
+  let url = urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
   console.log(url);
 
   const loader = new ImageLoader();
