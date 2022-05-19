@@ -83,4 +83,15 @@ export function init() {
 
   let url = urlForTile( ...quadkeyToTile( elevationKey ) );
   console.log(url);
+
+  const loader = new ImageLoader();
+  loader.load( url, function ( image ) {
+      console.log(image);
+  	},
+  	undefined, // onProgress callback currently not supported
+  	function () {
+  		console.error( 'ImageLoader error' );
+  	}
+  );
+
 }
