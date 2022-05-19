@@ -17,19 +17,19 @@ function urlForTile( x, y, z ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
-function loadData(){
+function loadData( z ){
 
   let latitude = 44.2705;
   let longitude = -71.30325;
 
   // let tile = tilebelt.pointToTileFraction( longitude, latitude, 10 );
-  let tile = tilebelt.pointToTile( longitude, latitude, 10 );
-  console.log(tile);
+  let tile = tilebelt.pointToTile( longitude, latitude, z );
+  console.log( tile );
   // let quadkey = tilebelt.tileToQuadkey( tile );
   // console.log( quadkey );
   // let url = urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
   let url = urlForTile( ...tile );
-  console.log(url);
+  console.log( url );
 
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
@@ -47,6 +47,8 @@ function loadData(){
 
 export function init() {
 
-  loadData();
+  for ( i = 0; i < maxZoom; i++ ) {
+    loadData( i );
+  }
 
 }
