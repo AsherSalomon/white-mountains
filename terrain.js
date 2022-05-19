@@ -1,3 +1,4 @@
+import { ImageLoader } from 'three';
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}'
