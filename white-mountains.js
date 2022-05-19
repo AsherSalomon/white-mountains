@@ -70,6 +70,9 @@ function onWindowResize() {
 function animate() {
 
   requestAnimationFrame( animate );
+
+	Physics.render();
+	
 	renderer.render( scene, camera );
 
 	Controls.animate( camera );
