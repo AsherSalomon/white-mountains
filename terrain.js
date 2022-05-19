@@ -79,5 +79,6 @@ export function init() {
   // console.log( tileWidthEW );
 
   // loadData( 10 );
+  console.log(Physics.someVariable);
 
 }
