@@ -51,7 +51,7 @@ function loadData( z ){
 
 export function init() {
 
-  loadData( -1 );
-  loadData( 13 );
+  // loadData( -1 );
+  loadData( 14 );
 
 }
