@@ -19,8 +19,8 @@ Ammo().then( function ( AmmoLib ) {
 } );
 
 function init() {
-
-	// heightData = generateHeight( terrainWidth, terrainDepth, terrainMinHeight, terrainMaxHeight );
+	
+	Physics.genHeight();
 
 	initGraphics();
 
