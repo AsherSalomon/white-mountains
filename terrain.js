@@ -6,6 +6,8 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
+export const ELEVATION_TILE_SIZE = 512;
+export const IMAGERY_TILE_SIZE = 256;
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -32,6 +34,7 @@ function loadData( z ){
   // let tile = tilebelt.pointToTileFraction( longitude, latitude, 10 );
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   console.log( tile );
+  console.log( tilebelt.tileToBBOX( tile ) );
   // let quadkey = tilebelt.tileToQuadkey( tile );
   // console.log( quadkey );
   // let url = urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
@@ -42,7 +45,7 @@ function loadData( z ){
   loader.load( url, function ( image ) {
       console.log( image );
   	},
-  	undefined, // onProgress callback currently not supported
+  	undefined, // onProgress not supported
   	function () {
   		console.error( 'ImageLoader error' );
   	}
@@ -50,6 +53,15 @@ function loadData( z ){
 
   // https://cloud.maptiler.com/tiles/terrain-rgb/
   // height = -10000 + ((R * 256 * 256 + G * 256 + B) * 0.1)
+}
+
+const MULTIPLIER_TERRAIN_RGB = [ 0.1 * 256 * 256, 0.1 * 256, 0.1, -10000 ];
+function dataToHeight( data, pixelEncoding ) {
+  let m = MULTIPLIER_TERRAIN_RGB;
+  return m[ 0 ] * data[ 0 ] +
+         m[ 1 ] * data[ 1 ] +
+         m[ 2 ] * data[ 2 ] +
+         m[ 3 ];
 }
 
 export function init() {
