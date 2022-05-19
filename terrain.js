@@ -67,8 +67,8 @@ export function init() {
   let longitude = -71.30325;
   let tile = tilebelt.pointToTile( longitude, latitude, 10 );
   let bbox = tilebelt.tileToBBOX( tile );
-  console.log( bbox[0] - bbbox[2] );
-  console.log( bbox[1] - bbbox[3] );
+  console.log( bbox[0] - bbox[2] );
+  console.log( bbox[1] - bbox[3] );
   let earthsRaius = 6371000; // meters
 
   // loadData( 10 );
