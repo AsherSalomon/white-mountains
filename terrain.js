@@ -53,7 +53,7 @@ function loadData( z ){
 export function init() {
 
   // loadData( -1 );
-  for ( var i=20; i<21;i++){
+  for ( var i=20; i<=21;i++){
     loadData( i );
   }
 
