@@ -71,8 +71,8 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-	Physics.render();
-	
+	Physics.render( scene );
+
 	renderer.render( scene, camera );
 
 	Controls.animate( camera );
