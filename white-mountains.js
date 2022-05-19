@@ -2,8 +2,11 @@
 import * as THREE from 'three';
 import * as Controls from './controls.js';
 import * as Terrain from './terrain.js';
+import * as Physics from './physics.js';
 
 let scene, renderer, camera;
+let terrainMesh;
+const clock = new THREE.Clock();
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
 const NEAR = 1e-6, FAR = 1e27;
@@ -27,10 +30,10 @@ function init() {
 	// mesh.rotation.x = - Math.PI / 2;
 	// scene.add( mesh );
 
-	const size = 10;
-	const divisions = 10;
-	const gridHelper = new THREE.GridHelper( size, divisions );
-	scene.add( gridHelper );
+	// const size = 10;
+	// const divisions = 10;
+	// const gridHelper = new THREE.GridHelper( size, divisions );
+	// scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	camera.position.set( 0, 2, 5 );
