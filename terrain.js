@@ -2,7 +2,7 @@ import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
 let projection = 'EPSG:3857';
-let maxZoom = 12;
+// let maxZoom = 12;
 let maxZoom = 20;
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
