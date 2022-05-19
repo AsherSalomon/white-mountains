@@ -214,7 +214,7 @@ function createTerrainShape() {
 
 }
 
-function generateObject() {
+function generateObject( scene ) {
 
 	const numTypes = 4;
 	const objectType = Math.ceil( Math.random() * numTypes );
@@ -286,8 +286,6 @@ function generateObject() {
 
 	physicsWorld.addRigidBody( body );
 
-
-
 }
 
 function createObjectMaterial() {
@@ -297,13 +295,13 @@ function createObjectMaterial() {
 
 }
 
-export function render() {
+export function render( scene ) {
 
 	const deltaTime = clock.getDelta();
 
 	if ( dynamicObjects.length < maxNumObjects && time > timeNextSpawn ) {
 
-		generateObject();
+		generateObject( scene );
 		timeNextSpawn = time + objectTimePeriod;
 
 	}
