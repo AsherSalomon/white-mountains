@@ -1,11 +1,11 @@
-import { ImageLoader } from 'three';
+import { ImageLoader, ObjectLoader } from 'three';
 
 let projection = 'EPSG:3857';
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
-let urlFormat = 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}'
+// let urlFormat = 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}'
 // let urlFormat = 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
-
+let urlFormat = 'https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key={apiKey}'
 
 // https://github.com/mapbox/tilebelt/blob/master/index.js
 
@@ -90,17 +90,27 @@ export function init() {
   // let url = urlForTile( ...quadkeyToTile( elevationKey ) );
   console.log(url);
 
-  const loader = new ImageLoader();
-  loader.load( url, function ( image ) {
-      console.log(image);
-  	},
-  	undefined, // onProgress callback currently not supported
-  	function () {
-  		console.error( 'ImageLoader error' );
-  	}
-  );
+  // const loader = new ImageLoader();
+  // loader.load( url, function ( image ) {
+  //     console.log( image );
+  // 	},
+  // 	undefined, // onProgress callback currently not supported
+  // 	function () {
+  // 		console.error( 'ImageLoader error' );
+  // 	}
+  // );
 
   // https://cloud.maptiler.com/tiles/terrain-rgb/
   // height = -10000 + ((R * 256 * 256 + G * 256 + B) * 0.1)
+
+  const loader = new ObjectLoader();
+  loader.load( url, function ( object ) {
+      console.log( object );
+  	},
+  	undefined, // onProgress callback currently not supported
+  	function () {
+  		console.error( 'ObjectLoader error' );
+  	}
+  );
 
 }
