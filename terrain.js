@@ -1,6 +1,9 @@
 import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
+import * as Physics from './physics.js';
 
+let tileWidthNS;
+let tileWidthEW;
 
 let projection = 'EPSG:3857';
 let maxZoom = {
@@ -70,10 +73,10 @@ export function init() {
   let deltaNS = bbox[3] - bbox[1]; // n - s
   let deltaEW = bbox[2] - bbox[0]; // e - w
   let earthsRaius = 6371000; // meters
-  let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
-  let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
-  console.log( tileWidthNS );
-  console.log( tileWidthEW );
+  tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
+  tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
+  // console.log( tileWidthNS );
+  // console.log( tileWidthEW );
 
   // loadData( 10 );
 
