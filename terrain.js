@@ -1,4 +1,5 @@
 import { ImageLoader, ObjectLoader } from 'three';
+import * as tilebelt from './lib/tilebelt.js';
 
 let projection = 'EPSG:3857';
 let maxZoom = 12;
@@ -24,6 +25,13 @@ function pointToTileFraction(lon, lat, z) {
   x = x % z2;
   if (x < 0) x = x + z2;
   return [x, y, z];
+}
+
+function pointToTile(lon, lat, z) {
+    var tile = pointToTileFraction(lon, lat, z);
+    tile[0] = Math.floor(tile[0]);
+    tile[1] = Math.floor(tile[1]);
+    return tile;
 }
 
 function tileToQuadkey(tile) {
@@ -65,7 +73,7 @@ function loadData(){
 
   let latitude = 44.2705;
   let longitude = -71.30325;
-  
+
   let tile = pointToTileFraction( longitude, latitude, 10 );
   console.log(tile);
   let quadkey = tileToQuadkey( tile );
