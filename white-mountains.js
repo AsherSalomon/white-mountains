@@ -19,12 +19,12 @@ Ammo().then( function ( AmmoLib ) {
 } );
 
 function init() {
-	
+
 	Physics.genHeight();
 
 	initGraphics();
 
-	// Physics.initPhysics();
+	Physics.initPhysics();
 
 }
 
