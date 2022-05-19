@@ -70,7 +70,7 @@ let longitude = -71.30325;
 export function init() {
   let tile = pointToTileFraction( longitude, latitude, 10 );
   console.log(tile);
-  
+
 
   let x = tile[0];
   let y = tile[1];
@@ -83,6 +83,7 @@ export function init() {
   let z2 = z - exp;
 
   let imageryKey = tileToQuadkey( [ x, y, z ] );
+  console.log(imageryKey);
   let elevationKey = tileToQuadkey( [ x2, y2, z2 ] );
 
   // let url = urlForTile( ...quadkeyToTile( imageryKey ) );
