@@ -83,7 +83,7 @@ export function init() {
 
   // let url = urlForTile( ...quadkeyToTile( imageryKey ) );
   // let url = urlForTile( ...quadkeyToTile( elevationKey ) );
-  let url = urlForTile( ...quadkeyToTile( tile ) );
+  let url = urlForTile( tile );
   console.log(url);
 
   const loader = new ImageLoader();
