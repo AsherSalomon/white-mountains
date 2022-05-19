@@ -66,10 +66,14 @@ export function init() {
   let latitude = 44.2705; // Mt. Washington
   let longitude = -71.30325;
   let tile = tilebelt.pointToTile( longitude, latitude, 10 );
-  let bbox = tilebelt.tileToBBOX( tile );
-  console.log( bbox[0] - bbox[2] );
-  console.log( bbox[1] - bbox[3] );
+  let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
+  let deltaNS = bbox[3] - bbox[1]; // n - s
+  let deltaEW = bbox[2] - bbox[0]; // e - w
   let earthsRaius = 6371000; // meters
+  let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
+  let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
+  console.log( tileWidthNS );
+  console.log( tileWidthEW );
 
   // loadData( 10 );
 
