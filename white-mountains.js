@@ -2,31 +2,37 @@
 import * as THREE from 'three';
 import * as Controls from './controls.js';
 import * as Terrain from './terrain.js';
-// import * as Physics from './physics.js';
+import * as Physics from './physics.js';
 
 let scene, renderer, camera;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
 const NEAR = 1e-6, FAR = 1e27;
 
-init();
-animate();
+Ammo().then( function ( AmmoLib ) {
+
+	Ammo = AmmoLib;
+
+	init();
+	animate();
+
+} );
 
 function init() {
+
+	// heightData = generateHeight( terrainWidth, terrainDepth, terrainMinHeight, terrainMaxHeight );
+
+	initGraphics();
+
+	// Physics.initPhysics();
+
+}
+
+function initGraphics() {
 
 	const container = document.getElementById( 'container' );
 
   scene = new THREE.Scene();
-
-	// scene.background = new THREE.Color( 0x000000 );
-	// scene.fog = new THREE.Fog( 0x000000, 10, 50 );
-	// const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-	// hemiLight.position.set( 0, 20, 0 );
-	// scene.add( hemiLight );
-	//
-	// const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xffffff, depthWrite: false } ) );
-	// mesh.rotation.x = - Math.PI / 2;
-	// scene.add( mesh );
 
 	// const size = 10;
 	// const divisions = 10;
