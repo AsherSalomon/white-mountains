@@ -19,6 +19,10 @@ function urlForTile( x, y, z ) {
 
 function loadData( z ){
 
+  if ( z < 0 || z > maxZoom ) {
+    console.error('z < 0 || z > maxZoom');
+  }
+
   let latitude = 44.2705;
   let longitude = -71.30325;
 
@@ -46,9 +50,7 @@ function loadData( z ){
 }
 
 export function init() {
-
-  for ( let i = 0; i < maxZoom + 2; i++ ) {
-    loadData( i );
-  }
+  
+  loadData( 10 );
 
 }
