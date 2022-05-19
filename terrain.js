@@ -28,7 +28,7 @@ function loadData(){
   // let quadkey = tilebelt.tileToQuadkey( tile );
   // console.log( quadkey );
   // let url = urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
-  let url = urlForTile( tile );
+  let url = urlForTile( ...tile );
   console.log(url);
 
   const loader = new ImageLoader();
