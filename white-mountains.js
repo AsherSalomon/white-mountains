@@ -2,11 +2,9 @@
 import * as THREE from 'three';
 import * as Controls from './controls.js';
 import * as Terrain from './terrain.js';
-import * as Physics from './physics.js';
+// import * as Physics from './physics.js';
 
 let scene, renderer, camera;
-let terrainMesh;
-const clock = new THREE.Clock();
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
 const NEAR = 1e-6, FAR = 1e27;
@@ -47,7 +45,6 @@ function init() {
 
 	renderer.domElement.style.touchAction = 'none';
 
-	Physics.setVariable( 'hi ash' );
 	Controls.init( scene, camera );
 	Terrain.init( scene, camera );
 
