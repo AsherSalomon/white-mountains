@@ -40,7 +40,7 @@ function initGraphics() {
 	// scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
-	camera.position.set( 0, 2, 5 );
+	camera.position.set( 0, 50, 100 );
 	scene.add( camera );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
