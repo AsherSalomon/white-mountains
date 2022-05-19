@@ -54,7 +54,7 @@ function initGraphics() {
 	Controls.init( scene, camera );
 	Terrain.init( scene, camera );
 
-	Physics.init();
+	Physics.init( scene );
 
 }
 
