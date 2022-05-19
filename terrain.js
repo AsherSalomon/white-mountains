@@ -3,6 +3,7 @@ import * as tilebelt from './lib/tilebelt.js';
 
 let projection = 'EPSG:3857';
 let maxZoom = 12;
+let maxZoom = 20;
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -19,9 +20,9 @@ function urlForTile( x, y, z ) {
 
 function loadData( z ){
 
-  if ( z < 0 || z > maxZoom ) {
-    console.error('z < 0 || z > maxZoom');
-  }
+  // if ( z < 0 || z > maxZoom ) {
+  //   console.error('z < 0 || z > maxZoom');
+  // }
 
   let latitude = 44.2705;
   let longitude = -71.30325;
@@ -52,7 +53,7 @@ function loadData( z ){
 export function init() {
 
   // loadData( -1 );
-  for ( var i=20; i<30;i++){
+  for ( var i=20; i<21;i++){
     loadData( i );
   }
 
