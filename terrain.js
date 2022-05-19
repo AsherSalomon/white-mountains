@@ -49,7 +49,7 @@ function quadkeyToTile(quadkey) {
   return [x, y, z];
 }
 
-urlForTile( x, y, z ) {
+function urlForTile( x, y, z ) {
   return urlFormat.replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
