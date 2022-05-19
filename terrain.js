@@ -52,6 +52,8 @@ function loadData( z ){
 export function init() {
 
   // loadData( -1 );
-  loadData( 15 );
+  for ( var i=15; i<20;i++){
+    loadData( i );
+  }
 
 }
