@@ -47,7 +47,7 @@ function loadData( z ){
 
 export function init() {
 
-  for ( let i = 0; i < maxZoom; i++ ) {
+  for ( let i = -1; i < maxZoom + 1; i++ ) {
     loadData( i );
   }
 
