@@ -31,8 +31,29 @@ const objectTimePeriod = 3;
 let timeNextSpawn = time + objectTimePeriod;
 const maxNumObjects = 30;
 
-export function init() {
+export function init( scene ) {
   
+	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
+	geometry.rotateX( - Math.PI / 2 );
+
+	const vertices = geometry.attributes.position.array;
+
+	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+
+		// j + 1 because it is the y component that we modify
+		vertices[ j + 1 ] = heightData[ i ];
+
+	}
+
+	geometry.computeVertexNormals();
+
+	const groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+	terrainMesh = new THREE.Mesh( geometry, groundMaterial );
+	terrainMesh.receiveShadow = true;
+	terrainMesh.castShadow = true;
+
+	scene.add( terrainMesh );
+
 }
 
 export function initPhysics() {
