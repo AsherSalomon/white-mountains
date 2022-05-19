@@ -71,7 +71,6 @@ export function init() {
   let tile = pointToTileFraction( longitude, latitude, 10 );
   console.log(tile);
 
-
   let x = tile[0];
   let y = tile[1];
   let z = tile[2];
@@ -82,12 +81,13 @@ export function init() {
   let y2 = Math.floor( y / Math.pow( 2, exp ) );
   let z2 = z - exp;
 
-  let imageryKey = tileToQuadkey( [ x, y, z ] );
+  // let imageryKey = tileToQuadkey( [ x, y, z ] );
+  let imageryKey = tileToQuadkey( tile );
   console.log(imageryKey);
-  let elevationKey = tileToQuadkey( [ x2, y2, z2 ] );
+  // let elevationKey = tileToQuadkey( [ x2, y2, z2 ] );
 
-  // let url = urlForTile( ...quadkeyToTile( imageryKey ) );
-  let url = urlForTile( ...quadkeyToTile( elevationKey ) );
+  let url = urlForTile( ...quadkeyToTile( imageryKey ) );
+  // let url = urlForTile( ...quadkeyToTile( elevationKey ) );
   console.log(url);
 
   const loader = new ImageLoader();
