@@ -1,6 +1,6 @@
 import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
-import * as Physics from './physics.js';
+// import * as Physics from './physics.js';
 
 let tileWidthNS;
 let tileWidthEW;
@@ -79,6 +79,5 @@ export function init() {
   // console.log( tileWidthEW );
 
   // loadData( 10 );
-  console.log(Physics.someVariable);
 
 }
