@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 
 // Heightfield parameters
 const terrainWidthExtents = 100;
