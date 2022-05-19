@@ -1,5 +1,7 @@
 import { ImageLoader } from 'three';
 
+let projection = 'EPSG:3857';
+
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}'
 // let urlFormat = 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
@@ -67,6 +69,8 @@ let latitude = 44.2705;
 let longitude = -71.30325;
 export function init() {
   let tile = pointToTileFraction( longitude, latitude, 10 );
+  console.log(tile);
+  
 
   let x = tile[0];
   let y = tile[1];
