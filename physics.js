@@ -60,7 +60,11 @@ export function initPhysics() {
 
 }
 
-export function generateHeight( width, depth, minHeight, maxHeight ) {
+export function genHeight() {
+	heightData = generateHeight( terrainWidth, terrainDepth, terrainMinHeight, terrainMaxHeight );
+}
+
+function generateHeight( width, depth, minHeight, maxHeight ) {
 
 	// Generates the height data (a sinus wave)
 
