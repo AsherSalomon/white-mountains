@@ -50,8 +50,8 @@ export function init() {
   let y2 = Math.floor( y / Math.pow( 2, exp ) );
   let z2 = z - exp;
 
-  let imageryKey = tilebelt.tileToQuadkey( [ x, y, z ] );
-  let elevationKey = tilebelt.tileToQuadkey( [ x2, y2, z2 ] );
+  let imageryKey = tileToQuadkey( [ x, y, z ] );
+  let elevationKey = tileToQuadkey( [ x2, y2, z2 ] );
 
   console.log(imageryKey);
   console.log(elevationKey);
