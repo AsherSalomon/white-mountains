@@ -1,4 +1,8 @@
 
+let apiKey = '5oT5Np7ipsbVhre3lxdi';
+let urlFormat: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}'
+// let urlFormat: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
+
 
 // https://github.com/mapbox/tilebelt/blob/master/index.js
 
@@ -16,15 +20,38 @@ function pointToTileFraction(lon, lat, z) {
 }
 
 function tileToQuadkey(tile) {
-    var index = '';
-    for (var z = tile[2]; z > 0; z--) {
-        var b = 0;
-        var mask = 1 << (z - 1);
-        if ((tile[0] & mask) !== 0) b++;
-        if ((tile[1] & mask) !== 0) b += 2;
-        index += b.toString();
+  var index = '';
+  for (var z = tile[2]; z > 0; z--) {
+    var b = 0;
+    var mask = 1 << (z - 1);
+    if ((tile[0] & mask) !== 0) b++;
+    if ((tile[1] & mask) !== 0) b += 2;
+    index += b.toString();
+  }
+  return index;
+}
+
+function quadkeyToTile(quadkey) {
+  var x = 0;
+  var y = 0;
+  var z = quadkey.length;
+
+  for (var i = z; i > 0; i--) {
+    var mask = 1 << (i - 1);
+    var q = +quadkey[z - i];
+    if (q === 1) x |= mask;
+    if (q === 2) y |= mask;
+    if (q === 3) {
+      x |= mask;
+      y |= mask;
     }
-    return index;
+  }
+  return [x, y, z];
+}
+
+urlForTile( x, y, z ) {
+  return urlFormat.replace( '{x}', x ).replace( '{y}', y )
+    .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
 let spacing = 0.05;
@@ -50,9 +77,9 @@ export function init() {
   let y2 = Math.floor( y / Math.pow( 2, exp ) );
   let z2 = z - exp;
 
-  let imageryKey = tileToQuadkey( [ x, y, z ] );
+  // let imageryKey = tileToQuadkey( [ x, y, z ] );
   let elevationKey = tileToQuadkey( [ x2, y2, z2 ] );
 
-  console.log(imageryKey);
-  console.log(elevationKey);
+  let url = urlForTile( ...quadkeyToTile( elevationKey ) );
+  console.log(url);
 }
