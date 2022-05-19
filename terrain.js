@@ -82,7 +82,8 @@ export function init() {
   let elevationKey = tileToQuadkey( [ x2, y2, z2 ] );
 
   // let url = urlForTile( ...quadkeyToTile( imageryKey ) );
-  let url = urlForTile( ...quadkeyToTile( elevationKey ) );
+  // let url = urlForTile( ...quadkeyToTile( elevationKey ) );
+  let url = urlForTile( ...quadkeyToTile( tile ) );
   console.log(url);
 
   const loader = new ImageLoader();
@@ -94,5 +95,8 @@ export function init() {
   		console.error( 'ImageLoader error' );
   	}
   );
+
+  // https://cloud.maptiler.com/tiles/terrain-rgb/
+  // height = -10000 + ((R * 256 * 256 + G * 256 + B) * 0.1)
 
 }
