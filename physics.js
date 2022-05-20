@@ -74,8 +74,8 @@ function generateHeight( width, depth, minHeight, maxHeight ) {
 
 export function init( scene ) {
 
-  terrainWidthExtents = Terrain.tileWidthNS; // 100; // 
-  terrainDepthExtents = 100; // Terrain.tileWidthEW; //
+  terrainWidthExtents = Terrain.tileWidthEW; // 100; //
+  terrainDepthExtents = Terrain.tileWidthNS; // 100; // 
 
 	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
 	geometry.rotateX( - Math.PI / 2 );
