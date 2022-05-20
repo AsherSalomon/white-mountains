@@ -2,8 +2,8 @@ import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 // import * as Physics from './physics.js';
 
-let tileWidthNS;
-let tileWidthEW;
+export let tileWidthNS;
+export let tileWidthEW;
 
 let projection = 'EPSG:3857';
 let maxZoom = {
