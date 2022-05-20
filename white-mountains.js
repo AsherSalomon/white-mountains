@@ -43,7 +43,7 @@ function initGraphics() {
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	camera.position.set( 0, 50, 100 );
-	camera.lookat( 0, 0, 0 );
+	camera.lookAt( 0, 0, 0 );
 	scene.add( camera );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
