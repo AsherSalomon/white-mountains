@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import * as Terrain from './terrain.js';
 
 // Heightfield parameters
-const terrainWidthExtents = 100; // Terrain.tileWidthNS; // 
-const terrainDepthExtents = 100; // Terrain.tileWidthEW; //
+let terrainWidthExtents; // Terrain.tileWidthNS; //  = 100
+let terrainDepthExtents; // Terrain.tileWidthEW; // = 100
 const terrainWidth = Terrain.ELEVATION_TILE_SIZE; // 128;
 const terrainDepth = Terrain.ELEVATION_TILE_SIZE; // 128;
 const terrainHalfWidth = terrainWidth / 2;
@@ -73,6 +73,9 @@ function generateHeight( width, depth, minHeight, maxHeight ) {
 }
 
 export function init( scene ) {
+
+  terrainWidthExtents = Terrain.tileWidthNS; // 100;
+  terrainDepthExtents = 100; // Terrain.tileWidthEW;
 
 	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
 	geometry.rotateX( - Math.PI / 2 );
