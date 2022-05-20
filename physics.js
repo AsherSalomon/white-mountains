@@ -108,7 +108,7 @@ export function init( scene ) {
 		groundMaterial.needsUpdate = true;
 
 	} );
-  // 
+  //
 	// const light = new THREE.DirectionalLight( 0xffffff, 1 );
 	// light.position.set( 0, 100, 100 );
 	// light.castShadow = true;
@@ -125,7 +125,7 @@ export function init( scene ) {
 	// light.shadow.mapSize.x = 1024 * 2;
 	// light.shadow.mapSize.y = 1024 * 2;
 
-	scene.add( light );
+	// scene.add( light );
 
 }
 
