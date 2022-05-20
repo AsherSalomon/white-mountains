@@ -265,7 +265,7 @@ function generateObject( scene ) {
 	}
 
 	// threeObject.position.set( ( Math.random() - 0.5 ) * terrainWidth * 0.6, terrainMaxHeight + objectSize + 2, ( Math.random() - 0.5 ) * terrainDepth * 0.6 );
-	threeObject.position.set( ( Math.random() * 2 - 1 ) * terrainWidthExtents * 0.7, terrainMaxHeight + objectSize + 2, ( Math.random() * 2 - 1 ) * terrainDepthExtents * 0.7 );
+	threeObject.position.set( ( Math.random() - 0.5 ) * terrainWidthExtents, terrainMaxHeight + objectSize + 2, ( Math.random() - 0.5 ) * terrainDepthExtents );
 
 	const mass = objectSize * 5;
 	const localInertia = new Ammo.btVector3( 0, 0, 0 );
