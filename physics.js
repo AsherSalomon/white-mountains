@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import * as Terrain from './terrain.js';
 
 // Heightfield parameters
-const terrainWidthExtents = Terrain.tileWidthNS; // 100;
-const terrainDepthExtents = 100; // Terrain.tileWidthEW; // 
+const terrainWidthExtents = 100; // Terrain.tileWidthNS; // 
+const terrainDepthExtents = 100; // Terrain.tileWidthEW; //
 const terrainWidth = Terrain.ELEVATION_TILE_SIZE; // 128;
 const terrainDepth = Terrain.ELEVATION_TILE_SIZE; // 128;
 const terrainHalfWidth = terrainWidth / 2;
