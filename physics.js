@@ -4,8 +4,8 @@ import * as Terrain from './terrain.js';
 // Heightfield parameters
 const terrainWidthExtents = 100;
 const terrainDepthExtents = 100;
-const terrainWidth = ELEVATION_TILE_SIZE; // 128;
-const terrainDepth = ELEVATION_TILE_SIZE; // 128;
+const terrainWidth = Terrain.ELEVATION_TILE_SIZE; // 128;
+const terrainDepth = Terrain.ELEVATION_TILE_SIZE; // 128;
 const terrainHalfWidth = terrainWidth / 2;
 const terrainHalfDepth = terrainDepth / 2;
 const terrainMaxHeight = 8;
