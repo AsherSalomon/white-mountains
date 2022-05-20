@@ -46,6 +46,10 @@ function initGraphics() {
 	camera.lookAt( 0, 0, 0 );
 	scene.add( camera );
 
+	const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+	scene.add( light );
+
+
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
