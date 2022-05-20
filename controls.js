@@ -11,9 +11,11 @@ var moveRight = false;
 var moveUp = false;
 var moveDown = false;
 
-var speed = 10; // 0.1;
+var speed = 0.1;
 var touchSpeed = 0.001;
 var touchAngular = 0.0001;
+
+var multiplier = 100;
 
 const ongoingTouches = [];
 
@@ -182,6 +184,8 @@ export function animate( camera ) {
   delta.sub( camera.position );
 
   delta.y += tempY;
+
+  delta.multiplyScalar( multiplier );
 
   camera.position.add( delta );
 
