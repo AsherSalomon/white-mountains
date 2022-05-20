@@ -66,7 +66,7 @@ export function init( scene ) {
 	} );
 
 	const light = new THREE.DirectionalLight( 0xffffff, 1 );
-	light.position.set( 0, 100, 0 );
+	light.position.set( 0, 100, 100 );
 	// light.castShadow = true;
 	// const dLight = 200;
 	// const sLight = dLight * 0.25;
