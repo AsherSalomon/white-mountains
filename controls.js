@@ -11,7 +11,7 @@ var moveRight = false;
 var moveUp = false;
 var moveDown = false;
 
-var speed = 0.1;
+var speed = 10; // 0.1;
 var touchSpeed = 0.001;
 var touchAngular = 0.0001;
 
