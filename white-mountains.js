@@ -20,6 +20,8 @@ Ammo().then( function ( AmmoLib ) {
 
 function init() {
 
+	Terrain.init();
+
 	Physics.genHeight();
 
 	initGraphics();
@@ -52,7 +54,6 @@ function initGraphics() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
-	Terrain.init( scene, camera );
 
 	Physics.init( scene );
 
