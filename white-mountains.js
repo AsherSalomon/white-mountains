@@ -42,7 +42,7 @@ function initGraphics() {
 	// scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
-	camera.position.set( 0, 50, 100 );
+	camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
 	camera.lookAt( 0, 0, 0 );
 	scene.add( camera );
 
