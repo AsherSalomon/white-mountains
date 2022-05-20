@@ -46,7 +46,10 @@ function initGraphics() {
 	camera.lookAt( 0, 0, 0 );
 	scene.add( camera );
 
-	const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+	const light = new THREE.DirectionalLight( 0x7f7f7f, 1 );
+	light.position.set( 0, 100, 100 );
+
+	const light = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
 	scene.add( light );
 
 
