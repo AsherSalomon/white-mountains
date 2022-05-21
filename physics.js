@@ -23,7 +23,7 @@ const terrainMaxHeight = 1916.5824; // i.e. 6,288'
 const terrainMinHeight = 0;
 //
 // // Graphics variables
-// let terrainMesh;
+let terrainMesh;
 const clock = new THREE.Clock();
 
 // Physics variables
