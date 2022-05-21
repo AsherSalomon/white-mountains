@@ -20,13 +20,13 @@ Ammo().then( function ( AmmoLib ) {
 
 function init() {
 
-	Terrain.init();
-
-	Physics.genHeight();
-
 	initGraphics();
 
 	Controls.init( scene, camera );
+
+	Terrain.init();
+
+	Physics.genHeight();
 
 	Physics.init( scene );
 
