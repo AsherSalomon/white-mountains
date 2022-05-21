@@ -37,22 +37,22 @@ function loadData( z ){
 
   // let tile = tilebelt.pointToTileFraction( longitude, latitude, 10 );
   let tile = tilebelt.pointToTile( longitude, latitude, z );
-  console.log( tile );
-  console.log( tilebelt.tileToBBOX( tile ) );
+  // console.log( tile );
+  // console.log( tilebelt.tileToBBOX( tile ) );
   // let quadkey = tilebelt.tileToQuadkey( tile );
   // console.log( quadkey );
   // let url = urlForTile( ...tilebelt.quadkeyToTile( quadkey ) );
   let url = urlForTile( ...tile );
-  console.log( url );
+  // console.log( url );
 
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
-      console.log( typeof image );
+      // console.log( typeof image );
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
-      console.log( typeof ctx.getImageData( 0, 0, 1, 1 ).data );
+      console.log( ctx.getImageData( 0, 0, 1, 1 ).data );
   	},
   	undefined, // onProgress not supported
   	function () {
