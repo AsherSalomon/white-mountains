@@ -47,6 +47,7 @@ export function initPhysics() {
 }
 
 export function createTerrainBody( heightData ) {
+  console.log( 'createTerrainBody' );
 
   const groundShape = createTerrainShape( heightData );
   const groundTransform = new Ammo.btTransform();
