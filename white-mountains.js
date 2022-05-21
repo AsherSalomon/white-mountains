@@ -24,6 +24,7 @@ function init() {
 	const container = document.getElementById( 'container' );
 
   scene = new THREE.Scene();
+	Physics.setScene( scene );
 
 	const size = 1609.34;
 	const divisions = 16;
