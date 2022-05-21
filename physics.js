@@ -248,6 +248,13 @@ function generateObject( scene ) {
 
 }
 
+function createObjectMaterial() {
+
+	const c = Math.floor( Math.random() * ( 1 << 24 ) );
+	return new THREE.MeshPhongMaterial( { color: c } );
+
+}
+
 export function render() {
 
 	const deltaTime = clock.getDelta();
