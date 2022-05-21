@@ -21,7 +21,7 @@ Ammo().then( function ( AmmoLib ) {
 function init() {
 
 	initGraphics();
-	Physics.scene = scene;
+	Physics.setScene( scene );
 
 	Controls.init( scene, camera );
 
