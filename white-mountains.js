@@ -26,6 +26,10 @@ function init() {
 
 	initGraphics();
 
+	Controls.init( scene, camera );
+
+	Physics.init( scene );
+
 	Physics.initPhysics();
 
 }
@@ -61,10 +65,6 @@ function initGraphics() {
 	window.addEventListener( 'resize', onWindowResize );
 
 	renderer.domElement.style.touchAction = 'none';
-
-	Controls.init( scene, camera );
-
-	Physics.init( scene );
 
 }
 
