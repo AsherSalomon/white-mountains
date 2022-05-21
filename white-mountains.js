@@ -21,13 +21,8 @@ Ammo().then( function ( AmmoLib ) {
 function init() {
 
 	initGraphics();
-	Physics.setScene( scene );
 
 	Controls.init( scene, camera );
-
-	Terrain.init();
-
-	Physics.main();
 
 }
 
@@ -37,10 +32,10 @@ function initGraphics() {
 
   scene = new THREE.Scene();
 
-	// const size = 10;
-	// const divisions = 10;
-	// const gridHelper = new THREE.GridHelper( size, divisions );
-	// scene.add( gridHelper );
+	const size = 10;
+	const divisions = 10;
+	const gridHelper = new THREE.GridHelper( size, divisions );
+	scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
@@ -53,7 +48,6 @@ function initGraphics() {
 
 	const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
 	scene.add( ambLight );
-
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -77,8 +71,6 @@ function onWindowResize() {
 function animate() {
 
   requestAnimationFrame( animate );
-
-	Physics.render( scene );
 
 	renderer.render( scene, camera );
 
