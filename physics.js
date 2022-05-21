@@ -38,8 +38,8 @@ let timeNextSpawn = time + objectTimePeriod;
 const maxNumObjects = 30;
 
 function callback( data ) {
-	// Physics.genHeight();
-  heightData = data;
+	Physics.genHeight();
+  // heightData = data;
 	init();
 	initPhysics();
 }
