@@ -53,7 +53,7 @@ export function loadTile() {
     	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
     	const heightData = new Float32Array( size );
       for ( let i = 0; i < size; i++ ) {
-        heightData[ i ] = dataToHeight( imageData.slice( i*4, i*4+3 ) );
+        heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
       Physics.createTerrainBody( heightData );
     },
