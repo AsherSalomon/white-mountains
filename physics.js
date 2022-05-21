@@ -5,6 +5,13 @@ export function setScene( providedScene ) {
   scene = providedScene;
 }
 
+let tileWidthNS;
+let tileWidthEW;
+export function setScale( wNS, wEW ) {
+  tileWidthNS = wNS;
+  tileWidthEW = wEW;
+}
+
 // Heightfield parameters
 let terrainWidthExtents; // Terrain.tileWidthNS; //  = 100
 let terrainDepthExtents; // Terrain.tileWidthEW; // = 100
