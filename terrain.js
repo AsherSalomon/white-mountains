@@ -28,7 +28,7 @@ function urlForTile( x, y, z ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
-function loadData( callback ){
+export function loadData( callback ){
 
   let z = 12
 
