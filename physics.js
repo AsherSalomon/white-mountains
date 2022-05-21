@@ -47,7 +47,6 @@ export function initPhysics() {
 }
 
 export function createTerrainBody( heightData ) {
-  console.log( 'createTerrainBody' );
 
   const groundShape = createTerrainShape( heightData );
   const groundTransform = new Ammo.btTransform();
@@ -59,6 +58,7 @@ export function createTerrainBody( heightData ) {
   const groundMotionState = new Ammo.btDefaultMotionState( groundTransform );
   const groundBody = new Ammo.btRigidBody( new Ammo.btRigidBodyConstructionInfo( groundMass, groundMotionState, groundShape, groundLocalInertia ) );
   physicsWorld.addRigidBody( groundBody );
+  console.log( 'addRigidBody' );
 
 }
 
