@@ -20,14 +20,6 @@ Ammo().then( function ( AmmoLib ) {
 
 function init() {
 
-	initGraphics();
-
-	Controls.init( scene, camera );
-
-}
-
-function initGraphics() {
-
 	const container = document.getElementById( 'container' );
 
   scene = new THREE.Scene();
@@ -56,6 +48,8 @@ function initGraphics() {
 	window.addEventListener( 'resize', onWindowResize );
 
 	renderer.domElement.style.touchAction = 'none';
+
+	Controls.init( scene, camera );
 
 }
 
