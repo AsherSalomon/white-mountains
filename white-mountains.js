@@ -23,10 +23,10 @@ function init() {
 	initGraphics();
 
 	Controls.init( scene, camera );
-	
+
 	Terrain.init();
 
-	Physics.main(scene);
+	Physics.main();
 
 }
 
