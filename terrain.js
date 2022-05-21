@@ -38,11 +38,6 @@ export function extablishScale() {
   tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
 }
 
-function dataToHeight( data ) {
-  // Elevation in meters
-  return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
-}
-
 export function loadTile() {
   if ( z < 0 || z > maxZoom['terrain'] ) {
     console.error('z < 0 || z > maxZoom');
@@ -69,4 +64,9 @@ export function loadTile() {
       console.error( 'ImageLoader error' );
     }
   );
+}
+
+function dataToHeight( data ) {
+  // Elevation in meters
+  return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
 }
