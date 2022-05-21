@@ -5,6 +5,10 @@ import * as Physics from './physics.js';
 let latitude = 44.2705; // Mt. Washington
 let longitude = -71.30325;
 let z = 12;
+let maxZoom = {
+  terrain: 12,
+  satellite: 20
+}
 let earthsRaius = 6371000; // meters
 
 let tileWidthNS;
