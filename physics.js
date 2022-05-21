@@ -12,7 +12,7 @@ import * as THREE from 'three';
 //
 // // Graphics variables
 // let terrainMesh;
-// const clock = new THREE.Clock();
+const clock = new THREE.Clock();
 
 // Physics variables
 let collisionConfiguration;
@@ -20,7 +20,7 @@ let dispatcher;
 let broadphase;
 let solver;
 let physicsWorld;
-// const dynamicObjects = [];
+const dynamicObjects = [];
 let transformAux1;
 //
 // let heightData = null;
@@ -56,5 +56,39 @@ export function initPhysics() {
 	// physicsWorld.addRigidBody( groundBody );
 
 	transformAux1 = new Ammo.btTransform();
+
+}
+
+export function render( scene ) {
+
+	const deltaTime = clock.getDelta();
+
+	updatePhysics( deltaTime );
+
+	time += deltaTime;
+
+}
+
+function updatePhysics( deltaTime ) {
+
+	physicsWorld.stepSimulation( deltaTime, 10 );
+
+	// Update objects
+	for ( let i = 0, il = dynamicObjects.length; i < il; i ++ ) {
+
+		const objThree = dynamicObjects[ i ];
+		const objPhys = objThree.userData.physicsBody;
+		const ms = objPhys.getMotionState();
+		if ( ms ) {
+
+			ms.getWorldTransform( transformAux1 );
+			const p = transformAux1.getOrigin();
+			const q = transformAux1.getRotation();
+			objThree.position.set( p.x(), p.y(), p.z() );
+			objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
+
+		}
+
+	}
 
 }
