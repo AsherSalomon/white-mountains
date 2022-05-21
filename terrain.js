@@ -46,7 +46,6 @@ export function loadTile() {
   let url = urlForTile( ...tile );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
-      console.log( 'function ( image )' );
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
       const ctx = canvas.getContext( '2d' );
@@ -55,6 +54,7 @@ export function loadTile() {
         0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
     	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
     	const heightData = new Float32Array( size );
+      console.log( 'heightData' );
       for ( let i = 0; i < size; i++ ) {
         heightData[ i ] = dataToHeight( imageData[ i ] );
       }
