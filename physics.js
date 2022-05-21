@@ -60,8 +60,8 @@ export function initPhysics() {
 
 export function createTerrainBody( heightData ) {
 
-  terrainWidthExtents = Terrain.tileWidthEW; // 100; //
-  terrainDepthExtents = Terrain.tileWidthNS; // 100; //
+  terrainWidthExtents = tileWidthEW; // 100; //
+  terrainDepthExtents = tileWidthNS; // 100; //
 
 	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
 	geometry.rotateX( - Math.PI / 2 );
