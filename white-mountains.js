@@ -14,6 +14,7 @@ Ammo().then( function ( AmmoLib ) {
 	Ammo = AmmoLib;
 
 	init();
+	Physics.initPhysics()
 	animate();
 
 } );
@@ -50,6 +51,7 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
+	Terrain.extablishScale();
 
 }
 
