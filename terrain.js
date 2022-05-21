@@ -33,7 +33,7 @@ export function extablishScale() {
   let deltaEW = bbox[2] - bbox[0]; // e - w
   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
-  return tileWidthNS, tileWidthEW;
+  return [ tileWidthNS, tileWidthEW ];
 }
 
 export function loadTile() {
