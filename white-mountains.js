@@ -52,6 +52,7 @@ function init() {
 
 	Controls.init( scene, camera );
 	Terrain.extablishScale();
+	// Terrain.loadTile();
 
 }
 
@@ -67,6 +68,8 @@ function onWindowResize() {
 function animate() {
 
   requestAnimationFrame( animate );
+
+	Physics.render( scene );
 
 	renderer.render( scene, camera );
 
