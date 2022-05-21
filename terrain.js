@@ -80,6 +80,6 @@ export function init() {
   // console.log( tileWidthNS );
   // console.log( tileWidthEW );
 
-  // loadData( z );
+  loadData( z );
 
 }
