@@ -47,7 +47,7 @@ function loadData( z ){
 
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
-      console.log( image );
+      console.log( typeof image );
   	},
   	undefined, // onProgress not supported
   	function () {
