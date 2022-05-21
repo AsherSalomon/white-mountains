@@ -35,8 +35,8 @@ const maxNumObjects = 30;
 function callback( data ) {
 	// Physics.genHeight();
   heightData = data;
-	Physics.init();
-	Physics.initPhysics();
+	init();
+	initPhysics();
 }
 
 export function main() {
