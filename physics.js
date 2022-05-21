@@ -77,7 +77,7 @@ export function createTerrainBody( heightData ) {
 	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
 
 		// j + 1 because it is the y component that we modify
-		vertices[ j + 1 ] = 0; // heightData[ i ];
+		vertices[ j + 1 ] = heightData[ i ];
 
 	}
 
