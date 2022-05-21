@@ -17,8 +17,8 @@ let terrainWidthExtents; // Terrain.tileWidthNS; //  = 100
 let terrainDepthExtents; // Terrain.tileWidthEW; // = 100
 const terrainWidth; // = 128;
 const terrainDepth; // = 128;
-const terrainHalfWidth = terrainWidth / 2;
-const terrainHalfDepth = terrainDepth / 2;
+const terrainHalfWidth; // = terrainWidth / 2;
+const terrainHalfDepth; // = terrainDepth / 2;
 const terrainMaxHeight = 1916.5824; // i.e. 6,288'
 const terrainMinHeight = 0;
 //
@@ -64,6 +64,8 @@ export function createTerrainBody( heightData ) {
   terrainDepthExtents = tileWidthNS; // 100; //
   terrainWidth = Math.sqrt( heightData.length );
   terrainDepth = terrainWidth;
+  terrainHalfWidth = terrainWidth / 2;
+  terrainHalfDepth = terrainDepth / 2;
 
 	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
 	geometry.rotateX( - Math.PI / 2 );
