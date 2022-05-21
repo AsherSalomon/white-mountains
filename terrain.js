@@ -45,6 +45,7 @@ export function loadTile() {
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile );
   const loader = new ImageLoader();
+  console.log( 'loader.load( url )' );
   loader.load( url, function ( image ) {
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
