@@ -58,8 +58,15 @@ function loadData( callback ){
       ctx.drawImage( image, 0, 0 );
       let imageData = ctx.getImageData(
         0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-      console.log( imageData.length );
-      callback();
+      // console.log( imageData.length );
+
+    	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+    	const heightData = new Float32Array( size );
+
+      for ( let i = 0; i < size; i++ ) {
+        heightData[ i ] = dataToHeight( imageData[ i ] );
+      }
+      callback( heightData );
   	},
   	undefined, // onProgress not supported
   	function () {
