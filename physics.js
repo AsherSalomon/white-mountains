@@ -10,8 +10,6 @@ let tileWidthEW;
 export function setScale( list ) {
   tileWidthNS = list[ 0 ];
   tileWidthEW = list[ 1 ];
-  console.log(tileWidthNS);
-  console.log(tileWidthEW);
 }
 
 // Heightfield parameters
@@ -70,6 +68,7 @@ export function createTerrainBody( heightData ) {
 
 	const vertices = geometry.attributes.position.array;
 
+  console.log( heightData.length );
 	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
 
 		// j + 1 because it is the y component that we modify
@@ -107,7 +106,6 @@ export function createTerrainBody( heightData ) {
   const groundMotionState = new Ammo.btDefaultMotionState( groundTransform );
   const groundBody = new Ammo.btRigidBody( new Ammo.btRigidBodyConstructionInfo( groundMass, groundMotionState, groundShape, groundLocalInertia ) );
   physicsWorld.addRigidBody( groundBody );
-  // console.log( 'addRigidBody' );
 
 }
 
