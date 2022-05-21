@@ -11,9 +11,6 @@ let maxZoom = {
 }
 let earthsRaius = 6371000; // meters
 
-let tileWidthNS;
-let tileWidthEW;
-
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
@@ -34,8 +31,9 @@ export function extablishScale() {
   let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
   let deltaNS = bbox[3] - bbox[1]; // n - s
   let deltaEW = bbox[2] - bbox[0]; // e - w
-  tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
-  tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
+  let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
+  let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
+  return tileWidthNS, tileWidthEW;
 }
 
 export function loadTile() {
