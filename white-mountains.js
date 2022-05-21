@@ -27,10 +27,10 @@ function init() {
   scene = new THREE.Scene();
 	Physics.setScene( scene );
 
-	// const size = 1609.34;
-	// const divisions = 16;
-	// const gridHelper = new THREE.GridHelper( size, divisions );
-	// scene.add( gridHelper );
+	const size = 1609.34;
+	const divisions = 16;
+	const gridHelper = new THREE.GridHelper( size, divisions );
+	scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
