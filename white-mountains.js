@@ -52,7 +52,7 @@ function init() {
 
 	Controls.init( scene, camera );
 	Terrain.extablishScale();
-	// Terrain.loadTile();
+	Terrain.loadTile();
 
 }
 
