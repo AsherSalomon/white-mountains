@@ -7,9 +7,9 @@ export function setScene( providedScene ) {
 
 let tileWidthNS;
 let tileWidthEW;
-export function setScale( wNS, wEW ) {
-  tileWidthNS = wNS;
-  tileWidthEW = wEW;
+export function setScale( list ) {
+  tileWidthNS = list[ 0 ];
+  tileWidthEW = list[ 1 ];
   console.log(tileWidthNS);
   console.log(tileWidthEW);
 }
