@@ -72,6 +72,8 @@ export function createTerrainBody( heightData ) {
 
 	const vertices = geometry.attributes.position.array;
 
+  console.log( typeof vertices[ 1 ] );
+  console.log( typeof heightData[ 0 ] );
 	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
 
 		// j + 1 because it is the y component that we modify
