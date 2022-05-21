@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import * as Terrain from './terrain.js';
 
+export let scene;
+
 // Heightfield parameters
 let terrainWidthExtents; // Terrain.tileWidthNS; //  = 100
 let terrainDepthExtents; // Terrain.tileWidthEW; // = 100
