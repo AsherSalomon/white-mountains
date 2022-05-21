@@ -21,8 +21,8 @@ let terrainHalfWidth; // = terrainWidth / 2;
 let terrainHalfDepth; // = terrainDepth / 2;
 const terrainMaxHeight = 1916.5824; // i.e. 6,288'
 const terrainMinHeight = 0;
-//
-// // Graphics variables
+
+// Graphics variables
 let terrainMesh;
 const clock = new THREE.Clock();
 
@@ -34,10 +34,10 @@ let solver;
 let physicsWorld;
 const dynamicObjects = [];
 let transformAux1;
-//
+
 // let heightData = null;
 let ammoHeightData = null;
-//
+
 let time = 0;
 // const objectTimePeriod = 3;
 // let timeNextSpawn = time + objectTimePeriod;
