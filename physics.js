@@ -32,13 +32,13 @@ const objectTimePeriod = 3;
 let timeNextSpawn = time + objectTimePeriod;
 const maxNumObjects = 30;
 
-function callback( scene ) {
+function callback() {
 	Physics.genHeight();
-	Physics.init( scene );
+	Physics.init();
 	Physics.initPhysics();
 }
 
-export function main( scene ) {
+export function main() {
 	Terrain.loadData( callback );
 }
 
@@ -82,7 +82,7 @@ function generateHeight( width, depth, minHeight, maxHeight ) {
 
 }
 
-export function init( scene ) {
+export function init() {
 
   terrainWidthExtents = Terrain.tileWidthEW; // 100; //
   terrainDepthExtents = Terrain.tileWidthNS; // 100; //
