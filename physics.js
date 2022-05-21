@@ -15,10 +15,10 @@ export function setScale( list ) {
 // Heightfield parameters
 let terrainWidthExtents; // Terrain.tileWidthNS; //  = 100
 let terrainDepthExtents; // Terrain.tileWidthEW; // = 100
-const terrainWidth; // = 128;
-const terrainDepth; // = 128;
-const terrainHalfWidth; // = terrainWidth / 2;
-const terrainHalfDepth; // = terrainDepth / 2;
+let terrainWidth; // = 128;
+let terrainDepth; // = 128;
+let terrainHalfWidth; // = terrainWidth / 2;
+let terrainHalfDepth; // = terrainDepth / 2;
 const terrainMaxHeight = 1916.5824; // i.e. 6,288'
 const terrainMinHeight = 0;
 //
