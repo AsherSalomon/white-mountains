@@ -5,6 +5,8 @@ import * as tilebelt from './lib/tilebelt.js';
 export let tileWidthNS;
 export let tileWidthEW;
 
+let z = 12;
+
 let projection = 'EPSG:3857';
 let maxZoom = {
   terrain: 12,
@@ -26,7 +28,9 @@ function urlForTile( x, y, z ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
-function loadData( z ){
+function loadData( callback ){
+
+  let z = 12
 
   if ( z < 0 || z > maxZoom['terrain'] ) {
     console.error('z < 0 || z > maxZoom');
@@ -55,6 +59,7 @@ function loadData( z ){
       let imageData = ctx.getImageData(
         0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       console.log( imageData.length );
+      callback();
   	},
   	undefined, // onProgress not supported
   	function () {
@@ -73,8 +78,6 @@ function dataToHeight( data ) {
 
 export function init() {
 
-  let z = 12;
-
   let latitude = 44.2705; // Mt. Washington
   let longitude = -71.30325;
   let tile = tilebelt.pointToTile( longitude, latitude, z );
@@ -86,7 +89,5 @@ export function init() {
   tileWidthEW = earthsRaius * deltaEW * Math.PI / 180;
   // console.log( tileWidthNS );
   // console.log( tileWidthEW );
-
-  loadData( z );
 
 }
