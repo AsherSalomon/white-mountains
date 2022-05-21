@@ -53,7 +53,7 @@ function loadData( z ){
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let imageData = ctx.getImageData( 0, 0, 1, 1 ).data;
-      console.log( imageData[ 4 ] );
+      console.log( imageData.length );
   	},
   	undefined, // onProgress not supported
   	function () {
