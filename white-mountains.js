@@ -24,8 +24,8 @@ function init() {
 
   scene = new THREE.Scene();
 
-	const size = 10;
-	const divisions = 10;
+	const size = 1609.34;
+	const divisions = 16;
 	const gridHelper = new THREE.GridHelper( size, divisions );
 	scene.add( gridHelper );
 
