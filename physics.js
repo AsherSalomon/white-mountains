@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 
+let scene;
+export function setScene( providedScene ) {
+  scene = providedScene;
+}
+
 // Heightfield parameters
 let terrainWidthExtents; // Terrain.tileWidthNS; //  = 100
 let terrainDepthExtents; // Terrain.tileWidthEW; // = 100
@@ -47,6 +52,41 @@ export function initPhysics() {
 }
 
 export function createTerrainBody( heightData ) {
+
+  terrainWidthExtents = Terrain.tileWidthEW; // 100; //
+  terrainDepthExtents = Terrain.tileWidthNS; // 100; //
+
+	const geometry = new THREE.PlaneGeometry( terrainWidthExtents, terrainDepthExtents, terrainWidth - 1, terrainDepth - 1 );
+	geometry.rotateX( - Math.PI / 2 );
+
+	const vertices = geometry.attributes.position.array;
+
+	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+
+		// j + 1 because it is the y component that we modify
+		vertices[ j + 1 ] = heightData[ i ];
+
+	}
+
+	geometry.computeVertexNormals();
+
+	const groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+	terrainMesh = new THREE.Mesh( geometry, groundMaterial );
+	// terrainMesh.receiveShadow = true;
+	// terrainMesh.castShadow = true;
+
+	scene.add( terrainMesh );
+
+	const textureLoader = new THREE.TextureLoader();
+	textureLoader.load( './grid.png', function ( texture ) {
+
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
+		groundMaterial.map = texture;
+		groundMaterial.needsUpdate = true;
+
+	} );
 
   const groundShape = createTerrainShape( heightData );
   const groundTransform = new Ammo.btTransform();
@@ -123,7 +163,7 @@ function createTerrainShape( heightData ) {
 
 }
 
-export function render( scene ) {
+export function render() {
 
 	const deltaTime = clock.getDelta();
 
