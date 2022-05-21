@@ -52,7 +52,8 @@ function loadData( z ){
       canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
-      let imageData = ctx.getImageData( 0, 0, 1, 1 ).data;
+      let imageData = ctx.getImageData(
+        0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       console.log( imageData.length );
   	},
   	undefined, // onProgress not supported
