@@ -48,6 +48,11 @@ function loadData( z ){
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
       console.log( typeof image );
+      const canvas = document.createElement( 'canvas' );
+      canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
+      const ctx = canvas.getContext( '2d' );
+      ctx.drawImage( image, 0, 0 );
+      console.log( typeof ctx.getImageData( 0, 0, 1, 1 ).data );
   	},
   	undefined, // onProgress not supported
   	function () {
