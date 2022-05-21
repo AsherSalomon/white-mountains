@@ -58,7 +58,6 @@ export function loadTile() {
         heightData[ i ] = dataToHeight( imageData[ i ] );
       }
       Physics.createTerrainBody( heightData );
-      console.log( 'createTerrainBody' );
     },
     undefined, // onProgress not supported
     function () {
