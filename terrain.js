@@ -21,8 +21,8 @@ let urlFormat = {
   // protocolbuffer: 'https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key={apiKey}'
   // https://wiki.openstreetmap.org/wiki/PBF_Format
 }
-function urlForTile( x, y, z ) {
-  return urlFormat['terrain'].replace( '{x}', x ).replace( '{y}', y )
+function urlForTile( x, y, z, type ) {
+  return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
@@ -41,7 +41,7 @@ export function loadTile() {
     console.error('z < 0 || z > maxZoom');
   }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
-  let url = urlForTile( ...tile );
+  let url = urlForTile( ...tile, 'terrain' );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
       const canvas = document.createElement( 'canvas' );
@@ -59,7 +59,7 @@ export function loadTile() {
     },
     undefined, // onProgress not supported
     function () {
-      console.error( 'ImageLoader error' );
+      console.error( 'terrain ImageLoader error' );
     }
   );
 }
@@ -67,4 +67,32 @@ export function loadTile() {
 function dataToHeight( data ) {
   // Elevation in meters
   return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+}
+
+export function loadTexture() {
+  if ( z < 0 || z > maxZoom['satellite'] ) {
+    console.error('z < 0 || z > maxZoom');
+  }
+  let tile = tilebelt.pointToTile( longitude, latitude, z );
+  let url = urlForTile( ...tile, 'satellite' );
+  const loader = new ImageLoader();
+  loader.load( url, function ( image ) {
+      // const canvas = document.createElement( 'canvas' );
+      // canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
+      // const ctx = canvas.getContext( '2d' );
+      // ctx.drawImage( image, 0, 0 );
+      // let imageData = ctx.getImageData(
+      //   0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    	// const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+    	// const heightData = new Float32Array( size );
+      // for ( let i = 0; i < size; i++ ) {
+      //   heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      // }
+      // Physics.createTerrainBody( heightData );
+    },
+    undefined, // onProgress not supported
+    function () {
+      console.error( 'satellite ImageLoader error' );
+    }
+  );
 }
