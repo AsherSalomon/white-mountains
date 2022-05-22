@@ -88,16 +88,16 @@ export function createTerrainBody( heightData ) {
 
 	scene.add( terrainMesh );
 
-	const textureLoader = new THREE.TextureLoader();
-	textureLoader.load( './grid.png', function ( texture ) {
-
-		texture.wrapS = THREE.RepeatWrapping;
-		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
-		groundMaterial.map = texture;
-		groundMaterial.needsUpdate = true;
-
-	} );
+	// const textureLoader = new THREE.TextureLoader();
+	// textureLoader.load( './grid.png', function ( texture ) {
+  //
+	// 	texture.wrapS = THREE.RepeatWrapping;
+	// 	texture.wrapT = THREE.RepeatWrapping;
+	// 	texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
+	// 	groundMaterial.map = texture;
+	// 	groundMaterial.needsUpdate = true;
+  //
+	// } );
 
   const groundShape = createTerrainShape( heightData );
   const groundTransform = new Ammo.btTransform();
@@ -260,7 +260,7 @@ export function render() {
 	const deltaTime = clock.getDelta();
 
 	// if ( dynamicObjects.length < maxNumObjects && time > timeNextSpawn ) {
-  // 
+  //
 	// 	generateObject( scene );
 	// 	timeNextSpawn = time + objectTimePeriod;
   //
