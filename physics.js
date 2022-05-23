@@ -115,9 +115,9 @@ export function createTerrainBody( heightData ) {
 
 export function applyTerrainTexture( texture ) {
 
-	texture.wrapS = THREE.RepeatWrapping;
-	texture.wrapT = THREE.RepeatWrapping;
-	texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
+	// texture.wrapS = THREE.RepeatWrapping;
+	// texture.wrapT = THREE.RepeatWrapping;
+	// texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
 	groundMaterial.map = texture;
 	groundMaterial.needsUpdate = true;
 
