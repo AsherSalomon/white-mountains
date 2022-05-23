@@ -76,18 +76,18 @@ export function loadTexture( callback, z ) {
   if ( z < 0 || z > maxZoom['satellite'] ) {
     console.error('z < 0 || z > maxZoom');
   }
-  // if ( satelliteCanvas == undefined ) {
-  //   satelliteCanvas = document.createElement( 'canvas' );
-  //   satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
-  //   satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
-  // }
+  if ( satelliteCanvas == undefined ) {
+    satelliteCanvas = document.createElement( 'canvas' );
+    satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
+    satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
+  }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile, 'satellite' );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
-      satelliteCanvas = document.createElement( 'canvas' );
-      satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
-      satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
+      // satelliteCanvas = document.createElement( 'canvas' );
+      // satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
+      // satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
       const ctx = satelliteCanvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let texture = new CanvasTexture( satelliteCanvas );
