@@ -38,7 +38,7 @@ export function extablishScale( z ) {
   return [ tileWidthNS, tileWidthEW ];
 }
 
-export function loadTile( callback, z ) {
+export function loadTile( callback, z, calback2, args ) {
   if ( z < 0 || z > maxZoom['terrain'] ) {
     console.error('z < 0 || z > maxZoom');
   }
@@ -59,6 +59,7 @@ export function loadTile( callback, z ) {
       }
       // Physics.createTerrainBody( heightData );
       callback( heightData );
+      calback2( ...args );
     },
     undefined, // onProgress not supported
     function () {
