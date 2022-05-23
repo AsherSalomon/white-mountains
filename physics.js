@@ -53,7 +53,7 @@ export function initPhysics() {
 	broadphase = new Ammo.btDbvtBroadphase();
 	solver = new Ammo.btSequentialImpulseConstraintSolver();
 	physicsWorld = new Ammo.btDiscreteDynamicsWorld( dispatcher, broadphase, solver, collisionConfiguration );
-	physicsWorld.setGravity( new Ammo.btVector3( 0, - 6, 0 ) );
+	physicsWorld.setGravity( new Ammo.btVector3( 0, -9.80665, 0 ) );
 
 	transformAux1 = new Ammo.btTransform();
 
