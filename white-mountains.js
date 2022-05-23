@@ -53,7 +53,7 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
-	Terrain.loadTile();
+	Terrain.loadTile( Physics.createTerrainBody );
 
 }
 
