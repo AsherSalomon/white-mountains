@@ -15,7 +15,7 @@ Ammo().then( function ( AmmoLib ) {
 
 	init();
 	Physics.initPhysics();
-	Physics.setScale( Terrain.extablishScale() );
+	Physics.setScale( Terrain.extablishScale( 12 ) );
 	animate();
 
 } );
