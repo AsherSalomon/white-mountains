@@ -96,7 +96,8 @@ export function loadTexture( callback ) {
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
       const canvas = document.createElement( 'canvas' );
-      canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
+      canvas.width = ELEVATION_TILE_SIZE / 2;
+      canvas.height = ELEVATION_TILE_SIZE / 2;
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let texture = new CanvasTexture( canvas );
