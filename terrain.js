@@ -86,11 +86,12 @@ export function loadTexture( callback, z ) {
   let url = urlForTile( ...tile, 'satellite' );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
+      console.log( image );
       // satelliteCanvas = document.createElement( 'canvas' );
       // satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
       // satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
       const ctx = satelliteCanvas.getContext( '2d' );
-      ctx.drawImage( image, 123, 123 );
+      ctx.drawImage( image, ELEVATION_TILE_SIZE / 2, ELEVATION_TILE_SIZE / 2 );
       let texture = new CanvasTexture( satelliteCanvas );
       callback( texture );
     },
