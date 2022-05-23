@@ -24,6 +24,7 @@ const terrainMinHeight = 0;
 
 // Graphics variables
 let terrainMesh;
+const groundMaterial;
 const clock = new THREE.Clock();
 
 // Physics variables
@@ -109,6 +110,16 @@ export function createTerrainBody( heightData ) {
   const groundMotionState = new Ammo.btDefaultMotionState( groundTransform );
   const groundBody = new Ammo.btRigidBody( new Ammo.btRigidBodyConstructionInfo( groundMass, groundMotionState, groundShape, groundLocalInertia ) );
   physicsWorld.addRigidBody( groundBody );
+
+}
+
+export function applyTerrainTexture( texture ) {
+
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
+	groundMaterial.map = texture;
+	groundMaterial.needsUpdate = true;
 
 }
 
