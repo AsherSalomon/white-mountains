@@ -91,6 +91,7 @@ export function loadTexture( callback, z ) {
       const ctx = satelliteCanvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let texture = new CanvasTexture( satelliteCanvas );
+      console.log(texture);
       callback( texture );
     },
     undefined, // onProgress not supported
