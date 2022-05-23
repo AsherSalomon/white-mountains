@@ -82,15 +82,15 @@ export function loadTexture( callback, z ) {
     let bumpItUp = Math.pow( 2, z - 12 );
     satelliteCanvas.width = ELEVATION_TILE_SIZE / 2 * bumpItUp;
     satelliteCanvas.height = ELEVATION_TILE_SIZE / 2 * bumpItUp;
+    const ctx = satelliteCanvas.getContext( '2d' );
+    ctx.fillStyle = "#7F7F7F";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile, 'satellite' );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
       console.log( image );
-      // satelliteCanvas = document.createElement( 'canvas' );
-      // satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
-      // satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
       const ctx = satelliteCanvas.getContext( '2d' );
       let yu = 1 * ELEVATION_TILE_SIZE / 2;
       let ve = 0 * ELEVATION_TILE_SIZE / 2;
