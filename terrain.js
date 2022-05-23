@@ -28,7 +28,7 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
-export function extablishScale() {
+export function extablishScale( z ) {
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
   let deltaNS = bbox[3] - bbox[1]; // n - s
