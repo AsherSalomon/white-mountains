@@ -1,4 +1,4 @@
-import { ImageLoader, ObjectLoader } from 'three';
+import { ImageLoader, TextureLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 // import * as Physics from './physics.js';
 
@@ -70,30 +70,47 @@ function dataToHeight( data ) {
   return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
 }
 
-export function loadTexture() {
+export function loadTexture( callback ) {
   if ( z < 0 || z > maxZoom['satellite'] ) {
     console.error('z < 0 || z > maxZoom');
   }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile, 'satellite' );
-  const loader = new ImageLoader();
-  loader.load( url, function ( image ) {
-      // const canvas = document.createElement( 'canvas' );
-      // canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
-      // const ctx = canvas.getContext( '2d' );
-      // ctx.drawImage( image, 0, 0 );
-      // let imageData = ctx.getImageData(
-      //   0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-    	// const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
-    	// const heightData = new Float32Array( size );
-      // for ( let i = 0; i < size; i++ ) {
-      //   heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-      // }
-      // Physics.createTerrainBody( heightData );
+  // const loader = new ImageLoader();
+  // loader.load( url, function ( image ) {
+  //     // const canvas = document.createElement( 'canvas' );
+  //     // canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
+  //     // const ctx = canvas.getContext( '2d' );
+  //     // ctx.drawImage( image, 0, 0 );
+  //     // let imageData = ctx.getImageData(
+  //     //   0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+  //   	// const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+  //   	// const heightData = new Float32Array( size );
+  //     // for ( let i = 0; i < size; i++ ) {
+  //     //   heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+  //     // }
+  //     // Physics.createTerrainBody( heightData );
+  //   },
+  //   undefined, // onProgress not supported
+  //   function () {
+  //     console.error( 'satellite ImageLoader error' );
+  //   }
+  // );
+
+	const textureLoader = new THREE.TextureLoader();
+	textureLoader.load( url, function ( texture ) {
+  //
+	// 	texture.wrapS = THREE.RepeatWrapping;
+	// 	texture.wrapT = THREE.RepeatWrapping;
+	// 	texture.repeat.set( terrainWidth - 1, terrainDepth - 1 );
+	// 	groundMaterial.map = texture;
+	// 	groundMaterial.needsUpdate = true;
+  //
+      callback( texture );
     },
     undefined, // onProgress not supported
     function () {
-      console.error( 'satellite ImageLoader error' );
+      console.error( 'satellite TextureLoader error' );
     }
   );
 }
