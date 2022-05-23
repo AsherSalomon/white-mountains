@@ -82,7 +82,7 @@ export function createTerrainBody( heightData ) {
 
 	geometry.computeVertexNormals();
 
-	const groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+	groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
 	terrainMesh = new THREE.Mesh( geometry, groundMaterial );
 	// terrainMesh.receiveShadow = true;
 	// terrainMesh.castShadow = true;
