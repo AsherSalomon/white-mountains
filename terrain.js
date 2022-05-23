@@ -1,4 +1,4 @@
-import { ImageLoader, TextureLoader } from 'three';
+import { ImageLoader, TextureLoader, CanvasTexture } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 // import * as Physics from './physics.js';
 
