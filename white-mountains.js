@@ -56,7 +56,7 @@ function init() {
 
 
 	Terrain.loadTile( Physics.createTerrainBody, 12,
-		Terrain.loadTexture, [Physics.applyTerrainTexture, 13] );
+		Terrain.loadTexture, [Physics.applyTerrainTexture, 20] );
 
 }
 
