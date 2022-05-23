@@ -24,7 +24,7 @@ const terrainMinHeight = 0;
 
 // Graphics variables
 let terrainMesh;
-const groundMaterial;
+let groundMaterial;
 const clock = new THREE.Clock();
 
 // Physics variables
