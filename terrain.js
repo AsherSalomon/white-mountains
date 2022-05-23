@@ -84,7 +84,7 @@ export function loadTexture( callback, z ) {
     satelliteCanvas.height = ELEVATION_TILE_SIZE / 2 * bumpItUp;
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = "#7F7F7F";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
   }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile, 'satellite' );
