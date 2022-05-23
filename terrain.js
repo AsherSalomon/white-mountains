@@ -78,8 +78,9 @@ export function loadTexture( callback, z ) {
   }
   if ( satelliteCanvas == undefined ) {
     satelliteCanvas = document.createElement( 'canvas' );
-    satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
-    satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
+    let bumpItUp = Math.pow( 2, z - 12 );
+    satelliteCanvas.width = ELEVATION_TILE_SIZE / 2 * bumpItUp;
+    satelliteCanvas.height = ELEVATION_TILE_SIZE / 2 * bumpItUp;
   }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile, 'satellite' );
