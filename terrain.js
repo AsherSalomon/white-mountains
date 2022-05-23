@@ -14,6 +14,8 @@ let earthsRaius = 6371000; // meters
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
+let satelliteCanvas;
+
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
   terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
@@ -95,11 +97,11 @@ export function loadTexture( callback ) {
   let url = urlForTile( ...tile, 'satellite' );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
-      const canvas = document.createElement( 'canvas' );
-      canvas.width = ELEVATION_TILE_SIZE / 2;
-      canvas.height = ELEVATION_TILE_SIZE / 2;
-      const ctx = canvas.getContext( '2d' );
-      ctx.drawImage( image, 0, 0 );
+      satelliteCanvas = document.createElement( 'canvas' );
+      satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
+      satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
+      const context = satelliteCanvas.getContext( '2d' );
+      context.drawImage( image, 0, 0 );
       let texture = new CanvasTexture( canvas );
       callback( texture );
     },
