@@ -97,7 +97,7 @@ export function loadTexture( callback ) {
   //   }
   // );
 
-	const textureLoader = new THREE.TextureLoader();
+	const textureLoader = new TextureLoader();
 	textureLoader.load( url, function ( texture ) {
   //
 	// 	texture.wrapS = THREE.RepeatWrapping;
