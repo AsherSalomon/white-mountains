@@ -102,7 +102,7 @@ export function loadTexture( callback ) {
       satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
       const context = satelliteCanvas.getContext( '2d' );
       context.drawImage( image, 0, 0 );
-      let texture = new CanvasTexture( canvas );
+      let texture = new CanvasTexture( satelliteCanvas );
       callback( texture );
     },
     undefined, // onProgress not supported
