@@ -54,8 +54,8 @@ function init() {
 
 	Controls.init( scene, camera );
 
-	Terrain.loadTile( Physics.createTerrainBody );
-	Terrain.loadTexture( Physics.applyTerrainTexture );
+	Terrain.loadTile( Physics.createTerrainBody, 12 );
+	Terrain.loadTexture( Physics.applyTerrainTexture, 13 );
 
 }
 
