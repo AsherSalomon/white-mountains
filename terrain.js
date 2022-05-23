@@ -99,7 +99,7 @@ export function loadTexture( callback ) {
       canvas.width = ELEVATION_TILE_SIZE; canvas.height = ELEVATION_TILE_SIZE;
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
-      let texture = CanvasTexture( canvas );
+      let texture = new CanvasTexture( canvas );
       callback( texture );
     },
     undefined, // onProgress not supported
