@@ -27,7 +27,7 @@ function init() {
   scene = new THREE.Scene();
 	Physics.setScene( scene );
 
-	const size = 1609.34;
+	const size = 1609.34; // 1 mile
 	const divisions = 16;
 	const gridHelper = new THREE.GridHelper( size, divisions );
 	scene.add( gridHelper );
@@ -53,7 +53,9 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
+
 	Terrain.loadTile( Physics.createTerrainBody );
+	Terrain.loadTexture( Physics.applyTerrainTexture );
 
 }
 
