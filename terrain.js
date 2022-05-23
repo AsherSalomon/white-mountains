@@ -90,7 +90,7 @@ export function loadTexture( callback, z ) {
       // satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
       // satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
       const ctx = satelliteCanvas.getContext( '2d' );
-      ctx.drawImage( image, 0, 0 );
+      ctx.drawImage( image, ELEVATION_TILE_SIZE / 2, ELEVATION_TILE_SIZE / 2 );
       let texture = new CanvasTexture( satelliteCanvas );
       callback( texture );
     },
