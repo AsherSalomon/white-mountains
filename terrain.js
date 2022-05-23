@@ -1,6 +1,6 @@
 import { ImageLoader, ObjectLoader } from 'three';
 import * as tilebelt from './lib/tilebelt.js';
-import * as Physics from './physics.js';
+// import * as Physics from './physics.js';
 
 let latitude = 44.2705; // Mt. Washington
 let longitude = -71.30325;
@@ -36,7 +36,7 @@ export function extablishScale() {
   return [ tileWidthNS, tileWidthEW ];
 }
 
-export function loadTile() {
+export function loadTile( callback ) {
   if ( z < 0 || z > maxZoom['terrain'] ) {
     console.error('z < 0 || z > maxZoom');
   }
@@ -55,7 +55,8 @@ export function loadTile() {
       for ( let i = 0; i < size; i++ ) {
         heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
-      Physics.createTerrainBody( heightData );
+      // Physics.createTerrainBody( heightData );
+      callback( heightData );
     },
     undefined, // onProgress not supported
     function () {
