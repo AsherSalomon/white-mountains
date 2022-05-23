@@ -92,7 +92,7 @@ export function loadTexture( callback, z ) {
   loader.load( url, function ( image ) {
       console.log( image );
       const ctx = satelliteCanvas.getContext( '2d' );
-      let yu = 4 * ELEVATION_TILE_SIZE / 2;
+      let yu = 5 * ELEVATION_TILE_SIZE / 2;
       let ve = 0 * ELEVATION_TILE_SIZE / 2;
       ctx.drawImage( image, yu, ve );
       let texture = new CanvasTexture( satelliteCanvas );
