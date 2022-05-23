@@ -4,7 +4,7 @@ import * as tilebelt from './lib/tilebelt.js';
 
 let latitude = 44.2705; // Mt. Washington
 let longitude = -71.30325;
-let z = 12;
+// let z = 12;
 let maxZoom = {
   terrain: 12,
   satellite: 20
@@ -38,7 +38,7 @@ export function extablishScale() {
   return [ tileWidthNS, tileWidthEW ];
 }
 
-export function loadTile( callback ) {
+export function loadTile( callback, z ) {
   if ( z < 0 || z > maxZoom['terrain'] ) {
     console.error('z < 0 || z > maxZoom');
   }
@@ -72,34 +72,19 @@ function dataToHeight( data ) {
   return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
 }
 
-// export function loadTexture( callback ) {
-//   if ( z < 0 || z > maxZoom['satellite'] ) {
-//     console.error('z < 0 || z > maxZoom');
-//   }
-//   let tile = tilebelt.pointToTile( longitude, latitude, z );
-//   let url = urlForTile( ...tile, 'satellite' );
-// 	const textureLoader = new TextureLoader();
-// 	textureLoader.load( url, function ( texture ) {
-//       callback( texture );
-//     },
-//     undefined, // onProgress not supported
-//     function () {
-//       console.error( 'satellite TextureLoader error' );
-//     }
-//   );
-// }
-
-export function loadTexture( callback ) {
+export function loadTexture( callback, z ) {
   if ( z < 0 || z > maxZoom['satellite'] ) {
     console.error('z < 0 || z > maxZoom');
+  }
+  if ( satelliteCanvas == undefined ) {
+    satelliteCanvas = document.createElement( 'canvas' );
+    satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
+    satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
   }
   let tile = tilebelt.pointToTile( longitude, latitude, z );
   let url = urlForTile( ...tile, 'satellite' );
   const loader = new ImageLoader();
   loader.load( url, function ( image ) {
-      satelliteCanvas = document.createElement( 'canvas' );
-      satelliteCanvas.width = ELEVATION_TILE_SIZE / 2;
-      satelliteCanvas.height = ELEVATION_TILE_SIZE / 2;
       const ctx = satelliteCanvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let texture = new CanvasTexture( satelliteCanvas );
