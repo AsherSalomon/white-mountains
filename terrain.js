@@ -15,18 +15,20 @@ let maxZoom = {
 
 let grid = [];
 
-function Tile( quadkey ) {
-  this.quadkey = quadkey;
-  this.remove = false;
-  this.inScene = false;
-  this.update = function() {
+class Tile {
+  constructor( quadkey ) {
+    this.quadkey = quadkey;
+    this.remove = false;
+    this.inScene = false;
+  }
+  update() {
     if ( !this.inScene ) {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
     	scene.add( this.gridHelper );
       this.inScene = true;
     }
   };
-  this.dispose = function() {
+  dispose() {
   };
 }
 
