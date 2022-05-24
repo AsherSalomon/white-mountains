@@ -25,7 +25,7 @@ class Tile {
     if ( !this.inScene ) {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
-      let tile = quadkeyToTile( this.quadkey );
+      let tile = tilebelt.quadkeyToTile( this.quadkey );
       console.log( origin[0]-tile[0] );
       console.log( origin[1]-tile[1] );
       // this.gridHelper.translateX(  );
