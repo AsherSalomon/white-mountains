@@ -16,8 +16,9 @@ let maxZoom = {
 let grid = [];
 
 class Tile {
-  constructor( quadkey ) {
-    this.quadkey = quadkey;
+  constructor( tile ) {
+    this.tile = tile
+    this.quadkey = tilebelt.tileToQuadkey( this.tile );
     this.remove = false;
     this.inScene = false;
   }
@@ -49,9 +50,13 @@ export function seed( newScene ) {
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   tileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
-  grid.push( new Tile( tilebelt.tileToQuadkey( tile ) ) );
-  let siblings =  tilebelt.getSiblings( tilebelt.quadkeyToTile( grid[ 0 ].quadkey ) );
+  grid.push( new Tile( tile ) );
+  let siblings =  tilebelt.getSiblings( grid[ 0 ].tile );
+  console.log( grid[ 0 ].tile );
   console.log( siblings[ 0 ] );
+  console.log( siblings[ 1 ] );
+  console.log( siblings[ 2 ] );
+  console.log( siblings[ 3 ] );
 }
 
 export function update() {
