@@ -21,7 +21,7 @@ function Tile( quadkey ) {
   this.inScene = false;
   this.update = function() {
     if ( !this.inScene ) {
-    	const gridHelper = new THREE.GridHelper( tileWidth, 1 );
+    	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
     	scene.add( gridHelper );
       this.inScene = true;
     }
