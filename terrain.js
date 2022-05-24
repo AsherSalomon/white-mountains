@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
-let scene;
+let scene, camera;
 
 const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
@@ -9,6 +9,8 @@ const earthsRaius = 6371000; // meters
 const maxElevation = 9144; // meters
 const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - Math.pow( earthsRaius, 2 ) );
 let tileWidth; // 6999.478360682135 meters
+
+// const angularResolution = 1 / 1;
 
 let maxZoom = {
   terrain: 12,
@@ -60,8 +62,9 @@ class Tile {
   };
 }
 
-export function seed( newScene ) {
+export function seed( newScene, newCamera ) {
   scene = newScene;
+  camera = newCamera;
 
   // const earthsRaius = 6371000; // meters
   // const maxElevation = 9144; // meters
