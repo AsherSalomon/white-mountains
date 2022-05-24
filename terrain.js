@@ -26,9 +26,8 @@ class Tile {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
       let tile = tilebelt.quadkeyToTile( this.quadkey );
-      console.log( origin[ 0 ] - tile[ 0 ] );
-      let dx = 0.5 * tileWidth;
-      // let dy = ( origin[ 1 ] - tile[ 1 ] + 0.5  ) * tileWidth;
+      let dx = ( 0.5 + tile[ 0 ] - origin[ 0 ] ) * tileWidth;
+      console.log( origin[ 1 ] - tile[ 1 ] );
       this.gridHelper.translateX( dx );
       // this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
