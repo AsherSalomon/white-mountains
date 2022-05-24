@@ -53,6 +53,7 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
+	Terrain.seedGrid();
 
 }
 
