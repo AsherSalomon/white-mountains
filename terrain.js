@@ -26,10 +26,11 @@ class Tile {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
       let tile = tilebelt.quadkeyToTile( this.quadkey );
-      let dx = ( origin[ 0 ] - tile[ 0 ] + 0.5 ) * tileWidth;
-      let dy = ( origin[ 1 ] - tile[ 1 ] + 0.5  ) * tileWidth;
-      this.gridHelper.translateX( dx );
-      this.gridHelper.translateZ( dy );
+      console.log( origin[ 0 ] - tile[ 0 ] );
+      // let dx = ( origin[ 0 ] - tile[ 0 ] + 0.5 ) * tileWidth;
+      // let dy = ( origin[ 1 ] - tile[ 1 ] + 0.5  ) * tileWidth;
+      // this.gridHelper.translateX( dx );
+      // this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
       this.inScene = true;
     }
