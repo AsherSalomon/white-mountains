@@ -26,9 +26,8 @@ class Tile {
     if ( !this.inScene ) {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
-      let tile = tilebelt.quadkeyToTile( this.quadkey );
-      let dx = ( 0.5 + tile[ 0 ] - origin[ 0 ] ) * tileWidth;
-      let dy = ( 0.5 + tile[ 1 ] - origin[ 1 ] ) * tileWidth;
+      let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * tileWidth;
+      let dy = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * tileWidth;
       this.gridHelper.translateX( dx );
       this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
@@ -36,7 +35,7 @@ class Tile {
     }
   };
   isTile( tile ) {
-
+    return tile[ 0 ] == this.tile[ 0 ] && tile[ 1 ] == this.tile[ 1 ] && tile[ 2 ] == this.tile[ 2 ];
   }
   dispose() {
     scene.remove( this.gridHelper );
@@ -56,6 +55,7 @@ export function seed( newScene ) {
 
   grid.push( new Tile( tile ) );
   let siblingTiles =  tilebelt.getSiblings( grid[ 0 ].tile );
+
 
   grid[ 0 ].remove = true;
   // console.log(  );
