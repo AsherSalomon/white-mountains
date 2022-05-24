@@ -22,7 +22,7 @@ function Tile( quadkey ) {
   this.update = function() {
     if ( !this.inScene ) {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
-    	scene.add( gridHelper );
+    	scene.add( this.gridHelper );
       this.inScene = true;
     }
   };
