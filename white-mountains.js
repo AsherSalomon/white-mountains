@@ -54,7 +54,7 @@ function init() {
 
 	Controls.init( scene, camera );
 
-	Terrain.seed( scene );
+	Terrain.seed( scene, camera );
 
 }
 
