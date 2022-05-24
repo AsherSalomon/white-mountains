@@ -16,7 +16,7 @@ function Tile( quadkey, tile ) {
   this.quadkey = quadkey;
   this.tile = tile;
   this.log = function() {
-    console.log( this.name );
+    console.log( this.quadkey );
   };
 }
 
@@ -32,6 +32,7 @@ export function seed() {
   let tileSeed = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
   let seedName = tilebelt.tileToQuadkey( tileSeed );
   console.log( tileSeed );
+  console.log( tilebelt.tileToQuadkey( tile ) );
   // grid.push( new Tile( 'hello', 0, 0 ) );
   // grid[ 0 ].log( 'asher' );
 }
