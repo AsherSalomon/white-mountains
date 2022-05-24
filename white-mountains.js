@@ -53,6 +53,7 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 
 	Controls.init( scene, camera );
+
 	Terrain.seedGrid();
 
 }
@@ -69,6 +70,8 @@ function onWindowResize() {
 function animate() {
 
   requestAnimationFrame( animate );
+
+	Terrain.update();
 
 	renderer.render( scene, camera );
 
