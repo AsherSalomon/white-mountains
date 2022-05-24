@@ -24,6 +24,9 @@ function init() {
 
   scene = new THREE.Scene();
 
+	const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
+	scene.add( axesHelper );
+
 	const size = 1609.34; // 1 mile
 	const divisions = 1;
 	const gridHelper = new THREE.GridHelper( size, divisions );
