@@ -28,8 +28,9 @@ class Tile {
       let tile = tilebelt.quadkeyToTile( this.quadkey );
       let dx = ( 0.5 + tile[ 0 ] - origin[ 0 ] ) * tileWidth;
       console.log( origin[ 1 ] - tile[ 1 ] );
+      let dy = 0.5 * tileWidth;
       this.gridHelper.translateX( dx );
-      // this.gridHelper.translateZ( dy );
+      this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
       this.inScene = true;
     }
