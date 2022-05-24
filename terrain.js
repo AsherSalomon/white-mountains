@@ -12,8 +12,9 @@ let maxZoom = {
 
 let grid = [];
 
-function Tile( name ) {
-  this.name = name;
+function Tile( quadkey, tile ) {
+  this.quadkey = quadkey;
+  this.tile = tile;
   this.log = function() {
     console.log( this.name );
   };
@@ -30,7 +31,7 @@ export function seed() {
 
   let tileSeed = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
   let seedName = tilebelt.tileToQuadkey( tileSeed );
-  console.log( seedName );
+  console.log( tileSeed );
   // grid.push( new Tile( 'hello', 0, 0 ) );
   // grid[ 0 ].log( 'asher' );
 }
