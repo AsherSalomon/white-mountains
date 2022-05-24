@@ -50,7 +50,8 @@ export function seed( newScene ) {
   tileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
   grid.push( new Tile( tilebelt.tileToQuadkey( tile ) ) );
-  console.log( tilebelt.getSiblings( tilebelt.quadkeyToTile( grid[ 0 ].quadkey ) ) );
+  let siblings =  tilebelt.getSiblings( tilebelt.quadkeyToTile( grid[ 0 ].quadkey ) );
+  console.log( siblings[ 0 ] );
 }
 
 export function update() {
