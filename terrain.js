@@ -3,9 +3,11 @@ import * as tilebelt from './lib/tilebelt.js';
 
 let scene;
 
-let latitude = 44.2705; // Mt. Washington
-let longitude = -71.30325;
-let earthsRaius = 6371000; // meters
+const latitude = 44.2705; // Mt. Washington
+const longitude = -71.30325;
+const earthsRaius = 6371000; // meters
+const maxElevation = 9144; // meters
+const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - Math.pow( earthsRaius, 2 ) );
 let tileWidth; // 6999.478360682135 meters
 
 let maxZoom = {
@@ -35,7 +37,7 @@ class Tile {
     }
   };
   isTile( tile ) {
-    return tile[ 0 ] == this.tile[ 0 ] && tile[ 1 ] == this.tile[ 1 ] && tile[ 2 ] == this.tile[ 2 ];
+    return tilebelt.tilesEqual( tile, this.tile );
   }
   spawnSiblings() {
     let siblingTiles =  tilebelt.getSiblings( this.tile );
@@ -45,6 +47,14 @@ class Tile {
       }
     }
   }
+  spawnParentsSiblings() {
+    // let siblingTiles =  tilebelt.getSiblings( this.tile );
+    // for ( let i = 0; i < siblingTiles.length; i++ ) {
+    //   if ( !this.isTile( siblingTiles[ i ] ) ) {
+    //     grid.push( new Tile( siblingTiles[ i ] ) );
+    //   }
+    // }
+  }
   dispose() {
     scene.remove( this.gridHelper );
   };
@@ -52,6 +62,9 @@ class Tile {
 
 export function seed( newScene ) {
   scene = newScene;
+
+  // const earthsRaius = 6371000; // meters
+  // const maxElevation = 9144; // meters
 
   let tile = tilebelt.pointToTile( longitude, latitude, maxZoom['terrain'] );
   let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
