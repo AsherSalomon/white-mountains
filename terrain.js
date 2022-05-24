@@ -20,4 +20,5 @@ export function seedGrid() {
   grid[ 0 ].log( 'asher' );
   grid.push( new Tile( 'goodby', 0, 0 ) );
   grid[ 1 ].log( 'jayden' );
+  grid[ 0 ].log( 'mai' );
 }
