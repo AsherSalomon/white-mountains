@@ -37,6 +37,14 @@ class Tile {
   isTile( tile ) {
     return tile[ 0 ] == this.tile[ 0 ] && tile[ 1 ] == this.tile[ 1 ] && tile[ 2 ] == this.tile[ 2 ];
   }
+  spawnSiblings() {
+    let siblingTiles =  tilebelt.getSiblings( this.tile );
+    for ( let i = 0; i < siblingTiles.length; i++ ) {
+      if ( !this.isTile( siblingTiles[ i ] ) ) {
+        grid.push( new Tile( siblingTiles[ i ] ) );
+      }
+    }
+  }
   dispose() {
     scene.remove( this.gridHelper );
   };
@@ -54,10 +62,9 @@ export function seed( newScene ) {
   tileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
   grid.push( new Tile( tile ) );
-  let siblingTiles =  tilebelt.getSiblings( grid[ 0 ].tile );
+  grid[ 0 ].spawnSiblings();
 
-
-  grid[ 0 ].remove = true;
+  // grid[ 0 ].remove = true;
   // console.log(  );
 }
 
