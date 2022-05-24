@@ -16,6 +16,6 @@ function Tile(name, x, y) {
 }
 
 export function seedGrid() {
-  a.push( new tile( 'hello', 0, 0 ) );
-  a[ 0 ].log( 'asher' );
+  grid.push( new tile( 'hello', 0, 0 ) );
+  grid[ 0 ].log( 'asher' );
 }
