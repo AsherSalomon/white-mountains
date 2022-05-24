@@ -35,7 +35,11 @@ class Tile {
       this.inScene = true;
     }
   };
+  isTile( tile ) {
+
+  }
   dispose() {
+    scene.remove( this.gridHelper );
   };
 }
 
@@ -51,12 +55,10 @@ export function seed( newScene ) {
   tileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
   grid.push( new Tile( tile ) );
-  let siblings =  tilebelt.getSiblings( grid[ 0 ].tile );
-  console.log( grid[ 0 ].tile );
-  console.log( siblings[ 0 ] );
-  console.log( siblings[ 1 ] );
-  console.log( siblings[ 2 ] );
-  console.log( siblings[ 3 ] );
+  let siblingTiles =  tilebelt.getSiblings( grid[ 0 ].tile );
+
+  grid[ 0 ].remove = true;
+  // console.log(  );
 }
 
 export function update() {
