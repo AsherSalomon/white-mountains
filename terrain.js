@@ -31,7 +31,7 @@ export function seed() {
 
   let tileSeed = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
   let seedName = tilebelt.tileToQuadkey( tileSeed );
-  console.log( tileSeed );
+  console.log( seedName );
   console.log( tilebelt.tileToQuadkey( tile ) );
   // grid.push( new Tile( 'hello', 0, 0 ) );
   // grid[ 0 ].log( 'asher' );
