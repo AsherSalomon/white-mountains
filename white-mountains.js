@@ -14,8 +14,6 @@ Ammo().then( function ( AmmoLib ) {
 	Ammo = AmmoLib;
 
 	init();
-	Physics.initPhysics();
-	Physics.setScale( Terrain.extablishScale( 12 ) );
 	animate();
 
 } );
@@ -54,11 +52,6 @@ function init() {
 
 	Controls.init( scene, camera );
 
-
-	Terrain.loadTile( Physics.createTerrainBody, 12,
-	Terrain.loadTexture, [Physics.applyTerrainTexture, 18] );
-	// max canvas size is 268,435,456 pixels on chrome
-
 }
 
 function onWindowResize() {
@@ -73,8 +66,6 @@ function onWindowResize() {
 function animate() {
 
   requestAnimationFrame( animate );
-
-	Physics.render( scene );
 
 	renderer.render( scene, camera );
 
