@@ -25,14 +25,14 @@ function init() {
   scene = new THREE.Scene();
 
 	const size = 1609.34; // 1 mile
-	const divisions = 16;
+	const divisions = 1;
 	const gridHelper = new THREE.GridHelper( size, divisions );
 	scene.add( gridHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
+	scene.add( camera );
 	camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
 	camera.lookAt( 0, 0, 0 );
-	scene.add( camera );
 
 	const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
 	dirLight.position.set( 0, 100, 100 );
