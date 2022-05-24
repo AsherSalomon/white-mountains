@@ -57,6 +57,7 @@ function init() {
 
 	Terrain.loadTile( Physics.createTerrainBody, 12,
 	Terrain.loadTexture, [Physics.applyTerrainTexture, 18] );
+	// max canvas size is 268,435,456 pixels on chrome
 
 }
 
