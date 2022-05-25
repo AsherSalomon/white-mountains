@@ -109,7 +109,7 @@ class Tile {
     for ( let i = 0; i < 4; i ++ ) {
       this.children[ i ].remove = true;
     }
-    this.recuycled = true;
+    this.recycled = true;
     grid.push( this );
   }
   dispose() {
