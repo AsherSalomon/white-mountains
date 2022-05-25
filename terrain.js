@@ -17,7 +17,6 @@ let maxZoom = {
 }
 const seedZ = 5;
 
-
 let grid = [];
 
 class Tile {
@@ -39,6 +38,10 @@ class Tile {
     	scene.add( this.gridHelper );
       this.inScene = true;
       // console.log( this.distanceFromCamera() );
+    } else {
+      if ( this.isTooBig() ) {
+        this.split();
+      }
     }
   };
   isTile( tile ) {
@@ -48,8 +51,7 @@ class Tile {
     return this.gridHelper.position.distanceTo( camera.position );
   }
   isTooBig() {
-    this.distanceFromCamera() /
-    angularResolution
+    return this.width / this.distanceFromCamera() > angularResolution;
   }
   split() {
     let children = tilebelt.getChildren( this.tile );
@@ -74,7 +76,7 @@ export function seed( newScene, newCamera ) {
   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
-  console.log( 'baseTileWidth ' + baseTileWidth );
+  // console.log( 'baseTileWidth ' + baseTileWidth );
 
   let tile = tilebelt.pointToTile( longitude, latitude, seedZ );
   grid.push( new Tile( tile ) );
