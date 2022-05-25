@@ -143,9 +143,8 @@ export function update() {
       try {
         grid[ i ].update();
       } catch (error) {
+        console.log( grid[ i ].tile );
         console.error(error);
-        // expected output: ReferenceError: nonExistentFunction is not defined
-        // Note - error messages will vary depending on browser
       }
       // terrain.js:143 Uncaught TypeError: grid[i].update is not a function
       //   at Module.update (terrain.js:143:17)
