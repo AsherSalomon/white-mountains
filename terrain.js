@@ -18,7 +18,7 @@ const baseZ = 5;
 
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 function tileWidth( z ) {
-  return Math.power( 2, maxZoom['terrain'] - z ) * baseTileWidth;
+  return Math.pow( 2, maxZoom['terrain'] - z ) * baseTileWidth;
 }
 
 let grid = [];
