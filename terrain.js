@@ -46,14 +46,6 @@ class Tile {
   isTile( tile ) {
     return tilebelt.tilesEqual( tile, this.tile );
   }
-  // spawnSiblings() {
-  //   let siblingTiles =  tilebelt.getSiblings( this.tile );
-  //   for ( let i = 0; i < siblingTiles.length; i++ ) {
-  //     if ( !this.isTile( siblingTiles[ i ] ) ) {
-  //       grid.push( new Tile( siblingTiles[ i ] ) );
-  //     }
-  //   }
-  // }
   split() {
     let children = tilebelt.getChildren( this.tile );
     for ( let i = 0; i < 4; i ++ ) {
@@ -81,9 +73,7 @@ export function seed( newScene, newCamera ) {
 
   let tile = tilebelt.pointToTile( longitude, latitude, seedZ );
   grid.push( new Tile( tile ) );
-  // grid[ 0 ].spawnSiblings();
-
-  // grid[ 0 ].remove = true;
+  grid[ 0 ].split();
   // console.log(  );
 }
 
