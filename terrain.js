@@ -28,7 +28,6 @@ class Tile {
     this.inScene = false;
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
   }
-  }
   update() {
     if ( !this.inScene ) {
       let width = this.width();
