@@ -76,7 +76,8 @@ class Tile {
   }
   allSmall() {
     let allSiblingsAreSmall = false;
-    if ( this.siblings != null ) {
+    if ( this.siblings === undefined ) {
+    } else {
       allSiblingsAreSmall = true;
       for ( let i = 0; i < 4; i ++ ) {
         if ( this.sibling[ i ].isTooSmall() == false ) {
