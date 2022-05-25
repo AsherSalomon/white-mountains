@@ -86,6 +86,9 @@ export function seed( newScene, newCamera ) {
   let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
   grid.push( new Tile( tile ) );
   // grid[ 0 ].split();
+
+	const helper = new THREE.PolarGridHelper( horizonDistance, 12, 1, 12 );
+	scene.add( helper );
 }
 
 export function update() {
