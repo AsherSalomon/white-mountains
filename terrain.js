@@ -41,7 +41,7 @@ class Tile {
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
-          this.split();
+          // this.split();
         }
       }
     }
