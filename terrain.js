@@ -16,7 +16,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
-const baseZ = 12;
+const baseZ = 5;
 
 let grid = [];
 
@@ -30,7 +30,7 @@ class Tile {
   update() {
     if ( !this.inScene ) {
     	this.gridHelper = new THREE.GridHelper( tileWidth, 1 );
-      let origin = tilebelt.pointToTileFraction( longitude, latitude, maxZoom['terrain'] );
+      let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
       let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * tileWidth;
       let dy = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * tileWidth;
       this.gridHelper.translateX( dx );
