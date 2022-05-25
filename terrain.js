@@ -30,7 +30,6 @@ class Tile {
   }
   update() {
     if ( !this.inScene ) {
-      let width = this.width();
     	this.gridHelper = new THREE.GridHelper( this.width, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
       let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
