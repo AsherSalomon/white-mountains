@@ -41,7 +41,7 @@ class Tile {
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
-          // this.split();
+          this.split();
         }
       }
     }
@@ -53,7 +53,7 @@ class Tile {
     let flatCameraPosition =  new THREE.Vector3();
     flatCameraPosition.copy( camera.position );
     flatCameraPosition.y = 0;
-    return this.gridHelper.position.distanceTo( camera.position );
+    return this.gridHelper.position.distanceTo( flatCameraPosition );
   }
   isTooBig() {
     return this.width / this.distanceFromCamera() > angularResolution;
@@ -87,8 +87,8 @@ export function seed( newScene, newCamera ) {
   grid.push( new Tile( tile ) );
   // grid[ 0 ].split();
 
-	const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
-	scene.add( helper );
+	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
+	// scene.add( helper );
 }
 
 export function update() {
