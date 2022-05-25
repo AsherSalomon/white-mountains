@@ -8,7 +8,8 @@ const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 const maxElevation = 9144; // meters
 const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - Math.pow( earthsRaius, 2 ) );
-// const angularResolution = 1 / 1;
+let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
+const angularResolution = 1 / 2; // tile width / distance to camera
 
 let maxZoom = {
   terrain: 12,
@@ -16,32 +17,30 @@ let maxZoom = {
 }
 const seedZ = 5;
 
-let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
-function tileWidth( z ) {
-  return Math.pow( 2, maxZoom['terrain'] - z ) * baseTileWidth;
-}
 
 let grid = [];
 
 class Tile {
   constructor( tile ) {
     this.tile = tile
-    this.quadkey = tilebelt.tileToQuadkey( this.tile );
+    // this.quadkey = tilebelt.tileToQuadkey( this.tile );
     this.remove = false;
     this.inScene = false;
+    this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
+  }
   }
   update() {
     if ( !this.inScene ) {
-      let z = this.tile[ 2 ];
-    	this.gridHelper = new THREE.GridHelper( tileWidth( z ), 1 );
-      let origin = tilebelt.pointToTileFraction( longitude, latitude, z );
-      let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * tileWidth( z );
-      let dy = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * tileWidth( z );
+      let width = this.width();
+    	this.gridHelper = new THREE.GridHelper( this.width, 1 );
+      let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
+      let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
+      let dy = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
       this.gridHelper.translateX( dx );
       this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
       this.inScene = true;
-      console.log( this.distanceFromCamera() );
+      // console.log( this.distanceFromCamera() );
     }
   };
   isTile( tile ) {
@@ -49,6 +48,10 @@ class Tile {
   }
   distanceFromCamera() {
     return this.gridHelper.position.distanceTo( camera.position );
+  }
+  isTooBig() {
+    this.distanceFromCamera() /
+    angularResolution
   }
   split() {
     let children = tilebelt.getChildren( this.tile );
