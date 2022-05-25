@@ -77,13 +77,13 @@ class Tile {
   allSmall() {
     let allSiblingsAreSmall = false;
     if ( this.siblings != undefined ) {
-      console.log( this.siblings );
-      // allSiblingsAreSmall = true;
-      // for ( let i = 0; i < 4; i ++ ) {
-      //   if ( this.sibling[ i ].isTooSmall() == false ) {
-      //     allSiblingsAreSmall = false;
-      //   }
-      // }
+      // console.log( this.siblings );
+      allSiblingsAreSmall = true;
+      for ( let i = 0; i < 4; i ++ ) {
+        if ( this.sibling[ i ].isTooSmall() == false ) {
+          allSiblingsAreSmall = false;
+        }
+      }
     }
     return allSiblingsAreSmall;
   }
