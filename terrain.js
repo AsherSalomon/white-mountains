@@ -20,8 +20,16 @@ const minZoom = 5;
 let grid = [];
 
 class Tile {
-  constructor( tile ) {
-    this.tile = tile
+  constructor( tile, parent ) {
+    this.tile = tile;
+    this.parent = parent;
+    this.siblings = undefined;
+    this.children = [];
+    if ( this.parent != null ) {
+      if ( this.parent.children.length < 4 ) {
+        this.parent.children.push( this );
+      }
+    }
     // this.quadkey = tilebelt.tileToQuadkey( this.tile );
     this.remove = false;
     this.inScene = false;
@@ -44,6 +52,11 @@ class Tile {
           this.split();
         }
       }
+      if ( this.tile[ 2 ] > minZoom ) {
+        if ( this.allSmall() ) {
+          this.parent.merge();
+        }
+      }
     }
   };
   isTile( tile ) {
@@ -61,15 +74,44 @@ class Tile {
   isTooSmall() {
     return this.width / this.distanceFromCamera() < angularResolution / 2;
   }
+  allSmall() {
+    let allSiblingsAreSmall = false;
+    if ( this.siblings != undefined ) {
+      allSiblingsAreSmall = true;
+      for ( let i = 0; i < 4; i ++ ) {
+        if ( this.sibling[ i ].isTooSmall() == false ) {
+          allSiblingsAreSmall = false;
+        }
+      }
+    }
+    return allSiblingsAreSmall;
+  }
   split() {
-    let children = tilebelt.getChildren( this.tile );
-    for ( let i = 0; i < 4; i ++ ) {
-      grid.push( new Tile( children[ i ] ) );
+    if ( this.children.length < 4 ) {
+      let children = tilebelt.getChildren( this.tile );
+      let siblings = [];
+      for ( let i = 0; i < 4; i ++ ) {
+        let newTile = new Tile( children[ i ], this )
+        siblings.push( newTile );
+        grid.push( newTile );
+      }
+      for ( let i = 0; i < 4; i ++ ) {
+        siblings[ i ].siblings = siblings;
+      }
+    } else {
+      grid.push( this.children );
     }
     this.remove = true;
   }
+  merge() {
+    for ( let i = 0; i < 4; i ++ ) {
+      this.children.remove = true;
+    }
+    grid.push( this );
+  }
   dispose() {
     scene.remove( this.gridHelper );
+    this.inScene = false;
   };
 }
 
@@ -87,7 +129,7 @@ export function seed( newScene, newCamera ) {
   // console.log( 'baseTileWidth ' + baseTileWidth );
 
   let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
-  grid.push( new Tile( tile ) );
+  grid.push( new Tile( tile, null ) );
   // grid[ 0 ].split();
 
 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
