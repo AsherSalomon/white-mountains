@@ -18,7 +18,6 @@ let maxZoom = {
 const minZoom = 5;
 
 let grid = [];
-let recyclingBin = [];
 
 class Tile {
   constructor( tile, parent ) {
@@ -46,7 +45,6 @@ class Tile {
       this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
       this.inScene = true;
-      // console.log( this.distanceFromCamera() );
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
@@ -109,6 +107,7 @@ class Tile {
       this.children[ i ].remove = true;
     }
     grid.push( this );
+    console.log( 'grid.push( this );' ):
   }
   dispose() {
     scene.remove( this.gridHelper );
@@ -127,11 +126,9 @@ export function seed( newScene, newCamera ) {
   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
-  // console.log( 'baseTileWidth ' + baseTileWidth );
 
   let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
   grid.push( new Tile( tile, null ) );
-  // grid[ 0 ].split();
 
 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 	// scene.add( helper );
@@ -141,7 +138,6 @@ export function update() {
   for ( let i = grid.length - 1; i >= 0 ; i-- ) {
     if ( grid[ i ].remove ) {
       grid[ i ].dispose();
-      recyclingBin.push( grid[ i ] );
       grid.splice( i, 1 );
     } else {
       grid[ i ].update();
