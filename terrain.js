@@ -15,7 +15,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
-const seedZ = 5;
+const minZoom = 5;
 
 let grid = [];
 
@@ -39,8 +39,10 @@ class Tile {
       this.inScene = true;
       // console.log( this.distanceFromCamera() );
     } else {
-      if ( this.isTooBig() ) {
-        this.split();
+      if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
+        if ( this.isTooBig() ) {
+          this.split();
+        }
       }
     }
   };
@@ -78,7 +80,7 @@ export function seed( newScene, newCamera ) {
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
   // console.log( 'baseTileWidth ' + baseTileWidth );
 
-  let tile = tilebelt.pointToTile( longitude, latitude, seedZ );
+  let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
   grid.push( new Tile( tile ) );
   // grid[ 0 ].split();
 }
