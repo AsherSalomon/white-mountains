@@ -70,15 +70,16 @@ export function seed( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
 
-  let tile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
-  let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
+  let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
+  let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
   let deltaNS = bbox[3] - bbox[1]; // n - s
   let deltaEW = bbox[2] - bbox[0]; // e - w
   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
-  console.log( 'tileWidth ' + baseTileWidth );
+  console.log( 'baseTileWidth ' + baseTileWidth );
 
+  let tile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
   grid.push( new Tile( tile ) );
   // grid[ 0 ].spawnSiblings();
 
