@@ -87,7 +87,7 @@ export function seed( newScene, newCamera ) {
   grid.push( new Tile( tile ) );
   // grid[ 0 ].split();
 
-	const helper = new THREE.PolarGridHelper( horizonDistance, 12, 1, 12 );
+	const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 	scene.add( helper );
 }
 
