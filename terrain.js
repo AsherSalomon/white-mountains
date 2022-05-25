@@ -79,7 +79,7 @@ class Tile {
     if ( this.siblings != null ) {
       // console.log( this.siblings );
       allSiblingsAreSmall = true;
-      for ( let i = 0; i < i < 4; i ++ ) {
+      for ( let i = 0; i < 4; i ++ ) {
         if ( this.siblings[ i ].isTooSmall() == false ) {
           allSiblingsAreSmall = false;
         }
