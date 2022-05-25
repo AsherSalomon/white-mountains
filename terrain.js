@@ -54,7 +54,6 @@ class Tile {
       }
       if ( this.tile[ 2 ] > minZoom ) {
         if ( this.allSmall() ) {
-          console.log('allSmall');
           this.parent.merge();
         }
       }
@@ -106,7 +105,7 @@ class Tile {
   }
   merge() {
     for ( let i = 0; i < 4; i ++ ) {
-      this.children.remove = true;
+      this.children[ i ].remove = true;
     }
     grid.push( this );
   }
