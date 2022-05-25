@@ -50,7 +50,7 @@ class Tile {
     return tilebelt.tilesEqual( tile, this.tile );
   }
   distanceFromCamera() {
-    let flatCameraPosition =  new Three.Vector3();
+    let flatCameraPosition =  new THREE.Vector3();
     flatCameraPosition.copy( camera.position );
     flatCameraPosition.y = 0;
     return this.gridHelper.position.distanceTo( camera.position );
