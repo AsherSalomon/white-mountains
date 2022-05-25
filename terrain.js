@@ -79,7 +79,7 @@ export function seed( newScene, newCamera ) {
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
   console.log( 'baseTileWidth ' + baseTileWidth );
 
-  let tile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
+  let tile = tilebelt.pointToTile( longitude, latitude,  baseZ );
   grid.push( new Tile( tile ) );
   // grid[ 0 ].spawnSiblings();
 
