@@ -46,6 +46,9 @@ class Tile {
   isTile( tile ) {
     return tilebelt.tilesEqual( tile, this.tile );
   }
+  distanceFromCamera() {
+    return this.gridHelper.position.distanceTo( camera.position );
+  }
   split() {
     let children = tilebelt.getChildren( this.tile );
     for ( let i = 0; i < 4; i ++ ) {
@@ -73,8 +76,8 @@ export function seed( newScene, newCamera ) {
 
   let tile = tilebelt.pointToTile( longitude, latitude, seedZ );
   grid.push( new Tile( tile ) );
-  grid[ 0 ].split();
-  // console.log(  );
+  // grid[ 0 ].split();
+  console.log( grid[ 0 ].distanceFromCamera );
 }
 
 export function update() {
