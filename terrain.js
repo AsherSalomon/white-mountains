@@ -16,7 +16,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
-const baseZ = 5;
+const baseZ = 6; // 5
 
 let grid = [];
 
