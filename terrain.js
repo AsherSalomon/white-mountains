@@ -77,7 +77,7 @@ export function seed( newScene, newCamera ) {
   let tile = tilebelt.pointToTile( longitude, latitude, seedZ );
   grid.push( new Tile( tile ) );
   // grid[ 0 ].split();
-  console.log( grid[ 0 ].distanceFromCamera );
+  console.log( grid[ 0 ].distanceFromCamera() );
 }
 
 export function update() {
