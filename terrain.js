@@ -58,6 +58,9 @@ class Tile {
   isTooBig() {
     return this.width / this.distanceFromCamera() > angularResolution;
   }
+  isTooSmall() {
+    return this.width / this.distanceFromCamera() < angularResolution / 2;
+  }
   split() {
     let children = tilebelt.getChildren( this.tile );
     for ( let i = 0; i < 4; i ++ ) {
