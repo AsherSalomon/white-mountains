@@ -72,7 +72,6 @@ class Tile {
     return this.width / this.distanceFromCamera() > angularResolution;
   }
   isTooSmall() {
-    console.log('wtf')
     return this.width / this.distanceFromCamera() < angularResolution / 2;
   }
   allSmall() {
@@ -81,6 +80,7 @@ class Tile {
       // console.log( this.siblings );
       allSiblingsAreSmall = true;
       for ( let i = 0; i < i < 4; i ++ ) {
+        console.log('wtf')
         if ( this.sibling[ i ].isTooSmall() == false ) {
           allSiblingsAreSmall = false;
         }
