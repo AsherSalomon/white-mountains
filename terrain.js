@@ -36,10 +36,10 @@ class Tile {
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
   }
   update() {
+    if ( this.recycled ) {
+      console.log( 'recycled' );
+    }
     if ( !this.inScene ) {
-      if ( this.recycled ) {
-        console.log( 'recycled' );
-      }
     	this.gridHelper = new THREE.GridHelper( this.width, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
       let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
@@ -110,9 +110,6 @@ class Tile {
       this.children[ i ].remove = true;
     }
     this.recycled = true;
-    if ( this.recycled ) {
-      console.log( 'recycled' );
-    }
     grid.push( this );
   }
   dispose() {
