@@ -140,7 +140,16 @@ export function update() {
       grid[ i ].dispose();
       grid.splice( i, 1 );
     } else {
-      grid[ i ].update();
+      try {
+        grid[ i ].update();
+      } catch (error) {
+        console.error(error);
+        // expected output: ReferenceError: nonExistentFunction is not defined
+        // Note - error messages will vary depending on browser
+      }
+      // terrain.js:143 Uncaught TypeError: grid[i].update is not a function
+      //   at Module.update (terrain.js:143:17)
+      //   at animate (white-mountains.js:69:10)
     }
   }
 }
