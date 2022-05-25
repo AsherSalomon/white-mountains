@@ -18,6 +18,7 @@ let maxZoom = {
 const minZoom = 5;
 
 let grid = [];
+let recyclingBin = [];
 
 class Tile {
   constructor( tile, parent ) {
@@ -140,6 +141,7 @@ export function update() {
   for ( let i = grid.length - 1; i >= 0 ; i-- ) {
     if ( grid[ i ].remove ) {
       grid[ i ].dispose();
+      recyclingBin.push( grid[ i ] );
       grid.splice( i, 1 );
     } else {
       grid[ i ].update();
