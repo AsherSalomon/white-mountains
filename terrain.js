@@ -37,6 +37,9 @@ class Tile {
   }
   update() {
     if ( !this.inScene ) {
+      if ( this.recycled ) {
+        console.log( 'recycled' );
+      }
     	this.gridHelper = new THREE.GridHelper( this.width, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
       let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
@@ -106,8 +109,8 @@ class Tile {
     for ( let i = 0; i < 4; i ++ ) {
       this.children[ i ].remove = true;
     }
+    this.recuycled = true;
     grid.push( this );
-    console.log( 'grid.push( this );' );
   }
   dispose() {
     scene.remove( this.gridHelper );
