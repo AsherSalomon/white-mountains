@@ -110,6 +110,9 @@ class Tile {
       this.children[ i ].remove = true;
     }
     this.recycled = true;
+    if ( this.recycled ) {
+      console.log( 'recycled' );
+    }
     grid.push( this );
   }
   dispose() {
