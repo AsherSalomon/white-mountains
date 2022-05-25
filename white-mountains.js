@@ -27,11 +27,6 @@ function init() {
 	const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
 	scene.add( axesHelper );
 
-	// const size = 1609.34; // 1 mile
-	// const divisions = 1;
-	// const gridHelper = new THREE.GridHelper( size, divisions );
-	// scene.add( gridHelper );
-
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
 	camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
