@@ -107,7 +107,7 @@ class Tile {
       this.children[ i ].remove = true;
     }
     grid.push( this );
-    console.log( 'grid.push( this );' ):
+    console.log( 'grid.push( this );' );
   }
   dispose() {
     scene.remove( this.gridHelper );
