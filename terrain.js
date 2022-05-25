@@ -72,6 +72,7 @@ class Tile {
     return this.width / this.distanceFromCamera() > angularResolution;
   }
   isTooSmall() {
+    console.log('wtf')
     return this.width / this.distanceFromCamera() < angularResolution / 2;
   }
   allSmall() {
