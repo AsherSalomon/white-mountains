@@ -23,7 +23,7 @@ class Tile {
   constructor( tile, parent ) {
     this.tile = tile;
     this.parent = parent;
-    // this.siblings = undefined;
+    this.siblings = null;
     this.children = [];
     if ( this.parent != null ) {
       if ( this.parent.children.length < 4 ) {
@@ -76,7 +76,7 @@ class Tile {
   }
   allSmall() {
     let allSiblingsAreSmall = false;
-    if ( this.siblings != undefined ) {
+    if ( this.siblings != null ) {
       // console.log( this.siblings );
       allSiblingsAreSmall = true;
       for ( let i = 0; i < i < 4; i ++ ) {
