@@ -16,6 +16,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
+const baseZ = 5;
 
 let grid = [];
 
@@ -69,13 +70,14 @@ export function seed( newScene, newCamera ) {
   // const earthsRaius = 6371000; // meters
   // const maxElevation = 9144; // meters
 
-  let tile = tilebelt.pointToTile( longitude, latitude, maxZoom['terrain'] );
+  let tile = tilebelt.pointToTile( longitude, latitude, baseZ ); // maxZoom['terrain']
   let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
   let deltaNS = bbox[3] - bbox[1]; // n - s
   let deltaEW = bbox[2] - bbox[0]; // e - w
   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   tileWidth = ( tileWidthNS + tileWidthEW ) / 2;
+  console.log( 'tileWidth ' + tileWidth );
 
   grid.push( new Tile( tile ) );
   grid[ 0 ].spawnSiblings();
