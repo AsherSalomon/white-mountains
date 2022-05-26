@@ -142,7 +142,9 @@ export function seed( newScene, newCamera ) {
 }
 
 export function update() {
-  frustum.setFromProjectionMatrix( camera.projectionMatrix );
+  // frustum.setFromProjectionMatrix( camera.projectionMatrix );
+  // https://stackoverflow.com/questions/24877880/three-js-check-if-object-is-in-frustum
+  frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
   for ( let i = grid.length - 1; i >= 0 ; i-- ) {
     if ( grid[ i ].remove ) {
