@@ -86,7 +86,7 @@ class Tile {
     return allSiblingsAreSmall;
   }
   split() {
-    if ( this.children.length < 4 ) {
+    if ( this.children.length == 0 ) {
       let children = tilebelt.getChildren( this.tile );
       let siblings = [];
       for ( let i = 0; i < 4; i ++ ) {
@@ -97,8 +97,10 @@ class Tile {
       for ( let i = 0; i < 4; i ++ ) {
         siblings[ i ].siblings = siblings;
       }
-    } else {
-      grid.push( this.children );
+    } else if ( this.children.length == 4 ) {
+      for ( let i = 0; i < 4; i ++ ) {
+        grid.push( this.children[ i ] );
+      }
     }
     this.remove = true;
   }
@@ -143,7 +145,6 @@ export function update() {
       try {
         grid[ i ].update();
       } catch (error) {
-        console.log( i + ' of ' + grid.length );
         console.error(error);
       }
       // terrain.js:143 Uncaught TypeError: grid[i].update is not a function
