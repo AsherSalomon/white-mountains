@@ -143,7 +143,7 @@ export function update() {
       try {
         grid[ i ].update();
       } catch (error) {
-        console.log( i );
+        console.log( i + ' of ' + grid.length );
         console.error(error);
       }
       // terrain.js:143 Uncaught TypeError: grid[i].update is not a function
