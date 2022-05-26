@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
-let scene, camera;
+let scene, camera, frustum;
 
 const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
@@ -34,6 +34,7 @@ class Tile {
     this.remove = false;
     this.inScene = false;
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
+    this.boundingBox = null;
   }
   update() {
     if ( !this.inScene ) {
@@ -45,6 +46,8 @@ class Tile {
       this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
       this.inScene = true;
+      this.boundingBox = new THREE.Box3();
+      this.boundingBox.expandByObject( this.gridHelper );
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
@@ -68,7 +71,8 @@ class Tile {
     return this.gridHelper.position.distanceTo( flatCameraPosition );
   }
   isTooBig() {
-    return this.width / this.distanceFromCamera() > angularResolution;
+    let tooBig = this.width / this.distanceFromCamera() > angularResolution;
+    return tooBig && frustum.intersectsBox( this.boundingBox );
   }
   isTooSmall() {
     return this.width / this.distanceFromCamera() < angularResolution / 2;
@@ -134,22 +138,18 @@ export function seed( newScene, newCamera ) {
 
 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 	// scene.add( helper );
+  frustum = new THREE.Frustum();
 }
 
 export function update() {
+  frustum.setFromProjectionMatrix( camera.projectionMatrix );
+
   for ( let i = grid.length - 1; i >= 0 ; i-- ) {
     if ( grid[ i ].remove ) {
       grid[ i ].dispose();
       grid.splice( i, 1 );
     } else {
-      try {
-        grid[ i ].update();
-      } catch (error) {
-        console.error(error);
-      }
-      // terrain.js:143 Uncaught TypeError: grid[i].update is not a function
-      //   at Module.update (terrain.js:143:17)
-      //   at animate (white-mountains.js:69:10)
+      grid[ i ].update();
     }
   }
 }
