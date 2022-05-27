@@ -147,7 +147,7 @@ class Tile {
   }
   loadTerrain() {
     let url = urlForTile( ...this.tile, 'terrain' );
-    const loader = new ImageLoader();
+    const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
         const canvas = document.createElement( 'canvas' );
         canvas.width = ELEVATION_TILE_SIZE;
@@ -195,7 +195,7 @@ class Tile {
 
     // to do: multiple satilite images to one terrain tile
     let url = urlForTile( ...this.tile, 'satellite' );
-    const loader = new ImageLoader();
+    const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
         console.log( image );
         const ctx = satelliteCanvas.getContext( '2d' );
