@@ -68,7 +68,7 @@ class Tile {
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
 
-      this.loadTerrain();
+      // this.loadTerrain();
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
