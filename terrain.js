@@ -153,11 +153,11 @@ class Tile {
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
 
-        try {
-          this.dataToHeight( [ 1, 2 ,3 ] );
-        } catch (error) {
-          console.error('wtf');
-        }
+        // try {
+        //   this.dataToHeight( [ 1, 2 ,3 ] );
+        // } catch (error) {
+        //   console.error('wtf');
+        // }
 
         for ( let i = 0; i < size; i++ ) {
           heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
