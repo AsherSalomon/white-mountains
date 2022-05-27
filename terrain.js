@@ -230,6 +230,7 @@ class Tile {
   dispose() {
     this.remove = false;
     scene.remove( this.gridHelper );
+    scene.remove( this.gridHelper );
     if ( this.terrainMesh != null ) {
       scene.remove( this.terrainMesh );
       this.terrainMesh.geometry.dispose();
