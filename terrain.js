@@ -154,7 +154,6 @@ class Tile {
         let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
-
         for ( let i = 0; i < size; i++ ) {
           heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
@@ -167,11 +166,11 @@ class Tile {
       		vertices[ j + 1 ] = heightData[ i ];
       	}
       	geometry.computeVertexNormals();
-      	this.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
-      	this.terrainMesh = new THREE.Mesh( geometry, groundMaterial );
+      	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+      	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
 
-      	scene.add( this.terrainMesh );
-        this.loadSatellite();
+      	scene.add( thisTile.terrainMesh );
+        thisTile.loadSatellite();
       },
       undefined, // onProgress not supported
       function () {
@@ -180,6 +179,8 @@ class Tile {
     );
   }
   loadSatellite() {
+    let thisTile = this;
+
     let satelliteCanvas = document.createElement( 'canvas' );
     // let satilliteZoom = 2; // maxZoom['satellite'];
     // let bumpItUp = Math.pow( 2, satilliteZoom );
@@ -197,8 +198,8 @@ class Tile {
         const ctx = satelliteCanvas.getContext( '2d' );
         ctx.drawImage( image, 0, 0 );
         let texture = new CanvasTexture( satelliteCanvas );
-      	this.groundMaterial.map = texture;
-      	this.groundMaterial.needsUpdate = true;
+      	thisTile.groundMaterial.map = texture;
+      	thisTile.groundMaterial.needsUpdate = true;
       },
       undefined, // onProgress not supported
       function () {
