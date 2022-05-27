@@ -84,9 +84,11 @@ class Tile {
           splitOrMerge = true;
         }
       }
-      if ( splitOrMerge == false && this.loading == false ) {
-        this.loading = true;
-        this.loadTerrain();
+      if ( frustum.intersectsBox( this.boundingBox ) ) {
+        if ( splitOrMerge == false && this.loading == false ) {
+          this.loading = true;
+          this.loadTerrain();
+        }
       }
     }
   };
