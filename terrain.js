@@ -34,7 +34,7 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
-class Tile {
+async class Tile {
   constructor( tile, parent ) {
     this.tile = tile;
     this.parent = parent;
@@ -136,11 +136,11 @@ class Tile {
     }
     grid.push( this );
   }
-  dataToHeight( data ) {
+  await dataToHeight( data ) {
     // Elevation in meters
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
-  async loadTerrain() {
+  loadTerrain() {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
@@ -160,7 +160,7 @@ class Tile {
         }
 
         for ( let i = 0; i < size; i++ ) {
-          heightData[ i ] = await this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
 
         const widthSegments = Math.sqrt( heightData.length ) - 1;
