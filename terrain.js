@@ -72,7 +72,7 @@ class Tile {
 
     } else {
       let splitOrMerge = false;
-      if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 1 ) { //
+      if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
           this.split();
           splitOrMerge = true;
@@ -107,7 +107,7 @@ class Tile {
   }
   isTooSmall() {
     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
-    return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
+    return tooSmall || frustum.intersectsBox( this.boundingBox ) == false;
   }
   allSmall() {
     let allSiblingsAreSmall = false;
