@@ -51,7 +51,7 @@ class Tile {
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
     this.boundingBox = null;
 
-    // this.loading = false;
+    this.loading = false;
 
     this.groundMaterial = null;
     this.terrainMesh = null;
@@ -70,11 +70,9 @@ class Tile {
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
 
-      // this.loadTerrain();
-
-      // if ( this.loading == false ) {
-      //   this.loading = true;
-      // }
+    } else if ( this.loading == false ) {
+      this.loadTerrain();
+      this.loading = true;
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
