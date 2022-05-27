@@ -22,6 +22,18 @@ const IMAGERY_TILE_SIZE = 256;
 
 let grid = [];
 
+let apiKey = '5oT5Np7ipsbVhre3lxdi';
+let urlFormat = {
+  terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
+  satellite: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
+  // protocolbuffer: 'https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key={apiKey}'
+  // https://wiki.openstreetmap.org/wiki/PBF_Format
+}
+function urlForTile( x, y, z, type ) {
+  return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
+    .replace( '{z}', z ).replace( '{apiKey}', apiKey );
+}
+
 class Tile {
   constructor( tile, parent ) {
     this.tile = tile;
