@@ -70,7 +70,7 @@ class Tile {
 
       this.loadTerrain();
     } else {
-      if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
+      if ( this.tile[ 2 ] < minZoom + 1 ) { // maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
           // this.split();
         }
@@ -171,6 +171,8 @@ class Tile {
       	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
       		vertices[ j + 1 ] = heightData[ i ];
       	}
+        // to do: apply curvature of the earth
+
       	geometry.computeVertexNormals();
       	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
       	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
