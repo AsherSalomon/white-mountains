@@ -68,19 +68,24 @@ class Tile {
       this.boundingBox = new THREE.Box3();
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
+      this.loading = false;
 
     } else {
+      let splitOrMerge = false;
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 1 ) { //
         if ( this.isTooBig() ) {
           this.split();
+          splitOrMerge = true;
         }
       }
       if ( this.tile[ 2 ] > minZoom ) {
         if ( this.allSmall() ) {
           this.parent.merge();
+          splitOrMerge = true;
         }
       }
-      if ( this.inScene ) {
+      if ( splitOrMerge == false && this.loading == false ) {
+        this.loading = true;
         this.loadTerrain();
       }
     }
