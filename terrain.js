@@ -153,8 +153,8 @@ class Tile {
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
 
-        function waitForDataToHeight() {
-          if ( this.dataToHeight === undefined ) { return }
+        if ( this.dataToHeight === undefined ) {
+          console.error( 'wtf' );
         }
 
         for ( let i = 0; i < size; i++ ) {
