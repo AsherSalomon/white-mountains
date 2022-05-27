@@ -68,12 +68,7 @@ class Tile {
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
 
-      try {
-        this.dataToHeight( [ 1, 2 ,3 ] );
-      } catch (error) {
-        console.error('wtf');
-      }
-      // this.loadTerrain();
+      this.loadTerrain();
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
@@ -146,6 +141,12 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
+      try {
+        this.dataToHeight( [ 1, 2 ,3 ] );
+      } catch (error) {
+        console.error('wtf');
+      }
+
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
