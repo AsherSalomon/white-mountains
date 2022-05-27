@@ -35,7 +35,7 @@ function init() {
 	// camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
 	camera.position.set( 0, 1916.582 + 1.68, 0 ); // height of Mt Washington 1916.582m
 
-	camera.lookAt( -8000, 0, 0 );
+	camera.lookAt( -1916.582, 1916.582, 0 );
 
 	const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
 	dirLight.position.set( 0, 100, 100 );
