@@ -70,7 +70,7 @@ class Tile {
 
       this.loadTerrain();
     } else {
-      if ( this.tile[ 2 ] < minZoom + 1 ) { // maxZoom['terrain'] ) { //
+      if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 1 ) { // 
         if ( this.isTooBig() ) {
           this.split();
         }
