@@ -54,6 +54,10 @@ class Tile {
     this.groundMaterial = null;
     this.terrainMesh = null;
   }
+  dataToHeight( data ) {
+    // Elevation in meters
+    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+  }
   update() {
     if ( !this.inScene ) {
 
@@ -136,10 +140,6 @@ class Tile {
     }
     grid.push( this );
   }
-  dataToHeight( data ) {
-    // Elevation in meters
-    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
-  }
   loadTerrain() {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
@@ -153,14 +153,10 @@ class Tile {
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
 
-        let waitForDataToHeight = true;
-        while (true) {
-          try {
-            this.dataToHeight( [ 1, 2 ,3 ] );
-            waitForDataToHeight = false;
-          } catch (error) {
-            console.error('wtf');
-          }
+        try {
+          this.dataToHeight( [ 1, 2 ,3 ] );
+        } catch (error) {
+          console.error('wtf');
         }
 
         for ( let i = 0; i < size; i++ ) {
