@@ -160,7 +160,7 @@ class Tile {
         }
 
         for ( let i = 0; i < size; i++ ) {
-          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          heightData[ i ] = await this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
 
         const widthSegments = Math.sqrt( heightData.length ) - 1;
