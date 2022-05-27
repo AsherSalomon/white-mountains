@@ -70,8 +70,7 @@ class Tile {
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
 
-      console.log( this.dataToHeight( [ 1, 2, 3 ] ) );
-      // this.loadTerrain();
+      this.loadTerrain();
 
       // if ( this.loading == false ) {
       //   this.loading = true;
