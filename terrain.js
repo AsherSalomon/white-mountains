@@ -54,10 +54,6 @@ class Tile {
     this.groundMaterial = null;
     this.terrainMesh = null;
   }
-  dataToHeight( data ) {
-    // Elevation in meters
-    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
-  }
   update() {
     if ( !this.inScene ) {
 
@@ -140,7 +136,11 @@ class Tile {
     }
     grid.push( this );
   }
-  loadTerrain() {
+  dataToHeight( data ) {
+    // Elevation in meters
+    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+  }
+  async loadTerrain() {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
