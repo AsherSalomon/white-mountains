@@ -152,7 +152,7 @@ class Tile {
         let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
-        function itemToForm = () => {
+        function itemToForm() {
           if ( this.dataToHeight === undefined ) { return }
 
           for ( let i = 0; i < size; i++ ) {
