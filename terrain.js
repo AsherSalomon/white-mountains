@@ -60,9 +60,9 @@ class Tile {
     	this.gridHelper = new THREE.GridHelper( this.width, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
       let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
-      let dy = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
+      let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
       this.gridHelper.translateX( dx );
-      this.gridHelper.translateZ( dy );
+      this.gridHelper.translateZ( dz );
     	scene.add( this.gridHelper );
       this.boundingBox = new THREE.Box3();
       this.boundingBox.expandByObject( this.gridHelper );
@@ -164,9 +164,8 @@ class Tile {
 
         let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
         let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-        let dy = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-        geometry.translateX( dx );
-        geometry.translateZ( dy );
+        let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+        geometry.translate( dx, 0, dz );
 
         const vertices = geometry.attributes.position.array;
       	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
