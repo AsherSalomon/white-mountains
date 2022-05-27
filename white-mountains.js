@@ -52,6 +52,7 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize );
 
 	renderer.domElement.style.touchAction = 'none';
+	renderer.domElement.style.userSelect = 'none';
 
 	Controls.init( scene, camera );
 
