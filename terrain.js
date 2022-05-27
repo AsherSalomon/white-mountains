@@ -157,6 +157,7 @@ class Tile {
         let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
+        console.log( imageData );
         for ( let i = 0; i < size; i++ ) {
           heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
