@@ -144,43 +144,38 @@ class Tile {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-        // https://stackoverflow.com/questions/68959632/typeerror-cannot-read-properties-of-undefined-reading-id
-        function itemToForm() {
-          if(this.dataToHeight === undefined) { return }
-          
-          const canvas = document.createElement( 'canvas' );
-          canvas.width = ELEVATION_TILE_SIZE;
-          canvas.height = ELEVATION_TILE_SIZE;
-          const ctx = canvas.getContext( '2d' );
-          ctx.drawImage( image, 0, 0 );
-          let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-        	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
-        	const heightData = new Float32Array( size );
+        const canvas = document.createElement( 'canvas' );
+        canvas.width = ELEVATION_TILE_SIZE;
+        canvas.height = ELEVATION_TILE_SIZE;
+        const ctx = canvas.getContext( '2d' );
+        ctx.drawImage( image, 0, 0 );
+        let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+      	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+      	const heightData = new Float32Array( size );
 
-          try {
-            this.dataToHeight( [ 1, 2 ,3 ] );
-          } catch (error) {
-            console.error('wtf');
-          }
-
-          for ( let i = 0; i < size; i++ ) {
-            heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-          }
-
-          const widthSegments = Math.sqrt( heightData.length ) - 1;
-        	const geometry = new THREE.PlaneGeometry( this.width, this.width, widthSegments, widthSegments );
-          geometry.rotateX( - Math.PI / 2 );
-          const vertices = geometry.attributes.position.array;
-        	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        		vertices[ j + 1 ] = heightData[ i ];
-        	}
-        	geometry.computeVertexNormals();
-        	this.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
-        	this.terrainMesh = new THREE.Mesh( geometry, groundMaterial );
-
-        	scene.add( this.terrainMesh );
-          this.loadSatellite();
+        try {
+          this.dataToHeight( [ 1, 2 ,3 ] );
+        } catch (error) {
+          console.error('wtf');
         }
+
+        for ( let i = 0; i < size; i++ ) {
+          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+        }
+
+        const widthSegments = Math.sqrt( heightData.length ) - 1;
+      	const geometry = new THREE.PlaneGeometry( this.width, this.width, widthSegments, widthSegments );
+        geometry.rotateX( - Math.PI / 2 );
+        const vertices = geometry.attributes.position.array;
+      	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+      		vertices[ j + 1 ] = heightData[ i ];
+      	}
+      	geometry.computeVertexNormals();
+      	this.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+      	this.terrainMesh = new THREE.Mesh( geometry, groundMaterial );
+
+      	scene.add( this.terrainMesh );
+        this.loadSatellite();
       },
       undefined, // onProgress not supported
       function () {
