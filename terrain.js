@@ -69,7 +69,6 @@ class Tile {
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
 
-      this.loadTerrain();
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 1 ) { //
         if ( this.isTooBig() ) {
@@ -80,6 +79,9 @@ class Tile {
         if ( this.allSmall() ) {
           this.parent.merge();
         }
+      }
+      if ( this.inScene ) {
+        this.loadTerrain();
       }
     }
   };
