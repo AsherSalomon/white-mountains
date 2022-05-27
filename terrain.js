@@ -70,7 +70,7 @@ class Tile {
 
       this.loadTerrain();
     } else {
-      if ( this.tile[ 2 ] < minZoom + 2 ) { // maxZoom['terrain'] ) {
+      if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 2 ) { // 
         if ( this.isTooBig() ) {
           // this.split();
         }
@@ -204,7 +204,7 @@ class Tile {
     loader.load( url, function ( image ) {
         const ctx = satelliteCanvas.getContext( '2d' );
         ctx.drawImage( image, 0, 0 );
-        let texture = new CanvasTexture( satelliteCanvas );
+        let texture = new THREE.CanvasTexture( satelliteCanvas );
       	thisTile.groundMaterial.map = texture;
       	thisTile.groundMaterial.needsUpdate = true;
       },
