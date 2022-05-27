@@ -17,6 +17,9 @@ let maxZoom = {
 }
 const minZoom = 5;
 
+const ELEVATION_TILE_SIZE = 512;
+const IMAGERY_TILE_SIZE = 256;
+
 let grid = [];
 
 class Tile {
@@ -35,9 +38,15 @@ class Tile {
     this.inScene = false;
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
     this.boundingBox = null;
+
+    // this.loading = false;
+
+    this.groundMaterial = null;
+    this.terrainMesh = null;
   }
   update() {
     if ( !this.inScene ) {
+
     	this.gridHelper = new THREE.GridHelper( this.width, 1 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
       let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
@@ -45,9 +54,14 @@ class Tile {
       this.gridHelper.translateX( dx );
       this.gridHelper.translateZ( dy );
     	scene.add( this.gridHelper );
-      this.inScene = true;
       this.boundingBox = new THREE.Box3();
       this.boundingBox.expandByObject( this.gridHelper );
+      this.inScene = true;
+
+      // if ( this.loading == false ) {
+      this.loadTerrain();
+      //   this.loading = true;
+      // }
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
@@ -115,11 +129,86 @@ class Tile {
     }
     grid.push( this );
   }
+  dataToHeight( data ) {
+    // Elevation in meters
+    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+  }
+  loadTerrain() {
+    let url = urlForTile( ...this.tile, 'terrain' );
+    const loader = new ImageLoader();
+    loader.load( url, function ( image ) {
+        const canvas = document.createElement( 'canvas' );
+        canvas.width = ELEVATION_TILE_SIZE;
+        canvas.height = ELEVATION_TILE_SIZE;
+        const ctx = canvas.getContext( '2d' );
+        ctx.drawImage( image, 0, 0 );
+        let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+      	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+      	const heightData = new Float32Array( size );
+        for ( let i = 0; i < size; i++ ) {
+          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+        }
+
+        const widthSegments = Math.sqrt( heightData.length ) - 1;
+      	const geometry = new THREE.PlaneGeometry( this.width, this.width, widthSegments, widthSegments );
+        geometry.rotateX( - Math.PI / 2 );
+        const vertices = geometry.attributes.position.array;
+      	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+      		vertices[ j + 1 ] = heightData[ i ];
+      	}
+      	geometry.computeVertexNormals();
+      	this.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+      	this.terrainMesh = new THREE.Mesh( geometry, groundMaterial );
+
+      	scene.add( this.terrainMesh );
+        // this.loading = false;
+        this.loadSatellite();
+      },
+      undefined, // onProgress not supported
+      function () {
+        console.error( 'terrain ImageLoader error' );
+        // this.loading = false;
+      }
+    );
+  }
+  loadSatellite() {
+    let satelliteCanvas = document.createElement( 'canvas' );
+    // let satilliteZoom = 2; // maxZoom['satellite'];
+    // let bumpItUp = Math.pow( 2, satilliteZoom );
+    satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+    satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    // const ctx = satelliteCanvas.getContext( '2d' );
+    // ctx.fillStyle = "#7F7F7F";
+    // ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
+
+    // to do: multiple satilite images to one terrain tile
+    let url = urlForTile( ...this.tile, 'satellite' );
+    const loader = new ImageLoader();
+    loader.load( url, function ( image ) {
+        console.log( image );
+        const ctx = satelliteCanvas.getContext( '2d' );
+        ctx.drawImage( image, 0, 0 );
+        let texture = new CanvasTexture( satelliteCanvas );
+      	this.groundMaterial.map = texture;
+      	this.groundMaterial.needsUpdate = true;
+      },
+      undefined, // onProgress not supported
+      function () {
+        console.error( 'satellite ImageLoader error' );
+      }
+    );
+  }
   dispose() {
     this.remove = false;
     scene.remove( this.gridHelper );
+    if ( this.terrainMesh != null ) {
+      scene.remove( this.terrainMesh );
+      this.terrainMesh.geometry.dispose();
+      this.terrainMesh.material.dispose();
+      this.terrainMesh = null;
+    }
     this.inScene = false;
-  };
+  }
 }
 
 export function seed( newScene, newCamera ) {
