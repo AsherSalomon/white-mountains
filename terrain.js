@@ -179,8 +179,18 @@ class Tile {
           geometry.translate( dx, 0, dz );
 
           const vertices = geometry.attributes.position.array;
+          let curvatureOfTheEarth;
+          let distnaceFromOrigin;
+          let earthsRaiusSquared = Math.pow( earthsRaius, 2 );
         	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        		vertices[ j + 1 ] = heightData[ i ];
+        		// adjacent = sqrt( radius ^ 2 - distance ^ 2 )
+            // delta = radius - adjacent
+            // delta  = radius - sqrt( radius ^ 2 - distance ^ 2 )
+            distnaceFromOrigin = Math.sqrt(
+              Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) );
+            curvatureOfTheEarth = earthsRaius - Math.sqrt(
+              earthsRaiusSquared - Math.pow( distnaceFromOrigin, 2 ) );
+        		vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth; // y
         	}
           // to do: apply curvature of the earth
 
