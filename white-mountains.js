@@ -33,7 +33,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
 	// camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
-	camera.position.set( 0, 1916.582, 0 ); // height of Mt Washington 1916.582m
+	camera.position.set( 0, 1916.582 + 1.68, 0 ); // height of Mt Washington 1916.582m
 
 	camera.lookAt( -8000, 0, 0 );
 
