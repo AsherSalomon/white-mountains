@@ -174,7 +174,7 @@ class Tile {
         // to do: apply curvature of the earth
 
       	geometry.computeVertexNormals();
-      	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xC7C7C7 } );
+      	thisTile.groundMaterial = new THREE.MeshPhongMaterial();
       	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
 
       	scene.add( thisTile.terrainMesh );
