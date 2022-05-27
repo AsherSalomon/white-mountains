@@ -25,7 +25,7 @@ function init() {
 	const container = document.getElementById( 'container' );
 
   scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x3477eb );
+	scene.background = new THREE.Color( 0x2759b0 );
 
 	const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
 	scene.add( axesHelper );
