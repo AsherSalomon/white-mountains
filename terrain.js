@@ -187,6 +187,7 @@ class Tile {
         	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
 
     	    scene.add( thisTile.terrainMesh );
+          scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
           thisTile.loadSatellite();
         }
@@ -229,7 +230,6 @@ class Tile {
   }
   dispose() {
     this.remove = false;
-    scene.remove( this.gridHelper );
     scene.remove( this.gridHelper );
     if ( this.terrainMesh != null ) {
       scene.remove( this.terrainMesh );
