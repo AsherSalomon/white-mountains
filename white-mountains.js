@@ -4,6 +4,8 @@ import * as Controls from './controls.js';
 import * as Terrain from './terrain.js';
 import * as Physics from './physics.js';
 
+THREE.Cache.enabled = true;
+
 let scene, renderer, camera;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
