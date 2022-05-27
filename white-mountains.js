@@ -45,6 +45,7 @@ function init() {
 	scene.add( ambLight );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 
