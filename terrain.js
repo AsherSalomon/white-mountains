@@ -70,7 +70,7 @@ class Tile {
 
       this.loadTerrain();
     } else {
-      if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 1 ) { // 
+      if ( this.tile[ 2 ] < maxZoom['terrain'] ) { // minZoom + 1 ) { //
         if ( this.isTooBig() ) {
           this.split();
         }
@@ -179,6 +179,7 @@ class Tile {
         	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
 
     	    scene.add( thisTile.terrainMesh );
+          thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
           thisTile.loadSatellite();
         }
       },
