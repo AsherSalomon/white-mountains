@@ -141,11 +141,7 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
-      try {
-        this.dataToHeight( [ 1, 2 ,3 ] );
-      } catch (error) {
-        console.error('wtf');
-      }
+    let thisTile = this;
 
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
@@ -166,11 +162,11 @@ class Tile {
         // }
 
         for ( let i = 0; i < size; i++ ) {
-          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
 
         const widthSegments = Math.sqrt( heightData.length ) - 1;
-      	const geometry = new THREE.PlaneGeometry( this.width, this.width, widthSegments, widthSegments );
+      	const geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
         geometry.rotateX( - Math.PI / 2 );
         const vertices = geometry.attributes.position.array;
       	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
