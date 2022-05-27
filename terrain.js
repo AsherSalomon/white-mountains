@@ -146,39 +146,41 @@ class Tile {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-        const canvas = document.createElement( 'canvas' );
-        canvas.width = ELEVATION_TILE_SIZE;
-        canvas.height = ELEVATION_TILE_SIZE;
-        const ctx = canvas.getContext( '2d' );
-        ctx.drawImage( image, 0, 0 );
-        let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-      	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
-      	const heightData = new Float32Array( size );
-        for ( let i = 0; i < size; i++ ) {
-          heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+        if ( thisTile.inScene ) {
+          const canvas = document.createElement( 'canvas' );
+          canvas.width = ELEVATION_TILE_SIZE;
+          canvas.height = ELEVATION_TILE_SIZE;
+          const ctx = canvas.getContext( '2d' );
+          ctx.drawImage( image, 0, 0 );
+          let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+        	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+        	const heightData = new Float32Array( size );
+          for ( let i = 0; i < size; i++ ) {
+            heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          }
+
+          const widthSegments = Math.sqrt( heightData.length ) - 1;
+        	const geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+          geometry.rotateX( - Math.PI / 2 );
+
+          let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
+          let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
+          let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+          geometry.translate( dx, 0, dz );
+
+          const vertices = geometry.attributes.position.array;
+        	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+        		vertices[ j + 1 ] = heightData[ i ];
+        	}
+          // to do: apply curvature of the earth
+
+        	geometry.computeVertexNormals();
+        	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x7F7F7F } );
+        	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
+
+    	    scene.add( thisTile.terrainMesh );
+          thisTile.loadSatellite();
         }
-
-        const widthSegments = Math.sqrt( heightData.length ) - 1;
-      	const geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
-        geometry.rotateX( - Math.PI / 2 );
-
-        let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
-        let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-        let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-        geometry.translate( dx, 0, dz );
-
-        const vertices = geometry.attributes.position.array;
-      	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-      		vertices[ j + 1 ] = heightData[ i ];
-      	}
-        // to do: apply curvature of the earth
-
-      	geometry.computeVertexNormals();
-      	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x7F7F7F } );
-      	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
-
-      	scene.add( thisTile.terrainMesh );
-        thisTile.loadSatellite();
       },
       undefined, // onProgress not supported
       function () {
@@ -202,11 +204,13 @@ class Tile {
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-        const ctx = satelliteCanvas.getContext( '2d' );
-        ctx.drawImage( image, 0, 0 );
-        let texture = new THREE.CanvasTexture( satelliteCanvas );
-      	thisTile.groundMaterial.map = texture;
-      	thisTile.groundMaterial.needsUpdate = true;
+        if ( thisTile.inScene ) {
+          const ctx = satelliteCanvas.getContext( '2d' );
+          ctx.drawImage( image, 0, 0 );
+          let texture = new THREE.CanvasTexture( satelliteCanvas );
+        	thisTile.groundMaterial.map = texture;
+        	thisTile.groundMaterial.needsUpdate = true;
+        }
       },
       undefined, // onProgress not supported
       function () {
