@@ -51,8 +51,6 @@ class Tile {
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
     this.boundingBox = null;
 
-    this.loading = false;
-
     this.groundMaterial = null;
     this.terrainMesh = null;
   }
@@ -70,9 +68,7 @@ class Tile {
       this.boundingBox.expandByObject( this.gridHelper );
       this.inScene = true;
 
-    } else if ( this.loading == false ) {
       this.loadTerrain();
-      this.loading = true;
     } else {
       if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
         if ( this.isTooBig() ) {
@@ -156,8 +152,12 @@ class Tile {
         let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
-        for ( let i = 0; i < size; i++ ) {
-          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+        itemToForm = () => {
+          if ( this.dataToHeight === undefined ) { return }
+
+          for ( let i = 0; i < size; i++ ) {
+            heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          }
         }
 
         const widthSegments = Math.sqrt( heightData.length ) - 1;
@@ -172,13 +172,11 @@ class Tile {
       	this.terrainMesh = new THREE.Mesh( geometry, groundMaterial );
 
       	scene.add( this.terrainMesh );
-        // this.loading = false;
         this.loadSatellite();
       },
       undefined, // onProgress not supported
       function () {
         console.error( 'terrain ImageLoader error' );
-        // this.loading = false;
       }
     );
   }
