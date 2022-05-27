@@ -136,7 +136,7 @@ class Tile {
     }
     grid.push( this );
   }
-  await dataToHeight( data ) {
+  dataToHeight( data ) {
     // Elevation in meters
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
@@ -153,11 +153,12 @@ class Tile {
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
 
-        // try {
-        //   this.dataToHeight( [ 1, 2 ,3 ] )
-        // } catch (error) {
-        //   console.error(error);
-        // }
+        
+        try {
+          this.dataToHeight( [ 1, 2 ,3 ] );
+        } catch (error) {
+          console.error(error);
+        }
 
         for ( let i = 0; i < size; i++ ) {
           heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
