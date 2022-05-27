@@ -161,6 +161,13 @@ class Tile {
         const widthSegments = Math.sqrt( heightData.length ) - 1;
       	const geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
         geometry.rotateX( - Math.PI / 2 );
+
+        let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
+        let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
+        let dy = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+        geometry.translateX( dx );
+        geometry.translateZ( dy );
+
         const vertices = geometry.attributes.position.array;
       	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
       		vertices[ j + 1 ] = heightData[ i ];
@@ -194,7 +201,6 @@ class Tile {
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-        console.log( image );
         const ctx = satelliteCanvas.getContext( '2d' );
         ctx.drawImage( image, 0, 0 );
         let texture = new CanvasTexture( satelliteCanvas );
