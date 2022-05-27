@@ -33,10 +33,6 @@ function urlForTile( x, y, z, type ) {
   return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
-function dataToHeight( data ) {
-  // Elevation in meters
-  return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
-}
 
 class Tile {
   constructor( tile, parent ) {
@@ -146,6 +142,10 @@ class Tile {
     }
     grid.push( this );
   }
+  dataToHeight( data ) {
+    // Elevation in meters
+    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+  }
   loadTerrain() {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
@@ -159,7 +159,7 @@ class Tile {
       	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
       	const heightData = new Float32Array( size );
         for ( let i = 0; i < size; i++ ) {
-          heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
 
         const widthSegments = Math.sqrt( heightData.length ) - 1;
@@ -245,7 +245,6 @@ export function seed( newScene, newCamera ) {
 }
 
 export function update() {
-  // frustum.setFromProjectionMatrix( camera.projectionMatrix );
   // https://stackoverflow.com/questions/24877880/three-js-check-if-object-is-in-frustum
   frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
