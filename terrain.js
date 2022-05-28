@@ -220,6 +220,9 @@ class Tile {
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = "#133d15";
     ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
+    let texture = new THREE.CanvasTexture( satelliteCanvas );
+    thisTile.groundMaterial.map = texture;
+    thisTile.groundMaterial.needsUpdate = true;
 
     // to do: multiple satilite images to one terrain tile
     let url = urlForTile( ...this.tile, 'satellite' );
@@ -228,9 +231,6 @@ class Tile {
         if ( thisTile.inScene ) {
           const ctx = satelliteCanvas.getContext( '2d' );
           ctx.drawImage( image, 0, 0 );
-          let texture = new THREE.CanvasTexture( satelliteCanvas );
-        	thisTile.groundMaterial.map = texture;
-        	thisTile.groundMaterial.needsUpdate = true;
         }
       },
       undefined, // onProgress not supported
