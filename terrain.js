@@ -198,9 +198,10 @@ class Tile {
         	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
 
     	    scene.add( thisTile.terrainMesh );
-          scene.remove( thisTile.gridHelper );
+          // scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
           thisTile.loadSatellite();
+          heightData = null;
         }
       },
       undefined, // onProgress not supported
