@@ -3,7 +3,8 @@ import * as THREE from 'three';
 import * as Controls from './controls.js';
 import * as Terrain from './terrain.js';
 import * as Physics from './physics.js';
-import Stats from './lib/stats.module.js';
+// import Stats from './lib/stats.module.js';
+import Stats from './lib/Stats.js';
 
 THREE.Cache.enabled = true;
 
