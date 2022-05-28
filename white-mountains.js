@@ -3,10 +3,11 @@ import * as THREE from 'three';
 import * as Controls from './controls.js';
 import * as Terrain from './terrain.js';
 import * as Physics from './physics.js';
+import Stats from './lib/stats.module.js';
 
 THREE.Cache.enabled = true;
 
-let scene, renderer, camera;
+let scene, renderer, camera, stats;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
 const NEAR = 1e-6, FAR = 1e27;
@@ -23,6 +24,8 @@ Ammo().then( function ( AmmoLib ) {
 function init() {
 
 	const container = document.getElementById( 'container' );
+	stats = new Stats();
+	container.appendChild( stats.dom );
 
   scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x2759b0 );
@@ -79,6 +82,8 @@ function animate() {
 		delay = 0;
 		Terrain.update();
 	}
+
+	stats.update();
 
 	renderer.render( scene, camera );
 
