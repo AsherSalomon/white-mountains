@@ -201,7 +201,7 @@ class Tile {
           // scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
           thisTile.loadSatellite();
-          heightData = null;
+          // heightData = null;
         }
       },
       undefined, // onProgress not supported
