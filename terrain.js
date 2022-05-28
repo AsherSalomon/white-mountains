@@ -78,14 +78,14 @@ class Tile {
           splitOrMerge = true;
         }
       }
-      if ( this.tile[ 2 ] > minZoom ) {
+      if ( splitOrMerge == false && this.tile[ 2 ] > minZoom ) {
         if ( this.allSmall() ) {
           this.parent.merge();
           splitOrMerge = true;
         }
       }
-      if ( frustum.intersectsBox( this.boundingBox ) ) {
-        if ( splitOrMerge == false && this.loading == false ) {
+      if ( splitOrMerge == false && this.loading == false ) {
+        if ( frustum.intersectsBox( this.boundingBox ) ) {
           this.loading = true;
           this.loadTerrain();
         }
@@ -195,7 +195,7 @@ class Tile {
         	geometry.computeVertexNormals();
         	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
         	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
-          
+
     	    scene.add( thisTile.terrainMesh );
           scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
