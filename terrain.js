@@ -108,7 +108,7 @@ class Tile {
   }
   isTooSmall() {
     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
-    return tooSmall || frustum.intersectsBox( this.boundingBox ) == false;
+    return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
   }
   allSmall() {
     let allSiblingsAreSmall = false;
@@ -201,7 +201,6 @@ class Tile {
           // scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
           thisTile.loadSatellite();
-          // heightData = null;
         }
       },
       undefined, // onProgress not supported
