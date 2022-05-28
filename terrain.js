@@ -195,7 +195,7 @@ class Tile {
         	geometry.computeVertexNormals();
         	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
         	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
-
+          
     	    scene.add( thisTile.terrainMesh );
           scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
