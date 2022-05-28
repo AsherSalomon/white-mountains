@@ -183,16 +183,12 @@ class Tile {
           let distnaceFromOrigin;
           let earthsRaiusSquared = Math.pow( earthsRaius, 2 );
         	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        		// adjacent = sqrt( radius ^ 2 - distance ^ 2 )
-            // delta = radius - adjacent
-            // delta  = radius - sqrt( radius ^ 2 - distance ^ 2 )
-            distnaceFromOrigin = Math.sqrt(
-              Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) );
-            curvatureOfTheEarth = earthsRaius - Math.sqrt(
-              earthsRaiusSquared - Math.pow( distnaceFromOrigin, 2 ) );
-        		vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth; // y
+            // distnaceFromOrigin = Math.sqrt(
+            //   Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) );
+            // curvatureOfTheEarth = earthsRaius - Math.sqrt(
+            //   earthsRaiusSquared - Math.pow( distnaceFromOrigin, 2 ) );
+        		vertices[ j + 1 ] = heightData[ i ] // - curvatureOfTheEarth;
         	}
-          // to do: apply curvature of the earth
 
         	geometry.computeVertexNormals();
         	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
