@@ -67,6 +67,7 @@ class Tile {
     	scene.add( this.gridHelper );
       this.boundingBox = new THREE.Box3();
       this.boundingBox.expandByObject( this.gridHelper );
+      scene.remove( this.gridHelper );
       this.inScene = true;
       this.loading = false;
 
