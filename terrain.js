@@ -53,7 +53,7 @@ class Tile {
 
     this.groundMaterial = null;
     this.terrainMesh = null;
-    this.loading = false;
+    // this.loading = false;
   }
   update() {
     if ( !this.inScene ) {
@@ -67,9 +67,9 @@ class Tile {
     	scene.add( this.gridHelper );
       this.boundingBox = new THREE.Box3();
       this.boundingBox.expandByObject( this.gridHelper );
-      scene.remove( this.gridHelper );
+      // scene.remove( this.gridHelper );
       this.inScene = true;
-      this.loading = false;
+      // this.loading = false;
 
     } else {
       let splitOrMerge = false;
@@ -85,12 +85,12 @@ class Tile {
           splitOrMerge = true;
         }
       }
-      if ( splitOrMerge == false && this.loading == false ) {
-        if ( frustum.intersectsBox( this.boundingBox ) ) {
-          this.loading = true;
-          this.loadTerrain();
-        }
-      }
+      // if ( splitOrMerge == false && this.loading == false ) {
+      //   if ( frustum.intersectsBox( this.boundingBox ) ) {
+      //     this.loading = true;
+      //     this.loadTerrain();
+      //   }
+      // }
     }
   };
   isTile( tile ) {
