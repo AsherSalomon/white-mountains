@@ -217,9 +217,9 @@ class Tile {
     // let bumpItUp = Math.pow( 2, satilliteZoom );
     satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-    // const ctx = satelliteCanvas.getContext( '2d' );
-    // ctx.fillStyle = "#7F7F7F";
-    // ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
+    const ctx = satelliteCanvas.getContext( '2d' );
+    ctx.fillStyle = "#133d15";
+    ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
 
     // to do: multiple satilite images to one terrain tile
     let url = urlForTile( ...this.tile, 'satellite' );
