@@ -181,13 +181,15 @@ class Tile {
           const vertices = geometry.attributes.position.array;
           let curvatureOfTheEarth;
           let distnaceFromOrigin;
-          let earthsRaiusSquared = Math.pow( earthsRaius, 2 );
+          // let earthsRaiusSquared = Math.pow( earthsRaius, 2 );
         	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
             // distnaceFromOrigin = Math.sqrt(
             //   Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) );
             // curvatureOfTheEarth = earthsRaius - Math.sqrt(
             //   earthsRaiusSquared - Math.pow( distnaceFromOrigin, 2 ) );
-        		vertices[ j + 1 ] = heightData[ i ] // - curvatureOfTheEarth;
+            // well thats slow, lets speed things up with a parabaloid
+            curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
+        		vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
         	}
 
         	geometry.computeVertexNormals();
