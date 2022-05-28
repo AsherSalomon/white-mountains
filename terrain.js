@@ -231,6 +231,9 @@ class Tile {
         if ( thisTile.inScene ) {
           const ctx = satelliteCanvas.getContext( '2d' );
           ctx.drawImage( image, 0, 0 );
+          let texture = new THREE.CanvasTexture( satelliteCanvas );
+          thisTile.groundMaterial.map = texture;
+          thisTile.groundMaterial.needsUpdate = true;
         }
       },
       undefined, // onProgress not supported
