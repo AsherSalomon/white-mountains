@@ -69,12 +69,16 @@ function onWindowResize() {
 
 }
 
-
+let delay = 0;
 function animate() {
 
   requestAnimationFrame( animate );
 
-	Terrain.update();
+	delay ++;
+	if ( delay == 10 ) {
+		delay = 0;
+		Terrain.update();
+	}
 
 	renderer.render( scene, camera );
 
