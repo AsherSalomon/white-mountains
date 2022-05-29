@@ -1,6 +1,7 @@
 
 // https://www.w3schools.com/html/html5_webworkers.asp
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+// https://developer.mozilla.org/en-US/docs/Web/API/Worker/Worker
 
 // var i = 0;
 //
@@ -14,4 +15,9 @@
 
 onmessage = function( event ) {
   console.log( event.data );
+}
+
+var i = 0;
+while ( true ) {
+  i = i + 1;
 }
