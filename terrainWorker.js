@@ -5,20 +5,6 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
 
-// var i = 0;
-//
-// function timedCount() {
-//   i = i + 1;
-//   postMessage(i);
-//   setTimeout("timedCount()",500);
-// }
-//
-// timedCount();
-
-// onmessage = function( event ) {
-//   console.log( event.data );
-// }
-
 const earthsRaius = 6371000;
 
 onmessage = function( event ) {
@@ -31,3 +17,15 @@ onmessage = function( event ) {
   }
   postMessage( vertices );
 }
+
+// This is how to instantiate a worker:
+// this.terrainWorker = new Worker('terrainWorker.js');
+
+// This is how to send data to a worker:
+// thisTile.terrainWorker.postMessage( [ heightData, vertices ] );
+
+// This is how to receive data from a worker:
+// let thisTile = this;
+// this.terrainWorker.onmessage = function( event ) {
+//   thisTile.onWorkComplete( event.data );
+// };
