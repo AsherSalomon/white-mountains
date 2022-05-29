@@ -186,7 +186,7 @@ class Tile {
           geometry.translate( dx, 0, dz );
 
           const vertices = geometry.attributes.position.array;
-          terrainWorker.postMessage( [ imageData, vertices ] );
+          terrainWorker.postMessage( [ heightData, vertices ] );
 
           // let curvatureOfTheEarth;
           // // let distnaceFromOrigin;
