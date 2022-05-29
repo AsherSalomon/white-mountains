@@ -17,7 +17,7 @@
 
 // onmessage = function( event ) {
 //   console.log( event.data );
-}
+// }
 
 const earthsRaius = 6371000;
 
