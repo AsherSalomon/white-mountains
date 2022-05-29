@@ -26,7 +26,7 @@ let terrainWorker = new Worker('terrainWorker.js');
 // terrainWorker.onmessage = function( event ) {
 //   console.log( event.data );
 // };
-terrainWorker.postMessage( 'hello asher' );
+// terrainWorker.postMessage( 'hello asher' );
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -264,6 +264,8 @@ class Tile {
 export function seed( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
+
+  terrainWorker.postMessage( scene );
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
   let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
