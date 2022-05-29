@@ -62,11 +62,11 @@ class Tile {
     this.terrainMesh = null;
     this.loading = false;
 
-    this.terrainWorker = new Worker('terrainWorker.js');
-    let thisTile = this;
-    this.terrainWorker.onmessage = function( event ) {
-      thisTile.onWorkComplete( event.data );
-    };
+    // this.terrainWorker = new Worker('terrainWorker.js');
+    // let thisTile = this;
+    // this.terrainWorker.onmessage = function( event ) {
+    //   thisTile.onWorkComplete( event.data );
+    // };
   }
   update() {
     if ( !this.inScene ) {
@@ -193,21 +193,21 @@ class Tile {
           thisTile.geometry.translate( dx, 0, dz );
 
           const vertices = thisTile.geometry.attributes.position.array;
-          thisTile.terrainWorker.postMessage( [ heightData, vertices ] );
+          // thisTile.terrainWorker.postMessage( [ heightData, vertices ] );
 
-          // let curvatureOfTheEarth;
-        	// for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-          //   curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
-        	// 	vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
-        	// }
-          //
-        	// thisTile.geometry.computeVertexNormals();
-        	// thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
-        	// thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
-          //
-    	    // scene.add( thisTile.terrainMesh );
-          // thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
-          // thisTile.loadSatellite();
+          let curvatureOfTheEarth;
+        	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+            curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
+        		vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+        	}
+
+        	thisTile.geometry.computeVertexNormals();
+        	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+        	thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+
+    	    scene.add( thisTile.terrainMesh );
+          thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
+          thisTile.loadSatellite();
         }
       },
       undefined, // onProgress not supported
@@ -216,19 +216,19 @@ class Tile {
       }
     );
   }
-  onWorkComplete( vertices ) {
-    let thisTile = this;
-
-    thisTile.geometry.attributes.position.array = vertices;
-
-    thisTile.geometry.computeVertexNormals();
-    thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
-    thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
-
-    scene.add( thisTile.terrainMesh );
-    thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
-    thisTile.loadSatellite();
-  }
+  // onWorkComplete( vertices ) {
+  //   let thisTile = this;
+  //
+  //   thisTile.geometry.attributes.position.array = vertices;
+  //
+  //   thisTile.geometry.computeVertexNormals();
+  //   thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+  //   thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+  //
+  //   scene.add( thisTile.terrainMesh );
+  //   thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
+  //   thisTile.loadSatellite();
+  // }
   loadSatellite() {
     let thisTile = this;
 
