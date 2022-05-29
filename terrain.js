@@ -15,7 +15,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
-const minZoom = 6;
+const minZoom = 7;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -111,7 +111,7 @@ class Tile {
   }
   isTooSmall() {
     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
-    return tooSmall || frustum.intersectsBox( this.boundingBox ) == false;
+    return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
   }
   allSmall() {
     let allSiblingsAreSmall = false;
