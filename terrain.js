@@ -192,7 +192,7 @@ class Tile {
           thisTile.geometry.translate( dx, 0, dz );
 
           const vertices = thisTile.geometry.attributes.position.array;
-          terrainWorker.postMessage( [ heightData, vertices ] );
+          thisTile.terrainWorker.postMessage( [ heightData, vertices ] );
 
           // let curvatureOfTheEarth;
         	// for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
