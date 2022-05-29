@@ -31,8 +31,8 @@ function init() {
   scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x2759b0 );
 
-	const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
-	scene.add( axesHelper );
+	// const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
+	// scene.add( axesHelper );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
