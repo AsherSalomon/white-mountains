@@ -23,9 +23,9 @@ const IMAGERY_TILE_SIZE = 256;
 let grid = [];
 
 let terrainWorker = new Worker('terrainWorker.js');
-terrainWorker.onmessage = function(event) {
-  console.log( event.data );
-};
+// terrainWorker.onmessage = function( event ) {
+//   console.log( event.data );
+// };
 terrainWorker.postMessage( 'hello asher' );
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
