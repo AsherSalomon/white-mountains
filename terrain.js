@@ -276,8 +276,8 @@ export function seed( newScene, newCamera ) {
   let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
   grid.push( new Tile( tile, null ) );
 
-	const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
-	scene.add( helper );
+	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
+	// scene.add( helper );
 
   frustum = new THREE.Frustum();
 }
