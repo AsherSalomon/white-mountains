@@ -270,6 +270,8 @@ class Tile {
       this.terrainMesh.geometry.dispose();
       this.terrainMesh.material.dispose();
       this.terrainMesh = null;
+      this.geometry.dispose();
+      this.geometry = null;
     }
     this.inScene = false;
   }
