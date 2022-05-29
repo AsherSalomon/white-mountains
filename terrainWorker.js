@@ -29,4 +29,5 @@ onmessage = function( event ) {
     curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
     vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
   }
+  postMessage( vertices );
 }
