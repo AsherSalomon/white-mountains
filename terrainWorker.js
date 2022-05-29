@@ -22,7 +22,7 @@
 const earthsRaius = 6371000;
 
 onmessage = function( event ) {
-  let imageData = event.data[ 0 ];
+  let heightData = event.data[ 0 ];
   let vertices = event.data[ 1 ];
   let curvatureOfTheEarth;
   for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
