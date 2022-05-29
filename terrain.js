@@ -186,7 +186,7 @@ class Tile {
           geometry.translate( dx, 0, dz );
 
           const vertices = geometry.attributes.position.array;
-          terrainWorker.postMessage( [ image, vertices ] );
+          terrainWorker.postMessage( [ imageData, vertices ] );
           let curvatureOfTheEarth;
           let distnaceFromOrigin;
           // let earthsRaiusSquared = Math.pow( earthsRaius, 2 );
@@ -265,8 +265,6 @@ class Tile {
 export function seed( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
-
-  terrainWorker.postMessage( 'bullshit' );
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
   let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
