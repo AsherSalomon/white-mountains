@@ -63,8 +63,9 @@ class Tile {
     this.loading = false;
 
     this.terrainWorker = new Worker('terrainWorker.js');
+    let thisTile = this;
     this.terrainWorker.onmessage = function( event ) {
-      this.onWorkComplete( event.data )
+      thisTile.onWorkComplete( event.data );
     };
   }
   update() {
