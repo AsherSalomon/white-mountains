@@ -265,7 +265,7 @@ export function seed( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
 
-  terrainWorker.postMessage( scene );
+  terrainWorker.postMessage( 'bullshit' );
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
   let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
