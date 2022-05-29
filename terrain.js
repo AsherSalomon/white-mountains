@@ -64,7 +64,7 @@ class Tile {
 
     this.terrainWorker = new Worker('terrainWorker.js');
     this.terrainWorker.onmessage = function( event ) {
-      onWorkComplete( event.data )
+      this.onWorkComplete( event.data )
     };
   }
   update() {
