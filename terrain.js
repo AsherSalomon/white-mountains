@@ -22,7 +22,7 @@ const IMAGERY_TILE_SIZE = 256;
 
 let grid = [];
 
-let terrainWorker = new Worker('terrainWorker.js');
+// let terrainWorker = new Worker('terrainWorker.js');
 // terrainWorker.onmessage = function( event ) {
 //   console.log( event.data );
 // };
@@ -57,9 +57,15 @@ class Tile {
     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
     this.boundingBox = null;
 
+    this.geometry = null;
     this.groundMaterial = null;
     this.terrainMesh = null;
     this.loading = false;
+
+    this.terrainWorker = new Worker('terrainWorker.js');
+    this.terrainWorker.onmessage = function( event ) {
+      onWorkComplete( event.data )
+    };
   }
   update() {
     if ( !this.inScene ) {
@@ -177,36 +183,28 @@ class Tile {
           }
 
           const widthSegments = Math.sqrt( heightData.length ) - 1;
-        	const geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
-          geometry.rotateX( - Math.PI / 2 );
+        	thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+          thisTile.geometry.rotateX( - Math.PI / 2 );
 
           let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
           let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
           let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-          geometry.translate( dx, 0, dz );
+          thisTile.geometry.translate( dx, 0, dz );
 
-          const vertices = geometry.attributes.position.array;
+          const vertices = thisTile.geometry.attributes.position.array;
           // terrainWorker.postMessage( [ heightData, vertices ] );
 
           let curvatureOfTheEarth;
-          // let distnaceFromOrigin;
-          // let earthsRaiusSquared = Math.pow( earthsRaius, 2 );
         	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-            // distnaceFromOrigin = Math.sqrt(
-            //   Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) );
-            // curvatureOfTheEarth = earthsRaius - Math.sqrt(
-            //   earthsRaiusSquared - Math.pow( distnaceFromOrigin, 2 ) );
-            // well thats slow, lets speed things up with a parabaloid
             curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
         		vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
         	}
 
-        	geometry.computeVertexNormals();
+        	thisTile.geometry.computeVertexNormals();
         	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
-        	thisTile.terrainMesh = new THREE.Mesh( geometry, thisTile.groundMaterial );
+        	thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
     	    scene.add( thisTile.terrainMesh );
-          // scene.remove( thisTile.gridHelper );
           thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
           thisTile.loadSatellite();
         }
@@ -216,6 +214,9 @@ class Tile {
         console.error( 'terrain ImageLoader error' );
       }
     );
+  }
+  onWorkComplete( vertices ) {
+
   }
   loadSatellite() {
     let thisTile = this;
