@@ -15,7 +15,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 20
 }
-const minZoom = 7;
+const minZoom = 5;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
