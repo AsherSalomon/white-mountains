@@ -85,10 +85,10 @@ function animate() {
 
 	Controls.animate( camera );
 
-		delay ++;
-		if ( delay == 10 ) {
-			delay = 0;
-			Terrain.update();
-		}
+	delay ++;
+	if ( delay == 10 ) {
+		delay = 0;
+		Terrain.update();
+	}
 
 }
