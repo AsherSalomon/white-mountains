@@ -78,17 +78,16 @@ function animate() {
 
   requestAnimationFrame( animate );
 
+	delay ++;
+	if ( delay == 10 ) {
+		delay = 0;
+		Terrain.update();
+	}
 
 	stats.update();
 
 	renderer.render( scene, camera );
 
 	Controls.animate( camera );
-
-	delay ++;
-	if ( delay == 10 ) {
-		delay = 0;
-		Terrain.update();
-	}
 
 }
