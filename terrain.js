@@ -6,7 +6,7 @@ let scene, camera, frustum;
 const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
-const maxElevation = 1916.582; // 9144; // meters
+const maxElevation = 9144; // 1916.582; // meters 
 const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - Math.pow( earthsRaius, 2 ) );
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 const angularResolution = 1 / 1; // tile width / distance to camera
