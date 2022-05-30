@@ -180,10 +180,16 @@ class Tile {
           const ctx = canvas.getContext( '2d' );
           ctx.drawImage( image, 0, 0 );
           let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-        	const size = ELEVATION_TILE_SIZE * ELEVATION_TILE_SIZE;
+        	const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
         	const heightData = new Float32Array( size );
-          for ( let i = 0; i < size; i++ ) {
-            heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          // for ( let i = 0; i < size; i ++ ) {
+          //   heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          // }
+          for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
+            for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
+              i = m * downsample * ELEVATION_TILE_SIZE + n * downsample;
+              heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+            }
           }
 
           const widthSegments = Math.sqrt( heightData.length ) - 1;
@@ -231,6 +237,8 @@ class Tile {
   //   scene.add( thisTile.terrainMesh );
   //   thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
   //   thisTile.loadSatellite();
+  //
+  //   No substantial performance gain + crashes mobile.
   // }
   loadSatellite() {
     let thisTile = this;
