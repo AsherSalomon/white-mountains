@@ -11,7 +11,8 @@ const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - M
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 const angularResolution = 1 / 1; // tile width / distance to camera
 
-const downsample = Math.pow( 2, 1 );
+const downfactor = 1;
+const downsample = Math.pow( 2, downfactor );
 
 let maxZoom = {
   terrain: 12,
