@@ -30,6 +30,7 @@ function init() {
 
   scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x2759b0 );
+	scene.fog = new THREE.FogExp2( 0x2759b0, 0.0025 );
 
 	// const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
 	// scene.add( axesHelper );
@@ -47,6 +48,8 @@ function init() {
 
 	const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
 	scene.add( ambLight );
+
+
 
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
