@@ -30,7 +30,7 @@ function init() {
 
   scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x2759b0 );
-	scene.fog = new THREE.FogExp2( 0x2759b0, 0.0025 );
+	scene.fog = new THREE.FogExp2( 0x2759b0, 0.000001 );
 
 	// const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
 	// scene.add( axesHelper );
