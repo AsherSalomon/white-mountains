@@ -173,6 +173,7 @@ class Tile {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
+      console.log( image.width +' '+ image.height );
         if ( thisTile.inScene ) {
           const canvas = document.createElement( 'canvas' );
           canvas.width = ELEVATION_TILE_SIZE;
