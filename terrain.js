@@ -9,7 +9,7 @@ const earthsRaius = 6371000; // meters
 const maxElevation = 9144; // 1916.582; // meters
 const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - Math.pow( earthsRaius, 2 ) );
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
-const angularResolution = 1 / 1; // tile width / distance to camera
+const angularResolution = 1.5 / 1; // tile width / distance to camera
 
 const downfactor = 1;
 
@@ -191,7 +191,7 @@ class Tile {
       yield;
 
       let downsample = Math.pow( 2, downfactor );
-      // if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
+      if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
