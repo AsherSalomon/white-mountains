@@ -171,6 +171,8 @@ class Tile {
     );
   }
   *terrainGenerator( image ) {
+    var startTime = performance.now();
+
     let thisTile = this;
 
     if ( thisTile.inScene ) {
@@ -180,6 +182,7 @@ class Tile {
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
       for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
@@ -214,6 +217,9 @@ class Tile {
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
     }
+
+    var endTime = performance.now();
+    console.log('Generator took ${endTime - startTime} milliseconds');
   }
   loadSatellite() {
     let thisTile = this;
