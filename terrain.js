@@ -172,6 +172,11 @@ class Tile {
   }
   *terrainGenerator( image ) {
 
+    // var startTime = performance.now();
+    //
+    // var endTime = performance.now();
+    // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
+
     let thisTile = this;
 
     if ( thisTile.inScene ) {
@@ -240,8 +245,6 @@ class Tile {
   *satelliteGenerator( image ) {
     let thisTile = this;
 
-    var startTime = performance.now();
-
     if ( thisTile.inScene ) {
       let satelliteCanvas = document.createElement( 'canvas' );
       satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
@@ -253,9 +256,6 @@ class Tile {
       thisTile.groundMaterial.color = new THREE.Color();
       thisTile.groundMaterial.needsUpdate = true;
     }
-
-    var endTime = performance.now();
-    console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
   }
   dispose() {
     this.remove = false;
