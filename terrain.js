@@ -222,7 +222,7 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
-      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+      // thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
       if ( recyclingBin.length > 0 ) {
         thisTile.geometry = recyclingBin.shift();
       } else {
