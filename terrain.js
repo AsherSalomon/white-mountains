@@ -223,13 +223,12 @@ class Tile {
     // let bumpItUp = Math.pow( 2, satilliteZoom );
     satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-    const ctx = satelliteCanvas.getContext( '2d' );
-    ctx.fillStyle = "#164a19";
-    ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
-    let texture = new THREE.CanvasTexture( satelliteCanvas );
-    thisTile.groundMaterial.color = new THREE.Color();
-    thisTile.groundMaterial.map = texture;
-    thisTile.groundMaterial.needsUpdate = true;
+    // const ctx = satelliteCanvas.getContext( '2d' );
+    // ctx.fillStyle = "#164a19";
+    // ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
+    // let texture = new THREE.CanvasTexture( satelliteCanvas );
+    // thisTile.groundMaterial.map = texture;
+    // thisTile.groundMaterial.needsUpdate = true;
 
     // to do: multiple satilite images to one terrain tile
     let url = urlForTile( ...this.tile, 'satellite' );
@@ -240,6 +239,7 @@ class Tile {
           ctx.drawImage( image, 0, 0 );
           let texture = new THREE.CanvasTexture( satelliteCanvas );
           thisTile.groundMaterial.map = texture;
+          thisTile.groundMaterial.color = new THREE.Color();
           thisTile.groundMaterial.needsUpdate = true;
         }
       },
