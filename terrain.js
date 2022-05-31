@@ -25,12 +25,6 @@ const IMAGERY_TILE_SIZE = 256;
 
 let grid = [];
 
-// let terrainWorker = new Worker('terrainWorker.js');
-// terrainWorker.onmessage = function( event ) {
-//   console.log( event.data );
-// };
-// terrainWorker.postMessage( 'hello asher' );
-
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
   terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
@@ -65,11 +59,6 @@ class Tile {
     this.terrainMesh = null;
     this.loading = false;
 
-    // this.terrainWorker = new Worker('terrainWorker.js');
-    // let thisTile = this;
-    // this.terrainWorker.onmessage = function( event ) {
-    //   thisTile.onWorkComplete( event.data );
-    // };
   }
   update() {
     if ( !this.inScene ) {
@@ -173,52 +162,7 @@ class Tile {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-      console.log( image.width +' '+ image.height );
-        if ( thisTile.inScene ) {
-          const canvas = document.createElement( 'canvas' );
-          canvas.width = ELEVATION_TILE_SIZE;
-          canvas.height = ELEVATION_TILE_SIZE;
-          const ctx = canvas.getContext( '2d' );
-          ctx.drawImage( image, 0, 0 );
-          let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-        	const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
-        	const heightData = new Float32Array( size );
-          // for ( let i = 0; i < size; i ++ ) {
-          //   heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-          // }
-          for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
-            for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
-              i = m * downsample * ELEVATION_TILE_SIZE + n * downsample;
-              heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-            }
-          }
-
-          const widthSegments = Math.sqrt( heightData.length ) - 1;
-        	thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
-          thisTile.geometry.rotateX( - Math.PI / 2 );
-
-          let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
-          let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-          let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-          thisTile.geometry.translate( dx, 0, dz );
-
-          const vertices = thisTile.geometry.attributes.position.array;
-          // thisTile.terrainWorker.postMessage( [ heightData, vertices ] );
-
-          let curvatureOfTheEarth;
-        	for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-            curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
-        		vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
-        	}
-
-        	thisTile.geometry.computeVertexNormals();
-        	thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
-        	thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
-
-    	    scene.add( thisTile.terrainMesh );
-          thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
-          thisTile.loadSatellite();
-        }
+        generatorQueue.push( thisTile.terrainGenerator( image ) )
       },
       undefined, // onProgress not supported
       function () {
@@ -226,21 +170,51 @@ class Tile {
       }
     );
   }
-  // onWorkComplete( vertices ) {
-  //   let thisTile = this;
-  //
-  //   thisTile.geometry.attributes.position.array = vertices;
-  //
-  //   thisTile.geometry.computeVertexNormals();
-  //   thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
-  //   thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
-  //
-  //   scene.add( thisTile.terrainMesh );
-  //   thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
-  //   thisTile.loadSatellite();
-  //
-  //   No substantial performance gain + crashes mobile.
-  // }
+  *terrainGenerator( image ) {
+    let thisTile = this;
+    
+    if ( thisTile.inScene ) {
+      const canvas = document.createElement( 'canvas' );
+      canvas.width = ELEVATION_TILE_SIZE;
+      canvas.height = ELEVATION_TILE_SIZE;
+      const ctx = canvas.getContext( '2d' );
+      ctx.drawImage( image, 0, 0 );
+      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+      const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
+      const heightData = new Float32Array( size );
+      for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
+        for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
+          i = m * downsample * ELEVATION_TILE_SIZE + n * downsample;
+          heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+        }
+      }
+
+      const widthSegments = Math.sqrt( heightData.length ) - 1;
+      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+      thisTile.geometry.rotateX( - Math.PI / 2 );
+
+      let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
+      let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
+      let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+      thisTile.geometry.translate( dx, 0, dz );
+
+      const vertices = thisTile.geometry.attributes.position.array;
+
+      let curvatureOfTheEarth;
+      for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+        curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
+        vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+      }
+
+      thisTile.geometry.computeVertexNormals();
+      thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+      thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+
+      scene.add( thisTile.terrainMesh );
+      thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
+      thisTile.loadSatellite();
+    }
+  }
   loadSatellite() {
     let thisTile = this;
 
@@ -286,6 +260,17 @@ class Tile {
       this.geometry = null;
     }
     this.inScene = false;
+  }
+}
+
+let generatorQueue = [];
+function updateGeneratorQueue() {
+  // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
+  // TerrainChunkRebuilder
+  if ( generatorQueue.length > 0 ) {
+    if ( generatorQueue[ 0 ].nexth().done ) {
+      generatorQueue.shift();
+    }
   }
 }
 
