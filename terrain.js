@@ -225,7 +225,7 @@ class Tile {
       // if ( recyclingBin.length > 0 ) {
       //   thisTile.geometry = recyclingBin.shift();
       // } else {
-        thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
+        thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
         thisTile.geometry.rotateX( - Math.PI / 2 );
       // }
 
@@ -235,9 +235,9 @@ class Tile {
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
       let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
       let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-      // thisTile.geometry.translate( dx, 0, dz );
-      thisTile.geometry.position.set( dx, 0, dz );
-      thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
+      thisTile.geometry.translate( dx, 0, dz );
+      // thisTile.geometry.position.set( dx, 0, dz );
+      // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
 
       const vertices = thisTile.geometry.attributes.position.array;
 
