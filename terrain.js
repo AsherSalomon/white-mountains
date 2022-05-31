@@ -106,7 +106,7 @@ class Tile {
     // flatCameraPosition.y = 0;
     // return this.gridHelper.position.distanceTo( flatCameraPosition );
     let positionDelta = new THREE.Vector3().subVectors( this.gridHelper.position, camera.position );
-    let deltaX = Math.abs( positionDelta.z ) - this.width / 2;
+    let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
     let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
     let distance = 0;
     if ( deltaX < 0 || deltaZ < 0 ) {
