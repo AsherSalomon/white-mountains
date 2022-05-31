@@ -75,16 +75,16 @@ function onWindowResize() {
 
 }
 
-let delay = 0;
+// let delay = 0;
 function animate() {
 
   requestAnimationFrame( animate );
 
-	delay ++;
-	if ( delay == 10 ) {
-		delay = 0;
-		Terrain.update();
-	}
+	// delay ++;
+	// if ( delay == 10 ) {
+	// 	delay = 0;
+	Terrain.update();
+	// }
 
 	stats.update();
 
