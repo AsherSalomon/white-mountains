@@ -206,9 +206,6 @@ class Tile {
       let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
       thisTile.geometry.translate( dx, 0, dz );
 
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
-
       const vertices = thisTile.geometry.attributes.position.array;
 
       let curvatureOfTheEarth;
@@ -216,6 +213,9 @@ class Tile {
         curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
         vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       }
+
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
       thisTile.geometry.computeVertexNormals();
       thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
