@@ -217,6 +217,9 @@ class Tile {
         }
       }
 
+      yield;
+      timeList.push( performance.now() );
+
       const widthSegments = Math.sqrt( heightData.length ) - 1;
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
       thisTile.geometry.rotateX( - Math.PI / 2 );
