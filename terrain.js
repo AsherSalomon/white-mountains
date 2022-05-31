@@ -184,8 +184,6 @@ class Tile {
 
       yield;
 
-      var startTime = performance.now();
-
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
       for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
@@ -198,14 +196,18 @@ class Tile {
       const widthSegments = Math.sqrt( heightData.length ) - 1;
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
       thisTile.geometry.rotateX( - Math.PI / 2 );
-      
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
+
+      yield;
+
+      var startTime = performance.now();
 
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
       let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
       let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
       thisTile.geometry.translate( dx, 0, dz );
+
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
       const vertices = thisTile.geometry.attributes.position.array;
 
