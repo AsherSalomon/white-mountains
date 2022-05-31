@@ -227,6 +227,7 @@ class Tile {
     ctx.fillStyle = "#164a19";
     ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
     let texture = new THREE.CanvasTexture( satelliteCanvas );
+    thisTile.groundMaterial.color = new THREE.Color();
     thisTile.groundMaterial.map = texture;
     thisTile.groundMaterial.needsUpdate = true;
 
