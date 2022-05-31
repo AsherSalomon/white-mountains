@@ -315,14 +315,19 @@ export function update() {
   // https://stackoverflow.com/questions/24877880/three-js-check-if-object-is-in-frustum
   frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
+  let counter = 0;
   for ( let i = grid.length - 1; i >= 0 ; i-- ) {
     if ( grid[ i ].remove ) {
       grid[ i ].dispose();
       grid.splice( i, 1 );
     } else {
       grid[ i ].update();
+      if ( grid[ i ].tile[ 2 ] == maxZoom[ 'terrain' ] ) {
+        counter++;
+      }
     }
   }
+  console.log('There are '+ counter +' maxZoom tiles.')
 
   updateGeneratorQueue();
 
