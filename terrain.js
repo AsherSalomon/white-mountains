@@ -172,11 +172,6 @@ class Tile {
   }
   *terrainGenerator( image ) {
 
-    // var startTime = performance.now();
-    //
-    // var endTime = performance.now();
-    // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
-
     let thisTile = this;
 
     if ( thisTile.inScene ) {
@@ -277,9 +272,12 @@ function updateGeneratorQueue() {
   // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
   // TerrainChunkRebuilder
   if ( generatorQueue.length > 0 ) {
+    var startTime = performance.now();
     if ( generatorQueue[ 0 ].next().done ) {
       generatorQueue.shift();
     }
+    var endTime = performance.now();
+    console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
   }
 }
 
