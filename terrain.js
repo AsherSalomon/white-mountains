@@ -182,6 +182,9 @@ class Tile {
   }
   *terrainGenerator( image ) {
 
+    let timeList = [];
+    timeList.push( performance.now() );
+
     // var startTime = performance.now();
     //
     // var endTime = performance.now();
@@ -200,6 +203,7 @@ class Tile {
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
       yield;
+      timeList.push( performance.now() );
 
       let downsample = 2 ** downfactor;
       if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
@@ -218,6 +222,7 @@ class Tile {
       thisTile.geometry.rotateX( - Math.PI / 2 );
 
       yield;
+      timeList.push( performance.now() );
 
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
       let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
@@ -240,6 +245,14 @@ class Tile {
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
     }
+
+    timeList.push( performance.now() );
+
+    timeReport = 'Terrain Generator took ';
+    for ( let i = 0; i < timeList.length - 1; i++ ) {
+      timeReport += timeList[ i + 1 ] - timeList[ i ] + 'ms ';
+    }
+    console.log( timeReport );
   }
   loadSatellite() {
     let thisTile = this;
