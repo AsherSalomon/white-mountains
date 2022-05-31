@@ -307,4 +307,7 @@ export function update() {
       grid[ i ].update();
     }
   }
+
+  updateGeneratorQueue();
+
 }
