@@ -222,13 +222,13 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
-      // thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
-      // if ( recyclingBin.length > 0 ) {
-      //   thisTile.geometry = recyclingBin.shift();
-      // } else {
+      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+      if ( recyclingBin.length > 0 ) {
+        thisTile.geometry = recyclingBin.shift();
+      } else {
         thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
         thisTile.geometry.rotateX( - Math.PI / 2 );
-      // }
+      }
 
       yield;
       timeList.push( performance.now() );
