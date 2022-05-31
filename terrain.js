@@ -250,7 +250,7 @@ class Tile {
 
     let timeReport = 'Terrain Generator took ';
     for ( let i = 0; i < timeList.length - 1; i++ ) {
-      timeReport += timeList[ i + 1 ] - timeList[ i ] + 'ms ';
+      timeReport += Math.round( timeList[ i + 1 ] - timeList[ i ] ) + 'ms ';
     }
     console.log( timeReport );
   }
