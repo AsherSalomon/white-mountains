@@ -7,9 +7,9 @@ const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 const maxElevation = 9144; // 1916.582; // meters
-const horizonDistance = Math.sqrt( Math.pow( earthsRaius + maxElevation, 2 ) - Math.pow( earthsRaius, 2 ) );
+const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsRaius ** 2 );
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
-const angularResolution = 1.5 / 1; // tile width / distance to camera
+const angularResolution = 1 / 1; // tile width / distance to camera
 
 const downfactor = 1;
 
@@ -101,10 +101,21 @@ class Tile {
     return tilebelt.tilesEqual( tile, this.tile );
   }
   distanceFromCamera() {
-    let flatCameraPosition =  new THREE.Vector3();
-    flatCameraPosition.copy( camera.position );
-    flatCameraPosition.y = 0;
-    return this.gridHelper.position.distanceTo( flatCameraPosition );
+    // let flatCameraPosition = new THREE.Vector3();
+    // flatCameraPosition.copy( camera.position );
+    // flatCameraPosition.y = 0;
+    // return this.gridHelper.position.distanceTo( flatCameraPosition );
+    let positionDelta = new THREE.Vector3().subVectors( this.gridHelper.position, camera.position );
+    let deltaX = Math.abs( positionDelta.z ) - this.width / 2;
+    let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
+    let distance = 0;
+    if ( deltaX < 0 || deltaZ < 0 ) {
+      distance = Math.max( deltaX, deltaZ );
+      if ( distance < 0 ) { distance = 0; }
+    } else {
+      distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
+    }
+    return distance;
   }
   isTooBig() {
     let tooBig = this.width / this.distanceFromCamera() > angularResolution;
@@ -190,10 +201,10 @@ class Tile {
 
       yield;
 
-      let downsample = Math.pow( 2, downfactor );
+      let downsample = 2 ** downfactor;
       if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
-      const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
+      const size = ( ELEVATION_TILE_SIZE / downsample ) ** 2;
       const heightData = new Float32Array( size );
       for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
         for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
@@ -217,7 +228,7 @@ class Tile {
 
       let curvatureOfTheEarth;
       for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        curvatureOfTheEarth = ( Math.pow( vertices[ j + 0 ], 2 ) + Math.pow( vertices[ j + 2 ], 2 ) ) / ( 2 * earthsRaius );
+        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
         vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       }
 
