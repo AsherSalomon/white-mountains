@@ -172,7 +172,7 @@ class Tile {
   }
   *terrainGenerator( image ) {
     let thisTile = this;
-    
+
     if ( thisTile.inScene ) {
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE;
@@ -268,7 +268,7 @@ function updateGeneratorQueue() {
   // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
   // TerrainChunkRebuilder
   if ( generatorQueue.length > 0 ) {
-    if ( generatorQueue[ 0 ].nexth().done ) {
+    if ( generatorQueue[ 0 ].next().done ) {
       generatorQueue.shift();
     }
   }
