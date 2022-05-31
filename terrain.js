@@ -191,7 +191,7 @@ class Tile {
       yield;
 
       let downsample = Math.pow( 2, downfactor );
-      if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
+      // if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
