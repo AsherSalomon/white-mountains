@@ -162,7 +162,7 @@ class Tile {
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-        generatorQueue.push( thisTile.terrainGenerator( image ) )
+        generatorQueue.push( thisTile.terrainGenerator( image ) );
       },
       undefined, // onProgress not supported
       function () {
@@ -217,42 +217,34 @@ class Tile {
   }
   loadSatellite() {
     let thisTile = this;
-
-    // let satelliteCanvas = document.createElement( 'canvas' );
+    // to do: multiple satilite images to one terrain tile
     // let satilliteZoom = 2; // maxZoom['satellite'];
     // let bumpItUp = Math.pow( 2, satilliteZoom );
-    // satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-    // satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-    // const ctx = satelliteCanvas.getContext( '2d' );
-    // ctx.fillStyle = "#164a19";
-    // ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
-    // let texture = new THREE.CanvasTexture( satelliteCanvas );
-    // thisTile.groundMaterial.map = texture;
-    // thisTile.groundMaterial.needsUpdate = true;
-
-    // to do: multiple satilite images to one terrain tile
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
-        if ( thisTile.inScene ) {
-          let satelliteCanvas = document.createElement( 'canvas' );
-          // let satilliteZoom = 2; // maxZoom['satellite'];
-          // let bumpItUp = Math.pow( 2, satilliteZoom );
-          satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-          satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-          const ctx = satelliteCanvas.getContext( '2d' );
-          ctx.drawImage( image, 0, 0 );
-          let texture = new THREE.CanvasTexture( satelliteCanvas );
-          thisTile.groundMaterial.map = texture;
-          thisTile.groundMaterial.color = new THREE.Color();
-          thisTile.groundMaterial.needsUpdate = true;
-        }
+        generatorQueue.push( thisTile.satelliteGenerator( image ) );
       },
       undefined, // onProgress not supported
       function () {
         console.error( 'satellite ImageLoader error' );
       }
     );
+  }
+  *satelliteGenerator( image ) {
+    let thisTile = this;
+
+    if ( thisTile.inScene ) {
+      let satelliteCanvas = document.createElement( 'canvas' );
+      satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+      satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+      const ctx = satelliteCanvas.getContext( '2d' );
+      ctx.drawImage( image, 0, 0 );
+      let texture = new THREE.CanvasTexture( satelliteCanvas );
+      thisTile.groundMaterial.map = texture;
+      thisTile.groundMaterial.color = new THREE.Color();
+      thisTile.groundMaterial.needsUpdate = true;
+    }
   }
   dispose() {
     this.remove = false;
