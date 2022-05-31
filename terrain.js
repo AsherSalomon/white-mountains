@@ -172,6 +172,11 @@ class Tile {
   }
   *terrainGenerator( image ) {
 
+    // var startTime = performance.now();
+    //
+    // var endTime = performance.now();
+    // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
+
     let thisTile = this;
 
     if ( thisTile.inScene ) {
@@ -201,8 +206,6 @@ class Tile {
 
       yield;
 
-      var startTime = performance.now();
-
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
       let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
       let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
@@ -223,9 +226,6 @@ class Tile {
       scene.add( thisTile.terrainMesh );
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
-
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
     }
   }
   loadSatellite() {
