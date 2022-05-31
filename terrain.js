@@ -23,6 +23,7 @@ const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
 let grid = [];
+let recyclingBin = [];
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -206,7 +207,7 @@ class Tile {
       timeList.push( performance.now() );
 
       let downsample = 2 ** downfactor;
-      if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
+      // if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
       const size = ( ELEVATION_TILE_SIZE / downsample ) ** 2;
       const heightData = new Float32Array( size );
@@ -220,17 +221,23 @@ class Tile {
 
       yield;
       timeList.push( performance.now() );
-      
-      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+
+      if ( recyclingBin.length > 0 ) {
+        thisTile.geometry = recyclingBin.shift();
+      } else {
+        thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
+        thisTile.geometry.rotateX( - Math.PI / 2 );
+      }
 
       yield;
       timeList.push( performance.now() );
 
-      thisTile.geometry.rotateX( - Math.PI / 2 );
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
       let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
       let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-      thisTile.geometry.translate( dx, 0, dz );
+      // thisTile.geometry.translate( dx, 0, dz );
+      thisTile.geometry.position.set( dx, 0, dz );
+      thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
 
       const vertices = thisTile.geometry.attributes.position.array;
 
@@ -291,14 +298,15 @@ class Tile {
   dispose() {
     this.remove = false;
     scene.remove( this.gridHelper );
-    if ( this.terrainMesh != null ) {
-      scene.remove( this.terrainMesh );
-      this.terrainMesh.geometry.dispose();
-      this.terrainMesh.material.dispose();
-      this.terrainMesh = null;
-      this.geometry.dispose();
-      this.geometry = null;
-    }
+    // if ( this.terrainMesh != null ) {
+    //   scene.remove( this.terrainMesh );
+    //   this.terrainMesh.geometry.dispose();
+    //   this.terrainMesh.material.dispose();
+    //   this.terrainMesh = null;
+    //   this.geometry.dispose();
+    //   this.geometry = null;
+    // }
+    recyclingBin.push( this.geometry );
     this.inScene = false;
   }
 }
@@ -308,12 +316,9 @@ function updateGeneratorQueue() {
   // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
   // TerrainChunkRebuilder
   if ( generatorQueue.length > 0 ) {
-    // var startTime = performance.now();
     if ( generatorQueue[ 0 ].next().done ) {
       generatorQueue.shift();
     }
-    // var endTime = performance.now();
-    // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
   }
 }
 
