@@ -181,9 +181,9 @@ class Tile {
       canvas.height = ELEVATION_TILE_SIZE;
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
-      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
       var endTime = performance.now();
       console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
+      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
