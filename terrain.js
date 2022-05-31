@@ -214,12 +214,12 @@ class Tile {
         vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       }
 
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
-
       thisTile.geometry.computeVertexNormals();
       thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
       scene.add( thisTile.terrainMesh );
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
