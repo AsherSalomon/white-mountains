@@ -175,14 +175,16 @@ class Tile {
     let thisTile = this;
 
     if ( thisTile.inScene ) {
+      var startTime = performance.now();
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE;
       canvas.height = ELEVATION_TILE_SIZE;
       const ctx = canvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
-      var startTime = performance.now();
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
       for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
@@ -191,8 +193,6 @@ class Tile {
           heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
       }
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
       const widthSegments = Math.sqrt( heightData.length ) - 1;
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
