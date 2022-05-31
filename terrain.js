@@ -219,7 +219,7 @@ class Tile {
     }
 
     var endTime = performance.now();
-    console.log('Generator took ${endTime - startTime} milliseconds');
+    console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
   }
   loadSatellite() {
     let thisTile = this;
