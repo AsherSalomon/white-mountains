@@ -207,7 +207,7 @@ class Tile {
       }
 
       thisTile.geometry.computeVertexNormals();
-      thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0xFFFFFF } );
+      thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
       scene.add( thisTile.terrainMesh );
