@@ -304,15 +304,15 @@ class Tile {
   dispose() {
     this.remove = false;
     scene.remove( this.gridHelper );
-    // if ( this.terrainMesh != null ) {
-    //   scene.remove( this.terrainMesh );
+    if ( this.terrainMesh != null ) {
+      scene.remove( this.terrainMesh );
     //   this.terrainMesh.geometry.dispose();
     //   this.terrainMesh.material.dispose();
     //   this.terrainMesh = null;
     //   this.geometry.dispose();
-    //   this.geometry = null;
-    // }
-    recyclingBin.push( this.geometry );
+      recyclingBin.push( this.geometry );
+      this.geometry = null;
+    }
     this.inScene = false;
   }
 }
