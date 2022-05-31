@@ -178,7 +178,7 @@ class Tile {
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE;
       canvas.height = ELEVATION_TILE_SIZE;
-      const ctx = canvas.getContext( '2d' );
+      const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
       ctx.drawImage( image, 0, 0 );
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
