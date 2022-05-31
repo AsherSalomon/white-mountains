@@ -171,7 +171,6 @@ class Tile {
     );
   }
   *terrainGenerator( image ) {
-    var startTime = performance.now();
 
     let thisTile = this;
 
@@ -183,6 +182,7 @@ class Tile {
       ctx.drawImage( image, 0, 0 );
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
+      var startTime = performance.now();
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
       for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
@@ -191,6 +191,8 @@ class Tile {
           heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
         }
       }
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
       const widthSegments = Math.sqrt( heightData.length ) - 1;
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
@@ -217,9 +219,6 @@ class Tile {
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
     }
-
-    var endTime = performance.now();
-    console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
   }
   loadSatellite() {
     let thisTile = this;
