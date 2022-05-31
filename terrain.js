@@ -248,7 +248,7 @@ class Tile {
 
     timeList.push( performance.now() );
 
-    timeReport = 'Terrain Generator took ';
+    let timeReport = 'Terrain Generator took ';
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += timeList[ i + 1 ] - timeList[ i ] + 'ms ';
     }
