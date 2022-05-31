@@ -12,7 +12,6 @@ let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 const angularResolution = 1 / 1; // tile width / distance to camera
 
 const downfactor = 1;
-const downsample = Math.pow( 2, downfactor );
 
 let maxZoom = {
   terrain: 12,
@@ -190,6 +189,9 @@ class Tile {
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
       yield;
+      
+      const downsample = Math.pow( 2, downfactor );
+      if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
       const size = Math.pow( ELEVATION_TILE_SIZE / downsample, 2 );
       const heightData = new Float32Array( size );
