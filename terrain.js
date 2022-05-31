@@ -218,11 +218,11 @@ class Tile {
   loadSatellite() {
     let thisTile = this;
 
-    let satelliteCanvas = document.createElement( 'canvas' );
+    // let satelliteCanvas = document.createElement( 'canvas' );
     // let satilliteZoom = 2; // maxZoom['satellite'];
     // let bumpItUp = Math.pow( 2, satilliteZoom );
-    satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-    satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    // satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+    // satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
     // const ctx = satelliteCanvas.getContext( '2d' );
     // ctx.fillStyle = "#164a19";
     // ctx.fillRect(0, 0, satelliteCanvas.width, satelliteCanvas.height);
@@ -235,6 +235,11 @@ class Tile {
     const loader = new THREE.ImageLoader();
     loader.load( url, function ( image ) {
         if ( thisTile.inScene ) {
+          let satelliteCanvas = document.createElement( 'canvas' );
+          // let satilliteZoom = 2; // maxZoom['satellite'];
+          // let bumpItUp = Math.pow( 2, satilliteZoom );
+          satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+          satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
           const ctx = satelliteCanvas.getContext( '2d' );
           ctx.drawImage( image, 0, 0 );
           let texture = new THREE.CanvasTexture( satelliteCanvas );
