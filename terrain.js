@@ -216,16 +216,9 @@ class Tile {
       thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
-      yield;
-
-      var startTime = performance.now();
-
       scene.add( thisTile.terrainMesh );
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
-
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
     }
   }
   loadSatellite() {
@@ -248,6 +241,9 @@ class Tile {
     let thisTile = this;
 
     if ( thisTile.inScene ) {
+
+      var startTime = performance.now();
+      
       let satelliteCanvas = document.createElement( 'canvas' );
       satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
       satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
@@ -257,6 +253,9 @@ class Tile {
       thisTile.groundMaterial.map = texture;
       thisTile.groundMaterial.color = new THREE.Color();
       thisTile.groundMaterial.needsUpdate = true;
+
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
     }
   }
   dispose() {
