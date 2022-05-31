@@ -195,6 +195,9 @@ class Tile {
         }
       }
 
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
+
       const widthSegments = Math.sqrt( heightData.length ) - 1;
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
       thisTile.geometry.rotateX( - Math.PI / 2 );
@@ -219,9 +222,6 @@ class Tile {
       scene.add( thisTile.terrainMesh );
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
-
-      var endTime = performance.now();
-      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
     }
   }
   loadSatellite() {
