@@ -122,7 +122,7 @@ class Tile {
     return tooBig && frustum.intersectsBox( this.boundingBox );
   }
   isTooSmall() {
-    let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
+    let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 1.707;
     return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
   }
   allSmall() {
