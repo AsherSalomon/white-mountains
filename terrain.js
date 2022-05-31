@@ -222,13 +222,13 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
-      // if ( recyclingBin.length > 0 ) {
-      //   thisTile.geometry = recyclingBin.shift();
-      // } else {
-        // thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+      // thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+      if ( recyclingBin.length > 0 ) {
+        thisTile.geometry = recyclingBin.shift();
+      } else {
         thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
         thisTile.geometry.rotateX( - Math.PI / 2 );
-      // }
+      }
 
       yield;
       timeList.push( performance.now() );
@@ -252,8 +252,10 @@ class Tile {
       thisTile.geometry.computeVertexNormals();
       thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+
+
       thisTile.terrainMesh.position.set( dx, 0, dz );
-      thisTile.terrainMesh.scale.set( thisTile.width, 0, thisTile.width );
+      thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
 
       scene.add( thisTile.terrainMesh );
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
