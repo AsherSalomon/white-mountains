@@ -178,9 +178,13 @@ class Tile {
       const canvas = document.createElement( 'canvas' );
       canvas.width = ELEVATION_TILE_SIZE;
       canvas.height = ELEVATION_TILE_SIZE;
-      const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
+      const ctx = canvas.getContext( '2d' );
+      // const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
       ctx.drawImage( image, 0, 0 );
+      var startTime = performance.now();
       let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+      var endTime = performance.now();
+      console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
       yield;
 
@@ -272,12 +276,12 @@ function updateGeneratorQueue() {
   // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
   // TerrainChunkRebuilder
   if ( generatorQueue.length > 0 ) {
-    var startTime = performance.now();
+    // var startTime = performance.now();
     if ( generatorQueue[ 0 ].next().done ) {
       generatorQueue.shift();
     }
-    var endTime = performance.now();
-    console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
+    // var endTime = performance.now();
+    // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
   }
 }
 
