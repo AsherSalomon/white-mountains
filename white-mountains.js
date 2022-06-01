@@ -34,7 +34,7 @@ function init() {
   scene = new THREE.Scene();
 
 	// scene.background = new THREE.Color( 0x2759b0 );
-	// scene.fog = new THREE.Fog( 0x2759b0, 1, 156260 );
+	scene.fog = new THREE.Fog( 0x7f7f7f, 1, 156260 );
 
 	// const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
 	// scene.add( axesHelper );
