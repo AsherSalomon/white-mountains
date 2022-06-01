@@ -65,7 +65,7 @@ function init() {
 	renderer.domElement.style.userSelect = 'none';
 
 	// Skybox
-	sun = new THREE.Vector3( 0, 1, 1 );
+	sun = new THREE.Vector3();
 	const sky = new Sky();
 	sky.scale.setScalar( 341462 );
 	scene.add( sky );
@@ -75,7 +75,7 @@ function init() {
 	skyUniforms[ 'mieCoefficient' ].value = 0.005;
 	skyUniforms[ 'mieDirectionalG' ].value = 0.8;
 	const parameters = {
-		elevation: 45,
+		elevation: 15,
 		azimuth: 0
 	};
 	const pmremGenerator = new THREE.PMREMGenerator( renderer );
