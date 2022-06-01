@@ -33,9 +33,39 @@ function init() {
 
   scene = new THREE.Scene();
 
-	sun = new THREE.Vector3();
+	// scene.background = new THREE.Color( 0x2759b0 );
+	// scene.fog = new THREE.Fog( 0x2759b0, 1, 156260 );
+
+	// const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
+	// scene.add( axesHelper );
+
+	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
+	scene.add( camera );
+	// camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
+	camera.position.set( 0, 1916.582 + 1.68, 0 ); // height of Mt Washington 1916.582m
+
+	camera.lookAt( -1916.582, 1916.582, 0 );
+
+	// const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
+	// dirLight.position.set( 0, 100, 100 );
+	// scene.add( dirLight );
+	//
+	// const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
+	// scene.add( ambLight );
+
+	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	container.appendChild( renderer.domElement );
+
+	window.addEventListener( 'resize', onWindowResize );
+
+	renderer.domElement.style.touchAction = 'none';
+	renderer.domElement.style.userSelect = 'none';
 
 	// Skybox
+
+	sun = new THREE.Vector3();
 
 	const sky = new Sky();
 	sky.scale.setScalar( 10000 );
@@ -72,36 +102,6 @@ function init() {
 	updateSun();
 
 	// end Skybox
-
-	// scene.background = new THREE.Color( 0x2759b0 );
-	// scene.fog = new THREE.Fog( 0x2759b0, 1, 156260 );
-
-	// const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
-	// scene.add( axesHelper );
-
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
-	scene.add( camera );
-	// camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
-	camera.position.set( 0, 1916.582 + 1.68, 0 ); // height of Mt Washington 1916.582m
-
-	camera.lookAt( -1916.582, 1916.582, 0 );
-
-	// const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
-	// dirLight.position.set( 0, 100, 100 );
-	// scene.add( dirLight );
-	//
-	// const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
-	// scene.add( ambLight );
-
-	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	container.appendChild( renderer.domElement );
-
-	window.addEventListener( 'resize', onWindowResize );
-
-	renderer.domElement.style.touchAction = 'none';
-	renderer.domElement.style.userSelect = 'none';
 
 	Controls.init( scene, camera );
 
