@@ -65,7 +65,7 @@ function init() {
 
 	// Skybox
 
-	sun = new THREE.Vector3( 0, 1, -1 );
+	sun = new THREE.Vector3( 0, 1, 1 );
 
 	const sky = new Sky();
 	sky.scale.setScalar( 341462 );
