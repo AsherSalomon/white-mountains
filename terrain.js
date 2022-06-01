@@ -246,7 +246,7 @@ class Tile {
 
       let curvatureOfTheEarth;
       for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
+        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( earthsRaius ); // 2 * 
         vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       }
 
