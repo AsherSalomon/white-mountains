@@ -67,7 +67,7 @@ function init() {
 	// Skybox
 	sun = new THREE.Vector3();
 	const sky = new Sky();
-	sky.scale.setScalar( 341462 );
+	sky.scale.setScalar( 341462 * 1000 );
 	scene.add( sky );
 	const skyUniforms = sky.material.uniforms;
 	skyUniforms[ 'turbidity' ].value = 10;
