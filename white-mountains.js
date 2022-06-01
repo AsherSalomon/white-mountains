@@ -79,18 +79,18 @@ function init() {
 	skyUniforms[ 'mieDirectionalG' ].value = 0.8;
 
 	const parameters = {
-		elevation: 2,
-		azimuth: 180
+		elevation: 45,
+		azimuth: 0
 	};
 
 	const pmremGenerator = new THREE.PMREMGenerator( renderer );
 
 	function updateSun() {
 
-		// const phi = THREE.MathUtils.degToRad( 90 - parameters.elevation );
-		// const theta = THREE.MathUtils.degToRad( parameters.azimuth );
-		//
-		// sun.setFromSphericalCoords( 1, phi, theta );
+		const phi = THREE.MathUtils.degToRad( 90 - parameters.elevation );
+		const theta = THREE.MathUtils.degToRad( parameters.azimuth );
+
+		sun.setFromSphericalCoords( 1, phi, theta );
 
 		sky.material.uniforms[ 'sunPosition' ].value.copy( sun );
 		// water.material.uniforms[ 'sunDirection' ].value.copy( sun ).normalize();
