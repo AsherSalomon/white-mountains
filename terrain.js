@@ -252,7 +252,7 @@ class Tile {
 
       thisTile.geometry.computeVertexNormals();
       // thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
-      thisTile.groundMaterial = new THREE.MeshStandardMaterial( { roughness: 0.8 } );
+      thisTile.groundMaterial = new THREE.MeshStandardMaterial( { roughness: 0.5 } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
       // thisTile.terrainMesh.position.set( dx, 0, dz );
