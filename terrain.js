@@ -8,6 +8,7 @@ const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 const maxElevation = 9144; // 1916.582; // meters
 const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsRaius ** 2 );
+console.log('horizon '+ horizonDistance +'m')
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 const angularResolution = 4 / 1; // tile width / distance to camera
 
