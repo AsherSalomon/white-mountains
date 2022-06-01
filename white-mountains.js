@@ -93,7 +93,7 @@ function init() {
 		sun.setFromSphericalCoords( 1, phi, theta );
 
 		sky.material.uniforms[ 'sunPosition' ].value.copy( sun );
-		water.material.uniforms[ 'sunDirection' ].value.copy( sun ).normalize();
+		// water.material.uniforms[ 'sunDirection' ].value.copy( sun ).normalize();
 
 		scene.environment = pmremGenerator.fromScene( sky ).texture;
 
