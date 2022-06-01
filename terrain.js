@@ -223,12 +223,12 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
-      // thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
+      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
       // if ( recyclingBin.length > 0 ) {
       //   thisTile.geometry = recyclingBin.shift();
       // } else {
-        thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
-        thisTile.geometry.rotateX( - Math.PI / 2 );
+      // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
+      thisTile.geometry.rotateX( - Math.PI / 2 );
       // }
 
       yield;
@@ -237,7 +237,7 @@ class Tile {
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
       let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
       let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-      // thisTile.geometry.translate( dx, 0, dz );
+      thisTile.geometry.translate( dx, 0, dz );
       // console.log( thisTile.geometry.position );
       // thisTile.geometry.position.set( dx, 0, dz );
       // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
@@ -246,7 +246,7 @@ class Tile {
 
       let curvatureOfTheEarth;
       for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( earthsRaius ); // 2 * 
+        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
         vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       }
 
@@ -255,9 +255,8 @@ class Tile {
       thisTile.groundMaterial = new THREE.MeshStandardMaterial( { roughness: 1 } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
-
-      thisTile.terrainMesh.position.set( dx, 0, dz );
-      thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
+      // thisTile.terrainMesh.position.set( dx, 0, dz );
+      // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
 
       scene.add( thisTile.terrainMesh );
       thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
