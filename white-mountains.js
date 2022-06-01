@@ -75,7 +75,7 @@ function init() {
 	skyUniforms[ 'mieCoefficient' ].value = 0.005;
 	skyUniforms[ 'mieDirectionalG' ].value = 0.8;
 	const parameters = {
-		elevation: 15,
+		elevation: 5,
 		azimuth: 0
 	};
 	const pmremGenerator = new THREE.PMREMGenerator( renderer );
