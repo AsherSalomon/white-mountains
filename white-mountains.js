@@ -68,7 +68,7 @@ function init() {
 	sun = new THREE.Vector3();
 
 	const sky = new Sky();
-	sky.scale.setScalar( 10000 );
+	sky.scale.setScalar( 341462 );
 	scene.add( sky );
 
 	const skyUniforms = sky.material.uniforms;
