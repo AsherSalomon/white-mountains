@@ -334,7 +334,7 @@ export function seed( newScene, newCamera ) {
   camera = newCamera;
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
-  console.log( baseTile );
+  // console.log( baseTile );
   let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
   let deltaNS = bbox[3] - bbox[1]; // n - s
   let deltaEW = bbox[2] - bbox[0]; // e - w
