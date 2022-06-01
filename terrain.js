@@ -24,7 +24,7 @@ const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
 let grid = [];
-let recyclingBin = [];
+// let recyclingBin = [];
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -38,8 +38,11 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
+let idCounter = 1;
 class Tile {
   constructor( tile, parent ) {
+    this.id = idCounter++;
+
     this.tile = tile;
     this.parent = parent;
     this.siblings = null;
@@ -142,6 +145,13 @@ class Tile {
   split() {
     if ( this.children.length == 0 ) {
       let children = tilebelt.getChildren( this.tile );
+      // let childrenNames = [ 'NW', 'NE', 'SE', 'SW' ];
+      // tilebelt.pointToTileFraction(-71,44,5);
+      // [9.68888888888889, 11.635830890888538, 5]
+      // tilebelt.pointToTileFraction(-70,44,5);
+      // [9.777777777777779, 11.635830890888538, 5]
+      // tilebelt.pointToTileFraction(-71,45,5);
+      // [9.68888888888889, 11.511201181286559, 5]
       let siblings = [];
       for ( let i = 0; i < 4; i ++ ) {
         let newTile = new Tile( children[ i ], this )
@@ -307,14 +317,17 @@ class Tile {
     scene.remove( this.gridHelper );
     if ( this.terrainMesh != null ) {
       scene.remove( this.terrainMesh );
-    //   this.terrainMesh.geometry.dispose();
-    //   this.terrainMesh.material.dispose();
-    //   this.terrainMesh = null;
-    //   this.geometry.dispose();
-      recyclingBin.push( this.geometry );
+      this.terrainMesh.geometry.dispose();
+      this.terrainMesh.material.dispose();
+      this.terrainMesh = null;
+      this.geometry.dispose();
+      // recyclingBin.push( this.geometry );
       this.geometry = null;
     }
     this.inScene = false;
+  }
+  hasTheSameIdAs( anotherTile ) {
+    return this.id == anotherTile.id;
   }
 }
 
