@@ -56,6 +56,7 @@ function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.toneMapping = THREE.ACESFilmicToneMapping;
 	container.appendChild( renderer.domElement );
 
 	window.addEventListener( 'resize', onWindowResize );
