@@ -57,6 +57,7 @@ function init() {
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
+	renderer.localClippingEnabled = true;
 	container.appendChild( renderer.domElement );
 
 	window.addEventListener( 'resize', onWindowResize );
