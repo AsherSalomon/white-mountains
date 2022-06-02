@@ -174,10 +174,10 @@ class Tile {
 //     }
 //     grid.push( this );
 //   }
-//   dataToHeight( data ) {
-//     // Elevation in meters
-//     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
-//   }
+  dataToHeight( data ) {
+    // Elevation in meters
+    return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+  }
   loadTerrain() {
     let thisTile = this;
 
