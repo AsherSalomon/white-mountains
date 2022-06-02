@@ -343,7 +343,7 @@ function updateGeneratorQueue() {
 }
 
 export function init( newScene, newCamera ) {
-  scene = newScene;a
+  scene = newScene;
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
   // console.log( baseTile );
