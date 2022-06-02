@@ -92,7 +92,7 @@ function init() {
 
 	Controls.init( scene, camera );
 
-	Terrain.seed( scene, camera );
+	Terrain.init( scene, camera );
 
 }
 
@@ -120,6 +120,6 @@ function animate() {
 
 	renderer.render( scene, camera );
 
-	Controls.animate( camera );
+	Controls.update( camera );
 
 }
