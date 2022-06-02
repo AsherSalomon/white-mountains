@@ -278,7 +278,7 @@ class Tile {
       // thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
       thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
-        clippingPlanes: clipPlanes,
+        clippingPlanes: thisTile.clipPlanes,
         clipIntersection: true
       } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
