@@ -63,6 +63,13 @@ class Tile {
     this.terrainMesh = null;
     this.loading = false;
 
+    let dist = 9144;
+		this.clipPlanes = [
+			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -dist ),
+			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -dist ),
+			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), -dist ),
+			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), -dist )
+		];
   }
   update() {
     if ( !this.inScene ) {
@@ -130,6 +137,9 @@ class Tile {
 //     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
 //     return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
 //   }
+  getChildTile() {
+    // camera.position
+  }
 //   allSmall() {
 //     let allSiblingsAreSmall = false;
 //     if ( this.siblings != null ) {
@@ -266,7 +276,11 @@ class Tile {
 
       thisTile.geometry.computeVertexNormals();
       // thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
-      thisTile.groundMaterial = new THREE.MeshStandardMaterial( { roughness: 0.5 } );
+      thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+        roughness: 0.5,
+        clippingPlanes: clipPlanes,
+        clipIntersection: true
+      } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
       // thisTile.terrainMesh.position.set( dx, 0, dz );
