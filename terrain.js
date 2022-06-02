@@ -217,10 +217,10 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
-      let downsample = 2 ** downfactor;
+      // let downsample = 2 ** downfactor;
       // if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
-      const size = ( ELEVATION_TILE_SIZE / downsample ) ** 2;
+      const size = ( ELEVATION_TILE_SIZE ) ** 2; //  / downsample
       const heightData = new Float32Array( size );
       for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
         for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
