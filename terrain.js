@@ -220,14 +220,18 @@ class Tile {
       // let downsample = 2 ** downfactor;
       // if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
 
-      const size = ( ELEVATION_TILE_SIZE ) ** 2; //  / downsample
+      const size = ELEVATION_TILE_SIZE ** 2;
+      // const size = ( ELEVATION_TILE_SIZE / downsample ) ** 2;
       const heightData = new Float32Array( size );
-      for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
-        for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
-          i = m * downsample * ELEVATION_TILE_SIZE + n * downsample;
-          heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-        }
+      for ( let i = 0; i < size; i++ ) {
+        heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
+      // for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
+      //   for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
+      //     i = m * downsample * ELEVATION_TILE_SIZE + n * downsample;
+      //     heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      //   }
+      // }
       const widthSegments = Math.sqrt( heightData.length ) - 1;
 
       yield;
