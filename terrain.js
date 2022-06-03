@@ -58,8 +58,11 @@ class Tile {
     let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
     let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
 
-    let deltaX = ( camera.position.x - centerX ) / this.width;
-    let deltaZ = ( camera.position.z - centerZ ) / this.width;
+    let deltaX = Math.round( ( camera.position.x - centerX ) / this.width );
+    let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
+    if ( deltaX > 0.5 || deltaZ > 0.5 ) {
+      let newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
+    }
 
     if ( this.inScene == false && this.loading == false ) {
 
@@ -118,22 +121,12 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
-      // let downsample = 2 ** downfactor;
-      // if ( thisTile.tile[ 2 ] == maxZoom['terrain'] ) { downsample = 1; }
-
       const size = ELEVATION_TILE_SIZE ** 2;
-      // const size = ( ELEVATION_TILE_SIZE / downsample ) ** 2;
       const heightData = new Float32Array( size );
       for ( let i = 0; i < size; i++ ) {
         heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
-      // for ( let m = 0, i = 0, j = 0; m < ELEVATION_TILE_SIZE / downsample; m++ ) {
-      //   for ( let n = 0; n < ELEVATION_TILE_SIZE / downsample; n++, j++ ) {
-      //     i = m * downsample * ELEVATION_TILE_SIZE + n * downsample;
-      //     heightData[ j ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-      //   }
-      // }
-      const widthSegments = Math.sqrt( heightData.length ) - 1;
+      const widthSegments = Math.sqrt( heightData.length ); // -1
 
       yield;
       timeList.push( performance.now() );
@@ -156,9 +149,21 @@ class Tile {
       const vertices = thisTile.geometry.attributes.position.array;
 
       let curvatureOfTheEarth;
-      for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
-        vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+      // for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+      //   curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
+      //   vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+      // }
+      for ( let m = 0; m < widthSegments; m++ ) {
+        for ( let n = 0; n < widthSegments; n++ ) {
+          let i = m * ELEVATION_TILE_SIZE + n;
+          let j = ( m * widthSegments + n ) * 3;
+          curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
+          if ( m < ELEVATION_TILE_SIZE && n < ELEVATION_TILE_SIZE ) {
+            vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+          } else {
+            vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
+          }
+        }
       }
 
       thisTile.geometry.computeVertexNormals();
