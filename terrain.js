@@ -172,10 +172,11 @@ class Tile {
     yield;
     timeList.push( performance.now() );
 
-    let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
-    let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
-    let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
-    this.geometry.translate( dx, 0, dz );
+    // let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
+    // let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
+    // let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
+    // this.geometry.translate( dx, 0, dz );
+    this.geometry.translate( this.centerX, 0, this.centerZ );
     // console.log( this.geometry.position );
     // this.geometry.position.set( dx, 0, dz );
     // this.geometry.scale.set( this.width, 0, this.width );
