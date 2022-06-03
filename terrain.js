@@ -206,12 +206,12 @@ class Tile {
       this.groundMaterial.dispose();
     }
     if ( this.child != null ) {
-      this.child.setClippingPlanes();
       this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
         clippingPlanes: this.child.clipPlanes,
         clipIntersection: true
       } );
+      this.child.setClippingPlanes();
     } else {
       this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
