@@ -58,13 +58,10 @@ class Tile {
     let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
     let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
 
-
+    let deltaX = ( camera.position.x - centerX ) / this.width;
+    let deltaZ = ( camera.position.z - centerZ ) / this.width;
 
     if ( this.inScene == false && this.loading == false ) {
-
-        // camera.position
-      // this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
-
 
   		this.clipPlanes = [
   			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - this.width / 2 ),
