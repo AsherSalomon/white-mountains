@@ -76,6 +76,7 @@ class Tile {
     let newTile = null;
     if ( deltaX != 0 || deltaZ != 0 ) {
       moveToNewTile = true;
+      console.log('move');
       newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
     }
 
@@ -94,7 +95,6 @@ class Tile {
   		];
       if ( moveToNewTile && this.parent.material != null ) {
         this.parent.material.clippingPlanes = this.clipPlanes;
-        console.log('move');
       }
 
       this.inScene = true;
