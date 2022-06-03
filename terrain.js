@@ -268,12 +268,11 @@ class Tile {
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
-    if ( this.texture != null ) {
-      this.texture.dispose();
+    if ( this.texture == null ) {
+      this.texture = new THREE.CanvasTexture( satelliteCanvas );
     }
-    this.texture = new THREE.CanvasTexture( satelliteCanvas );
     this.groundMaterial.map = this.texture;
-    this.groundMaterial.color = new THREE.Color();
+    // this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
   }
 }
