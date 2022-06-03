@@ -200,8 +200,8 @@ class Tile {
         } else {
           vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
         }
-        vertices[ j + 0 ] = this.centerX + m * this.width / ( ELEVATION_TILE_SIZE - 1 ) - this.width / 2;
-        vertices[ j + 2 ] = this.centerZ + n * this.width / ( ELEVATION_TILE_SIZE - 1 ) - this.width / 2;
+        // vertices[ j + 0 ] = this.centerX + m * this.width / ( ELEVATION_TILE_SIZE - 1 ) - this.width / 2;
+        // vertices[ j + 2 ] = this.centerZ + n * this.width / ( ELEVATION_TILE_SIZE - 1 ) - this.width / 2;
       }
     }
 
