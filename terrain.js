@@ -42,7 +42,7 @@ class Tile {
     this.width = Math.pow( 2, maxZoom['terrain'] - this.z ) * baseTileWidth;
     this.origin = tilebelt.pointToTileFraction( longitude, latitude, this.z );
 
-    this.tile = null;
+    this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
     this.parent = null;
     this.child = null;
     this.inScene = false;
@@ -55,21 +55,17 @@ class Tile {
 		this.clipPlanes = null;
   }
   update() {
+    let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+    let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
+
+
+
     if ( this.inScene == false && this.loading == false ) {
 
         // camera.position
-      this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
+      // this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
 
-      let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
-      let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
 
-      let dist = this.width / 2;
-  		this.clipPlanes = [
-  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - dist ),
-  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - dist ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -centerZ - dist ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), centerZ - dist )
-  		];
 
       this.inScene = true;
       this.loading = true;
@@ -147,11 +143,11 @@ class Tile {
       timeList.push( performance.now() );
 
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
-      let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-      let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-      thisTile.geometry.translate( dx, 0, dz );
+      let centerX = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
+      let centerZ = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+      thisTile.geometry.translate( centerX, 0, centerZ );
       // console.log( thisTile.geometry.position );
-      // thisTile.geometry.position.set( dx, 0, dz );
+      // thisTile.geometry.position.set( centerX, 0, centerZ );
       // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
 
       const vertices = thisTile.geometry.attributes.position.array;
@@ -178,10 +174,18 @@ class Tile {
       }
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
-      // thisTile.terrainMesh.position.set( dx, 0, dz );
+      // thisTile.terrainMesh.position.set( centerX, 0, centerZ );
       // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
 
       scene.add( thisTile.terrainMesh );
+
+  		this.clipPlanes = [
+  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -centerZ - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), centerZ - this.width / 2 )
+  		];
+
       thisTile.loadSatellite();
     }
 
