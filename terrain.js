@@ -76,13 +76,13 @@ class Tile {
     let newTile = null;
     if ( deltaX != 0 || deltaZ != 0 ) {
       moveToNewTile = true;
-      console.log('move');
       newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
     }
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
 
-      if ( moveToNewTile ) { this.tile = newTile; }
+      if ( moveToNewTile ) { this.tile = newTile;
+      console.log('move'); }
 
       // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
       // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
