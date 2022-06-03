@@ -94,6 +94,7 @@ class Tile {
   		];
       if ( moveToNewTile && this.parent.material != null ) {
         this.parent.material.clippingPlanes = this.clipPlanes;
+        console.log('move');
       }
 
       this.inScene = true;
