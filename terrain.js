@@ -72,8 +72,10 @@ class Tile {
       new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
       new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
     ];
-    if ( this.parent.groundMaterial != null ) {
-      this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
+    if ( this.parent != null ) {
+      if ( this.parent.groundMaterial != null ) {
+        this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
+      }
     }
   }
   update() {
