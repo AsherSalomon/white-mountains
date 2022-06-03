@@ -162,11 +162,12 @@ class Tile {
     yield;
     timeList.push( performance.now() );
 
-    if ( this.geometry != null ) {
-      this.geometry.dispose();
+    if ( this.geometry == null ) {
+      this.geometry = new THREE.PlaneGeometry( this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+    // } else {
+    //   this.geometry.translate( 0, 0, 0 );
     }
-    this.geometry = new THREE.PlaneGeometry( this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
-    // this.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+
     this.geometry.rotateX( - Math.PI / 2 );
 
     yield;
@@ -176,7 +177,9 @@ class Tile {
     // let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
     // let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
     // this.geometry.translate( dx, 0, dz );
-    this.geometry.translate( this.centerX, 0, this.centerZ );
+
+    // this.geometry.translate( this.centerX, 0, this.centerZ ); // Asher commented this out.
+
     // console.log( this.geometry.position );
     // this.geometry.position.set( dx, 0, dz );
     // this.geometry.scale.set( this.width, 0, this.width );
@@ -226,6 +229,8 @@ class Tile {
     // this.terrainMesh.position.set( dx, 0, dz );
     // this.terrainMesh.scale.set( this.width, 1, this.width );
 
+    this.terrainMesh.position.x = this.centerX;
+    this.terrainMesh.position.z = this.centerZ;
     scene.add( this.terrainMesh );
     this.loading = false;
     this.setClippingPlanes();
