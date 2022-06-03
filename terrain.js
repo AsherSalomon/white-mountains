@@ -164,11 +164,18 @@ class Tile {
 
       thisTile.geometry.computeVertexNormals();
       // thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
-      thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
-        roughness: 0.5,
-        clippingPlanes: thisTile.child.clipPlanes,
-        clipIntersection: true
-      } );
+      if ( thisTile.child != null ) {
+        thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+          roughness: 0.5,
+          clippingPlanes: thisTile.child.clipPlanes,
+          clipIntersection: true
+        } );
+      } else {
+        thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+          roughness: 0.5,
+          clipIntersection: true
+        } );
+      }
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
       // thisTile.terrainMesh.position.set( dx, 0, dz );
