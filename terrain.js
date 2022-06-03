@@ -67,8 +67,8 @@ class Tile {
   		this.clipPlanes = [
   			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - dist ),
   			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - dist ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 0 - dist ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), 0 - dist )
+  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -centerZ - dist ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), centerZ - dist )
   		];
 
       this.inScene = true;
