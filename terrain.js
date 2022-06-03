@@ -72,7 +72,7 @@ class Tile {
       new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
       new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
     ];
-    if ( moveToNewTile && this.parent.groundMaterial != null ) {
+    if ( this.parent.groundMaterial != null ) {
       this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
     }
   }
@@ -97,7 +97,16 @@ class Tile {
       // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
       // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
       this.reCenter();
-  		this.setClippingPlanes();
+      // this.clipPlanes = [
+      //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
+      //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
+      //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
+      //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
+      // ];
+      // if ( moveToNewTile && this.parent.groundMaterial != null ) {
+      //   this.setClippingPlanes();
+      //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
+      // }
 
       this.inScene = true;
       this.loading = true;
@@ -197,6 +206,7 @@ class Tile {
       this.groundMaterial.dispose();
     }
     if ( this.child != null ) {
+      this.child.setClippingPlanes();
       this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
         clippingPlanes: this.child.clipPlanes,
@@ -219,6 +229,7 @@ class Tile {
 
     scene.add( this.terrainMesh );
     this.loading = false;
+    this.setClippingPlanes();
 
     this.loadSatellite();
 
