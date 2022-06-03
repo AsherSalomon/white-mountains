@@ -210,7 +210,6 @@ class Tile {
     if ( this.child != null ) {
       this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
-        clippingPlanes: this.child.clipPlanes,
         clipIntersection: true
       } );
       this.child.setClippingPlanes();
