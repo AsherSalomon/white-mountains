@@ -92,6 +92,9 @@ class Tile {
   			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
   			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
   		];
+      if ( moveToNewTile && this.parent.material != null ) {
+        this.parent.material.clippingPlanes = this.clipPlanes;
+      }
 
       this.inScene = true;
       this.loading = true;
