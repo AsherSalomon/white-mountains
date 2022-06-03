@@ -69,6 +69,7 @@ class Tile {
     if ( deltaX > 0.5 || deltaZ > 0.5 ) {
       moveToNewTile = true;
       newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
+      console.log( 'moveToNewTile' );
     }
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
