@@ -193,6 +193,10 @@ class Tile {
         clipIntersection: true
       } );
     }
+
+    if ( this.terrainMesh != null ) {
+      scene.remove( this.terrainMesh );
+    }
     this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
 
     // this.terrainMesh.position.set( dx, 0, dz );
