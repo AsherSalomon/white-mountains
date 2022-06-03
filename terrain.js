@@ -63,13 +63,16 @@ class Tile {
 
     let deltaX = Math.round( ( camera.position.x - centerX ) / this.width );
     let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
+    let moveToNewTile = false;
     if ( deltaX > 0.5 || deltaZ > 0.5 ) {
       let newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
-
+      moveToNewTile = true;
     }
 
     if ( this.inScene == false && this.loading == false ) {
 
+      centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+      centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
   		this.clipPlanes = [
   			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - this.width / 2 ),
   			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - this.width / 2 ),
@@ -112,95 +115,93 @@ class Tile {
 
     let thisTile = this;
 
-    if ( thisTile.inScene ) {
 
-      const canvas = document.createElement( 'canvas' );
-      canvas.width = ELEVATION_TILE_SIZE;
-      canvas.height = ELEVATION_TILE_SIZE;
-      // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
-      const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
-      ctx.drawImage( image, 0, 0 );
-      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    const canvas = document.createElement( 'canvas' );
+    canvas.width = ELEVATION_TILE_SIZE;
+    canvas.height = ELEVATION_TILE_SIZE;
+    // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
+    const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
+    ctx.drawImage( image, 0, 0 );
+    let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
-      yield;
-      timeList.push( performance.now() );
+    yield;
+    timeList.push( performance.now() );
 
-      const size = ELEVATION_TILE_SIZE ** 2;
-      const heightData = new Float32Array( size );
-      for ( let i = 0; i < size; i++ ) {
-        heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-      }
+    const size = ELEVATION_TILE_SIZE ** 2;
+    const heightData = new Float32Array( size );
+    for ( let i = 0; i < size; i++ ) {
+      heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    }
 
-      yield;
-      timeList.push( performance.now() );
+    yield;
+    timeList.push( performance.now() );
 
-      if ( this.geometry != null ) {
-        this.geometry.dispose();
-      }
-      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
-      // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
-      thisTile.geometry.rotateX( - Math.PI / 2 );
+    if ( this.geometry != null ) {
+      this.geometry.dispose();
+    }
+    thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+    // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+    thisTile.geometry.rotateX( - Math.PI / 2 );
 
-      yield;
-      timeList.push( performance.now() );
+    yield;
+    timeList.push( performance.now() );
 
-      let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
-      let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-      let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-      thisTile.geometry.translate( dx, 0, dz );
-      // console.log( thisTile.geometry.position );
-      // thisTile.geometry.position.set( dx, 0, dz );
-      // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
+    let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
+    let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
+    let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+    thisTile.geometry.translate( dx, 0, dz );
+    // console.log( thisTile.geometry.position );
+    // thisTile.geometry.position.set( dx, 0, dz );
+    // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
 
-      const vertices = thisTile.geometry.attributes.position.array;
+    const vertices = thisTile.geometry.attributes.position.array;
 
-      let curvatureOfTheEarth;
-      // for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-      //   curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
-      //   vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
-      // }
-      for ( let m = 0; m < ELEVATION_TILE_SIZE + 1; m++ ) {
-        for ( let n = 0; n < ELEVATION_TILE_SIZE + 1; n++ ) {
-          let i = m * ELEVATION_TILE_SIZE + n;
-          let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
-          curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
-          let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
-          let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
-          if ( mIsEdge || nIsEdge ) {
-            vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
-          } else {
-            vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
-          }
+    let curvatureOfTheEarth;
+    // for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+    //   curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
+    //   vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+    // }
+    for ( let m = 0; m < ELEVATION_TILE_SIZE + 1; m++ ) {
+      for ( let n = 0; n < ELEVATION_TILE_SIZE + 1; n++ ) {
+        let i = m * ELEVATION_TILE_SIZE + n;
+        let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
+        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
+        let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
+        let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
+        if ( mIsEdge || nIsEdge ) {
+          vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
+        } else {
+          vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
         }
       }
-
-      thisTile.geometry.computeVertexNormals();
-
-      if ( this.groundMaterial != null ) {
-        this.groundMaterial.dispose();
-      }
-      if ( thisTile.child != null ) {
-        thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
-          roughness: 0.5,
-          clippingPlanes: thisTile.child.clipPlanes,
-          clipIntersection: true
-        } );
-      } else {
-        thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
-          roughness: 0.5,
-          clipIntersection: true
-        } );
-      }
-      thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
-
-      // thisTile.terrainMesh.position.set( dx, 0, dz );
-      // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
-
-      scene.add( thisTile.terrainMesh );
-      this.loading = false;
-
-      thisTile.loadSatellite();
     }
+
+    thisTile.geometry.computeVertexNormals();
+
+    if ( this.groundMaterial != null ) {
+      this.groundMaterial.dispose();
+    }
+    if ( thisTile.child != null ) {
+      thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+        roughness: 0.5,
+        clippingPlanes: thisTile.child.clipPlanes,
+        clipIntersection: true
+      } );
+    } else {
+      thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+        roughness: 0.5,
+        clipIntersection: true
+      } );
+    }
+    thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+
+    // thisTile.terrainMesh.position.set( dx, 0, dz );
+    // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
+
+    scene.add( thisTile.terrainMesh );
+    this.loading = false;
+
+    thisTile.loadSatellite();
 
     timeList.push( performance.now() );
 
