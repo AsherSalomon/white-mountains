@@ -57,18 +57,19 @@ class Tile {
 
     this.storedData = null;
 
-    this.centerX = null;
-    this.centerZ = null;
-    this.reCenter();
+    this.centerX = null;;
+    this.centerZ;
   }
   reCenter() {
-    this.centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
-    this.centerX = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
+    let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+    let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
   }
   update() {
+    let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+    let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
 
-    let deltaX = Math.round( ( camera.position.x - this.centerX ) / this.width );
-    let deltaZ = Math.round( ( camera.position.z - this.centerZ ) / this.width );
+    let deltaX = Math.round( ( camera.position.x - centerX ) / this.width );
+    let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
 
     let moveToNewTile = false;
     let newTile = null;
@@ -81,12 +82,13 @@ class Tile {
 
       if ( moveToNewTile ) { this.tile = newTile; }
 
-      this.reCenter();
+      centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+      centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
   		this.clipPlanes = [
-  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
-  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
+  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -centerZ - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), centerZ - this.width / 2 )
   		];
 
       this.inScene = true;
