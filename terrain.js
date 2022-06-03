@@ -276,7 +276,7 @@ export function update() {
 
   for ( let i = 0; i < grid.length; i++ ) {
     grid[ i ].update();
-    if ( grid[ i ].geometry ) {
+    if ( grid[ i ].geometry != null ) {
       let v = grid[ i ].geometry.position;
       grid[ i ].geometry.position.x = v.x + 1;
     }
