@@ -85,6 +85,7 @@ class Tile {
 
       // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
       // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
+      this.reCenter();
   		this.clipPlanes = [
   			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
   			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
