@@ -110,7 +110,6 @@ class Tile {
       //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
       // }
 
-      this.inScene = true;
       this.loading = true;
       this.loadTerrain();
     }
@@ -203,8 +202,6 @@ class Tile {
         } else {
           vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
         }
-        // vertices[ j + 0 ] = this.centerX + m * this.width / ( ELEVATION_TILE_SIZE - 1 ) - this.width / 2;
-        // vertices[ j + 2 ] = this.centerZ + n * this.width / ( ELEVATION_TILE_SIZE - 1 ) - this.width / 2;
       }
     }
 
@@ -221,17 +218,21 @@ class Tile {
       this.child.setClippingPlanes();
     }
 
-    if ( this.terrainMesh != null ) {
-      scene.remove( this.terrainMesh );
-    }
-    this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
+    // if ( this.terrainMesh != null ) {
+    //   scene.remove( this.terrainMesh );
+    // }
+    // this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
 
-    // this.terrainMesh.position.set( dx, 0, dz );
-    // this.terrainMesh.scale.set( this.width, 1, this.width );
+    if ( this.terrainMesh == null ) {
+      this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
+    }
 
     this.terrainMesh.position.x = this.centerX;
     this.terrainMesh.position.z = this.centerZ;
-    scene.add( this.terrainMesh );
+    if ( this.inScene == false ) {
+      this.inScene = true;
+      scene.add( this.terrainMesh );
+    }
     this.loading = false;
     this.setClippingPlanes();
 
