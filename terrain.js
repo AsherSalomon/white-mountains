@@ -172,24 +172,9 @@ class Tile {
     yield;
     timeList.push( performance.now() );
 
-    // let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
-    // let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
-    // let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
-    // this.geometry.translate( dx, 0, dz );
-
-    // this.geometry.translate( this.centerX, 0, this.centerZ ); // Asher commented this out.
-
-    // console.log( this.geometry.position );
-    // this.geometry.position.set( dx, 0, dz );
-    // this.geometry.scale.set( this.width, 0, this.width );
-
     const vertices = this.geometry.attributes.position.array;
 
     let curvatureOfTheEarth;
-    // for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-    //   curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
-    //   vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
-    // }
     for ( let m = 0; m < ELEVATION_TILE_SIZE + 1; m++ ) {
       for ( let n = 0; n < ELEVATION_TILE_SIZE + 1; n++ ) {
         let i = m * ELEVATION_TILE_SIZE + n;
@@ -207,21 +192,15 @@ class Tile {
 
     this.geometry.computeVertexNormals();
 
-    if ( this.groundMaterial != null ) {
-      this.groundMaterial.dispose();
+    if ( this.groundMaterial == null ) {
+      this.groundMaterial = new THREE.MeshStandardMaterial( {
+        roughness: 0.5,
+        clipIntersection: true
+      } );
     }
-    this.groundMaterial = new THREE.MeshStandardMaterial( {
-      roughness: 0.5,
-      clipIntersection: true
-    } );
     if ( this.child != null ) {
       this.child.setClippingPlanes();
     }
-
-    // if ( this.terrainMesh != null ) {
-    //   scene.remove( this.terrainMesh );
-    // }
-    // this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
 
     if ( this.terrainMesh == null ) {
       this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
@@ -272,7 +251,6 @@ class Tile {
       this.texture = new THREE.CanvasTexture( satelliteCanvas );
     }
     this.groundMaterial.map = this.texture;
-    // this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
   }
 }
