@@ -276,8 +276,10 @@ export function update() {
 
   for ( let i = 0; i < grid.length; i++ ) {
     grid[ i ].update();
-    let v = grid[ i ].geometry.position;
-    grid[ i ].geometry.position.set( v.x + 1, v.y, v.z );
+    if ( grid[ i ].geometry ) {
+      let v = grid[ i ].geometry.position;
+      grid[ i ].geometry.position.set( v.x + 1, v.y, v.z );
+    }
   }
 
   updateGeneratorQueue();
