@@ -67,7 +67,7 @@ class Tile {
   update() {
     let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
     let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
-    consle.log( this.centerZ == centerZ );
+    console.log( this.centerZ == centerZ );
 
     let deltaX = Math.round( ( camera.position.x - centerX ) / this.width );
     let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
