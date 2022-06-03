@@ -278,7 +278,8 @@ export function update() {
     grid[ i ].update();
     if ( grid[ i ].geometry != null ) {
       // grid[ i ].geometry.translate( 1, 0, 0 );
-      grid[ i ].geometry.scale( 1.1, 1, 1 );
+      // grid[ i ].geometry.scale( 1.1, 1, 1 ); // cumulative
+      grid[ i ].geometry.scale = new THREE.Vector3( 1.1, 1, 1 );
     }
   }
 
