@@ -65,7 +65,7 @@ class Tile {
 
       let dist = this.width / 2;
   		this.clipPlanes = [
-  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 0 - dist ),
+  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - dist ),
   			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 0 - dist ),
   			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), 0 - dist ),
   			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), 0 - dist )
