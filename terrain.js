@@ -127,6 +127,7 @@ class Tile {
         heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
       const widthSegments = Math.sqrt( heightData.length ); // -1
+      console.log( widthSegments == ELEVATION_TILE_SIZE );
 
       yield;
       timeList.push( performance.now() );
