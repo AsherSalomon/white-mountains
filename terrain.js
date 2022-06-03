@@ -113,7 +113,6 @@ class Tile {
     // var endTime = performance.now();
     // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
-    let thisTile = this;
 
 
     const canvas = document.createElement( 'canvas' );
@@ -130,7 +129,7 @@ class Tile {
     const size = ELEVATION_TILE_SIZE ** 2;
     const heightData = new Float32Array( size );
     for ( let i = 0; i < size; i++ ) {
-      heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     }
 
     yield;
@@ -139,22 +138,22 @@ class Tile {
     if ( this.geometry != null ) {
       this.geometry.dispose();
     }
-    thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
-    // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
-    thisTile.geometry.rotateX( - Math.PI / 2 );
+    this.geometry = new THREE.PlaneGeometry( this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+    // this.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+    this.geometry.rotateX( - Math.PI / 2 );
 
     yield;
     timeList.push( performance.now() );
 
-    let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
-    let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-    let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-    thisTile.geometry.translate( dx, 0, dz );
-    // console.log( thisTile.geometry.position );
-    // thisTile.geometry.position.set( dx, 0, dz );
-    // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
+    let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
+    let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
+    let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
+    this.geometry.translate( dx, 0, dz );
+    // console.log( this.geometry.position );
+    // this.geometry.position.set( dx, 0, dz );
+    // this.geometry.scale.set( this.width, 0, this.width );
 
-    const vertices = thisTile.geometry.attributes.position.array;
+    const vertices = this.geometry.attributes.position.array;
 
     let curvatureOfTheEarth;
     // for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
@@ -176,32 +175,32 @@ class Tile {
       }
     }
 
-    thisTile.geometry.computeVertexNormals();
+    this.geometry.computeVertexNormals();
 
     if ( this.groundMaterial != null ) {
       this.groundMaterial.dispose();
     }
-    if ( thisTile.child != null ) {
-      thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+    if ( this.child != null ) {
+      this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
-        clippingPlanes: thisTile.child.clipPlanes,
+        clippingPlanes: this.child.clipPlanes,
         clipIntersection: true
       } );
     } else {
-      thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
+      this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
         clipIntersection: true
       } );
     }
-    thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
+    this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
 
-    // thisTile.terrainMesh.position.set( dx, 0, dz );
-    // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
+    // this.terrainMesh.position.set( dx, 0, dz );
+    // this.terrainMesh.scale.set( this.width, 1, this.width );
 
-    scene.add( thisTile.terrainMesh );
+    scene.add( this.terrainMesh );
     this.loading = false;
 
-    thisTile.loadSatellite();
+    this.loadSatellite();
 
     timeList.push( performance.now() );
 
