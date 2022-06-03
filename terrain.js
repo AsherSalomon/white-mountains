@@ -126,13 +126,12 @@ class Tile {
       for ( let i = 0; i < size; i++ ) {
         heightData[ i ] = thisTile.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
-      const widthSegments = ELEVATION_TILE_SIZE; // -1
 
       yield;
       timeList.push( performance.now() );
 
-      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
-      // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
+      thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+      // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
       thisTile.geometry.rotateX( - Math.PI / 2 );
 
       yield;
@@ -153,15 +152,17 @@ class Tile {
       //   curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
       //   vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       // }
-      for ( let m = 0; m < widthSegments + 1; m++ ) {
-        for ( let n = 0; n < widthSegments + 1; n++ ) {
+      for ( let m = 0; m < ELEVATION_TILE_SIZE + 1; m++ ) {
+        for ( let n = 0; n < ELEVATION_TILE_SIZE + 1; n++ ) {
           let i = m * ELEVATION_TILE_SIZE + n;
-          let j = ( m * ( widthSegments + 1 ) + n ) * 3;
+          let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
           curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
-          if ( m < ELEVATION_TILE_SIZE && n < ELEVATION_TILE_SIZE ) {
-            vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
-          } else {
+          let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
+          let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
+          if ( mIsEdge || nIsEdge ) {
             vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
+          } else {
+            vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
           }
         }
       }
