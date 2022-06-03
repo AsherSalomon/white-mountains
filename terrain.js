@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
-let scene, camera, frustum;
+let scene, camera;
 
 const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
@@ -10,9 +10,6 @@ const earthsRaius = 6371000; // meters
 // // const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsRaius ** 2 );
 // // console.log( 'Horizon '+ Math.round( horizonDistance ) + ' m' );
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
-// const angularResolution = 4 / 1; // tile width / distance to camera
-//
-// const downfactor = 1;
 
 let maxZoom = {
   terrain: 12,
@@ -24,7 +21,6 @@ const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
 let grid = [];
-// // let recyclingBin = [];
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
@@ -38,152 +34,48 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
-// let idCounter = 1;
 class Tile {
-  constructor( tile, parent ) {
-//     this.id = idCounter++;
-//
-    this.tile = tile;
-    this.parent = parent;
-//     this.siblings = null;
-//     this.children = [];
-//     if ( this.parent != null ) {
-//       if ( this.parent.children.length < 4 ) {
-//         this.parent.children.push( this );
-//       }
-//     }
-//     // this.quadkey = tilebelt.tileToQuadkey( this.tile );
-//     this.remove = false;
-//     this.inScene = false;
-    this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
-//     this.boundingBox = null;
+
+  constructor( z ) {
+
+    this.z = z;
+    this.width = Math.pow( 2, maxZoom['terrain'] - this.z ) * baseTileWidth;
+    this.origin = tilebelt.pointToTileFraction( longitude, latitude, this.z );
+
+    this.tile = null;
+    this.parent = null;
+    this.child = null;
+    this.inScene = false;
 
     this.geometry = null;
     this.groundMaterial = null;
     this.terrainMesh = null;
     this.loading = false;
 
-    let dist = 9144;
-		this.clipPlanes = [
-			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -dist ),
-			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -dist ),
-			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), -dist ),
-			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), -dist )
-		];
+		this.clipPlanes = null;
   }
   update() {
-    if ( !this.inScene ) {
+    if ( this.inScene == false && this.loading == false ) {
 
-    // 	this.gridHelper = new THREE.GridHelper( this.width, 1 );
-    //   let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
-    //   let dx = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
-    //   let dz = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
-    //   this.gridHelper.translateX( dx );
-    //   this.gridHelper.translateZ( dz );
-    // 	scene.add( this.gridHelper );
-    //   this.boundingBox = new THREE.Box3();
-    //   this.boundingBox.expandByObject( this.gridHelper );
-    //   scene.remove( this.gridHelper );
+        // camera.position
+      this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
+
+      let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+      let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
+
+      let dist = this.width / 2;
+  		this.clipPlanes = [
+  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), centerX - dist ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), centerZ - dist ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), -centerZ - dist ),
+  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), -centerX - dist )
+  		];
+
       this.inScene = true;
-      this.loading = false;
-    //
-    // } else {
-    //   let splitOrMerge = false;
-    //   if ( this.tile[ 2 ] < maxZoom['terrain'] ) {
-    //     if ( this.isTooBig() ) {
-    //       this.split();
-    //       splitOrMerge = true;
-    //     }
-    //   }
-    //   if ( splitOrMerge == false && this.tile[ 2 ] > minZoom ) {
-    //     if ( this.allSmall() ) {
-    //       this.parent.merge();
-    //       splitOrMerge = true;
-    //     }
-    //   }
-    //   if ( splitOrMerge == false && this.loading == false ) {
-    //     if ( frustum.intersectsBox( this.boundingBox ) ) {
-    //       this.loading = true;
-          this.loadTerrain();
-    //     }
-    //   }
+      this.loading = true;
+      this.loadTerrain();
     }
   };
-//   isTile( tile ) {
-//     return tilebelt.tilesEqual( tile, this.tile );
-//   }
-//   distanceFromCamera() {
-//     // let flatCameraPosition = new THREE.Vector3();
-//     // flatCameraPosition.copy( camera.position );
-//     // flatCameraPosition.y = 0;
-//     // return this.gridHelper.position.distanceTo( flatCameraPosition );
-//     let positionDelta = new THREE.Vector3().subVectors( this.gridHelper.position, camera.position );
-//     let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
-//     let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
-//     let distance = 0;
-//     if ( deltaX < 0 || deltaZ < 0 ) {
-//       distance = Math.max( deltaX, deltaZ );
-//       if ( distance < 0 ) { distance = 0; }
-//     } else {
-//       distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
-//     }
-//     return distance;
-//   }
-//   isTooBig() {
-//     let tooBig = this.width / this.distanceFromCamera() > angularResolution;
-//     return tooBig && frustum.intersectsBox( this.boundingBox );
-//   }
-//   isTooSmall() {
-//     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
-//     return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
-//   }
-  getChildTile() {
-    // camera.position
-  }
-//   allSmall() {
-//     let allSiblingsAreSmall = false;
-//     if ( this.siblings != null ) {
-//       allSiblingsAreSmall = true;
-//       for ( let i = 0; i < 4; i ++ ) {
-//         if ( this.siblings[ i ].isTooSmall() == false ) {
-//           allSiblingsAreSmall = false;
-//         }
-//       }
-//     }
-//     return allSiblingsAreSmall;
-//   }
-//   split() {
-//     if ( this.children.length == 0 ) {
-//       let children = tilebelt.getChildren( this.tile );
-//       // let childrenNames = [ 'NW', 'NE', 'SE', 'SW' ];
-//       // tilebelt.pointToTileFraction(-71,44,5);
-//       // [9.68888888888889, 11.635830890888538, 5]
-//       // tilebelt.pointToTileFraction(-70,44,5);
-//       // [9.777777777777779, 11.635830890888538, 5]
-//       // tilebelt.pointToTileFraction(-71,45,5);
-//       // [9.68888888888889, 11.511201181286559, 5]
-//       let siblings = [];
-//       for ( let i = 0; i < 4; i ++ ) {
-//         let newTile = new Tile( children[ i ], this )
-//         siblings.push( newTile );
-//         grid.push( newTile );
-//       }
-//       for ( let i = 0; i < 4; i ++ ) {
-//         siblings[ i ].siblings = siblings;
-//       }
-//     } else if ( this.children.length == 4 ) {
-//       for ( let i = 0; i < 4; i ++ ) {
-//         grid.push( this.children[ i ] );
-//       }
-//     }
-//     this.remove = true;
-//   }
-//   merge() {
-//     for ( let i = 0; i < 4; i ++ ) {
-//       this.children[ i ].remove = true;
-//     }
-//     grid.push( this );
-//   }
   dataToHeight( data ) {
     // Elevation in meters
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
@@ -248,12 +140,8 @@ class Tile {
       timeList.push( performance.now() );
 
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, widthSegments, widthSegments );
-      // if ( recyclingBin.length > 0 ) {
-      //   thisTile.geometry = recyclingBin.shift();
-      // } else {
       // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, widthSegments, widthSegments );
       thisTile.geometry.rotateX( - Math.PI / 2 );
-      // }
 
       yield;
       timeList.push( performance.now() );
@@ -278,7 +166,7 @@ class Tile {
       // thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
       thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
-        clippingPlanes: thisTile.clipPlanes,
+        clippingPlanes: thisTile.child.clipPlanes,
         clipIntersection: true
       } );
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
@@ -287,7 +175,6 @@ class Tile {
       // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
 
       scene.add( thisTile.terrainMesh );
-      // thisTile.boundingBox.expandByObject( thisTile.terrainMesh );
       thisTile.loadSatellite();
     }
 
@@ -330,23 +217,6 @@ class Tile {
       thisTile.groundMaterial.needsUpdate = true;
     }
   }
-  dispose() {
-    this.remove = false;
-    // scene.remove( this.gridHelper );
-    if ( this.terrainMesh != null ) {
-      scene.remove( this.terrainMesh );
-      this.terrainMesh.geometry.dispose();
-      this.terrainMesh.material.dispose();
-      this.terrainMesh = null;
-      this.geometry.dispose();
-      // recyclingBin.push( this.geometry );
-      this.geometry = null;
-    }
-    this.inScene = false;
-  }
-//   hasTheSameIdAs( anotherTile ) {
-//     return this.id == anotherTile.id;
-//   }
 }
 
 let generatorQueue = [];
@@ -362,6 +232,7 @@ function updateGeneratorQueue() {
 
 export function init( newScene, newCamera ) {
   scene = newScene;
+  camera = newCamera;
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
   // console.log( baseTile );
@@ -372,32 +243,25 @@ export function init( newScene, newCamera ) {
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
-  let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
-  grid.push( new Tile( tile, null ) );
+  for ( let i = minZoom; i <= maxZoom['terrain']; i++ ) {
+    let parentTile = null;
+    if ( i > minZoom ) { parentTile = grid[ grid.length - 1 ]; }
+    grid.push( new Tile( i ) );
+  }
+  for ( let i = 0; i < grid.length - 1; i++ ) {
+    grid[ i ].child = grid[ i + 1 ];
+    grid[ i + 1 ].parent = grid[ i ];
+  }
 
-// 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
-// 	// scene.add( helper );
-//
-//   frustum = new THREE.Frustum();
+	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
+	// scene.add( helper );
 }
 
 export function update() {
-//   // https://stackoverflow.com/questions/24877880/three-js-check-if-object-is-in-frustum
-//   frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
-  // let counter = 0;
-  for ( let i = grid.length - 1; i >= 0 ; i-- ) {
-    if ( grid[ i ].remove ) {
-      grid[ i ].dispose();
-      grid.splice( i, 1 );
-    } else {
-      grid[ i ].update();
-      // if ( grid[ i ].tile[ 2 ] == maxZoom[ 'terrain' ] ) {
-      //   counter++;
-      // }
-    }
+  for ( let i = 0; i < grid.length; i++ ) {
+    grid[ i ].update();
   }
-  // console.log('There are '+ counter +' maxZoom tiles.')
 
   updateGeneratorQueue();
 
