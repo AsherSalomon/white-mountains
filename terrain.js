@@ -63,13 +63,17 @@ class Tile {
 
     let deltaX = Math.round( ( camera.position.x - centerX ) / this.width );
     let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
+
     let moveToNewTile = false;
+    let newTile = null;
     if ( deltaX > 0.5 || deltaZ > 0.5 ) {
-      let newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
       moveToNewTile = true;
+      newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
     }
 
-    if ( this.inScene == false && this.loading == false ) {
+    if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
+
+      if ( moveToNewTile ) { this.tile = newTile; }
 
       centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
       centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
@@ -90,10 +94,9 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
-    let thisTile = this;
-
     let url = urlForTile( ...this.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
+    let thisTile = this;
     loader.load( url, function ( image ) {
         generatorQueue.push( thisTile.terrainGenerator( image ) );
       },
@@ -112,8 +115,6 @@ class Tile {
     //
     // var endTime = performance.now();
     // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
-
-
 
     const canvas = document.createElement( 'canvas' );
     canvas.width = ELEVATION_TILE_SIZE;
@@ -211,12 +212,12 @@ class Tile {
     // console.log( timeReport );
   }
   loadSatellite() {
-    let thisTile = this;
     // to do: multiple satilite images to one terrain tile
     // let satilliteZoom = 2; // maxZoom['satellite'];
     // let bumpItUp = Math.pow( 2, satilliteZoom );
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
+    let thisTile = this;
     loader.load( url, function ( image ) {
         generatorQueue.push( thisTile.satelliteGenerator( image ) );
       },
@@ -227,20 +228,18 @@ class Tile {
     );
   }
   *satelliteGenerator( image ) {
-    if ( this.inScene ) {
-      let satelliteCanvas = document.createElement( 'canvas' );
-      satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-      satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-      const ctx = satelliteCanvas.getContext( '2d' );
-      ctx.drawImage( image, 0, 0 );
-      if ( this.texture != null ) {
-        this.texture.dispose();
-      }
-      this.texture = new THREE.CanvasTexture( satelliteCanvas );
-      this.groundMaterial.map = this.texture;
-      this.groundMaterial.color = new THREE.Color();
-      this.groundMaterial.needsUpdate = true;
+    let satelliteCanvas = document.createElement( 'canvas' );
+    satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+    satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    const ctx = satelliteCanvas.getContext( '2d' );
+    ctx.drawImage( image, 0, 0 );
+    if ( this.texture != null ) {
+      this.texture.dispose();
     }
+    this.texture = new THREE.CanvasTexture( satelliteCanvas );
+    this.groundMaterial.map = this.texture;
+    this.groundMaterial.color = new THREE.Color();
+    this.groundMaterial.needsUpdate = true;
   }
 }
 
