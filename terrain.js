@@ -153,7 +153,7 @@ class Tile {
       //   curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
       //   vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
       // }
-      let sqrtVertLen = Math.sqrt( verticies.length );
+      let sqrtVertLen = Math.sqrt( vertices.length );
       for ( let m = 0; m < sqrtVertLen; m++ ) {
         for ( let n = 0; n < sqrtVertLen; n++ ) {
           let i = m * ELEVATION_TILE_SIZE + n;
