@@ -276,9 +276,9 @@ export function update() {
 
   for ( let i = 0; i < grid.length; i++ ) {
     grid[ i ].update();
-    if ( grid[ i ].geometry != null ) {
-      grid[ i ].geometry.translate( 1, 0, 0 );
-    }
+    // if ( grid[ i ].geometry != null ) {
+    //   grid[ i ].geometry.translate( 1, 0, 0 );
+    // }
   }
 
   updateGeneratorQueue();
