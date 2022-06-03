@@ -164,11 +164,11 @@ class Tile {
 
     if ( this.geometry == null ) {
       this.geometry = new THREE.PlaneGeometry( this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+      this.geometry.rotateX( - Math.PI / 2 );
     // } else {
     //   this.geometry.translate( 0, 0, 0 );
     }
 
-    this.geometry.rotateX( - Math.PI / 2 );
 
     yield;
     timeList.push( performance.now() );
