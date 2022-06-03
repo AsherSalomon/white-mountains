@@ -53,6 +53,8 @@ class Tile {
     this.loading = false;
 
 		this.clipPlanes = null;
+
+    this.storedData = null;
   }
   update() {
     let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
@@ -62,6 +64,7 @@ class Tile {
     let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
     if ( deltaX > 0.5 || deltaZ > 0.5 ) {
       let newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
+
     }
 
     if ( this.inScene == false && this.loading == false ) {
@@ -273,6 +276,8 @@ export function update() {
 
   for ( let i = 0; i < grid.length; i++ ) {
     grid[ i ].update();
+    let v = grid[ i ].geometry.position;
+    grid[ i ].geometry.position.set( v.x + 1, v.y, v.z );
   }
 
   updateGeneratorQueue();
