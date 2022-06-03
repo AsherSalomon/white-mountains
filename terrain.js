@@ -93,8 +93,7 @@ class Tile {
   			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
   		];
       if ( moveToNewTile && this.parent.groundMaterial != null ) {
-        console.log('move');
-        this.parent.material.clippingPlanes = this.clipPlanes;
+        this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
       }
 
       this.inScene = true;
