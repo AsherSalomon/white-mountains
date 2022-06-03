@@ -59,7 +59,7 @@ class Tile {
 
     this.centerX = null;
     this.centerZ = null;
-    reCenter();
+    this.reCenter();
   }
   reCenter() {
     this.centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
