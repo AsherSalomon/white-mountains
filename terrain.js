@@ -63,13 +63,13 @@ class Tile {
 
     let deltaX = Math.round( ( camera.position.x - centerX ) / this.width );
     let deltaZ = Math.round( ( camera.position.z - centerZ ) / this.width );
+    console.log( deltaX +' '+ deltaZ );
 
     let moveToNewTile = false;
     let newTile = null;
     if ( deltaX > 0.5 || deltaZ > 0.5 ) {
       moveToNewTile = true;
       newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
-      console.log( 'moveToNewTile' );
     }
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
