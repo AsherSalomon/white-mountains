@@ -75,7 +75,7 @@ class Tile {
     let moveToNewTile = false;
     let newTile = null;
     if ( deltaX != 0 || deltaZ != 0 ) {
-      // moveToNewTile = true;
+      moveToNewTile = true;
       newTile = [ this.tile[ 0 ] + deltaX, this.tile[ 1 ] + deltaZ,  this.tile[ 2 ]];
     }
 
