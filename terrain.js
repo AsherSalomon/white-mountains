@@ -66,6 +66,12 @@ class Tile {
       // this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
 
 
+  		this.clipPlanes = [
+  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -centerZ - this.width / 2 ),
+  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), centerZ - this.width / 2 )
+  		];
 
       this.inScene = true;
       this.loading = true;
@@ -143,11 +149,11 @@ class Tile {
       timeList.push( performance.now() );
 
       let origin = tilebelt.pointToTileFraction( longitude, latitude, thisTile.tile[ 2 ] );
-      let centerX = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
-      let centerZ = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
-      thisTile.geometry.translate( centerX, 0, centerZ );
+      let dx = ( 0.5 + thisTile.tile[ 0 ] - origin[ 0 ] ) * thisTile.width;
+      let dz = ( 0.5 + thisTile.tile[ 1 ] - origin[ 1 ] ) * thisTile.width;
+      thisTile.geometry.translate( dx, 0, dz );
       // console.log( thisTile.geometry.position );
-      // thisTile.geometry.position.set( centerX, 0, centerZ );
+      // thisTile.geometry.position.set( dx, 0, dz );
       // thisTile.geometry.scale.set( thisTile.width, 0, thisTile.width );
 
       const vertices = thisTile.geometry.attributes.position.array;
@@ -174,18 +180,10 @@ class Tile {
       }
       thisTile.terrainMesh = new THREE.Mesh( thisTile.geometry, thisTile.groundMaterial );
 
-      // thisTile.terrainMesh.position.set( centerX, 0, centerZ );
+      // thisTile.terrainMesh.position.set( dx, 0, dz );
       // thisTile.terrainMesh.scale.set( thisTile.width, 1, thisTile.width );
 
       scene.add( thisTile.terrainMesh );
-
-  		this.clipPlanes = [
-  			new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -centerX - this.width / 2 ),
-  			new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), centerX - this.width / 2 ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -centerZ - this.width / 2 ),
-  			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), centerZ - this.width / 2 )
-  		];
-
       thisTile.loadSatellite();
     }
 
