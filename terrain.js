@@ -81,8 +81,7 @@ class Tile {
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
 
-      if ( moveToNewTile ) { this.tile = newTile;
-      console.log('move'); }
+      if ( moveToNewTile ) { this.tile = newTile; }
 
       // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
       // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
@@ -93,7 +92,8 @@ class Tile {
   			new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
   			new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
   		];
-      if ( moveToNewTile && this.parent.material != null ) {
+      if ( moveToNewTile && this.parent.groundMaterial != null ) {
+        console.log('move');
         this.parent.material.clippingPlanes = this.clipPlanes;
       }
 
