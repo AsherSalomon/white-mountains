@@ -134,6 +134,9 @@ class Tile {
       yield;
       timeList.push( performance.now() );
 
+      if ( this.geometry != null ) {
+        this.geometry.dispose();
+      }
       thisTile.geometry = new THREE.PlaneGeometry( thisTile.width, thisTile.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
       // thisTile.geometry = new THREE.PlaneGeometry( 1, 1, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
       thisTile.geometry.rotateX( - Math.PI / 2 );
@@ -172,7 +175,10 @@ class Tile {
       }
 
       thisTile.geometry.computeVertexNormals();
-      // thisTile.groundMaterial = new THREE.MeshPhongMaterial( { color: 0x164a19 } );
+
+      if ( this.groundMaterial != null ) {
+        this.groundMaterial.dispose();
+      }
       if ( thisTile.child != null ) {
         thisTile.groundMaterial = new THREE.MeshStandardMaterial( {
           roughness: 0.5,
@@ -227,6 +233,9 @@ class Tile {
       satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
       const ctx = satelliteCanvas.getContext( '2d' );
       ctx.drawImage( image, 0, 0 );
+      if ( this.texture != null ) {
+        this.texture.dispose();
+      }
       this.texture = new THREE.CanvasTexture( satelliteCanvas );
       this.groundMaterial.map = this.texture;
       this.groundMaterial.color = new THREE.Color();
