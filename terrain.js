@@ -207,17 +207,12 @@ class Tile {
     if ( this.groundMaterial != null ) {
       this.groundMaterial.dispose();
     }
+    this.groundMaterial = new THREE.MeshStandardMaterial( {
+      roughness: 0.5,
+      clipIntersection: true
+    } );
     if ( this.child != null ) {
-      this.groundMaterial = new THREE.MeshStandardMaterial( {
-        roughness: 0.5,
-        clipIntersection: true
-      } );
       this.child.setClippingPlanes();
-    } else {
-      this.groundMaterial = new THREE.MeshStandardMaterial( {
-        roughness: 0.5,
-        clipIntersection: true
-      } );
     }
 
     if ( this.terrainMesh != null ) {
