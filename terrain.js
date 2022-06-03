@@ -250,7 +250,7 @@ export function init( newScene, newCamera ) {
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
-  for ( let i = minZoom; i <= minZoom + 1; i++ ) { // maxZoom['terrain']
+  for ( let i = minZoom; i <= minZoom + 2; i++ ) { // maxZoom['terrain']
     let parentTile = null;
     if ( i > minZoom ) { parentTile = grid[ grid.length - 1 ]; }
     grid.push( new Tile( i ) );
