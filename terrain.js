@@ -190,7 +190,7 @@ class Tile {
       }
     }
 
-		this.geometry.setAttribute( 'position', vertices );
+		// this.geometry.setAttribute( 'position', vertices );
 
     this.geometry.computeVertexNormals();
 
