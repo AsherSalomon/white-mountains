@@ -190,6 +190,8 @@ class Tile {
       }
     }
 
+		this.geometry.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+
     this.geometry.computeVertexNormals();
 
     if ( this.groundMaterial == null ) {
