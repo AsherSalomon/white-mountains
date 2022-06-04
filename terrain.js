@@ -281,10 +281,11 @@ class Tile {
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
       if ( isNaN( interpolated ) == false ) {
-        // if ( this.z == maxZoom['terrain'] - 1 ) {
-        return interpolated;
-      } else if ( this.parent != null ) {
-        return this.parent.lookupData( x, z );
+        if ( this.z == maxZoom['terrain'] - 1 ) {
+          return interpolated;
+        } else {
+          return 0;
+        }
       } else {
         return 0;
       }
