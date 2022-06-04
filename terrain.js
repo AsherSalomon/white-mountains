@@ -190,7 +190,9 @@ class Tile {
       }
     }
 
-    this.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+    if ( this.inScene == false ) {
+      this.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+    }
 
     this.geometry.computeVertexNormals();
 
@@ -249,9 +251,11 @@ class Tile {
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
-    // if ( this.texture == null ) {
+    if ( this.texture == null ) {
       this.texture = new THREE.CanvasTexture( satelliteCanvas );
-    // }
+    } else {
+
+    }
     this.groundMaterial.map = this.texture;
     this.groundMaterial.needsUpdate = true;
   }
