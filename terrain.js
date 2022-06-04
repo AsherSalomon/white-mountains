@@ -283,7 +283,7 @@ class Tile {
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
       if ( isNaN( interpolated ) == false ) {
         // return interpolated;
-        return m + n;
+        return ( m + n ) * 10;
       } else {
         return 0;
       }
