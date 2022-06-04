@@ -265,7 +265,7 @@ class Tile {
     if ( this.z == maxZoom['terrain'] - 1 ) {
       let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
       let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
-      if ( Math.round( m ) > 0 && Math.round( n ) > 0 && m < ELEVATION_TILE_SIZE + 1 && n < ELEVATION_TILE_SIZE + 1 ) {
+      if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE + 1 && n < ELEVATION_TILE_SIZE + 1 ) {
       // if ( m > -1 && m < ELEVATION_TILE_SIZE + 1 ) {
         // if ( m < 0 ) { console.log( m ); }
         return 2000;
