@@ -284,7 +284,8 @@ class Tile {
         if ( this.z == maxZoom['terrain'] - 1 ) {
           return ( m + n ) * 10;
         } else {
-          return interpolated;
+          // return interpolated;
+          return 0;
         }
       } else {
         return 0;
