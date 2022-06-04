@@ -254,7 +254,7 @@ class Tile {
     if ( this.texture == null ) {
       this.texture = new THREE.CanvasTexture( satelliteCanvas );
     } else {
-
+      this.texture.needsUpdate = true;
     }
     this.groundMaterial.map = this.texture;
     this.groundMaterial.needsUpdate = true;
