@@ -263,8 +263,8 @@ class Tile {
   }
   lookupData( x, z ) {
     let size_plus_one = ELEVATION_TILE_SIZE + 1;
-    let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * size_plus_one;
-    let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * size_plus_one;
+    let m = ( x - ( this.centerX + this.width / 2 ) ) / this.width * size_plus_one;
+    let n = ( z - ( this.centerZ + this.width / 2 ) ) / this.width * size_plus_one;
     if ( m > 0 && n > 0 && m < size_plus_one && n < size_plus_one ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
