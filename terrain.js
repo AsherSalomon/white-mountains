@@ -286,7 +286,11 @@ class Tile {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-      return interpolated;
+      if ( isNaN( interpolated ) == false ) {
+        return interpolated;
+      } else {
+        return 0;
+      }
     } else if ( this.parent != null ) {
       return this.parent.lookupData( x, z );
     } else {
