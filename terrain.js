@@ -264,7 +264,7 @@ class Tile {
   lookupData( x, z ) {
     let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
     let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
-    if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE && n < ELEVATION_TILE_SIZE ) {
+    if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE + 1 && n < ELEVATION_TILE_SIZE + 1 ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
       let n1 = Math.floor( n );
@@ -280,11 +280,11 @@ class Tile {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-      // if ( isNaN( interpolated ) == false ) {
+      if ( isNaN( interpolated ) == false ) {
         return interpolated;
-      // } else {
-      //   return 0;
-      // }
+      } else {
+        return 0;
+      }
     } else if ( this.parent != null ) {
       return this.parent.lookupData( x, z );
     } else {
