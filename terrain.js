@@ -61,8 +61,7 @@ class Tile {
     this.centerZ = null;
     this.reCenter();
 
-    const size = ELEVATION_TILE_SIZE ** 2;
-    this.heightData = new Float32Array( size );
+    this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
   }
   reCenter() {
     this.centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
@@ -155,7 +154,7 @@ class Tile {
     yield;
     timeList.push( performance.now() );
 
-    for ( let i = 0; i < size; i++ ) {
+    for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
       this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     }
 
