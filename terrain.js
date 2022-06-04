@@ -187,7 +187,7 @@ class Tile {
           if ( this.parent != null ) {
             let returnedData = this.parent.lookupData( x, z );
             if ( isNaN( returnedData ) ) {
-              console.log( x, z );
+              console.log( x, z, this.z );
             }
             vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth;
           } else {
