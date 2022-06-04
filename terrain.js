@@ -60,6 +60,9 @@ class Tile {
     this.centerX = null;
     this.centerZ = null;
     this.reCenter();
+
+    const size = ELEVATION_TILE_SIZE ** 2;
+    this.heightData = new Float32Array( size );
   }
   reCenter() {
     this.centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
@@ -152,10 +155,8 @@ class Tile {
     yield;
     timeList.push( performance.now() );
 
-    const size = ELEVATION_TILE_SIZE ** 2;
-    const heightData = new Float32Array( size );
     for ( let i = 0; i < size; i++ ) {
-      heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     }
 
     yield;
@@ -167,7 +168,6 @@ class Tile {
     // } else {
     //   this.geometry.translate( 0, 0, 0 );
     }
-
 
     yield;
     timeList.push( performance.now() );
@@ -187,7 +187,7 @@ class Tile {
         if ( mIsEdge || nIsEdge ) {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
         } else {
-          vertices[ j + 1 ] = heightData[ i ] - curvatureOfTheEarth;
+          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth;
         }
       }
     }
