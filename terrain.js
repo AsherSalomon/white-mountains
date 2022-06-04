@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import * as tilebelt from './lib/tilebelt.js';
+import { Float32BufferAttribute } from './lib/BufferAttribute.js';
 
 let scene, camera;
 
