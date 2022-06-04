@@ -185,6 +185,10 @@ class Tile {
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( mIsEdge || nIsEdge ) {
           if ( this.parent != null ) {
+            let returnedData = this.parent.lookupData( x, z );
+            if ( isNaN( returnedData ) ) {
+              console.log( returnedData );
+            }
             vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth;
           } else {
             vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
