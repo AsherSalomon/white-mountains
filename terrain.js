@@ -267,6 +267,7 @@ class Tile {
       // let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
       // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE + 1 && n < ELEVATION_TILE_SIZE + 1 ) {
       if ( m > -1 && m < ELEVATION_TILE_SIZE + 1 ) {
+        if ( m < 0 ) { console.log( m ); }
         return 2000;
       }
     } else {
