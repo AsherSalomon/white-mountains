@@ -183,14 +183,12 @@ class Tile {
         curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
-        if ( mIsEdge || nIsEdge ) {
-          if ( this.parent != null ) {
-            vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth;
-          } else {
-            vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
-          }
-        } else {
+        if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth;
+        } else if ( this.parent != null ) {
+          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth;
+        } else {
+          vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
         }
       }
     }
