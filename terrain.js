@@ -190,7 +190,8 @@ class Tile {
       }
     }
 
-		// this.geometry.setAttribute( 'position', vertices );
+    this.geometry.setAttribute( 'position',
+      new THREE.Float32BufferAttribute( vertices, 4 ) );
 
     this.geometry.computeVertexNormals();
 
