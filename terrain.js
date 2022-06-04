@@ -282,7 +282,7 @@ class Tile {
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
       if ( isNaN( interpolated ) == false ) {
         if ( this.z == maxZoom['terrain'] - 1 ) {
-          return ( m + n ) * 10;
+          return m * 10;
         } else {
           // return interpolated;
           return 0;
