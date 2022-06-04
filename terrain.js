@@ -262,8 +262,8 @@ class Tile {
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
-    let m = ( x - ( this.centerX ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 ); //  - this.width / 2
-    let n = ( z - ( this.centerZ ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
+    let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
+    let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE + 1 && n < ELEVATION_TILE_SIZE + 1 ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
@@ -281,8 +281,11 @@ class Tile {
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
       if ( isNaN( interpolated ) == false ) {
-        // return interpolated;
-        return ( m + n ) * 10;
+        if ( this.z == maxZoom['terrain'] ) {
+          return ( m + n ) * 10;
+        } else {
+          return interpolated;
+        }
       } else {
         return 0;
       }
