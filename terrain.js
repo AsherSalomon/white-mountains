@@ -262,18 +262,17 @@ class Tile {
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
-    let evtsp1 = ELEVATION_TILE_SIZE + 1;
-    let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * evtsp1;
-    let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * evtsp1;
-    if ( m > 0 && n > 0 && m < evtsp1 && n < evtsp1 ) {
+    let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+    let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+    if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE && n < ELEVATION_TILE_SIZE ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
       let n1 = Math.floor( n );
       let n2 = Math.ceil( n );
-      let i11 = m1 * evtsp1 + n1;
-      let i21 = m2 * evtsp1 + n1;
-      let i12 = m1 * evtsp1 + n2;
-      let i22 = m2 * evtsp1 + n2;
+      let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+      let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+      let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+      let i22 = m2 * ELEVATION_TILE_SIZE + n2;
       let d11 = this.heightData[ i11 ];
       let d21 = this.heightData[ i21 ];
       let d12 = this.heightData[ i12 ];
