@@ -179,7 +179,9 @@ class Tile {
       for ( let n = 0; n < ELEVATION_TILE_SIZE + 1; n++ ) {
         let i = m * ELEVATION_TILE_SIZE + n;
         let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
-        curvatureOfTheEarth = ( vertices[ j + 0 ] ** 2 + vertices[ j + 2 ] ** 2 ) / ( 2 * earthsRaius );
+        let x = vertices[ j + 0 ] + this.centerX;
+        let z = vertices[ j + 2 ] + this.centerZ;
+        curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( mIsEdge || nIsEdge ) {
@@ -235,9 +237,6 @@ class Tile {
     // let bumpItUp = Math.pow( 2, satilliteZoom );
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
-    if ( this.texture != null ) {
-      this.texture.dispose();
-    }
     let thisTile = this;
     loader.load( url, function ( image ) {
         generatorQueue.push( thisTile.satelliteGenerator( image ) );
@@ -254,6 +253,9 @@ class Tile {
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
+    if ( this.texture != null ) {
+      this.texture.dispose();
+    }
     this.texture = new THREE.CanvasTexture( satelliteCanvas );
     this.groundMaterial.map = this.texture;
     this.groundMaterial.needsUpdate = true;
