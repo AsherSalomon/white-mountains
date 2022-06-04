@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import * as tilebelt from './lib/tilebelt.js';
-import { Float32BufferAttribute } from './lib/BufferAttribute.js';
 
 let scene, camera;
 
@@ -191,7 +190,7 @@ class Tile {
       }
     }
 
-		this.geometry.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
+		this.geometry.setAttribute( 'position', vertices );
 
     this.geometry.computeVertexNormals();
 
