@@ -235,6 +235,9 @@ class Tile {
     // let bumpItUp = Math.pow( 2, satilliteZoom );
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
+    if ( this.texture != null ) {
+      this.texture.dispose();
+    }
     let thisTile = this;
     loader.load( url, function ( image ) {
         generatorQueue.push( thisTile.satelliteGenerator( image ) );
@@ -251,9 +254,6 @@ class Tile {
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
-    if ( this.texture != null ) {
-      this.texture.dispose();
-    }
     this.texture = new THREE.CanvasTexture( satelliteCanvas );
     this.groundMaterial.map = this.texture;
     this.groundMaterial.needsUpdate = true;
