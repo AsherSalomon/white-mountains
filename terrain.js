@@ -203,9 +203,6 @@ class Tile {
         color: pineGreen
       } );
     }
-    // if ( this.child != null ) {
-    //   this.child.setClippingPlanes();
-    // }
 
     if ( this.terrainMesh == null ) {
       this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
@@ -289,7 +286,6 @@ class Tile {
       return 0;
     }
   }
-  // let generatorQueue = [];
   updateGeneratorQueue() {
     // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
     // TerrainChunkRebuilder
@@ -298,7 +294,6 @@ class Tile {
         this.generatorQueue.shift();
       }
     }
-    return this.generatorQueue.length == 0;
   }
 }
 
@@ -333,12 +328,11 @@ export function update() {
     grid[ i ].update();
   }
 
-  // updateGeneratorQueue();
   for ( let i = 0; i < grid.length; i++ ) {
     if ( grid[ i ].generatorQueue.length > 0 ) {
-      let done = grid[ i ].updateGeneratorQueue();
+      grid[ i ].updateGeneratorQueue();
       break;
-      // do all the work of the upper most tile before doing any work on the lower ones
+      // do all work on upper tiles before doing any work on lower ones
     }
   }
 
