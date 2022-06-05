@@ -283,6 +283,7 @@ class Tile {
       if ( isNaN( interpolated ) == false ) {
         return interpolated;
       } else {
+        console.log( [ m, n ] );
         return 0;
       }
     } else if ( this.parent != null ) {
@@ -331,7 +332,9 @@ export function init( newScene, newCamera ) {
 	// scene.add( helper );
 }
 
+let frameCount = 0;
 export function update() {
+  frameCount++;
 
   for ( let i = 0; i < grid.length; i++ ) {
     grid[ i ].update();
