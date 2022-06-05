@@ -267,8 +267,8 @@ class Tile {
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
-    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
-    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 ) + 0.5;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 ) + 0.5;
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
