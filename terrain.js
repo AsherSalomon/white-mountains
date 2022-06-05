@@ -244,9 +244,9 @@ class Tile {
     this.satelliteCanvas.width = IMAGERY_TILE_SIZE * bumpItUp;
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * bumpItUp;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
-    // const ctx = this.satelliteCanvas.getContext( '2d' );
-    // ctx.fillStyle = pineGreen.getHexString();
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const ctx = this.satelliteCanvas.getContext( '2d' );
+    ctx.fillStyle = pineGreen.getHexString();
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     // this.groundMaterial.map = this.texture;
     // this.groundMaterial.color = new THREE.Color();
 
