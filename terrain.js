@@ -328,7 +328,7 @@ export function update() {
 
   // updateGeneratorQueue();
   for ( let i = 0; i < grid.length; i++ ) {
-    if ( grid.generatorQueue.length > 0 ) {
+    if ( grid[ i ].generatorQueue.length > 0 ) {
       let done = grid[ i ].updateGeneratorQueue();
       break;
       // do all the work of the upper most tile before doing any work on the lower ones
