@@ -221,6 +221,7 @@ class Tile {
       this.texture.dispose();
     }
     this.groundMaterial.map = null;
+    this.groundMaterial.needsUpdate = true;
     this.loadSatellite();
 
     timeList.push( performance.now() );
