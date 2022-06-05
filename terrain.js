@@ -270,7 +270,7 @@ class Tile {
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
     this.groundMaterial.map = this.texture;
-    // this.groundMaterial.color = new THREE.Color();
+    this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
