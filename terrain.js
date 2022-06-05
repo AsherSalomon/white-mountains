@@ -241,8 +241,8 @@ class Tile {
     let bumpItUp = Math.pow( 2, satilliteZoom );
 
     this.satelliteCanvas = document.createElement( 'canvas' );
-    this.satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-    this.satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    this.satelliteCanvas.width = IMAGERY_TILE_SIZE * bumpItUp;
+    this.satelliteCanvas.height = IMAGERY_TILE_SIZE * bumpItUp;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     // const ctx = this.satelliteCanvas.getContext( '2d' );
     // ctx.fillStyle = pineGreen.getHexString();
