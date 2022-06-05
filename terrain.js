@@ -246,7 +246,7 @@ class Tile {
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = pineGreen.getHexString();
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
     // this.groundMaterial.map = this.texture;
     // this.groundMaterial.color = new THREE.Color();
 
