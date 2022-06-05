@@ -95,25 +95,32 @@ class Tile {
     }
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
+      let parentLoading = false;
+      if ( this.parent != null ) {
+        if ( this.parent.loading ) {
+          parentLoading = true;
+        }
+      }
+      if ( parentLoading == false ) {
+        if ( moveToNewTile ) { this.tile = newTile; }
 
-      if ( moveToNewTile ) { this.tile = newTile; }
+        // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+        // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
+        this.reCenter();
+        // this.clipPlanes = [
+        //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
+        //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
+        //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
+        //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
+        // ];
+        // if ( moveToNewTile && this.parent.groundMaterial != null ) {
+        //   this.setClippingPlanes();
+        //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
+        // }
 
-      // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
-      // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
-      this.reCenter();
-      // this.clipPlanes = [
-      //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
-      //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
-      //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
-      //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
-      // ];
-      // if ( moveToNewTile && this.parent.groundMaterial != null ) {
-      //   this.setClippingPlanes();
-      //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
-      // }
-
-      this.loading = true;
-      this.loadTerrain();
+        this.loading = true;
+        this.loadTerrain();
+      }
     }
   };
   dataToHeight( data ) {
