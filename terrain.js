@@ -20,7 +20,7 @@ const minZoom = 5;
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
-const pineGreen = new THREE.Color( 0x193313 );
+const pineGreen = new THREE.Color( 0x204219 );
 
 let grid = [];
 
