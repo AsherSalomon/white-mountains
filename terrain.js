@@ -239,6 +239,15 @@ class Tile {
     // to do: multiple satilite images to one terrain tile
     let satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
     let bumpItUp = Math.pow( 2, satilliteZoom );
+
+    this.satelliteCanvas = document.createElement( 'canvas' );
+    this.satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+    this.satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    // const ctx = this.satelliteCanvas.getContext( '2d' );
+    // ctx.fillStyle = pineGreen.getHexString();
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
     let thisTile = this;
@@ -252,10 +261,10 @@ class Tile {
     );
   }
   *satelliteGenerator( image ) {
-    this.satelliteCanvas = document.createElement( 'canvas' );
-    this.satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-    this.satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    // this.satelliteCanvas = document.createElement( 'canvas' );
+    // this.satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
+    // this.satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
     this.groundMaterial.map = this.texture;
