@@ -247,8 +247,8 @@ class Tile {
     // const ctx = this.satelliteCanvas.getContext( '2d' );
     // ctx.fillStyle = pineGreen.getHexString();
     // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // this.groundMaterial.map = this.texture;
-    // this.groundMaterial.color = new THREE.Color();
+    this.groundMaterial.map = this.texture;
+    this.groundMaterial.color = new THREE.Color();
 
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
@@ -269,8 +269,8 @@ class Tile {
     // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
-    this.groundMaterial.map = this.texture;
-    this.groundMaterial.color = new THREE.Color();
+    // this.groundMaterial.map = this.texture;
+    // this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
