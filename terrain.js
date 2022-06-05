@@ -95,13 +95,13 @@ class Tile {
     }
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
-      let parentLoading = false;
-      if ( this.parent != null ) {
-        if ( this.parent.loading ) {
-          parentLoading = true;
+      let childLoading = false;
+      if ( this.child != null ) {
+        if ( this.child.loading ) {
+          childLoading = true;
         }
       }
-      if ( parentLoading == false ) {
+      if ( childLoading == false ) {
         if ( moveToNewTile ) { this.tile = newTile; }
 
         // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
