@@ -234,6 +234,7 @@ class Tile {
       this.groundMaterial.map = null;
       this.groundMaterial.needsUpdate = true;
       this.groundMaterial.color = pineGreen;
+      this.satelliteCanvas = null;
     }
     // to do: multiple satilite images to one terrain tile
     let satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
@@ -254,9 +255,9 @@ class Tile {
     this.satelliteCanvas = document.createElement( 'canvas' );
     this.satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
+    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
-    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     this.groundMaterial.map = this.texture;
     this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
