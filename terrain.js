@@ -197,8 +197,8 @@ class Tile {
     if ( this.groundMaterial == null ) {
       this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
-        clipIntersection: true,
-        color: 0xff00ff
+        clipIntersection: true
+        // color: 0xff00ff
       } );
     }
     // if ( this.child != null ) {
@@ -222,7 +222,7 @@ class Tile {
       this.texture.dispose();
       this.groundMaterial.map = null;
       this.groundMaterial.needsUpdate = true;
-      this.groundMaterial.color = new THREE.Color( 0x00ff00 );
+      // this.groundMaterial.color = new THREE.Color( 0x00ff00 );
     }
     this.loadSatellite();
 
