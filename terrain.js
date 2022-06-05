@@ -20,6 +20,8 @@ const minZoom = 5;
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
+const pineGreen = new THREE.Color( 0x193313 );
+
 let grid = [];
 
 let apiKey = '5oT5Np7ipsbVhre3lxdi';
@@ -198,7 +200,7 @@ class Tile {
       this.groundMaterial = new THREE.MeshStandardMaterial( {
         roughness: 0.5,
         clipIntersection: true,
-        color: 0xff00ff
+        color: pineGreen
       } );
     }
     // if ( this.child != null ) {
@@ -222,7 +224,7 @@ class Tile {
       this.texture.dispose();
       this.groundMaterial.map = null;
       this.groundMaterial.needsUpdate = true;
-      this.groundMaterial.color = new THREE.Color( 0x00ff00 );
+      this.groundMaterial.color = pineGreen;
     }
     this.loadSatellite();
 
