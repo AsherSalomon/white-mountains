@@ -235,7 +235,7 @@ class Tile {
     const loader = new THREE.ImageLoader();
     let thisTile = this;
     loader.load( url, function ( image ) {
-        generatorQueue.push( thisTile.satelliteGenerator( image ) );
+        thisTile.generatorQueue.push( thisTile.satelliteGenerator( image ) );
       },
       undefined, // onProgress not supported
       function () {
