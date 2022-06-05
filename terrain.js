@@ -222,7 +222,7 @@ class Tile {
       this.texture.dispose();
       this.groundMaterial.map = null;
       this.groundMaterial.needsUpdate = true;
-      this.groundMaterial.color = 0x00ff00;
+      this.groundMaterial.color = THREE.Color( 0x00ff00 );
     }
     this.loadSatellite();
 
