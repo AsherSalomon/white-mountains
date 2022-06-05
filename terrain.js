@@ -184,7 +184,7 @@ class Tile {
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
-          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth + i;
+          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth;
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth;
         } else {
