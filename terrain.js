@@ -21,7 +21,7 @@ const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
 const pineGreen = new THREE.Color( 0x204219 );
-console.log( '0x' + pineGreen.getHexString() );
+// console.log(  );
 
 let grid = [];
 
@@ -246,7 +246,7 @@ class Tile {
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * bumpItUp;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.fillStyle = pineGreen.getHexString();
+    ctx.fillStyle = '0x' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
     // this.groundMaterial.map = this.texture;
     // this.groundMaterial.color = new THREE.Color();
