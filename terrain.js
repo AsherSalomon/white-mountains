@@ -262,17 +262,17 @@ class Tile {
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
-    let m = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
-    let n = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
+    let m = ( z - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
+    let n = ( x - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
       let n1 = Math.floor( n );
       let n2 = Math.ceil( n );
-      let i11 = m1 * ( ELEVATION_TILE_SIZE - 1 ) + n1;
-      let i21 = m2 * ( ELEVATION_TILE_SIZE - 1 ) + n1;
-      let i12 = m1 * ( ELEVATION_TILE_SIZE - 1 ) + n2;
-      let i22 = m2 * ( ELEVATION_TILE_SIZE - 1 ) + n2;
+      let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+      let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+      let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+      let i22 = m2 * ELEVATION_TILE_SIZE + n2;
       let d11 = this.heightData[ i11 ];
       let d21 = this.heightData[ i21 ];
       let d12 = this.heightData[ i12 ];
@@ -280,12 +280,7 @@ class Tile {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-      if ( isNaN( interpolated ) == false ) {
-        return interpolated;
-      } else {
-        console.log( [ i11, i21, i12, i22 ] );
-        return 0;
-      }
+      return interpolated;
     } else if ( this.parent != null ) {
       return this.parent.lookupData( x, z );
     } else {
