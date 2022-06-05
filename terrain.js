@@ -21,7 +21,7 @@ const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
 const pineGreen = new THREE.Color( 0x204219 );
-console.log( pineGreen.getHexString() );
+console.log( '0x' + pineGreen.getHexString() );
 
 let grid = [];
 
