@@ -200,9 +200,9 @@ class Tile {
         clipIntersection: true
       } );
     }
-    if ( this.child != null ) {
-      this.child.setClippingPlanes();
-    }
+    // if ( this.child != null ) {
+    //   this.child.setClippingPlanes();
+    // }
 
     if ( this.terrainMesh == null ) {
       this.terrainMesh = new THREE.Mesh( this.geometry, this.groundMaterial );
