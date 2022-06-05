@@ -52,6 +52,7 @@ class Tile {
     this.geometry = null;
     this.groundMaterial = null;
     this.terrainMesh = null;
+    this.satelliteCanvas = null;
     this.texture = null;
     this.loading = false;
 
@@ -217,12 +218,6 @@ class Tile {
     this.loading = false;
     this.setClippingPlanes();
 
-    if ( this.texture != null ) {
-      this.texture.dispose();
-      this.groundMaterial.map = null;
-      this.groundMaterial.needsUpdate = true;
-      this.groundMaterial.color = pineGreen;
-    }
     this.loadSatellite();
 
     timeList.push( performance.now() );
@@ -234,9 +229,15 @@ class Tile {
     // console.log( timeReport );
   }
   loadSatellite() {
+    if ( this.texture != null ) {
+      this.texture.dispose();
+      this.groundMaterial.map = null;
+      this.groundMaterial.needsUpdate = true;
+      this.groundMaterial.color = pineGreen;
+    }
     // to do: multiple satilite images to one terrain tile
-    // let satilliteZoom = 2; // maxZoom['satellite'];
-    // let bumpItUp = Math.pow( 2, satilliteZoom );
+    let satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
+    let bumpItUp = Math.pow( 2, satilliteZoom );
     let url = urlForTile( ...this.tile, 'satellite' );
     const loader = new THREE.ImageLoader();
     let thisTile = this;
