@@ -246,7 +246,7 @@ class Tile {
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * bumpItUp;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.fillStyle = '0x' + pineGreen.getHexString();
+    ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
     // this.groundMaterial.map = this.texture;
     // this.groundMaterial.color = new THREE.Color();
