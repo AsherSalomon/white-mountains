@@ -283,7 +283,7 @@ class Tile {
       if ( isNaN( interpolated ) == false ) {
         return interpolated;
       } else {
-        console.log( [ m, n ] );
+        console.log( [ d1, d2, d1, n, n1 ] );
         return 0;
       }
     } else if ( this.parent != null ) {
