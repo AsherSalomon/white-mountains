@@ -321,8 +321,6 @@ export function init( newScene, newCamera ) {
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
   for ( let i = minZoom; i <= maxZoom['terrain']; i++ ) {
-    let parentTile = null;
-    if ( i > minZoom ) { parentTile = grid[ grid.length - 1 ]; }
     grid.push( new Tile( i ) );
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
