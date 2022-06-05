@@ -62,6 +62,8 @@ class Tile {
     this.reCenter();
 
     this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
+
+    this.generatorQueue = [];
   }
   reCenter() {
     this.centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
@@ -105,19 +107,7 @@ class Tile {
       // }
       if ( moveToNewTile ) { this.tile = newTile; }
 
-      // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
-      // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
       this.reCenter();
-      // this.clipPlanes = [
-      //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
-      //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
-      //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
-      //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
-      // ];
-      // if ( moveToNewTile && this.parent.groundMaterial != null ) {
-      //   this.setClippingPlanes();
-      //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
-      // }
 
       this.loading = true;
       this.loadTerrain();
@@ -132,7 +122,7 @@ class Tile {
     const loader = new THREE.ImageLoader();
     let thisTile = this;
     loader.load( url, function ( image ) {
-        generatorQueue.push( thisTile.terrainGenerator( image ) );
+        thisTile.generatorQueue.push( thisTile.terrainGenerator( image ) );
       },
       undefined, // onProgress not supported
       function () {
@@ -267,8 +257,8 @@ class Tile {
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
-    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 ) - 0.5;
-    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 ) - 0.5;
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ( ELEVATION_TILE_SIZE + 1 );
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
@@ -292,18 +282,19 @@ class Tile {
       return 0;
     }
   }
-}
-
-let generatorQueue = [];
-function updateGeneratorQueue() {
-  // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
-  // TerrainChunkRebuilder
-  if ( generatorQueue.length > 0 ) {
-    if ( generatorQueue[ 0 ].next().done ) {
-      generatorQueue.shift();
+  // let generatorQueue = [];
+  updateGeneratorQueue() {
+    // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
+    // TerrainChunkRebuilder
+    if ( this.generatorQueue.length > 0 ) {
+      if ( this.generatorQueue[ 0 ].next().done ) {
+        this.generatorQueue.shift();
+      }
     }
+    return this.generatorQueue.length == 0;
   }
 }
+
 
 export function init( newScene, newCamera ) {
   scene = newScene;
@@ -335,6 +326,13 @@ export function update() {
     grid[ i ].update();
   }
 
-  updateGeneratorQueue();
+  // updateGeneratorQueue();
+  for ( let i = 0; i < grid.length; i++ ) {
+    if ( grid.generatorQueue.length > 0 ) {
+      let done = grid[ i ].updateGeneratorQueue();
+      break;
+      // do all the work of the upper most tile before doing any work on the lower ones
+    }
+  }
 
 }
