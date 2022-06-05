@@ -95,32 +95,32 @@ class Tile {
     }
 
     if ( ( this.inScene == false || moveToNewTile ) && this.loading == false ) {
-      let childLoading = false;
-      if ( this.child != null ) {
-        if ( this.child.loading ) {
-          childLoading = true;
-        }
-      }
-      if ( childLoading == false ) {
-        if ( moveToNewTile ) { this.tile = newTile; }
+      // let childLoading = false;
+      // if ( this.child != null ) {
+      //   if ( this.child.loading ) {
+      //     childLoading = true;
+      //   }
+      // }
+      // if ( childLoading == false ) {
+      // }
+      if ( moveToNewTile ) { this.tile = newTile; }
 
-        // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
-        // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
-        this.reCenter();
-        // this.clipPlanes = [
-        //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
-        //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
-        //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
-        //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
-        // ];
-        // if ( moveToNewTile && this.parent.groundMaterial != null ) {
-        //   this.setClippingPlanes();
-        //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
-        // }
+      // centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
+      // centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
+      this.reCenter();
+      // this.clipPlanes = [
+      //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
+      //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
+      //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
+      //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
+      // ];
+      // if ( moveToNewTile && this.parent.groundMaterial != null ) {
+      //   this.setClippingPlanes();
+      //   this.parent.groundMaterial.clippingPlanes = this.clipPlanes;
+      // }
 
-        this.loading = true;
-        this.loadTerrain();
-      }
+      this.loading = true;
+      this.loadTerrain();
     }
   };
   dataToHeight( data ) {
@@ -171,8 +171,6 @@ class Tile {
     if ( this.geometry == null ) {
       this.geometry = new THREE.PlaneGeometry( this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
       this.geometry.rotateX( - Math.PI / 2 );
-    // } else {
-    //   this.geometry.translate( 0, 0, 0 );
     }
 
     yield;
@@ -312,7 +310,6 @@ export function init( newScene, newCamera ) {
   camera = newCamera;
 
   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
-  // console.log( baseTile );
   let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
   let deltaNS = bbox[3] - bbox[1]; // n - s
   let deltaEW = bbox[2] - bbox[0]; // e - w
@@ -332,17 +329,10 @@ export function init( newScene, newCamera ) {
 	// scene.add( helper );
 }
 
-let frameCount = 0;
 export function update() {
-  frameCount++;
 
   for ( let i = 0; i < grid.length; i++ ) {
     grid[ i ].update();
-    if ( grid[ i ].geometry != null ) {
-      // grid[ i ].geometry.translate( 1, 0, 0 );
-      // grid[ i ].geometry.scale( 1.1, 1, 1 ); // cumulative
-      // grid[ i ].geometry.scale = new THREE.Vector3( 1.1, 1, 1 );
-    }
   }
 
   updateGeneratorQueue();
