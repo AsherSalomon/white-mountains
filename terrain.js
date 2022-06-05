@@ -217,6 +217,10 @@ class Tile {
     this.loading = false;
     this.setClippingPlanes();
 
+    if ( this.texture != null ) {
+      this.texture.dispose();
+    }
+    this.groundMaterial.map = null;
     this.loadSatellite();
 
     timeList.push( performance.now() );
@@ -249,9 +253,6 @@ class Tile {
     satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
     const ctx = satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, 0, 0 );
-    if ( this.texture != null ) {
-      this.texture.dispose();
-    }
     this.texture = new THREE.CanvasTexture( satelliteCanvas );
     this.groundMaterial.map = this.texture;
     this.groundMaterial.needsUpdate = true;
