@@ -37,6 +37,10 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 
+function curvatureOfTheEarth( x, z ) {
+  return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
+}
+
 class Tile {
 
   constructor( z ) {
@@ -174,22 +178,22 @@ class Tile {
 
     const vertices = this.geometry.attributes.position.array;
 
-    let curvatureOfTheEarth;
+    // let curvatureOfTheEarth;
     for ( let m = 0; m < ELEVATION_TILE_SIZE + 1; m++ ) {
       for ( let n = 0; n < ELEVATION_TILE_SIZE + 1; n++ ) {
         let i = m * ELEVATION_TILE_SIZE + n;
         let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
         let x = vertices[ j + 0 ] + this.centerX;
         let z = vertices[ j + 2 ] + this.centerZ;
-        curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
+        // curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
-          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth;
+          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
-          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth;
+          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
-          vertices[ j + 1 ] = 0 - curvatureOfTheEarth;
+          vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
       }
     }
@@ -363,5 +367,15 @@ export function update() {
       // do all the work on the upper tiles before doing any work on the lower ones
     }
   }
+
+  let elevationAtCamera = 0;
+  for ( let i = grid.length; i >= 0; i-- ) {
+    if ( grid[ i ].inScene ) {
+      elevationAtCamera = grid[ i ].lookupData( camera.position.x, camera.position.z );
+      break;
+    }
+  }
+
+  if ( camera.position.y < )
 
 }
