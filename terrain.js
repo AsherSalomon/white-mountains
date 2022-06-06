@@ -371,11 +371,14 @@ export function update() {
   let elevationAtCamera = 0;
   for ( let i = grid.length - 1; i >= 0; i-- ) {
     if ( grid[ i ].inScene ) {
-      elevationAtCamera = grid[ i ].lookupData( camera.position.x, camera.position.z );
+      elevationAtCamera = grid[ i ].lookupData( camera.position.x, camera.position.z )
+        - curvatureOfTheEarth( camera.position.x, camera.position.z );
       break;
     }
   }
 
-  // if ( camera.position.y < )
+  if ( camera.position.y < elevationAtCamera ) {
+    camera.position.y = elevationAtCamera;
+  }
 
 }
