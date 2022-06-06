@@ -279,9 +279,9 @@ class Tile {
   }
   *satelliteGenerator( image, x, y ) {
     const ctx = this.satelliteCanvas.getContext( '2d' );
-    // ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
-    ctx.fillStyle = '#FF00FF';
-    ctx.fillRect(x * IMAGERY_TILE_SIZE, x * IMAGERY_TILE_SIZE, IMAGERY_TILE_SIZE, IMAGERY_TILE_SIZE);
+    ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    // ctx.fillStyle = '#FF00FF';
+    // ctx.fillRect(x * IMAGERY_TILE_SIZE, x * IMAGERY_TILE_SIZE, IMAGERY_TILE_SIZE, IMAGERY_TILE_SIZE);
     this.groundMaterial.map = this.texture;
     // this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
