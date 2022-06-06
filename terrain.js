@@ -163,7 +163,9 @@ class Tile {
     timeList.push( performance.now() );
 
     if ( this.geometry == null ) {
-      this.geometry = new THREE.PlaneGeometry( this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE );
+      this.geometry = new THREE.PlaneGeometry(
+        this.width, this.width, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE
+      );
       this.geometry.rotateX( - Math.PI / 2 );
     }
 
@@ -239,37 +241,50 @@ class Tile {
     }
     // to do: multiple satilite images to one terrain tile
     let satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
-    let bumpItUp = Math.pow( 2, satilliteZoom );
+    let satiliteTilesWidth = Math.pow( 2, satilliteZoom );
 
     this.satelliteCanvas = document.createElement( 'canvas' );
-    this.satelliteCanvas.width = IMAGERY_TILE_SIZE * bumpItUp;
-    this.satelliteCanvas.height = IMAGERY_TILE_SIZE * bumpItUp;
+    this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
-    // this.groundMaterial.map = this.texture;
-    // this.groundMaterial.color = new THREE.Color();
 
-    let url = urlForTile( ...this.tile, 'satellite' );
-    const loader = new THREE.ImageLoader();
-    let thisTile = this;
-    loader.load( url, function ( image ) {
-        thisTile.generatorQueue.push( thisTile.satelliteGenerator( image ) );
-      },
-      undefined, // onProgress not supported
-      function () {
-        console.error( 'satellite ImageLoader error' );
+    let satiliteTiles = [];
+    let xyList = [];
+    for ( let x = 0; x < satiliteTilesWidth; x++ ) {
+      for ( let y = 0; y < satiliteTilesWidth; y++ ) {
+        satiliteTiles.push( [
+          this.tile[ 0 ] * satiliteTilesWidth + x,
+          this.tile[ 1 ] * satiliteTilesWidth + y,
+          this.tile[ 2 ] + satilliteZoom
+        ] );
+        xyList.push( [ x, y ] );
       }
-    );
+    }
+
+    const loader = new THREE.ImageLoader();
+    for ( let i = 0; i < satiliteTiles.length; i++ ) {
+      let url = urlForTile( ...satiliteTiles[ i ], 'satellite' );
+      let thisTile = this;
+      loader.load( url, function ( image ) {
+          thisTile.generatorQueue.push(
+            thisTile.satelliteGenerator( image, xyList[ i ] )
+          );
+        },
+        undefined, // onProgress not supported
+        function () {
+          console.error( 'satellite ImageLoader error' );
+        }
+      );
+    }
   }
-  *satelliteGenerator( image ) {
-    // this.satelliteCanvas = document.createElement( 'canvas' );
-    // this.satelliteCanvas.width = IMAGERY_TILE_SIZE;// * bumpItUp;
-    // this.satelliteCanvas.height = IMAGERY_TILE_SIZE;// * bumpItUp;
-    // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+  *satelliteGenerator( image, xy ) {
+    let x = xy[ 0 ] * IMAGERY_TILE_SIZE;
+    let y = xy[ 1 ] * IMAGERY_TILE_SIZE;
     const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.drawImage( image, 0, 0 );
+    ctx.drawImage( image, x, y );
     this.groundMaterial.map = this.texture;
     this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
