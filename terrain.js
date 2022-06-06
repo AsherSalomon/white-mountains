@@ -251,7 +251,6 @@ class Tile {
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
 
-    const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
         let satiliteTile = [
@@ -261,6 +260,7 @@ class Tile {
         ]
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
+        const loader = new THREE.ImageLoader();
         loader.load( url, function ( image ) {
             thisTile.generatorQueue.push(
               thisTile.satelliteGenerator( image, x, y )
