@@ -250,6 +250,8 @@ class Tile {
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    ctx.fillStyle = '#FF00FF';
+    ctx.fillRect(0, 0, this.satelliteCanvas.width / 2, this.satelliteCanvas.height / 2);
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
