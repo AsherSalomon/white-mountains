@@ -251,38 +251,28 @@ class Tile {
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
 
-    let satiliteTiles = [];
-    let xyList = [];
-    for ( let x = 0; x < satiliteTilesWidth; x++ ) {
-      for ( let y = 0; y < satiliteTilesWidth; y++ ) {
-        satiliteTiles.push( [
-          this.tile[ 0 ] * satiliteTilesWidth + x,
-          this.tile[ 1 ] * satiliteTilesWidth + y,
-          this.tile[ 2 ] + satilliteZoom
-        ] );
-        xyList.push( [ x, y ] );
-      }
-    }
 
     const loader = new THREE.ImageLoader();
-    for ( let i = 0; i < satiliteTiles.length; i++ ) {
-      let url = urlForTile( ...satiliteTiles[ i ], 'satellite' );
-      let thisTile = this;
-      loader.load( url, function ( image ) {
-          thisTile.generatorQueue.push(
-            thisTile.satelliteGenerator( image, xyList[ i ] )
-          );
-        },
-        undefined, // onProgress not supported
-        function () {
-          console.error( 'satellite ImageLoader error' );
-        }
-      );
+    for ( let x = 0; x < satiliteTilesWidth; x++ ) {
+      for ( let y = 0; y < satiliteTilesWidth; y++ ) {
+        let url = urlForTile( ...satiliteTiles[ i ], 'satellite' );
+        let thisTile = this;
+        loader.load( url, function ( image ) {
+            thisTile.generatorQueue.push(
+              thisTile.satelliteGenerator( image, x, y )
+            );
+          },
+          undefined, // onProgress not supported
+          function () {
+            console.error( 'satellite ImageLoader error' );
+          }
+        );
+      }
     }
   }
-  *satelliteGenerator( image, xy ) {
-    let x = xy[ 0 ] * IMAGERY_TILE_SIZE;
-    let y = xy[ 1 ] * IMAGERY_TILE_SIZE;
+  *satelliteGenerator( image, x, y ) {
+    let x = x * IMAGERY_TILE_SIZE;
+    let y = y * IMAGERY_TILE_SIZE;
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, x, y );
     this.groundMaterial.map = this.texture;
