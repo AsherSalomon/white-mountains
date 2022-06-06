@@ -252,8 +252,8 @@ class Tile {
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
 
     const loader = new THREE.ImageLoader();
-    for ( let x = 1; x < satiliteTilesWidth; x++ ) {
-      for ( let y = 1; y < satiliteTilesWidth; y++ ) {
+    for ( let x = 0; x < satiliteTilesWidth; x++ ) {
+      for ( let y = 0; y < satiliteTilesWidth; y++ ) {
         let satiliteTile = [
           this.tile[ 0 ] * satiliteTilesWidth + x,
           this.tile[ 1 ] * satiliteTilesWidth + y,
@@ -261,16 +261,16 @@ class Tile {
         ]
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
-        loader.load( url, function ( image ) {
-            thisTile.generatorQueue.push(
-              thisTile.satelliteGenerator( image, x, y )
-            );
-          },
-          undefined, // onProgress not supported
-          function () {
-            console.error( 'satellite ImageLoader error' );
-          }
-        );
+        // loader.load( url, function ( image ) {
+        //     thisTile.generatorQueue.push(
+        //       thisTile.satelliteGenerator( image, x, y )
+        //     );
+        //   },
+        //   undefined, // onProgress not supported
+        //   function () {
+        //     console.error( 'satellite ImageLoader error' );
+        //   }
+        // );
       }
     }
   }
