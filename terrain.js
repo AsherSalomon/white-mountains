@@ -376,6 +376,6 @@ export function update() {
     }
   }
 
-  if ( camera.position.y < )
+  // if ( camera.position.y < )
 
 }
