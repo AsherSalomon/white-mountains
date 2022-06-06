@@ -253,6 +253,7 @@ class Tile {
     ctx.fillStyle = '#FF00FF';
     ctx.fillRect(0, 0, this.satelliteCanvas.width / 2, this.satelliteCanvas.height / 2);
     this.groundMaterial.map = this.texture;
+    this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
 
     const loader = new THREE.ImageLoader();
