@@ -369,7 +369,7 @@ export function update() {
   }
 
   let elevationAtCamera = 0;
-  for ( let i = grid.length; i >= 0; i-- ) {
+  for ( let i = grid.length - 1; i >= 0; i-- ) {
     if ( grid[ i ].inScene ) {
       elevationAtCamera = grid[ i ].lookupData( camera.position.x, camera.position.z );
       break;
