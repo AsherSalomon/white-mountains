@@ -247,6 +247,7 @@ class Tile {
     this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    this.groundMaterial.map = this.texture;
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
