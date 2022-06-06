@@ -285,6 +285,7 @@ class Tile {
     this.groundMaterial.map = this.texture;
     this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
+    this.texture.needsUpdate = true;
   }
   lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
