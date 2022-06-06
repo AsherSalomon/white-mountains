@@ -251,11 +251,18 @@ class Tile {
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
 
+        satiliteTiles.push(  );
+        xyList.push( [ x, y ] );
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
-        let url = urlForTile( ...satiliteTiles[ i ], 'satellite' );
+        let satiliteTile = [
+          this.tile[ 0 ] * satiliteTilesWidth + x,
+          this.tile[ 1 ] * satiliteTilesWidth + y,
+          this.tile[ 2 ] + satilliteZoom
+        ]
+        let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
         loader.load( url, function ( image ) {
             thisTile.generatorQueue.push(
