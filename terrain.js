@@ -247,12 +247,12 @@ class Tile {
     this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
-    const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.fillStyle = '#' + pineGreen.getHexString();
-    ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
-    this.groundMaterial.map = this.texture;
-    this.groundMaterial.color = new THREE.Color();
-    this.groundMaterial.needsUpdate = true;
+    // const ctx = this.satelliteCanvas.getContext( '2d' );
+    // ctx.fillStyle = '#' + pineGreen.getHexString();
+    // ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    // this.groundMaterial.map = this.texture;
+    // this.groundMaterial.color = new THREE.Color();
+    // this.groundMaterial.needsUpdate = true;
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
@@ -283,7 +283,7 @@ class Tile {
     // ctx.fillStyle = '#FF00FF';
     // ctx.fillRect(x * IMAGERY_TILE_SIZE, x * IMAGERY_TILE_SIZE, IMAGERY_TILE_SIZE, IMAGERY_TILE_SIZE);
     this.groundMaterial.map = this.texture;
-    // this.groundMaterial.color = new THREE.Color();
+    this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
   }
   lookupData( x, z ) {
