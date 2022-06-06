@@ -271,10 +271,8 @@ class Tile {
     }
   }
   *satelliteGenerator( image, x, y ) {
-    let x = x * IMAGERY_TILE_SIZE;
-    let y = y * IMAGERY_TILE_SIZE;
     const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.drawImage( image, x, y );
+    ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.groundMaterial.map = this.texture;
     this.groundMaterial.color = new THREE.Color();
     this.groundMaterial.needsUpdate = true;
