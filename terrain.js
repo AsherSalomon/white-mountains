@@ -283,14 +283,16 @@ class Tile {
     }
   }
   *satelliteGenerator( image, x, y, intendedTile ) {
-    // if ( tilebelt.tilesEqual( this.tile, intendedTile ) ) {
+    if ( tilebelt.tilesEqual( this.tile, intendedTile ) ) {
       const ctx = this.satelliteCanvas.getContext( '2d' );
       ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
       this.groundMaterial.map = this.texture;
       this.groundMaterial.color = new THREE.Color();
       this.groundMaterial.needsUpdate = true;
       this.texture.needsUpdate = true;
-    // }
+    } else {
+      console.log( 'satilite image not intended for tile' );
+    }
   }
   lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
