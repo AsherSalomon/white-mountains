@@ -14,7 +14,7 @@ let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 
 let maxZoom = {
   terrain: 12,
-  satellite: 17 // actualy 20 but max canvas size is limited
+  satellite: 15 // actualy 20 but max canvas size is limited, 17 on chrome
 }
 const minZoom = 5;
 
