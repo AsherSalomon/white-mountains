@@ -131,7 +131,7 @@ class Tile {
     const loader = new THREE.ImageLoader();
     let thisTile = this;
     loader.load( url, function ( image ) {
-        thisTile.generatorQueue.push( thisTile.terrainGenerator( image ) );
+        thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
       },
       undefined, // onProgress not supported
       function () {
@@ -139,7 +139,10 @@ class Tile {
       }
     );
   }
-  *terrainGenerator( image ) {
+  *terrainGenerator( image, intendedTile ) {
+    if ( !tilebelt.tilesEqual( this.tile, intendedTile ) ) {
+      console.log( 'terrain not intended tile' );
+    }
 
     let timeList = [];
     timeList.push( performance.now() );
@@ -290,8 +293,6 @@ class Tile {
       this.groundMaterial.color = new THREE.Color();
       this.groundMaterial.needsUpdate = true;
       this.texture.needsUpdate = true;
-    } else {
-      console.log( 'satilite image not intended for tile' );
     }
   }
   lookupData( x, z ) {
