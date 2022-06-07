@@ -141,7 +141,7 @@ class Tile {
   }
   *terrainGenerator( image, intendedTile ) {
     if ( !tilebelt.tilesEqual( this.tile, intendedTile ) ) {
-      console.log( 'terrain not intended tile' );
+      console.error( 'terrain not intended tile' );
     }
 
     let timeList = [];
