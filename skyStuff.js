@@ -26,7 +26,7 @@ export function init( scene, renderer ) {
   	const theta = THREE.MathUtils.degToRad( parameters.azimuth );
   	sun.setFromSphericalCoords( 1, phi, theta );
   	sky.material.uniforms[ 'sunPosition' ].value.copy( sun );
-  	scene.environment = pmremGenerator.fromScene( sky ).texture;
+  	// scene.environment = pmremGenerator.fromScene( sky ).texture;
   }
   updateSun();
 }
