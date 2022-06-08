@@ -18,7 +18,7 @@ let maxZoom = {
   satellite: 14, // actualy 20 but max canvas size is limited, 17 on chrome
   satelliteHard: 20 // actualy 20 but max canvas size is limited, 17 on chrome
 }
-const extraZoom = 4;
+const extraZoom = 6;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
