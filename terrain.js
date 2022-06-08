@@ -16,8 +16,9 @@ const minZoom = 6;
 let maxZoom = {
   terrain: 12,
   satellite: 14 // actualy 20 but max canvas size is limited, 17 on chrome
+  satelliteHard: 20 // actualy 20 but max canvas size is limited, 17 on chrome
 }
-const extraZoom = 2;
+const extraZoom = 4;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -280,6 +281,9 @@ class Tile {
           this.tile[ 1 ] * satiliteTilesWidth + y,
           this.tile[ 2 ] + satilliteZoom
         ]
+        if ( satiliteTile[ 2 ] > maxZoom['satelliteHard'] ) {
+          console.error( 'satiliteTile[ 2 ] > maxZoom[ satelliteHard ]' )
+        }
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
         loader.load( url, function ( image ) {
