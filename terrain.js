@@ -354,8 +354,8 @@ export function init( newScene, newCamera ) {
     grid[ i + 1 ].parent = grid[ i ];
   }
 
-	const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
-	scene.add( helper );
+	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
+	// scene.add( helper );
 }
 
 export function update() {
