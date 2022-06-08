@@ -47,10 +47,6 @@ function init() {
 
 	camera.lookAt( -1916.582, 1916.582, 0 );
 
-	// const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
-	// dirLight.position.set( 0, 100, 100 );
-	// scene.add( dirLight );
-
 	const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
 	scene.add( ambLight );
 
@@ -72,6 +68,10 @@ function init() {
 	SkyStuff.init( scene, renderer );
 	Controls.init( scene, camera );
 	Terrain.init( scene, camera );
+
+	const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
+	dirLight.position.set( SkyStuff.sun.x, SkyStuff.sun.y, SkyStuff.sun.z );
+	scene.add( dirLight );
 
 }
 
