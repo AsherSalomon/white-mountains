@@ -1,8 +1,9 @@
+import * as THREE from 'three';
 import { Sky } from './lib/Sky.js';
 
 let sun;
 
-export function init() {
+export function init( renderer ) {
   // Skybox
   sun = new THREE.Vector3();
   const sky = new Sky();
