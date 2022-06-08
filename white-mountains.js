@@ -6,14 +6,12 @@ import * as Physics from './physics.js';
 // import Stats from './lib/stats.module.js';
 import Stats from './lib/Stats.js';
 
-// https://threejs.org/examples/#webgl_shaders_ocean
 // import { Sky } from './lib/Sky.js';
 import * as SkyStuff from './skyStuff.js';
 
 THREE.Cache.enabled = true;
 
 let scene, renderer, camera, stats;
-// let sun;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
 const NEAR = 1e-6, FAR = 1e27;
@@ -55,7 +53,10 @@ function init() {
 	const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
 	scene.add( ambLight );
 
-	renderer = new THREE.WebGLRenderer( { antialias: true, logarithmicDepthBuffer: true } );
+	renderer = new THREE.WebGLRenderer( {
+		antialias: true,
+		// logarithmicDepthBuffer: true
+	} );
 	// renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -67,31 +68,6 @@ function init() {
 	renderer.domElement.style.touchAction = 'none';
 	renderer.domElement.style.userSelect = 'none';
 
-	// // Skybox
-	// sun = new THREE.Vector3();
-	// const sky = new Sky();
-	// sky.scale.setScalar( 341462 * 1000 );
-	// scene.add( sky );
-	// const skyUniforms = sky.material.uniforms;
-	// skyUniforms[ 'turbidity' ].value = 10;
-	// skyUniforms[ 'rayleigh' ].value = 2;
-	// skyUniforms[ 'mieCoefficient' ].value = 0.005;
-	// skyUniforms[ 'mieDirectionalG' ].value = 0.8;
-	// const parameters = {
-	// 	elevation: -1,
-	// 	azimuth: 270
-	// };
-	// const pmremGenerator = new THREE.PMREMGenerator( renderer );
-	// function updateSun() {
-	// 	const phi = THREE.MathUtils.degToRad( 90 - parameters.elevation );
-	// 	const theta = THREE.MathUtils.degToRad( parameters.azimuth );
-	// 	sun.setFromSphericalCoords( 1, phi, theta );
-	// 	sky.material.uniforms[ 'sunPosition' ].value.copy( sun );
-	// 	// water.material.uniforms[ 'sunDirection' ].value.copy( sun ).normalize();
-	// 	scene.environment = pmremGenerator.fromScene( sky ).texture;
-	// }
-	// updateSun();
-	// // end Skybox
 	SkyStuff.init( scene, renderer );
 
 	Controls.init( scene, camera );
