@@ -210,7 +210,7 @@ class Tile {
 
     if ( this.groundMaterial == null ) {
       this.groundMaterial = new THREE.MeshStandardMaterial( {
-        roughness: 0.2,
+        roughness: 0.8,
         clipIntersection: true,
         color: pineGreen
       } );
