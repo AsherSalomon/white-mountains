@@ -51,8 +51,8 @@ function init() {
 	// dirLight.position.set( 0, 100, 100 );
 	// scene.add( dirLight );
 
-	// const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
-	// scene.add( ambLight );
+	const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
+	scene.add( ambLight );
 
 	renderer = new THREE.WebGLRenderer( {
 		// antialias: true, // hurts mobile performance
