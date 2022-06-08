@@ -129,7 +129,7 @@ class Tile {
   }
   loadTerrain() {
     if ( this.z > maxZoom['terrain'] ) {
-      thisTile.generatorQueue.push( thisTile.terrainGenerator( null, thisTile.tile.slice() ) );
+      this.generatorQueue.push( this.terrainGenerator( null, this.tile.slice() ) );
     } else {
       let url = urlForTile( ...this.tile, 'terrain' );
       const loader = new THREE.ImageLoader();
