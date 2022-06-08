@@ -9,7 +9,7 @@ const earthsRaius = 6371000; // meters
 const eyeHeight = 1.6256; // meters
 const maxElevation = 1916.582; // 9144; // meters
 const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsRaius ** 2 );
-// // console.log( 'Horizon '+ Math.round( horizonDistance ) + ' m' );
+console.log( 'Horizon '+ Math.round( horizonDistance ) + ' m' );
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 
 let maxZoom = {
