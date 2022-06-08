@@ -16,9 +16,7 @@ const minZoom = 6;
 let maxZoom = {
   terrain: 12,
   satellite: 14, // actualy 20 but max canvas size is limited, 17 on chrome
-  satelliteHard: 20 // actualy 20 but max canvas size is limited, 17 on chrome
 }
-const extraZoom = 6;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -129,21 +127,17 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
-    if ( this.z > maxZoom['terrain'] ) {
-      this.generatorQueue.push( this.terrainGenerator( null, this.tile.slice() ) );
-    } else {
-      let url = urlForTile( ...this.tile, 'terrain' );
-      const loader = new THREE.ImageLoader();
-      let thisTile = this;
-      loader.load( url, function ( image ) {
-          thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
-        },
-        undefined, // onProgress not supported
-        function () {
-          console.error( 'terrain ImageLoader error' );
-        }
-      );
-    }
+    let url = urlForTile( ...this.tile, 'terrain' );
+    const loader = new THREE.ImageLoader();
+    let thisTile = this;
+    loader.load( url, function ( image ) {
+        thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
+      },
+      undefined, // onProgress not supported
+      function () {
+        console.error( 'terrain ImageLoader error' );
+      }
+    );
   }
   *terrainGenerator( image, intendedTile ) {
     if ( !tilebelt.tilesEqual( this.tile, intendedTile ) ) {
@@ -158,21 +152,19 @@ class Tile {
     // var endTime = performance.now();
     // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
-    if ( image != null ) {
-      const canvas = document.createElement( 'canvas' );
-      canvas.width = ELEVATION_TILE_SIZE;
-      canvas.height = ELEVATION_TILE_SIZE;
-      // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
-      const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
-      ctx.drawImage( image, 0, 0 );
-      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    const canvas = document.createElement( 'canvas' );
+    canvas.width = ELEVATION_TILE_SIZE;
+    canvas.height = ELEVATION_TILE_SIZE;
+    // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
+    const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
+    ctx.drawImage( image, 0, 0 );
+    let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
-      yield;
-      timeList.push( performance.now() );
+    yield;
+    timeList.push( performance.now() );
 
-      for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
-        this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-      }
+    for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
+      this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     }
 
     yield;
@@ -197,9 +189,6 @@ class Tile {
         let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
         let x = vertices[ j + 0 ] + this.centerX;
         let z = vertices[ j + 2 ] + this.centerZ;
-        if ( image == null ) {
-          this.heightData[ i ] = this.parent.lookupData( x, z );
-        }
         // curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
@@ -362,11 +351,10 @@ export function init( newScene, newCamera ) {
 
   let skipOver = 2;
   let startingPlace;
-  let maxPlusExtra = maxZoom['terrain'] + extraZoom;
-  for ( let i = maxPlusExtra; i >= minZoom; i -= skipOver) {
+  for ( let i = maxZoom['terrain']; i >= minZoom; i -= skipOver) {
     startingPlace = i;
   }
-  for ( let i = startingPlace; i <= maxPlusExtra; i += 2 ) {
+  for ( let i = startingPlace; i <= maxZoom['terrain']; i += 2 ) {
     grid.push( new Tile( i ) );
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
