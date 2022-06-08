@@ -14,7 +14,7 @@ THREE.Cache.enabled = true;
 let scene, renderer, camera, stats;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
-// const NEAR = 1e-6, FAR = 1e27;
+// const NEAR = 1e-6, FAR = 1e27; // for logarithmicDepthBuffer
 const NEAR = 10, FAR = 156284;
 
 Ammo().then( function ( AmmoLib ) {
@@ -50,13 +50,13 @@ function init() {
 	// const dirLight = new THREE.DirectionalLight( 0x7f7f7f, 1 );
 	// dirLight.position.set( 0, 100, 100 );
 	// scene.add( dirLight );
-	//
+
 	const ambLight = new THREE.AmbientLight( 0x7f7f7f ); // soft white light
 	scene.add( ambLight );
 
 	renderer = new THREE.WebGLRenderer( {
-		// antialias: true,
-		// logarithmicDepthBuffer: true
+		// antialias: true, // hurts mobile performance
+		// logarithmicDepthBuffer: true // hurts mobile performance
 	} );
 	// renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -70,9 +70,7 @@ function init() {
 	renderer.domElement.style.userSelect = 'none';
 
 	SkyStuff.init( scene, renderer );
-
 	Controls.init( scene, camera );
-
 	Terrain.init( scene, camera );
 
 }
@@ -93,7 +91,6 @@ function animate() {
 	Terrain.update();
 
 	stats.update();
-
 	renderer.render( scene, camera );
 
 	Controls.update( camera );
