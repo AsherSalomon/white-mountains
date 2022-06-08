@@ -195,7 +195,7 @@ class Tile {
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
-          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z ) + 0.000001 * this.width;
+          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z ) + 0.00001 * this.width;
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
