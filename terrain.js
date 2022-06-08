@@ -14,7 +14,7 @@ let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 
 let maxZoom = {
   terrain: 12,
-  satellite: 17 // actualy 20 but max canvas size is limited, 17 on chrome
+  satellite: 14 // actualy 20 but max canvas size is limited, 17 on chrome
 }
 const minZoom = 6;
 
@@ -347,13 +347,12 @@ export function init( newScene, newCamera ) {
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
   let skipOver = 2;
-  let startingPlace = minZoom;
-  // for ( let i = maxZoom['terrain']; i >= minZoom; i -= skipOver) {
-  //   startingPlace = i;
-  // }
+  let startingPlace;
+  for ( let i = maxZoom['terrain']; i >= minZoom; i -= skipOver) {
+    startingPlace = i;
+  }
   for ( let i = startingPlace; i <= maxZoom['terrain']; i += 2 ) {
     grid.push( new Tile( i ) );
-    break;
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
     grid[ i ].child = grid[ i + 1 ];
