@@ -92,7 +92,7 @@ function init() {
 	// }
 	// updateSun();
 	// // end Skybox
-	SkyStuff.init();
+	SkyStuff.init( renderer );
 
 	Controls.init( scene, camera );
 
