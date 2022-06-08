@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { Sky } from './lib/Sky.js';
 
-let sun;
+export let sun;
 
 export function init( scene, renderer ) {
   sun = new THREE.Vector3();
