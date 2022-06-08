@@ -3,7 +3,7 @@ import { Sky } from './lib/Sky.js';
 
 let sun;
 
-export function init( renderer ) {
+export function init( scene, renderer ) {
   // Skybox
   sun = new THREE.Vector3();
   const sky = new Sky();
