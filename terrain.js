@@ -12,11 +12,12 @@ const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsR
 // console.log( 'Horizon '+ Math.round( horizonDistance ) + ' m' ); // 156284m
 let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 
+const minZoom = 6;
 let maxZoom = {
   terrain: 12,
   satellite: 14 // actualy 20 but max canvas size is limited, 17 on chrome
 }
-const minZoom = 6;
+const extraZoom = 2;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -127,17 +128,21 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
-    let url = urlForTile( ...this.tile, 'terrain' );
-    const loader = new THREE.ImageLoader();
-    let thisTile = this;
-    loader.load( url, function ( image ) {
-        thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
-      },
-      undefined, // onProgress not supported
-      function () {
-        console.error( 'terrain ImageLoader error' );
-      }
-    );
+    if ( this.z > maxZoom['terrain'] ) {
+      thisTile.generatorQueue.push( thisTile.terrainGenerator( null, thisTile.tile.slice() ) );
+    } else {
+      let url = urlForTile( ...this.tile, 'terrain' );
+      const loader = new THREE.ImageLoader();
+      let thisTile = this;
+      loader.load( url, function ( image ) {
+          thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
+        },
+        undefined, // onProgress not supported
+        function () {
+          console.error( 'terrain ImageLoader error' );
+        }
+      );
+    }
   }
   *terrainGenerator( image, intendedTile ) {
     if ( !tilebelt.tilesEqual( this.tile, intendedTile ) ) {
@@ -152,19 +157,21 @@ class Tile {
     // var endTime = performance.now();
     // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
-    const canvas = document.createElement( 'canvas' );
-    canvas.width = ELEVATION_TILE_SIZE;
-    canvas.height = ELEVATION_TILE_SIZE;
-    // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
-    const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
-    ctx.drawImage( image, 0, 0 );
-    let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    if ( image != null ) {
+      const canvas = document.createElement( 'canvas' );
+      canvas.width = ELEVATION_TILE_SIZE;
+      canvas.height = ELEVATION_TILE_SIZE;
+      // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
+      const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
+      ctx.drawImage( image, 0, 0 );
+      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
-    yield;
-    timeList.push( performance.now() );
+      yield;
+      timeList.push( performance.now() );
 
-    for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
-      this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
+        this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      }
     }
 
     yield;
@@ -189,13 +196,16 @@ class Tile {
         let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
         let x = vertices[ j + 0 ] + this.centerX;
         let z = vertices[ j + 2 ] + this.centerZ;
+        if ( image == null ) {
+          this.heightData[ i ] = this.parent.lookupData( x, z );
+        }
         // curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
-          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z ) + 0.0001 * this.width;
+          vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
@@ -348,10 +358,11 @@ export function init( newScene, newCamera ) {
 
   let skipOver = 2;
   let startingPlace;
-  for ( let i = maxZoom['terrain']; i >= minZoom; i -= skipOver) {
+  let maxPlusExtra = maxZoom['terrain'] + extraZoom;
+  for ( let i = maxPlusExtra; i >= minZoom; i -= skipOver) {
     startingPlace = i;
   }
-  for ( let i = startingPlace; i <= maxZoom['terrain']; i += 2 ) {
+  for ( let i = startingPlace; i <= maxPlusExtra; i += 2 ) {
     grid.push( new Tile( i ) );
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
