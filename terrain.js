@@ -270,9 +270,6 @@ class Tile {
           this.tile[ 1 ] * satiliteTilesWidth + y,
           this.tile[ 2 ] + satilliteZoom
         ]
-        if ( satiliteTile[ 2 ] > maxZoom['satelliteHard'] ) {
-          console.error( 'satiliteTile[ 2 ] > maxZoom[ satelliteHard ]' )
-        }
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
         loader.load( url, function ( image ) {
