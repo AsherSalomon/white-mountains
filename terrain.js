@@ -237,7 +237,7 @@ class Tile {
     if ( this.inScene == false ) {
       this.inScene = true;
       scene.add( this.terrainMesh );
-      console.log(this.z);
+      // console.log(this.z);
       // if ( image == null ) {
       // }
     }
@@ -356,6 +356,7 @@ class Tile {
     if ( this.generatorQueue.length > 0 ) {
       if ( this.generatorQueue[ 0 ].next().done ) {
         this.generatorQueue.shift();
+        console.log(this.z);
       }
     }
   }
