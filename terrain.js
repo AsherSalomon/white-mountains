@@ -48,12 +48,11 @@ function curvatureOfTheEarth( x, z ) {
 class Tile {
 
   constructor( z ) {
+    this.tile = tilebelt.pointToTile( longitude, latitude, z );
 
-    this.z = z;
-    this.width = Math.pow( 2, maxZoom['terrain'] - this.z ) * baseTileWidth;
-    this.origin = tilebelt.pointToTileFraction( longitude, latitude, this.z );
+    this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
+    this.origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
 
-    this.tile = tilebelt.pointToTile( longitude, latitude, this.z );
     this.parent = null;
     this.child = null;
     this.inScene = false;
@@ -383,9 +382,6 @@ export function init( newScene, newCamera ) {
   }
   for ( let i = startingPlace; i <= enhancedZoom; i += 2 ) {
     grid.push( new Tile( i ) );
-    if ( i == enhancedZoom ) {
-      console.log('i == enhancedZoom');
-    }
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
     grid[ i ].child = grid[ i + 1 ];
