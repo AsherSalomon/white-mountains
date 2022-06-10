@@ -17,7 +17,8 @@ let maxZoom = {
   terrain: 12,
   satellite: 14, // actualy 20 but max canvas size is limited, 17 on chrome
 }
-const enhancedSatellite = 17;
+// const enhancedSatellite = 17;
+let satilliteZoom = 2;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -249,12 +250,12 @@ class Tile {
       this.satelliteCanvas = null;
     }
 
-    let satilliteZoom;
-    if ( this.z == maxZoom['terrain'] ) {
-      satilliteZoom = enhancedSatellite - maxZoom['terrain'];
-    } else {
-      satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
-    }
+    // let satilliteZoom;
+    // if ( this.z == maxZoom['terrain'] ) {
+    //   satilliteZoom = enhancedSatellite - maxZoom['terrain'];
+    // } else {
+    //   satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
+    // }
     let satiliteTilesWidth = Math.pow( 2, satilliteZoom );
 
     this.satelliteCanvas = document.createElement( 'canvas' );
