@@ -19,7 +19,7 @@ let maxZoom = {
 }
 // const enhancedSatellite = 17;
 let satilliteZoom = 2;
-let enhancedZoom = 18;
+let enhancedZoom = 16; // satillite 19 & 20 are the same
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
