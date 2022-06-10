@@ -238,7 +238,7 @@ class Tile {
       this.inScene = true;
       scene.add( this.terrainMesh );
       if ( image == null ) {
-        console.log('scene.add');
+        console.log(this.z);
       }
     }
     this.loading = false;
