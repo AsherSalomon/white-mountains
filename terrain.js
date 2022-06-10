@@ -252,6 +252,10 @@ class Tile {
       timeReport += Math.round( timeList[ i + 1 ] - timeList[ i ] ) + 'ms ';
     }
     // console.log( timeReport );
+    
+    if ( image == null ) {
+      this.terrainMesh.frustumCulled = false;
+    }
   }
   loadSatellite() {
     if ( this.texture != null ) {
