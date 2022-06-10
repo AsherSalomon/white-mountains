@@ -237,9 +237,9 @@ class Tile {
     if ( this.inScene == false ) {
       this.inScene = true;
       scene.add( this.terrainMesh );
-      if ( image == null ) {
-        console.log(this.z);
-      }
+      console.log(this.z);
+      // if ( image == null ) {
+      // }
     }
     this.loading = false;
     this.setClippingPlanes();
