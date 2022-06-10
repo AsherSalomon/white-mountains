@@ -175,7 +175,7 @@ class Tile {
         this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
     } else {
-      console.log('else');
+      console.log('enhanced');
     }
 
     yield;
@@ -252,7 +252,7 @@ class Tile {
       timeReport += Math.round( timeList[ i + 1 ] - timeList[ i ] ) + 'ms ';
     }
     // console.log( timeReport );
-    
+
     if ( image == null ) {
       this.terrainMesh.frustumCulled = false;
     }
