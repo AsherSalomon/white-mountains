@@ -399,14 +399,20 @@ export function update() {
   }
 
   for ( let i = 0; i < grid.length; i++ ) {
+    let parentInScene;
     if ( grid[ i ].parent != null ) {
       if ( grid[ i ].parent.inScene ) {
-        if ( grid[ i ].generatorQueue.length > 0 ) {
-          grid[ i ].updateGeneratorQueue();
-          break;
-          // do all the work on the upper tiles before doing any work on the lower ones
-        }
+        parentInScene = true;
+      } else {
+        parentInScene = false;
       }
+    } else {
+      parentInScene = true;
+    }
+    if ( grid[ i ].generatorQueue.length > 0 && parentInScene = true ) {
+      grid[ i ].updateGeneratorQueue();
+      break;
+      // do all the work on the upper tiles before doing any work on the lower ones
     }
   }
 
