@@ -143,7 +143,7 @@ class Tile {
         }
       );
     } else {
-      console.log('this.tile[ 2 ] > maxZoom[terrain]');
+        this.generatorQueue.push( this.terrainGenerator( null, this.tile.slice() ) );
     }
   }
   *terrainGenerator( image, intendedTile ) {
@@ -159,19 +159,21 @@ class Tile {
     // var endTime = performance.now();
     // console.log('Generator took ' + ( endTime - startTime ) + ' milliseconds');
 
-    const canvas = document.createElement( 'canvas' );
-    canvas.width = ELEVATION_TILE_SIZE;
-    canvas.height = ELEVATION_TILE_SIZE;
-    // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
-    const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
-    ctx.drawImage( image, 0, 0 );
-    let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    if ( image != null ) {
+      const canvas = document.createElement( 'canvas' );
+      canvas.width = ELEVATION_TILE_SIZE;
+      canvas.height = ELEVATION_TILE_SIZE;
+      // https://stackoverflow.com/questions/57834004/why-there-is-a-big-different-time-consuming-when-canvas-function-getimagedata-ex
+      const ctx = canvas.getContext( '2d', {willReadFrequently: true} );
+      ctx.drawImage( image, 0, 0 );
+      let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
-    yield;
-    timeList.push( performance.now() );
+      yield;
+      timeList.push( performance.now() );
 
-    for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
-      this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
+        this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      }
     }
 
     yield;
@@ -200,6 +202,9 @@ class Tile {
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
+          if ( image == null ) {
+            this.heightData[ i ] = this.parent.lookupData( x, z );
+          }
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
