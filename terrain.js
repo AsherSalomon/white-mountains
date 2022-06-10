@@ -24,7 +24,7 @@ let enhancedZoom = 16; // satillite 18 & 20 are the same
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
 
-const pineGreen = new THREE.Color( 0x01796f ); // 0x204219
+const pineGreen = new THREE.Color( 0x204219 );
 // console.log(  );
 
 let grid = [];
@@ -199,8 +199,8 @@ class Tile {
         let x = vertices[ j + 0 ] + this.centerX;
         let z = vertices[ j + 2 ] + this.centerZ;
         // curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
-        let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE - 1;
-        let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE - 1;
+        let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
+        let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
           if ( image == null ) {
             this.heightData[ i ] = this.parent.lookupData( x, z );
@@ -209,6 +209,7 @@ class Tile {
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
+          print( m, n );
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
       }
