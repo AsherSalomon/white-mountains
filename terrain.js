@@ -207,7 +207,11 @@ class Tile {
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
-          if ( this.tile[ 2 ] == enhancedZoom ) { console.log( vertices[ j + 1 ] ); }
+          if ( this.tile[ 2 ] == enhancedZoom ) {
+            if ( vertices[ j + 1 ] < 1000 ) {
+              console.log( vertices[ j + 1 ] );
+            }
+          }
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
