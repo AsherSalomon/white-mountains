@@ -209,7 +209,7 @@ class Tile {
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
-          console.log( m, n );
+          if ( this.z != minZoom ) { console.log( m, n ); }
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
       }
