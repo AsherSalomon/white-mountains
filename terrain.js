@@ -356,7 +356,7 @@ class Tile {
     if ( this.generatorQueue.length > 0 ) {
       if ( this.generatorQueue[ 0 ].next().done ) {
         this.generatorQueue.shift();
-        console.log(this.z);
+        // console.log(this.z);
       }
     }
   }
@@ -391,6 +391,9 @@ export function init( newScene, newCamera ) {
 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 	// scene.add( helper );
 }
+
+// let queueTicketAlocator = 0;
+// let queueTicketNext = 0;
 
 export function update() {
 
