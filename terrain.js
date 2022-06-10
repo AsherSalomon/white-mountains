@@ -174,6 +174,8 @@ class Tile {
       for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
         this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
+    } else {
+      console.log('else');
     }
 
     yield;
