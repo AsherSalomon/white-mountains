@@ -399,10 +399,14 @@ export function update() {
   }
 
   for ( let i = 0; i < grid.length; i++ ) {
-    if ( grid[ i ].generatorQueue.length > 0 ) {
-      grid[ i ].updateGeneratorQueue();
-      break;
-      // do all the work on the upper tiles before doing any work on the lower ones
+    if ( grid[ i ].parent != null ) {
+      if ( grid[ i ].parent.inScene ) {
+        if ( grid[ i ].generatorQueue.length > 0 ) {
+          grid[ i ].updateGeneratorQueue();
+          break;
+          // do all the work on the upper tiles before doing any work on the lower ones
+        }
+      }
     }
   }
 
