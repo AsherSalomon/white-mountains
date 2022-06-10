@@ -383,6 +383,9 @@ export function init( newScene, newCamera ) {
   }
   for ( let i = startingPlace; i <= enhancedZoom; i += 2 ) {
     grid.push( new Tile( i ) );
+    if ( i == enhancedZoom ) {
+      console.log('i == enhancedZoom');
+    }
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
     grid[ i ].child = grid[ i + 1 ];
