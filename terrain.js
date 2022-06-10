@@ -209,11 +209,11 @@ class Tile {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
-          if ( this.tile[ 2 ] == enhancedZoom ) { console.log( vertices[ j + 1 ] ); }
         }
       }
     }
 
+    if ( this.tile[ 2 ] == enhancedZoom ) { console.log( 'hi' ); }
 
     if ( this.inScene ) {
       this.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
