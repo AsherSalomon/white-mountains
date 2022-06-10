@@ -15,10 +15,11 @@ let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 const minZoom = 6;
 let maxZoom = {
   terrain: 12,
-  satellite: 14, // actualy 20 but max canvas size is limited, 17 on chrome
+  satellite: 20, // actualy 20 but max canvas size is limited, 17 on chrome
 }
 // const enhancedSatellite = 17;
 let satilliteZoom = 2;
+let enhancedZoom = 14;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -129,17 +130,21 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
-    let url = urlForTile( ...this.tile, 'terrain' );
-    const loader = new THREE.ImageLoader();
-    let thisTile = this;
-    loader.load( url, function ( image ) {
-        thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
-      },
-      undefined, // onProgress not supported
-      function () {
-        console.error( 'terrain ImageLoader error' );
-      }
-    );
+    if ( this.tile[ 2 ] <= maxZoom['terrain'] ) {
+      let url = urlForTile( ...this.tile, 'terrain' );
+      const loader = new THREE.ImageLoader();
+      let thisTile = this;
+      loader.load( url, function ( image ) {
+          thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
+        },
+        undefined, // onProgress not supported
+        function () {
+          console.error( 'terrain ImageLoader error' );
+        }
+      );
+    } else {
+      console.log('this.tile[ 2 ] > maxZoom[terrain]');
+    }
   }
   *terrainGenerator( image, intendedTile ) {
     if ( !tilebelt.tilesEqual( this.tile, intendedTile ) ) {
@@ -258,6 +263,10 @@ class Tile {
     // }
     let satiliteTilesWidth = Math.pow( 2, satilliteZoom );
 
+    if ( this.z + satilliteZoom > maxZoom['satellite'] ) {
+      console.error( 'this.z + satilliteZoom > maxZoom[satellite]' );
+    }
+
     this.satelliteCanvas = document.createElement( 'canvas' );
     this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
@@ -355,10 +364,10 @@ export function init( newScene, newCamera ) {
 
   let skipOver = 2;
   let startingPlace;
-  for ( let i = maxZoom['terrain']; i >= minZoom; i -= skipOver) {
+  for ( let i = enhancedZoom; i >= minZoom; i -= skipOver) {
     startingPlace = i;
   }
-  for ( let i = startingPlace; i <= maxZoom['terrain']; i += 2 ) {
+  for ( let i = startingPlace; i <= enhancedZoom; i += 2 ) {
     grid.push( new Tile( i ) );
   }
   for ( let i = 0; i < grid.length - 1; i++ ) {
