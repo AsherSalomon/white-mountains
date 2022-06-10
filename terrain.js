@@ -409,7 +409,7 @@ export function update() {
     } else {
       parentInScene = true;
     }
-    if ( grid[ i ].generatorQueue.length > 0 && parentInScene = true ) {
+    if ( grid[ i ].generatorQueue.length > 0 && parentInScene ) {
       grid[ i ].updateGeneratorQueue();
       break;
       // do all the work on the upper tiles before doing any work on the lower ones
