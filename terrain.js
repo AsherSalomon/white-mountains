@@ -17,6 +17,7 @@ let maxZoom = {
   terrain: 12,
   satellite: 14, // actualy 20 but max canvas size is limited, 17 on chrome
 }
+const enhancedSatellite = 17;
 
 const ELEVATION_TILE_SIZE = 512;
 const IMAGERY_TILE_SIZE = 256;
@@ -247,8 +248,13 @@ class Tile {
       this.groundMaterial.color = pineGreen;
       this.satelliteCanvas = null;
     }
-    // to do: multiple satilite images to one terrain tile
-    let satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
+
+    let satilliteZoom;
+    if ( this.z == maxZoom['terrain'] ) {
+      satilliteZoom = enhancedSatellite - maxZoom['terrain'];
+    } else {
+      satilliteZoom = maxZoom['satellite'] - maxZoom['terrain'];
+    }
     let satiliteTilesWidth = Math.pow( 2, satilliteZoom );
 
     this.satelliteCanvas = document.createElement( 'canvas' );
@@ -269,7 +275,7 @@ class Tile {
           this.tile[ 0 ] * satiliteTilesWidth + x,
           this.tile[ 1 ] * satiliteTilesWidth + y,
           this.tile[ 2 ] + satilliteZoom
-        ]
+        ];
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
         loader.load( url, function ( image ) {
