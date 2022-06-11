@@ -399,6 +399,8 @@ export function init( newScene, newCamera ) {
 //
 // 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 // 	// scene.add( helper );
+
+  grid.push( new Tile( maxZoom['terrain'] ) );
 }
 //
 // // let queueTicketAlocator = 0;
