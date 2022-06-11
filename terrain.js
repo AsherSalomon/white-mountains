@@ -210,11 +210,6 @@ class Tile {
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
-        if ( this.tile[ 2 ] == enhancedZoom ) {
-          if ( vertices[ j + 1 ] < 1500 ) {
-            console.log( vertices[ j + 1 ] );
-          }
-        }
       }
     }
 
