@@ -1,22 +1,22 @@
-// import * as THREE from 'three';
-// import * as tilebelt from './lib/tilebelt.js';
-//
+import * as THREE from 'three';
+import * as tilebelt from './lib/tilebelt.js';
+
 let scene, camera;
-//
-// const latitude = 44.2705; // Mt. Washington
-// const longitude = -71.30325;
-// const earthsRaius = 6371000; // meters
-// const eyeHeight = 1.6256; // meters
-// const maxElevation = 1916.582; // 9144; // meters
-// const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsRaius ** 2 );
+
+const latitude = 44.2705; // Mt. Washington
+const longitude = -71.30325;
+const earthsRaius = 6371000; // meters
+const eyeHeight = 1.6256; // meters
+const maxElevation = 1916.582; // 9144; // meters
+const horizonDistance = Math.sqrt( ( earthsRaius + maxElevation ) ** 2 - earthsRaius ** 2 );
 // // console.log( 'Horizon '+ Math.round( horizonDistance ) + ' m' ); // 156284m
 // let baseTileWidth; // 6999.478360682135 meters at maxZoom['terrain']
 //
 // const minZoom = 6;
-// let maxZoom = {
-//   terrain: 12,
-//   satellite: 20, // actualy 20 but max canvas size is limited, 17 on chrome
-// }
+let maxZoom = {
+  terrain: 12,
+  satellite: 20, // actualy 20 but max canvas size is limited, 17 on chrome
+}
 // // const enhancedSatellite = 17;
 // let satilliteZoom = 2;
 // let enhancedZoom = 16; // satillite 18 & 20 are the same
@@ -26,9 +26,9 @@ let scene, camera;
 //
 // const pineGreen = new THREE.Color( 0x204219 );
 // // console.log(  );
-//
-// let grid = [];
-//
+
+let grid = [];
+
 // let apiKey = '5oT5Np7ipsbVhre3lxdi';
 // let urlFormat = {
 //   terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
@@ -45,14 +45,14 @@ let scene, camera;
 //   return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
 // }
 //
-// class Tile {
-//
-//   constructor( z ) {
-//     this.tile = tilebelt.pointToTile( longitude, latitude, z );
-//
-//     this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
-//     this.origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
-//
+class Tile {
+
+  constructor( z ) {
+    this.tile = tilebelt.pointToTile( longitude, latitude, z );
+
+    this.width = Math.pow( 2, maxZoom['terrain'] - this.tile[ 2 ] ) * baseTileWidth;
+    // this.origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
+
 //     this.parent = null;
 //     this.child = null;
 //     this.inScene = false;
@@ -75,7 +75,13 @@ let scene, camera;
 //     this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
 //
 //     this.generatorQueue = [];
-//   }
+
+    	this.gridHelper = new THREE.GridHelper( this.width, 1 );
+      let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
+      this.gridHelper.position.x = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
+      this.gridHelper.position.z = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
+    	scene.add( this.gridHelper );
+  }
 //   reCenter() {
 //     this.centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
 //     this.centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
@@ -93,7 +99,7 @@ let scene, camera;
 //       }
 //     }
 //   }
-//   update() {
+  update() {
 //     // let centerX = ( 0.5 + this.tile[ 0 ] - this.origin[ 0 ] ) * this.width;
 //     // let centerZ = ( 0.5 + this.tile[ 1 ] - this.origin[ 1 ] ) * this.width;
 //
@@ -123,7 +129,11 @@ let scene, camera;
 //       this.loading = true;
 //       this.loadTerrain();
 //     }
-//   };
+
+    let origin = tilebelt.pointToTileFraction( longitude, latitude, this.tile[ 2 ] );
+    this.gridHelper.position.x = ( 0.5 + this.tile[ 0 ] - origin[ 0 ] ) * this.width;
+    this.gridHelper.position.z = ( 0.5 + this.tile[ 1 ] - origin[ 1 ] ) * this.width;
+  }
 //   dataToHeight( data ) {
 //     // Elevation in meters
 //     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
@@ -360,21 +370,20 @@ let scene, camera;
 //       }
 //     }
 //   }
-// }
-//
-//
+}
+
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
-//
-//   let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
-//   let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
-//   let deltaNS = bbox[3] - bbox[1]; // n - s
-//   let deltaEW = bbox[2] - bbox[0]; // e - w
-//   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
-//   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
-//   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
-//
+
+  let baseTile = tilebelt.pointToTile( longitude, latitude,  maxZoom['terrain'] );
+  let bbox = tilebelt.tileToBBOX( baseTile ); // [w, s, e, n]
+  let deltaNS = bbox[3] - bbox[1]; // n - s
+  let deltaEW = bbox[2] - bbox[0]; // e - w
+  let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
+  let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
+  baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
+
 //   let skipOver = 2;
 //   let startingPlace;
 //   for ( let i = enhancedZoom; i >= minZoom; i -= skipOver) {
@@ -396,11 +405,11 @@ export function init( newScene, newCamera ) {
 // // let queueTicketNext = 0;
 //
 export function update() {
-//
-//   for ( let i = 0; i < grid.length; i++ ) {
-//     grid[ i ].update();
-//   }
-//
+
+  for ( let i = 0; i < grid.length; i++ ) {
+    grid[ i ].update();
+  }
+
 //   for ( let i = 0; i < grid.length; i++ ) {
 //     let parentInScene;
 //     if ( grid[ i ].parent != null ) {
