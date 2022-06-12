@@ -203,7 +203,6 @@ class Tile {
         if ( !mIsEdge && !nIsEdge ) {
           if ( image == null ) {
             if ( m == 1 && n == 1 ) {
-              console.log( 'wtf' );
               this.heightData[ i ] = this.parent.lookupData( x, z, true );
             } else {
               this.heightData[ i ] = this.parent.lookupData( x, z );
