@@ -202,10 +202,11 @@ class Tile {
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
           if ( image == null ) {
-            this.heightData[ i ] = this.parent.lookupData( x, z );
-          }
-          if ( image == null && m == 1 && n == 1 ) {
-            console.log( 'parent.lookupData A' );
+            if ( m == 1 && n == 1 ) {
+              this.heightData[ i ] = this.parent.lookupData( x, z, true );
+            } else {
+              this.heightData[ i ] = this.parent.lookupData( x, z );
+            }
           }
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
@@ -326,7 +327,7 @@ class Tile {
       this.texture.needsUpdate = true;
     }
   }
-  lookupData( x, z ) {
+  lookupData( x, z, debug = false ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
@@ -350,9 +351,9 @@ class Tile {
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
     } else if ( this.parent != null ) {
       return this.parent.lookupData( x, z );
-      // if ( image == null ) {
-      //   console.log( 'parent.lookupData A' );
-      // }
+      if ( debug ) {
+        console.log( 'parent.lookupData B' );
+      }
     } else {
       return 0;
     }
