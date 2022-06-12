@@ -201,14 +201,15 @@ class Tile {
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
-          if ( image == null ) {
-            this.heightData[ i ] = 0; // this.parent.lookupData( x, z );
-          }
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
+        }
+        if ( image == null && m ==1 && n == 1 ) {
+          // this.heightData[ i ] = 0; // this.parent.lookupData( x, z );
+          console.log( verticies[ j + 1 ] );
         }
       }
     }
