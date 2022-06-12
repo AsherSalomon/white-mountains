@@ -203,6 +203,7 @@ class Tile {
         if ( !mIsEdge && !nIsEdge ) {
           if ( image == null ) {
             if ( m == 1 && n == 1 ) {
+              console.log( 'wtf' );
               this.heightData[ i ] = this.parent.lookupData( x, z, true );
             } else {
               this.heightData[ i ] = this.parent.lookupData( x, z );
@@ -328,6 +329,9 @@ class Tile {
     }
   }
   lookupData( x, z, debug = false ) {
+    if ( debug ) {
+      console.log( 'lookupData' );
+    }
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
@@ -353,9 +357,6 @@ class Tile {
       return this.parent.lookupData( x, z );
     } else {
       return 0;
-    }
-    if ( debug ) {
-      console.log( 'lookupData' );
     }
   }
   updateGeneratorQueue() {
