@@ -328,9 +328,6 @@ class Tile {
     }
   }
   lookupData( x, z, debug = false ) {
-    if ( debug ) {
-      console.log( 'lookupData' );
-    }
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
@@ -350,6 +347,9 @@ class Tile {
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
       // console.error('wtf');
+      if ( debug ) {
+        console.log( 'return interpolated' );
+      }
       return interpolated;
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
     } else if ( this.parent != null ) {
