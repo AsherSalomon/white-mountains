@@ -348,7 +348,7 @@ class Tile {
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
       // console.error('wtf');
       if ( debug ) {
-        console.log( 'return interpolated' );
+        console.log( interpolated );
       }
       return interpolated;
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
