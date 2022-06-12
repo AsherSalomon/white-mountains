@@ -342,6 +342,8 @@ class Tile {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+      if ( m - m1 > 1 || m - m1 < 0 ) { console.error('wtf'); }
+      if ( n - n1 > 1 || n - n1 < 0 ) { console.error('wtf'); }
       return interpolated;
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
     } else if ( this.parent != null ) {
