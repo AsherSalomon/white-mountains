@@ -209,7 +209,7 @@ class Tile {
         }
         if ( image == null && m ==1 && n == 1 ) {
           // this.heightData[ i ] = 0; // this.parent.lookupData( x, z );
-          console.log( verticies[ j + 1 ] );
+          console.log( vertices[ j + 1 ] );
         }
       }
     }
