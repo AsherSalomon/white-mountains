@@ -197,17 +197,13 @@ class Tile {
         let j = ( m * ( ELEVATION_TILE_SIZE + 1 ) + n ) * 3;
         let x = vertices[ j + 0 ] + this.centerX;
         let z = vertices[ j + 2 ] + this.centerZ;
+        if ( image == null ) {
+          this.heightData[ i ] = this.parent.lookupData( x, z );
+        }
         // curvatureOfTheEarth = ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
-          if ( image == null ) {
-            if ( m == 1 && n == 1 ) {
-              this.heightData[ i ] = this.parent.lookupData( x, z, true );
-            } else {
-              this.heightData[ i ] = this.parent.lookupData( x, z );
-            }
-          }
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
@@ -327,7 +323,7 @@ class Tile {
       this.texture.needsUpdate = true;
     }
   }
-  lookupData( x, z, debug = false ) {
+  lookupData( x, z ) { // , debug = false ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
@@ -346,10 +342,9 @@ class Tile {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-      // console.error('wtf');
-      if ( debug ) {
-        console.log( d12, d22, d12, m, m1 );
-      }
+      // if ( debug ) {
+      //   console.log( d12, d22, d12, m, m1 );
+      // }
       return interpolated;
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
     } else if ( this.parent != null ) {
