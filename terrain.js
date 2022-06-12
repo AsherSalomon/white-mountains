@@ -204,11 +204,11 @@ class Tile {
           if ( image == null ) {
             this.heightData[ i ] = this.parent.lookupData( x, z );
           }
-          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
-        } else if ( this.parent != null ) {
           if ( image == null && m == 1 && n == 1 ) {
             console.log( 'parent.lookupData A' );
           }
+          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
+        } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
