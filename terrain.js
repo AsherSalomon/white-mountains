@@ -201,6 +201,9 @@ class Tile {
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
+          if ( image == null ) {
+            this.heightData[ i ] = this.parent.lookupData( x, z );
+          }
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
