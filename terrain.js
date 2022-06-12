@@ -206,13 +206,12 @@ class Tile {
           }
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         } else if ( this.parent != null ) {
+          if ( image == null && m == 1 && n == 1 ) {
+            console.log( 'parent.lookupData A' );
+          }
           vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
-        }
-        if ( image == null && m ==1 && n == 1 ) {
-          // this.heightData[ i ] = 0; // this.parent.lookupData( x, z );
-          console.log( vertices[ j + 1 ] );
         }
       }
     }
@@ -351,6 +350,9 @@ class Tile {
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
     } else if ( this.parent != null ) {
       return this.parent.lookupData( x, z );
+      // if ( image == null ) {
+      //   console.log( 'parent.lookupData A' );
+      // }
     } else {
       return 0;
     }
