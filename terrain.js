@@ -349,13 +349,13 @@ class Tile {
       // console.error('wtf');
       return interpolated;
       // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
-      if ( debug ) {
-        console.log( 'return interpolated' );
-      }
     } else if ( this.parent != null ) {
       return this.parent.lookupData( x, z );
     } else {
       return 0;
+    }
+    if ( debug ) {
+      console.log( 'lookupData' );
     }
   }
   updateGeneratorQueue() {
