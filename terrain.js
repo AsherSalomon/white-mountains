@@ -134,7 +134,7 @@ class Tile {
       const loader = new THREE.ImageLoader();
       let thisTile = this;
       loader.load( url, function ( image ) {
-          thisTile.generatorQueue.push( thisTile.terrainGenerator( image, thisTile.tile.slice() ) );
+          thisTile.generatorQueue.push( thisTile.terrainGenerator( image ) );
         },
         undefined, // onProgress not supported
         function () {
@@ -145,10 +145,7 @@ class Tile {
         this.generatorQueue.push( this.terrainGenerator( null, this.tile.slice() ) );
     }
   }
-  *terrainGenerator( image, intendedTile ) {
-    if ( !tilebelt.tilesEqual( this.tile, intendedTile ) ) {
-      console.error( 'terrain not intended tile' );
-    }
+  *terrainGenerator( image ) {
 
     let timeList = [];
     timeList.push( performance.now() );
@@ -302,7 +299,7 @@ class Tile {
         let thisTile = this;
         loader.load( url, function ( image ) {
             thisTile.generatorQueue.push(
-              thisTile.satelliteGenerator( image, x, y, thisTile.tile.slice() )
+              thisTile.satelliteGenerator( image, x, y, )
             );
           },
           undefined, // onProgress not supported
@@ -313,17 +310,13 @@ class Tile {
       }
     }
   }
-  *satelliteGenerator( image, x, y, intendedTile ) {
-    if ( tilebelt.tilesEqual( this.tile, intendedTile ) ) {
-      const ctx = this.satelliteCanvas.getContext( '2d' );
-      ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
-      this.groundMaterial.map = this.texture;
-      this.groundMaterial.color = new THREE.Color();
-      this.groundMaterial.needsUpdate = true;
-      this.texture.needsUpdate = true;
-    } else {
-      console.error( 'satellite not intended tile' );
-    }
+  *satelliteGenerator( image, x, y ) {
+    const ctx = this.satelliteCanvas.getContext( '2d' );
+    ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    this.groundMaterial.map = this.texture;
+    this.groundMaterial.color = new THREE.Color();
+    this.groundMaterial.needsUpdate = true;
+    this.texture.needsUpdate = true;
   }
   lookupData( x, z ) { // , debug = false ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
