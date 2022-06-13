@@ -321,6 +321,8 @@ class Tile {
       this.groundMaterial.color = new THREE.Color();
       this.groundMaterial.needsUpdate = true;
       this.texture.needsUpdate = true;
+    } else {
+      console.error( 'satellite not intended tile' );
     }
   }
   lookupData( x, z ) { // , debug = false ) {
