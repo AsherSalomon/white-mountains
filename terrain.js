@@ -360,10 +360,11 @@ class Tile {
       if ( !tilebelt.tilesEqual( this.tile, this.generatorQueue[ 0 ].intendedTile ) ) {
         // console.error( 'not intended tile' );
         this.generatorQueue.shift();
-      }
-      if ( this.generatorQueue[ 0 ].next().done ) {
-        this.generatorQueue.shift();
-        // console.log(this.z);
+      } else {
+        if ( this.generatorQueue[ 0 ].next().done ) {
+          this.generatorQueue.shift();
+          // console.log(this.z);
+        }
       }
     }
   }
