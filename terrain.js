@@ -136,7 +136,7 @@ class Tile {
       let thisTile = this;
       loader.load( url, function ( image ) {
           let newTerrainGenerator = thisTile.terrainGenerator( image );
-
+          newTerrainGenerator.intendedTile = intendedTile;
           thisTile.generatorQueue.push( newTerrainGenerator );
         },
         undefined, // onProgress not supported
