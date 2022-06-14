@@ -141,7 +141,7 @@ class Tile {
         },
         undefined, // onProgress not supported
         function () {
-          console.error( 'terrain ImageLoader error' );
+          // console.error( 'terrain ImageLoader error' );
         }
       );
     } else {
@@ -309,7 +309,7 @@ class Tile {
           },
           undefined, // onProgress not supported
           function () {
-            console.error( 'satellite ImageLoader error' );
+            // console.error( 'satellite ImageLoader error' );
           }
         );
       }
