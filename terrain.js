@@ -358,7 +358,8 @@ class Tile {
     // TerrainChunkRebuilder
     if ( this.generatorQueue.length > 0 ) {
       if ( !tilebelt.tilesEqual( this.tile, this.generatorQueue[ 0 ].intendedTile ) ) {
-        console.error( 'not intended tile' );
+        // console.error( 'not intended tile' );
+        this.generatorQueue.shift();
       }
       if ( this.generatorQueue[ 0 ].next().done ) {
         this.generatorQueue.shift();
