@@ -396,7 +396,10 @@ export function init( newScene, newCamera ) {
   //   grid[ i + 1 ].parent = grid[ i ];
   // }
 
+  grid.push( new Tile( minZoom ) );
   grid.push( new Tile( maxZoom['terrain'] ) );
+  grid[ 0 ].child = grid[ 1 ];
+  grid[ 1 ].parent = grid[ 0 ];
 
 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 	// scene.add( helper );
