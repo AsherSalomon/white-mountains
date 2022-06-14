@@ -145,7 +145,9 @@ class Tile {
         }
       );
     } else {
-        this.generatorQueue.push( this.terrainGenerator( null, this.tile.slice() ) );
+      let newGenerator = this.terrainGenerator( null, intendedTile );
+      newGenerator.intendedTile = intendedTile;
+      this.generatorQueue.push( newGenerator );
     }
   }
   *terrainGenerator( image, intendedTile ) {
