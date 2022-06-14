@@ -383,18 +383,20 @@ export function init( newScene, newCamera ) {
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   baseTileWidth = ( tileWidthNS + tileWidthEW ) / 2;
 
-  let skipOver = 2;
-  let startingPlace;
-  for ( let i = enhancedZoom; i >= minZoom; i -= skipOver) {
-    startingPlace = i;
-  }
-  for ( let i = startingPlace; i <= enhancedZoom; i += 2 ) {
-    grid.push( new Tile( i ) );
-  }
-  for ( let i = 0; i < grid.length - 1; i++ ) {
-    grid[ i ].child = grid[ i + 1 ];
-    grid[ i + 1 ].parent = grid[ i ];
-  }
+  // let skipOver = 2;
+  // let startingPlace;
+  // for ( let i = enhancedZoom; i >= minZoom; i -= skipOver) {
+  //   startingPlace = i;
+  // }
+  // for ( let i = startingPlace; i <= enhancedZoom; i += 2 ) {
+  //   grid.push( new Tile( i ) );
+  // }
+  // for ( let i = 0; i < grid.length - 1; i++ ) {
+  //   grid[ i ].child = grid[ i + 1 ];
+  //   grid[ i + 1 ].parent = grid[ i ];
+  // }
+
+  grid.push( new Tile( maxZoom['terrain'] ) );
 
 	// const helper = new THREE.PolarGridHelper( horizonDistance, 4, 1, 12 );
 	// scene.add( helper );
