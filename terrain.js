@@ -129,12 +129,15 @@ class Tile {
     return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
   }
   loadTerrain() {
+    let intendedTile = thisTile.tile.slice();
     if ( this.tile[ 2 ] <= maxZoom['terrain'] ) {
       let url = urlForTile( ...this.tile, 'terrain' );
       const loader = new THREE.ImageLoader();
       let thisTile = this;
       loader.load( url, function ( image ) {
-          thisTile.generatorQueue.push( thisTile.terrainGenerator( image ) );
+          let newTerrainGenerator = thisTile.terrainGenerator( image );
+
+          thisTile.generatorQueue.push( newTerrainGenerator );
         },
         undefined, // onProgress not supported
         function () {
