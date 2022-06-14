@@ -135,9 +135,9 @@ class Tile {
       const loader = new THREE.ImageLoader();
       let thisTile = this;
       loader.load( url, function ( image ) {
-          let newTerrainGenerator = thisTile.terrainGenerator( image );
-          newTerrainGenerator.intendedTile = intendedTile;
-          thisTile.generatorQueue.push( newTerrainGenerator );
+          let newGenerator = thisTile.terrainGenerator( image, intendedTile );
+          newGenerator.intendedTile = intendedTile;
+          thisTile.generatorQueue.push( newGenerator );
         },
         undefined, // onProgress not supported
         function () {
@@ -148,7 +148,7 @@ class Tile {
         this.generatorQueue.push( this.terrainGenerator( null, this.tile.slice() ) );
     }
   }
-  *terrainGenerator( image ) {
+  *terrainGenerator( image, intendedTile ) {
 
     let timeList = [];
     timeList.push( performance.now() );
@@ -244,7 +244,7 @@ class Tile {
     this.loading = false;
     this.setClippingPlanes();
 
-    this.loadSatellite();
+    this.loadSatellite( intendedTile );
 
     timeList.push( performance.now() );
 
@@ -258,7 +258,7 @@ class Tile {
       this.terrainMesh.frustumCulled = false;
     }
   }
-  loadSatellite() {
+  loadSatellite( intendedTile ) {
     if ( this.texture != null ) {
       this.texture.dispose();
       this.groundMaterial.map = null;
@@ -301,9 +301,9 @@ class Tile {
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisTile = this;
         loader.load( url, function ( image ) {
-            thisTile.generatorQueue.push(
-              thisTile.satelliteGenerator( image, x, y, )
-            );
+            let newGenerator = thisTile.satelliteGenerator( image, x, y, );
+            newGenerator.intendedTile = intendedTile;
+            thisTile.generatorQueue.push( newGenerator );
           },
           undefined, // onProgress not supported
           function () {
@@ -355,6 +355,9 @@ class Tile {
     // https://github.com/simondevyoutube/ProceduralTerrain_Part4/blob/master/src/terrain.js
     // TerrainChunkRebuilder
     if ( this.generatorQueue.length > 0 ) {
+      if ( !tilebelt.tilesEqual( this.tile, this.generatorQueue[ 0 ].intendedTile ) ) {
+        console.error( 'not intended tile' );
+      }
       if ( this.generatorQueue[ 0 ].next().done ) {
         this.generatorQueue.shift();
         // console.log(this.z);
