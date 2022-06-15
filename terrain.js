@@ -71,6 +71,24 @@ class Layer {
       }
     }
 
+    for ( let i = this.tiles.length - 1; i >= 0; i-- ) {
+      let removeTile = true;
+      for ( let m = -1; m <= 1; m += 2 ) {
+        for ( let n = -1; n <= 1; n += 2 ) {
+          let proposedX = Math.floor( cameraX + 0.5 * n );
+          let proposedZ = Math.floor( cameraZ + 0.5 * m );
+          let proposedTile = [ proposedX, proposedZ, this.z ];
+          if ( tilebelt.tilesEqual( this.tiles[ i ], proposedTile ) ) {
+            removeTile = false;
+          }
+        }
+      }
+      if ( removeTile ) {
+        this.tiles[ i ].dispose();
+        this.tiles.splice( i, 1 );
+      }
+    }
+
     for ( let i = 0; i < this.tiles.length; i++ ) {
       this.tiles[ i ].update();
     }
@@ -94,14 +112,18 @@ class Tile {
   constructor( tile ) {
     this.tile = tile;
     let z = tile[ 2 ];
-    const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
+    this.gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
     // let tile = tilebelt.pointToTile( longitude, latitude, z );
-    gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
-    gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
+    this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
+    this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
     scene.add( gridHelper );
   }
 
   update() {
+  }
+
+  dispose() {
+    scene.remove( this.gridHelper );
   }
 
 }
