@@ -37,9 +37,6 @@ function init() {
 	// scene.background = new THREE.Color( 0x2759b0 );
 	scene.fog = new THREE.Fog( 0x7f7f7f, 1, 156260 );
 
-	const axesHelper = new THREE.AxesHelper( 1609.34 ); // 1 mile
-	scene.add( axesHelper );
-
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
 	// camera.position.set( 0, 9144, 9144 ); // 9144m is 30000ft
