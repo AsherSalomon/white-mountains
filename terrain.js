@@ -62,8 +62,8 @@ class Layer {
 
     for ( let m = -1; m <= 1; m += 2 ) {
       for ( let n = -1; n <= 1; n += 2 ) {
-        let proposedX = Math.floor( cameraX + 0.5 * n );
-        let proposedZ = Math.floor( cameraZ + 0.5 * m );
+        let proposedX = Math.floor( cameraX + 0.75 * n );
+        let proposedZ = Math.floor( cameraZ + 0.75 * m );
         let proposedTile = [ proposedX, proposedZ, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
