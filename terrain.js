@@ -52,26 +52,48 @@ class Layer {
   constructor( z ) {
     this.z = z;
     this.tiles = [];
-    this.tiles.push( new Tile( z ) );
+    // this.tiles.push( new Tile( z ) );
   }
 
   update() {
 
-    let deltaX = Math.round( ( camera.position.x - this.centerX ) / this.width );
-    let deltaZ = Math.round( ( camera.position.z - this.centerZ ) / this.width );
+    let cameraX = camera.position.x / tileWidth[ this.z ] + origin[ this.z ][ 0 ];
+    let cameraZ = camera.position.z / tileWidth[ this.z ] + origin[ this.z ][ 1 ];
+
+    for ( let m = -1; m <= 1; m += 2 ) {
+      for ( let n = -1; n <= 1; n += 2 ) {
+        let proposedX = Math.round( cameraX + 0.5 * n );
+        let proposedZ = Math.round( cameraZ + 0.5 * m );
+        let proposedTile = [ proposedX, proposedZ, this.z ];
+        if ( tileInTiles( proposedTile ) == false ) {
+          this.tiles.push( new Tile( proposedTile ) );
+        }
+      }
+    }
 
     for ( let i = 0; i < this.tiles.length; i++ ) {
       this.tiles[ i ].update();
     }
+
+  }
+
+  tileInTiles( tile ) {
+    let inTiles = false;
+    for ( let i = 0; i < this.tiles.length; i++ ) {
+      if ( tilebelt.tilesEqual( tile, this.tiles[ i ] ) ) {
+        inTiles = true;
+      }
+    }
+    return inTiles;
   }
 
 }
 
 class Tile {
 
-  constructor( z ) {
-    const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE / 2 );
-    let tile = tilebelt.pointToTile( longitude, latitude, z );
+  constructor( tile ) {
+    const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
+    // let tile = tilebelt.pointToTile( longitude, latitude, z );
     gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
     gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
     scene.add( gridHelper );
