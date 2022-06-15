@@ -60,7 +60,7 @@ class Layer {
     let cameraX = camera.position.x / tileWidth[ this.z ] + origin[ this.z ][ 0 ];
     let cameraZ = camera.position.z / tileWidth[ this.z ] + origin[ this.z ][ 1 ];
 
-    const addThreshold = 0.333;
+    const addThreshold = 0.5;
     for ( let m = -1; m <= 1; m += 2 ) {
       for ( let n = -1; n <= 1; n += 2 ) {
         let proposedX = Math.floor( cameraX + addThreshold * n );
