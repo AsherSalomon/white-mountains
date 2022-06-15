@@ -13,19 +13,7 @@ const maxZoom = 12;
 let origin = {};
 let tileWidth = {};
 
-const ELEVATION_TILE_SIZE = 512;
-const IMAGERY_TILE_SIZE = 256;
-const apiKey = '5oT5Np7ipsbVhre3lxdi';
-let urlFormat = {
-  terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
-  satellite: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
-  // protocolbuffer: 'https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key={apiKey}'
-  // https://wiki.openstreetmap.org/wiki/PBF_Format
-}
-function urlForTile( x, y, z, type ) {
-  return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
-    .replace( '{z}', z ).replace( '{apiKey}', apiKey );
-}
+let layers = [];
 
 export function init( newScene, newCamera ) {
   scene = newScene;
@@ -47,13 +35,58 @@ export function init( newScene, newCamera ) {
     tileWidth[ z ] = Math.pow( 2, maxZoom - z ) * baseTileWidth;
   }
 
-  const gridHelper = new THREE.GridHelper( tileWidth[ maxZoom ], ELEVATION_TILE_SIZE );
-  let tile = tilebelt.pointToTile( longitude, latitude, maxZoom );
-  gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ maxZoom ][ 0 ] ) * tileWidth[ maxZoom ];
-  gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ maxZoom ][ 1 ] ) * tileWidth[ maxZoom ];
-  scene.add( gridHelper );
+  layers.push( new Layer( maxZoom ) );
 
 }
 
 export function update() {
+
+  for ( let i = 0; i < layers.length; i++ ) {
+    layers[ i ].update();
+  }
+
+}
+
+class Layer {
+
+  constructor( z ) {
+    this.tiles = [];
+    this.tiles.push( new Tile( z ) );
+  }
+
+  update() {
+    for ( let i = 0; i < this.tiles.length; i++ ) {
+      this.tiles[ i ].update();
+    }
+  }
+
+}
+
+class Tile {
+
+  constructor( z ) {
+    const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
+    let tile = tilebelt.pointToTile( longitude, latitude, z );
+    gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
+    gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
+    scene.add( gridHelper );
+  }
+
+  update() {
+  }
+
+}
+
+const ELEVATION_TILE_SIZE = 512;
+const IMAGERY_TILE_SIZE = 256;
+const apiKey = '5oT5Np7ipsbVhre3lxdi';
+let urlFormat = {
+  terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
+  satellite: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
+  // protocolbuffer: 'https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key={apiKey}'
+  // https://wiki.openstreetmap.org/wiki/PBF_Format
+}
+function urlForTile( x, y, z, type ) {
+  return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
+    .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
