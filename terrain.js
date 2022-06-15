@@ -72,7 +72,7 @@ class Layer {
       }
     }
 
-    const removeThreshold = 0.333;
+    const removeThreshold = 0.25;
     for ( let i = this.tiles.length - 1; i >= 0; i-- ) {
       let removeTile = true;
       for ( let m = -1; m <= 1; m += 2 ) {
