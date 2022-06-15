@@ -92,6 +92,7 @@ class Layer {
 class Tile {
 
   constructor( tile ) {
+    let z = tile[ 2 ];
     const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
     // let tile = tilebelt.pointToTile( longitude, latitude, z );
     gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
