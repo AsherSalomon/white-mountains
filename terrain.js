@@ -60,10 +60,12 @@ class Layer {
     let cameraX = camera.position.x / tileWidth[ this.z ] + origin[ this.z ][ 0 ];
     let cameraZ = camera.position.z / tileWidth[ this.z ] + origin[ this.z ][ 1 ];
 
+    const threshold = 0.333;
+
     for ( let m = -1; m <= 1; m += 2 ) {
       for ( let n = -1; n <= 1; n += 2 ) {
-        let proposedX = Math.floor( cameraX + 0.5 * n );
-        let proposedZ = Math.floor( cameraZ + 0.5 * m );
+        let proposedX = Math.floor( cameraX + threshold * n );
+        let proposedZ = Math.floor( cameraZ + threshold * m );
         let proposedTile = [ proposedX, proposedZ, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
@@ -75,8 +77,8 @@ class Layer {
       let removeTile = true;
       for ( let m = -1; m <= 1; m += 2 ) {
         for ( let n = -1; n <= 1; n += 2 ) {
-          let proposedX = Math.floor( cameraX + 0.5 * n );
-          let proposedZ = Math.floor( cameraZ + 0.5 * m );
+          let proposedX = Math.floor( cameraX + threshold * n );
+          let proposedZ = Math.floor( cameraZ + threshold * m );
           let proposedTile = [ proposedX, proposedZ, this.z ];
           if ( tilebelt.tilesEqual( this.tiles[ i ].tile, proposedTile ) ) {
             removeTile = false;
