@@ -65,7 +65,7 @@ class Layer {
         let proposedX = Math.round( cameraX + 0.5 * n );
         let proposedZ = Math.round( cameraZ + 0.5 * m );
         let proposedTile = [ proposedX, proposedZ, this.z ];
-        if ( this.tileInTiles( proposedTile ) == false ) {
+        if ( this.inTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
         }
       }
@@ -77,14 +77,14 @@ class Layer {
 
   }
 
-  tileInTiles( tile ) {
-    let inTiles = false;
+  inTiles( tile ) {
+    let isInTiles = false;
     for ( let i = 0; i < this.tiles.length; i++ ) {
-      if ( tilebelt.tilesEqual( tile, this.tiles[ i ] ) ) {
-        inTiles = true;
+      if ( tilebelt.tilesEqual( tile, this.tiles[ i ].tile ) ) {
+        isInTiles = true;
       }
     }
-    return inTiles;
+    return isInTiles;
   }
 
 }
@@ -92,6 +92,7 @@ class Layer {
 class Tile {
 
   constructor( tile ) {
+    this.tile = tile;
     let z = tile[ 2 ];
     const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
     // let tile = tilebelt.pointToTile( longitude, latitude, z );
