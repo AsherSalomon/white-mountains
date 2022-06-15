@@ -78,7 +78,7 @@ class Layer {
           let proposedX = Math.floor( cameraX + 0.5 * n );
           let proposedZ = Math.floor( cameraZ + 0.5 * m );
           let proposedTile = [ proposedX, proposedZ, this.z ];
-          if ( tilebelt.tilesEqual( this.tiles[ i ], proposedTile ) ) {
+          if ( tilebelt.tilesEqual( this.tiles[ i ].tile, proposedTile ) ) {
             removeTile = false;
           }
         }
