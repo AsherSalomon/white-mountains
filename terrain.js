@@ -50,11 +50,16 @@ export function update() {
 class Layer {
 
   constructor( z ) {
+    this.z = z;
     this.tiles = [];
     this.tiles.push( new Tile( z ) );
   }
 
   update() {
+
+    let deltaX = Math.round( ( camera.position.x - this.centerX ) / this.width );
+    let deltaZ = Math.round( ( camera.position.z - this.centerZ ) / this.width );
+
     for ( let i = 0; i < this.tiles.length; i++ ) {
       this.tiles[ i ].update();
     }
@@ -65,7 +70,7 @@ class Layer {
 class Tile {
 
   constructor( z ) {
-    const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
+    const gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE / 2 );
     let tile = tilebelt.pointToTile( longitude, latitude, z );
     gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
     gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
