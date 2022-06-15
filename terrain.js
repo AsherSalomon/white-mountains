@@ -65,7 +65,7 @@ class Layer {
         let proposedX = Math.round( cameraX + 0.5 * n );
         let proposedZ = Math.round( cameraZ + 0.5 * m );
         let proposedTile = [ proposedX, proposedZ, this.z ];
-        if ( tileInTiles( proposedTile ) == false ) {
+        if ( this.tileInTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
         }
       }
