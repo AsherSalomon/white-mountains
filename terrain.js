@@ -48,7 +48,7 @@ export function init( newScene, newCamera ) {
   }
 
   const gridHelper = new THREE.GridHelper( tileWidth[ maxZoom ], ELEVATION_TILE_SIZE );
-  let tile = tilebelt.pointToTile( longitude, latitude, z );
+  let tile = tilebelt.pointToTile( longitude, latitude, maxZoom );
   gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ maxZoom ][ 0 ] ) * tileWidth[ maxZoom ];
   gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ maxZoom ][ 1 ] ) * tileWidth[ maxZoom ];
   scene.add( gridHelper );
