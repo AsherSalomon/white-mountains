@@ -129,7 +129,7 @@ class Tile {
   constructor( tile ) {
     this.tile = tile;
     let z = tile[ 2 ];
-    this.gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE );
+    this.gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE / downscale );
     // let tile = tilebelt.pointToTile( longitude, latitude, z );
     this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
     this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
@@ -145,6 +145,7 @@ class Tile {
 }
 
 const ELEVATION_TILE_SIZE = 512;
+const downscale = 4;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
