@@ -145,7 +145,7 @@ class Tile {
 }
 
 const ELEVATION_TILE_SIZE = 512;
-const downscale = 4;
+const downscale = 8;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
