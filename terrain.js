@@ -7,7 +7,7 @@ const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 
-const minZoom = 6;
+const minZoom = 17; // 6;
 const maxZoom = 18; // 12;
 
 const pineGreen = new THREE.Color( 0x204219 );
@@ -140,10 +140,10 @@ class Layer {
     let clipMaxX = ( this.maxX - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
     let clipMaxZ = ( this.maxZ - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
     this.clipPlanes = [
-      new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), clipMaxX ),
-      new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), -clipMinX ),
-      new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), clipMaxZ ),
-      new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), -clipMinZ )
+      new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -clipMaxX ),
+      new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), clipMinX ),
+      new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -clipMaxZ ),
+      new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), clipMinZ )
     ];
     if ( this.parent != null ) {
       let tiles = this.parent.tiles;
