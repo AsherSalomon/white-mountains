@@ -41,7 +41,7 @@ export function init( newScene, newCamera ) {
   }
   for ( let i = 0; i < layers.length; i++ ) {
     layers[ i ].child = layers[ i + 1 ];
-    layers[ i + 1 ].parent = layers[ i ];
+    // layers[ i + 1 ].parent = layers[ i ];
   }
 
 }
