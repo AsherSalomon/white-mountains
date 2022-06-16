@@ -222,7 +222,7 @@ class ReusedMesh {
     for ( let m = 0; m < size + 1; m++ ) {
       for ( let n = 0; n < size + 1; n++ ) {
         let j = ( m * ( size + 1 ) + n ) * 3;
-        vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * 0.01;
+        vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * -0.01;
       }
     }
     this.mesh.geometry.computeVertexNormals();
