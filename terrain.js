@@ -149,6 +149,7 @@ class Layer {
       let tiles = this.parent.tiles;
       for ( let i = 0; i < tiles.length; i++ ) {
         tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.clipPlanes;
+        console.log('setClippingPlanes');
       }
     }
   }
