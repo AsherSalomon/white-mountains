@@ -202,10 +202,7 @@ class ReusedMesh {
       roughness: 0.9,
       clipIntersection: true,
       // color: pineGreen
-      color: new THREE.Color(
-        Math.random() * 255,
-        Math.random() * 255,
-        Math.random() * 255 )
+      color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
   }
