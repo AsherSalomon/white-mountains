@@ -225,6 +225,7 @@ class ReusedMesh {
         vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * 0.01;
       }
     }
+    this.mesh.geometry.computeVertexNormals();
     scene.add( this.mesh );
   }
 
