@@ -39,6 +39,10 @@ export function init( newScene, newCamera ) {
     tileWidth[ z ] = Math.pow( 2, maxZoom - z ) * baseTileWidth;
     layers.push( new Layer( z ) );
   }
+  for ( let z = minZoom; z < maxZoom; z++ ) {
+    layers[ z ].child = layers[ z + 1 ];
+    layers[ z + 1 ].parent = layers[ z ];
+  }
 
 }
 
@@ -92,11 +96,14 @@ class Layer {
     if ( this.maxZ <= addMaxZ ) { this.maxZ = addMaxZ; }
     if ( this.maxZ > removeMaxZ ) { this.maxZ = removeMaxZ; }
 
+    let updateClipping = false;
+
     for ( let m = this.minZ; m <= this.maxZ; m++ ) {
       for ( let n = this.minX; n <= this.maxX; n++ ) {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
+          updateClipping = true;
         }
       }
     }
@@ -114,18 +121,35 @@ class Layer {
       if ( removeTile ) {
         this.tiles[ i ].dispose();
         this.tiles.splice( i, 1 );
+        updateClipping = true;
       }
     }
 
-    // this.clipPlanes = [
-    //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
-    //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
-    //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
-    //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
-    // ];
+    if ( updateClipping ) {
+      setClippingPlanes();
+    }
 
     for ( let i = 0; i < this.tiles.length; i++ ) {
       this.tiles[ i ].update();
+    }
+  }
+
+  setClippingPlanes() {
+    let clipMinX = ( this.minX - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
+    let clipMinZ = ( this.minZ - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
+    let clipMaxX = ( this.maxX - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
+    let clipMaxZ = ( this.maxZ - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
+    this.clipPlanes = [
+      new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -clipMaxX ),
+      new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), clipMinX ),
+      new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -clipMaxZ ),
+      new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), clipMinZ )
+    ];
+    if ( this.parent != null ) {
+      let tiles = this.parent.tiles;
+      for ( let i = 0; i < tiles.length; i++ ) {
+        tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.clipPlanes;
+      }
     }
   }
 
