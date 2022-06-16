@@ -16,6 +16,8 @@ let origin = {};
 let tileWidth = {};
 
 let layers = [];
+let generatorQueue = [];
+let meshBin = [];
 
 export function init( newScene, newCamera ) {
   scene = newScene;
@@ -43,6 +45,12 @@ export function init( newScene, newCamera ) {
 export function update() {
   for ( let i = 0; i < layers.length; i++ ) {
     layers[ i ].update();
+  }
+
+  if ( this.generatorQueue.length > 0 ) {
+    if ( this.generatorQueue[ 0 ].next().done ) {
+      this.generatorQueue.shift();
+    }
   }
 }
 
@@ -141,15 +149,23 @@ class Tile {
     this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
     this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
     scene.add( this.gridHelper );
+
+    if ( meshBin.length > 0 ) {
+      this.reusedMesh = meshBin.shift();
+    } else {
+      this.reusedMesh = new ReusedMesh();
+    }
+    this.reusedMesh.reuse( this.tile );
   }
 
   update() {
-    this.gridHelper.scale.x = 1.001;
-    this.gridHelper.scale.z = 1.001;
   }
 
   dispose() {
     scene.remove( this.gridHelper );
+
+    this.reusedMesh.remove();
+    meshBin.push( this.reusedMesh );
   }
 }
 
@@ -165,18 +181,28 @@ class ReusedMesh {
     } );
     this.mesh = new THREE.Mesh( geometry, material );
   }
+
   reuse( tile ) {
+    generatorQueue.push( this.generator( tile ) );
+  }
+
+  *generator( tile ) {
     let z = tile[ 2 ];
     let width = tileWidth[ z ];
     this.mesh.scale.x = width;
     this.mesh.scale.z = width;
     this.mesh.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * width;
     this.mesh.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * width;
+    // const vertices = this.mesh.geometry.attributes.position.array;
+    scene.add( this.mesh );
   }
+
   remove() {
     scene.remove( this.mesh );
   }
 }
+
+
 
 const ELEVATION_TILE_SIZE = 512;
 const downscale = 8;
