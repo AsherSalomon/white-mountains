@@ -33,18 +33,16 @@ export function init( newScene, newCamera ) {
   for ( let z = minZoom; z <= maxZoom; z++ ) {
     origin[ z ] = tilebelt.pointToTileFraction( longitude, latitude, z );
     tileWidth[ z ] = Math.pow( 2, maxZoom - z ) * baseTileWidth;
+    layers.push( new Layer( z ) );
   }
 
-  layers.push( new Layer( maxZoom ) );
-
+  // layers.push( new Layer( maxZoom ) );
 }
 
 export function update() {
-
   for ( let i = 0; i < layers.length; i++ ) {
     layers[ i ].update();
   }
-
 }
 
 class Layer {
@@ -60,46 +58,17 @@ class Layer {
   }
 
   update() {
-
     let cameraX = camera.position.x / tileWidth[ this.z ] + origin[ this.z ][ 0 ];
     let cameraZ = camera.position.z / tileWidth[ this.z ] + origin[ this.z ][ 1 ];
 
     const addThreshold = 0.25;
     const removeThreshold = 0.5;
 
-    // for ( let m = -1; m <= 1; m += 2 ) {
-    //   for ( let n = -1; n <= 1; n += 2 ) {
-    //     let proposedX = Math.floor( cameraX + addThreshold * n );
-    //     let proposedZ = Math.floor( cameraZ + addThreshold * m );
-    //     let proposedTile = [ proposedX, proposedZ, this.z ];
-    //     if ( this.inTiles( proposedTile ) == false ) {
-    //       this.tiles.push( new Tile( proposedTile ) );
-    //     }
-    //   }
-    // }
-    //
-    // for ( let i = this.tiles.length - 1; i >= 0; i-- ) {
-    //   let removeTile = true;
-    //   for ( let m = -1; m <= 1; m += 2 ) {
-    //     for ( let n = -1; n <= 1; n += 2 ) {
-    //       let proposedX = Math.floor( cameraX + removeThreshold * n );
-    //       let proposedZ = Math.floor( cameraZ + removeThreshold * m );
-    //       let proposedTile = [ proposedX, proposedZ, this.z ];
-    //       if ( tilebelt.tilesEqual( this.tiles[ i ].tile, proposedTile ) ) {
-    //         removeTile = false;
-    //       }
-    //     }
-    //   }
-    //   if ( removeTile ) {
-    //     this.tiles[ i ].dispose();
-    //     this.tiles.splice( i, 1 );
-    //   }
-    // }
-
     let addMinX =  Math.floor( cameraX - addThreshold );
     let addMaxX =  Math.floor( cameraX + addThreshold );
     let addMinZ =  Math.floor( cameraZ - addThreshold );
     let addMaxZ =  Math.floor( cameraZ + addThreshold );
+
     let removeMinX = Math.floor( cameraX - removeThreshold );
     let removeMaxX = Math.floor( cameraX + removeThreshold );
     let removeMinZ = Math.floor( cameraZ - removeThreshold );
@@ -142,7 +111,6 @@ class Layer {
     for ( let i = 0; i < this.tiles.length; i++ ) {
       this.tiles[ i ].update();
     }
-
   }
 
   inTiles( tile ) {
@@ -154,7 +122,6 @@ class Layer {
     }
     return isInTiles;
   }
-
 }
 
 class Tile {
@@ -175,7 +142,6 @@ class Tile {
   dispose() {
     scene.remove( this.gridHelper );
   }
-
 }
 
 const ELEVATION_TILE_SIZE = 512;
