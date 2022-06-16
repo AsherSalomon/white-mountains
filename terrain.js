@@ -151,6 +151,11 @@ class Layer {
         tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.clipPlanes;
       }
     }
+    if ( this.child == null ) {
+      for ( let i = 0; i < this.tiles.length; i++ ) {
+        this.tiles.reusedMesh.mesh.material.clippingPlanes = null;
+      }
+    }
   }
 
   // updateClippingPlanes() {
