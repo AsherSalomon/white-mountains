@@ -144,7 +144,7 @@ class Tile {
   }
 
   update() {
-    this.gridHelper.scale.x = 1.000001;
+    this.gridHelper.scale.x = 1.001;
   }
 
   dispose() {
