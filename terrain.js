@@ -193,7 +193,14 @@ class ReusedMesh {
     this.mesh.scale.z = width;
     this.mesh.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * width;
     this.mesh.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * width;
-    // const vertices = this.mesh.geometry.attributes.position.array;
+    const vertices = this.mesh.geometry.attributes.position.array;
+    let size = ELEVATION_TILE_SIZE / downscale;
+    for ( let m = 0; m < size + 1; m++ ) {
+      for ( let n = 0; n < size + 1; n++ ) {
+        let j = ( m * ( size + 1 ) + n ) * 3;
+        vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * 0.01;
+      }
+    }
     scene.add( this.mesh );
   }
 
