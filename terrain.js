@@ -176,10 +176,8 @@ class Tile {
 
     if ( meshBin.length > 0 ) {
       this.reusedMesh = meshBin.shift();
-      console.log('recycled');
     } else {
       this.reusedMesh = new ReusedMesh();
-      console.log('new');
     }
     this.reusedMesh.reuse( this.tile );
   }
@@ -203,7 +201,11 @@ class ReusedMesh {
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
       clipIntersection: true,
-      color: pineGreen
+      // color: pineGreen
+      color: new THREE.Color(
+        Math.random() * 255,
+        Math.random() * 255,
+        Math.random() * 255 );
     } );
     this.mesh = new THREE.Mesh( geometry, material );
   }
