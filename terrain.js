@@ -53,6 +53,10 @@ class Layer {
     this.z = z;
     this.tiles = [];
     // this.tiles.push( new Tile( z ) );
+    this.minX = 1000000;
+    this.maxX = -1000000;
+    this.minZ = 1000000;
+    this.maxZ = -1000000;
   }
 
   update() {
@@ -61,25 +65,69 @@ class Layer {
     let cameraZ = camera.position.z / tileWidth[ this.z ] + origin[ this.z ][ 1 ];
 
     const addThreshold = 0.25;
-    for ( let m = -1; m <= 1; m += 2 ) {
-      for ( let n = -1; n <= 1; n += 2 ) {
-        let proposedX = Math.floor( cameraX + addThreshold * n );
-        let proposedZ = Math.floor( cameraZ + addThreshold * m );
-        let proposedTile = [ proposedX, proposedZ, this.z ];
+    const removeThreshold = 0.5;
+
+    // for ( let m = -1; m <= 1; m += 2 ) {
+    //   for ( let n = -1; n <= 1; n += 2 ) {
+    //     let proposedX = Math.floor( cameraX + addThreshold * n );
+    //     let proposedZ = Math.floor( cameraZ + addThreshold * m );
+    //     let proposedTile = [ proposedX, proposedZ, this.z ];
+    //     if ( this.inTiles( proposedTile ) == false ) {
+    //       this.tiles.push( new Tile( proposedTile ) );
+    //     }
+    //   }
+    // }
+    //
+    // for ( let i = this.tiles.length - 1; i >= 0; i-- ) {
+    //   let removeTile = true;
+    //   for ( let m = -1; m <= 1; m += 2 ) {
+    //     for ( let n = -1; n <= 1; n += 2 ) {
+    //       let proposedX = Math.floor( cameraX + removeThreshold * n );
+    //       let proposedZ = Math.floor( cameraZ + removeThreshold * m );
+    //       let proposedTile = [ proposedX, proposedZ, this.z ];
+    //       if ( tilebelt.tilesEqual( this.tiles[ i ].tile, proposedTile ) ) {
+    //         removeTile = false;
+    //       }
+    //     }
+    //   }
+    //   if ( removeTile ) {
+    //     this.tiles[ i ].dispose();
+    //     this.tiles.splice( i, 1 );
+    //   }
+    // }
+
+    let addMinX =  Math.floor( cameraX - addThreshold );
+    let addMaxX =  Math.floor( cameraX + addThreshold );
+    let addMinZ =  Math.floor( cameraZ - addThreshold );
+    let addMaxZ =  Math.floor( cameraZ + addThreshold );
+    let removeMinX = Math.floor( cameraX - removeThreshold );
+    let removeMaxX = Math.floor( cameraX + removeThreshold );
+    let removeMinZ = Math.floor( cameraZ - removeThreshold );
+    let removeMaxZ = Math.floor( cameraZ + removeThreshold );
+
+    if ( this.minX >= addMinX ) { this.minX = addMinX; }
+    if ( this.minX < removeMinX ) { this.minX = removeMinX; }
+    if ( this.minZ >= addMinZ ) { this.minZ = addMinZ; }
+    if ( this.minZ < removeMinZ ) { this.minZ = removeMinZ; }
+    if ( this.maxX <= addMaxX ) { this.maxX = addMaxX; }
+    if ( this.maxX > removeMaxX ) { this.maxX = removeMaxX; }
+    if ( this.maxZ <= addMaxZ ) { this.maxZ = addMaxZ; }
+    if ( this.maxZ > removeMaxZ ) { this.maxZ = removeMaxZ; }
+
+    for ( let m = this.minZ; m <= this.maxZ; m++ ) {
+      for ( let n = this.minX; n <= this.maxX; n++ ) {
+        let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
         }
       }
     }
 
-    const removeThreshold = 0.5;
     for ( let i = this.tiles.length - 1; i >= 0; i-- ) {
       let removeTile = true;
-      for ( let m = -1; m <= 1; m += 2 ) {
-        for ( let n = -1; n <= 1; n += 2 ) {
-          let proposedX = Math.floor( cameraX + removeThreshold * n );
-          let proposedZ = Math.floor( cameraZ + removeThreshold * m );
-          let proposedTile = [ proposedX, proposedZ, this.z ];
+      for ( let m = this.minZ; m <= this.maxZ; m++ ) {
+        for ( let n = this.minX; n <= this.maxX; n++ ) {
+          let proposedTile = [ n, m, this.z ];
           if ( tilebelt.tilesEqual( this.tiles[ i ].tile, proposedTile ) ) {
             removeTile = false;
           }
