@@ -127,7 +127,6 @@ class Layer {
 
     if ( updateClipping ) {
       this.setClippingPlanes();
-      this.updateClippingPlanes();
     }
 
     for ( let i = 0; i < this.tiles.length; i++ ) {
@@ -147,21 +146,20 @@ class Layer {
       new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), clipMinZ )
     ];
     if ( this.parent != null ) {
-      // let tiles = this.parent.tiles;
-      // for ( let i = 0; i < tiles.length; i++ ) {
-      //   tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.clipPlanes;
-      // }
-      this.parent.updateClippingPlanes();
-    }
-  }
-
-  updateClippingPlanes() {
-    if ( this.child != null ) {
-      for ( let i = 0; i < this.tiles.length; i++ ) {
-        this.tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.child.clipPlanes;
+      let tiles = this.parent.tiles;
+      for ( let i = 0; i < tiles.length; i++ ) {
+        tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.clipPlanes;
       }
     }
   }
+
+  // updateClippingPlanes() {
+  //   if ( this.child != null ) {
+  //     for ( let i = 0; i < this.tiles.length; i++ ) {
+  //       this.tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.child.clipPlanes;
+  //     }
+  //   }
+  // }
 
   inTiles( tile ) {
     let isInTiles = false;
