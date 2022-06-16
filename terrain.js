@@ -8,7 +8,9 @@ const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 
 const minZoom = 6;
-const maxZoom = 16; // 12;
+const maxZoom = 12;
+
+const pineGreen = new THREE.Color( 0x204219 );
 
 let origin = {};
 let tileWidth = {};
@@ -36,7 +38,6 @@ export function init( newScene, newCamera ) {
     layers.push( new Layer( z ) );
   }
 
-  // layers.push( new Layer( maxZoom ) );
 }
 
 export function update() {
@@ -46,7 +47,6 @@ export function update() {
 }
 
 class Layer {
-
   constructor( z ) {
     this.z = z;
     this.tiles = [];
@@ -78,6 +78,7 @@ class Layer {
     if ( this.minX < removeMinX ) { this.minX = removeMinX; }
     if ( this.minZ >= addMinZ ) { this.minZ = addMinZ; }
     if ( this.minZ < removeMinZ ) { this.minZ = removeMinZ; }
+
     if ( this.maxX <= addMaxX ) { this.maxX = addMaxX; }
     if ( this.maxX > removeMaxX ) { this.maxX = removeMaxX; }
     if ( this.maxZ <= addMaxZ ) { this.maxZ = addMaxZ; }
@@ -108,6 +109,13 @@ class Layer {
       }
     }
 
+    // this.clipPlanes = [
+    //   new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -this.centerX - this.width / 2 ),
+    //   new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), this.centerX - this.width / 2 ),
+    //   new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -this.centerZ - this.width / 2 ),
+    //   new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), this.centerZ - this.width / 2 )
+    // ];
+
     for ( let i = 0; i < this.tiles.length; i++ ) {
       this.tiles[ i ].update();
     }
@@ -125,7 +133,6 @@ class Layer {
 }
 
 class Tile {
-
   constructor( tile ) {
     this.tile = tile;
     let z = tile[ 2 ];
@@ -141,6 +148,26 @@ class Tile {
 
   dispose() {
     scene.remove( this.gridHelper );
+  }
+}
+
+class ReusedMesh {
+  constructor() {
+    let size = ELEVATION_TILE_SIZE / downscale;
+    let geometry = new THREE.PlaneGeometry( 1, 1, size, size );
+    geometry.rotateX( - Math.PI / 2 );
+    let material = new THREE.MeshStandardMaterial( {
+      roughness: 0.9,
+      clipIntersection: true,
+      color: pineGreen
+    } );
+    this.mesh = new THREE.Mesh( geometry, material );
+  }
+  reuse() {
+
+  }
+  hide() {
+
   }
 }
 
