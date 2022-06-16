@@ -145,6 +145,7 @@ class Tile {
 
   update() {
     this.gridHelper.scale.x = 1.001;
+    this.gridHelper.scale.z = 1.001;
   }
 
   dispose() {
@@ -167,7 +168,8 @@ class ReusedMesh {
   reuse( tile ) {
     let z = tile[ 2 ];
     let width = tileWidth[ z ];
-    this.mesh.scale = new THREE.Vector3( width, width, 1 );
+    this.mesh.scale.x = width;
+    this.mesh.scale.z = width;
     this.mesh.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * width;
     this.mesh.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * width;
   }
