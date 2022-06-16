@@ -39,9 +39,9 @@ export function init( newScene, newCamera ) {
     tileWidth[ z ] = Math.pow( 2, maxZoom - z ) * baseTileWidth;
     layers.push( new Layer( z ) );
   }
-  for ( let z = minZoom; z < maxZoom; z++ ) {
-    layers[ z ].child = layers[ z + 1 ];
-    layers[ z + 1 ].parent = layers[ z ];
+  for ( let i = 0; i < layers.length; i++ ) {
+    layers[ i ].child = layers[ i + 1 ];
+    layers[ i + 1 ].parent = layers[ i ];
   }
 
 }
@@ -67,8 +67,6 @@ class Layer {
     this.maxX = -1000000;
     this.minZ = 1000000;
     this.maxZ = -1000000;
-    this.parent = null;
-    this.child = null;
   }
 
   update() {
