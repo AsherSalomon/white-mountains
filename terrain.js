@@ -126,7 +126,7 @@ class Layer {
     }
 
     if ( updateClipping ) {
-      setClippingPlanes();
+      this.setClippingPlanes();
     }
 
     for ( let i = 0; i < this.tiles.length; i++ ) {
