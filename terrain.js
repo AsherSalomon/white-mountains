@@ -137,8 +137,8 @@ class Layer {
   setClippingPlanes() {
     let clipMinX = ( this.minX - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
     let clipMinZ = ( this.minZ - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
-    let clipMaxX = ( this.maxX - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
-    let clipMaxZ = ( this.maxZ - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
+    let clipMaxX = ( this.maxX + 1 - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
+    let clipMaxZ = ( this.maxZ + 1 - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
     this.clipPlanes = [
       new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -clipMaxX ),
       new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), clipMinX ),
