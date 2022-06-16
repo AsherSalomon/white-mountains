@@ -8,7 +8,7 @@ const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 
 const minZoom = 6;
-const maxZoom = 12;
+const maxZoom = 18; // 12;
 
 const pineGreen = new THREE.Color( 0x204219 );
 
@@ -222,7 +222,7 @@ class ReusedMesh {
     for ( let m = 0; m < size + 1; m++ ) {
       for ( let n = 0; n < size + 1; n++ ) {
         let j = ( m * ( size + 1 ) + n ) * 3;
-        vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * 0.01;
+        vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * 0.001;
       }
     }
     this.mesh.geometry.computeVertexNormals();
