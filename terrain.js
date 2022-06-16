@@ -227,7 +227,7 @@ class ReusedMesh {
       }
     }
     this.mesh.geometry.computeVertexNormals();
-    this.mesh.material.clippingPlanes = null;
+    // this.mesh.material.clippingPlanes = null;
     scene.add( this.mesh );
   }
 
