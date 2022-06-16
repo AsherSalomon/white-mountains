@@ -67,6 +67,7 @@ class Layer {
     this.maxX = -1000000;
     this.minZ = 1000000;
     this.maxZ = -1000000;
+    this.updateClipping = false;
   }
 
   update() {
@@ -95,15 +96,18 @@ class Layer {
     if ( this.maxX > removeMaxX ) { this.maxX = removeMaxX; }
     if ( this.maxZ <= addMaxZ ) { this.maxZ = addMaxZ; }
     if ( this.maxZ > removeMaxZ ) { this.maxZ = removeMaxZ; }
-
-    let updateClipping = false;
+    
+    if ( this.updateClipping ) {
+      this.setClippingPlanes();
+      this.updateClipping = false;
+    }
 
     for ( let m = this.minZ; m <= this.maxZ; m++ ) {
       for ( let n = this.minX; n <= this.maxX; n++ ) {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           this.tiles.push( new Tile( proposedTile ) );
-          updateClipping = true;
+          this.updateClipping = true;
         }
       }
     }
@@ -121,12 +125,8 @@ class Layer {
       if ( removeTile ) {
         this.tiles[ i ].dispose();
         this.tiles.splice( i, 1 );
-        updateClipping = true;
+        this.updateClipping = true;
       }
-    }
-
-    if ( updateClipping ) {
-      this.setClippingPlanes();
     }
 
     for ( let i = 0; i < this.tiles.length; i++ ) {
