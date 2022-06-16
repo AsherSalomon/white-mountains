@@ -39,9 +39,9 @@ export function init( newScene, newCamera ) {
     tileWidth[ z ] = Math.pow( 2, maxZoom - z ) * baseTileWidth;
     layers.push( new Layer( z ) );
   }
-  for ( let i = 0; i < layers.length; i++ ) {
+  for ( let i = 0; i < layers.length - 1; i++ ) {
     layers[ i ].child = layers[ i + 1 ];
-    // layers[ i + 1 ].parent = layers[ i ];
+    layers[ i + 1 ].parent = layers[ i ];
   }
 
 }
