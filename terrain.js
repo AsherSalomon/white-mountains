@@ -153,7 +153,7 @@ class Layer {
     }
     if ( this.child == null ) {
       for ( let i = 0; i < this.tiles.length; i++ ) {
-        this.tiles.reusedMesh.mesh.material.clippingPlanes = null;
+        this.tiles[ i ].reusedMesh.mesh.material.clippingPlanes = null;
       }
     }
   }
