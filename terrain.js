@@ -239,6 +239,7 @@ class ReusedMesh {
         vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * -0.01;
       }
     }
+    this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
     // this.mesh.material.clippingPlanes = null;
     scene.add( this.mesh );
