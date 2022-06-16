@@ -47,9 +47,9 @@ export function update() {
     layers[ i ].update();
   }
 
-  if ( this.generatorQueue.length > 0 ) {
-    if ( this.generatorQueue[ 0 ].next().done ) {
-      this.generatorQueue.shift();
+  if ( generatorQueue.length > 0 ) {
+    if ( generatorQueue[ 0 ].next().done ) {
+      generatorQueue.shift();
     }
   }
 }
