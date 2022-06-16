@@ -144,6 +144,7 @@ class Tile {
   }
 
   update() {
+    this.gridHelper.scale.x = 1.000001;
   }
 
   dispose() {
@@ -163,11 +164,15 @@ class ReusedMesh {
     } );
     this.mesh = new THREE.Mesh( geometry, material );
   }
-  reuse() {
-
+  reuse( tile ) {
+    let z = tile[ 2 ];
+    let width = tileWidth[ z ];
+    this.mesh.scale = new THREE.Vector3( width, width, 1 );
+    this.mesh.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * width;
+    this.mesh.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * width;
   }
-  hide() {
-
+  remove() {
+    scene.remove( this.mesh );
   }
 }
 
