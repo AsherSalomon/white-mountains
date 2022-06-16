@@ -8,7 +8,7 @@ const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 
 const minZoom = 6;
-const maxZoom = 18; // 12;
+const maxZoom = 16; // 12;
 
 const pineGreen = new THREE.Color( 0x204219 );
 
