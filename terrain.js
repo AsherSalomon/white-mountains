@@ -8,7 +8,7 @@ const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 
 const minZoom = 6;
-const maxZoom = 14; // 12;
+const maxZoom = 16; // 12;
 
 let origin = {};
 let tileWidth = {};
