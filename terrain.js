@@ -205,7 +205,7 @@ class ReusedMesh {
       color: new THREE.Color(
         Math.random() * 255,
         Math.random() * 255,
-        Math.random() * 255 );
+        Math.random() * 255 )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
   }
