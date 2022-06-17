@@ -262,7 +262,7 @@ class ReusedMesh {
 
     let url = urlForTile( ...tile.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
-    loader.setCrossOrigin( 'use-credentials' );
+    // loader.setCrossOrigin( 'use-credentials' );
     let thisReusedMesh = this;
     loader.load( url, function ( image ) {
         let newGenerator = thisReusedMesh.terrainGenerator( image );
