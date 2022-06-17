@@ -209,8 +209,9 @@ class Tile {
 
 class ReusedMesh {
   constructor() {
-    let size = ELEVATION_TILE_SIZE / downscale;
-    let geometry = new THREE.PlaneGeometry( 1, 1, size, size );
+    // let size = ELEVATION_TILE_SIZE / downscale;
+
+    let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
     geometry.rotateX( - Math.PI / 2 );
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
@@ -219,6 +220,13 @@ class ReusedMesh {
       // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
+
+    let canvas = document.createElement( 'canvas' );
+    canvas.width = downSize;
+    canvas.height = downSize;
+    this.context = canvas.getContext( '2d', {willReadFrequently: true} );
+
+    this.heightData = new Float32Array( size ** 2 );
   }
 
   reuse( tile ) {
@@ -232,10 +240,10 @@ class ReusedMesh {
     this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ z ][ 1 ] ) * width;
 
     const vertices = this.mesh.geometry.attributes.position.array;
-    let size = ELEVATION_TILE_SIZE / downscale;
-    for ( let m = 0; m < size + 1; m++ ) {
-      for ( let n = 0; n < size + 1; n++ ) {
-        let j = ( m * ( size + 1 ) + n ) * 3;
+    // let size = ELEVATION_TILE_SIZE / downscale;
+    for ( let m = 0; m < downSize + 1; m++ ) {
+      for ( let n = 0; n < downSize + 1; n++ ) {
+        let j = ( m * ( downSize + 1 ) + n ) * 3;
         vertices[ j + 1 ] = 0; // to do, lookup data from parent as place holder
       }
     }
@@ -261,6 +269,15 @@ class ReusedMesh {
 
   *generator( image ) {
 
+    ctx.drawImage( image, 0, 0 );
+    let imageData = ctx.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+
+    yield;
+
+    // let size = ELEVATION_TILE_SIZE / downscale;
+    for ( let i = 0; i < downSize ** 2; i++ ) {
+      this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    }
 
     yield;
 
@@ -283,6 +300,7 @@ class ReusedMesh {
 
 const ELEVATION_TILE_SIZE = 512;
 const downscale = 8;
+const downSize = ELEVATION_TILE_SIZE / downscale;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = '5oT5Np7ipsbVhre3lxdi';
 let urlFormat = {
