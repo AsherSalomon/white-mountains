@@ -299,7 +299,7 @@ class ReusedMesh {
 }
 
 const ELEVATION_TILE_SIZE = 512;
-const downscale = 2;
+const downscale = 2 ** 3;
 const downSize = ELEVATION_TILE_SIZE / downscale;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = '5oT5Np7ipsbVhre3lxdi';
