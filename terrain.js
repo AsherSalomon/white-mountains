@@ -226,7 +226,7 @@ class ReusedMesh {
     canvas.height = downSize;
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
-    this.heightData = new Float32Array( size ** 2 );
+    this.heightData = new Float32Array( downSize ** 2 );
   }
 
   reuse( tile ) {
