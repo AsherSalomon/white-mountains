@@ -268,7 +268,7 @@ class ReusedMesh {
       },
       undefined, // onProgress not supported
       function () {
-        // console.error( 'terrain ImageLoader error' );
+        console.log( 'terrain ImageLoader error' );
       }
     );
   }
