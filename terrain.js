@@ -282,11 +282,10 @@ class ReusedMesh {
     yield;
 
     const vertices = this.mesh.geometry.attributes.position.array;
-    let size = ELEVATION_TILE_SIZE / downscale;
-    for ( let m = 0; m < size + 1; m++ ) {
-      for ( let n = 0; n < size + 1; n++ ) {
-        let i = m * size + n;
-        let j = ( m * ( size + 1 ) + n ) * 3;
+    for ( let m = 0; m < downSize + 1; m++ ) {
+      for ( let n = 0; n < downSize + 1; n++ ) {
+        let i = m * downSize + n;
+        let j = ( m * ( downSize + 1 ) + n ) * 3;
         vertices[ j + 1 ] = this.heightData[ i ]; // to do, lookup data from parent as place holder
       }
     }
