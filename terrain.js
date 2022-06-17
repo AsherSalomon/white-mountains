@@ -173,6 +173,9 @@ class Layer {
     }
     return isInTiles;
   }
+
+  lookupData( x, z ) {
+  }
 }
 
 class Tile {
@@ -195,6 +198,9 @@ class Tile {
   }
 
   update() {
+  }
+
+  lookupData( x, z ) {
   }
 
   dispose() {
@@ -285,11 +291,25 @@ class ReusedMesh {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let i = m * ( downscale ** 2 )  * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        vertices[ j + 1 ] = this.heightData[ i ]; // to do, lookup data from parent as place holder
+        let x = vertices[ j + 0 ] + this.centerX;
+        let z = vertices[ j + 2 ] + this.centerZ;
+        let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
+        let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
+        if ( !mIsEdge && !nIsEdge ) {
+          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
+        // } else if ( this.parent != null ) {
+        //   vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
+        } else {
+          vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
+        }
+
       }
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
+  }
+
+  lookupData( x, z ) {
   }
 
   remove() {
@@ -315,4 +335,7 @@ function urlForTile( x, y, z, type ) {
 function dataToHeight( data ) {
   // Elevation in meters
   return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+}
+function curvatureOfTheEarth( x, z ) {
+  return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
 }
