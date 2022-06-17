@@ -271,7 +271,7 @@ class ReusedMesh {
       undefined, // onProgress not supported
       function () {
         console.log( 'terrain ImageLoader error' );
-        console.log( THREE.Cache.files );
+        console.log( THREE.Cache.files['https://api.maptiler.com/tiles/terrain-rgb/6/19/22.png?key=5oT5Np7ipsbVhre3lxdi'] );
         // console.log( THREE.Cache.remove( url ) );
         // console.log( THREE.Cache.files );
       }
