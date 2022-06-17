@@ -250,7 +250,9 @@ class ReusedMesh {
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        vertices[ j + 1 ] = 0; // to do, lookup data from parent as place holder
+        let x = vertices[ j + 0 ] + this.mesh.position.x;
+        let z = vertices[ j + 2 ] + this.mesh.position.z;
+        vertices[ j + 1 ] = -curvatureOfTheEarth( x, z ); // to do, lookup data from parent as place holder
       }
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
