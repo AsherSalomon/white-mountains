@@ -269,8 +269,8 @@ class ReusedMesh {
 
   *generator( image ) {
 
-    this.context.drawImage( image, 0, 0 );
-    let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    this.context.drawImage( image, 0, 0, downSize, downSize );
+    let imageData = this.context.getImageData( 0, 0, downSize, downSize ).data;
 
     yield;
 
