@@ -242,16 +242,18 @@ class ReusedMesh {
     let width = tileWidth[ z ];
     this.mesh.scale.x = width;
     this.mesh.scale.z = width;
-    this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width;
-    this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ z ][ 1 ] ) * width;
+    this.centerX = ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width;
+    this.centerZ = ( 0.5 + tile.tile[ 1 ] - origin[ z ][ 1 ] ) * width;
+    this.mesh.position.x = this.centerX;
+    this.mesh.position.z = this.centerZ;
 
     const vertices = this.mesh.geometry.attributes.position.array;
     // let size = ELEVATION_TILE_SIZE / downscale;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        let x = vertices[ j + 0 ] + this.mesh.position.x;
-        let z = vertices[ j + 2 ] + this.mesh.position.z;
+        let x = vertices[ j + 0 ] + this.centerX;
+        let z = vertices[ j + 2 ] + this.centerZ;
         vertices[ j + 1 ] = -curvatureOfTheEarth( x, z ); // to do, lookup data from parent as place holder
       }
     }
@@ -293,8 +295,8 @@ class ReusedMesh {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let i = m * ( downscale ** 2 )  * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        let x = vertices[ j + 0 ] + this.mesh.position.x;
-        let z = vertices[ j + 2 ] + this.mesh.position.z;
+        let x = vertices[ j + 0 ] + this.centerX;
+        let z = vertices[ j + 2 ] + this.centerZ;
         let mIsEdge = m == 0 || m == downSize;
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
