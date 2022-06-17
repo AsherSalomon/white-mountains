@@ -262,19 +262,17 @@ class ReusedMesh {
 
     let url = urlForTile( ...tile.tile, 'terrain' );
     const loader = new THREE.ImageLoader();
+    loader.setCrossOrigin( 'use-credentials' );
     let thisReusedMesh = this;
     loader.load( url, function ( image ) {
         let newGenerator = thisReusedMesh.terrainGenerator( image );
         newGenerator.intendedTile = tile;
         generatorQueue.push( newGenerator );
-        console.log( THREE.Cache.files[ url ] );
       },
       undefined, // onProgress not supported
       function () {
         console.log( 'terrain ImageLoader error' );
-        console.log( THREE.Cache.files[ url ] );
-        // console.log( THREE.Cache.remove( url ) );
-        // console.log( THREE.Cache.files );
+        // console.log( THREE.Cache.files[ url ] ); // undefined i.e. not chached
       }
     );
   }
