@@ -39,6 +39,7 @@ export function init( newScene, newCamera ) {
     tileWidth[ z ] = Math.pow( 2, maxZoom - z ) * baseTileWidth;
     layers.push( new Layer( z ) );
   }
+
   for ( let i = 0; i < layers.length - 1; i++ ) {
     layers[ i ].child = layers[ i + 1 ];
     layers[ i + 1 ].parent = layers[ i ];
@@ -139,32 +140,27 @@ class Layer {
     let clipMinZ = ( this.minZ - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
     let clipMaxX = ( this.maxX + 1 - origin[ this.z ][ 0 ] ) * tileWidth[ this.z ];
     let clipMaxZ = ( this.maxZ + 1 - origin[ this.z ][ 1 ] ) * tileWidth[ this.z ];
+
     this.clipPlanes = [
       new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), -clipMaxX ),
       new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), clipMinX ),
       new THREE.Plane( new THREE.Vector3( 0, 0, 1 ), -clipMaxZ ),
       new THREE.Plane( new THREE.Vector3( 0, 0, - 1 ), clipMinZ )
     ];
+
     if ( this.parent != null ) {
       let tiles = this.parent.tiles;
       for ( let i = 0; i < tiles.length; i++ ) {
         tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.clipPlanes;
       }
     }
+
     if ( this.child == null ) {
       for ( let i = 0; i < this.tiles.length; i++ ) {
         this.tiles[ i ].reusedMesh.mesh.material.clippingPlanes = null;
       }
     }
   }
-
-  // updateClippingPlanes() {
-  //   if ( this.child != null ) {
-  //     for ( let i = 0; i < this.tiles.length; i++ ) {
-  //       this.tiles[ i ].reusedMesh.mesh.material.clippingPlanes = this.child.clipPlanes;
-  //     }
-  //   }
-  // }
 
   inTiles( tile ) {
     let isInTiles = false;
@@ -222,9 +218,6 @@ class ReusedMesh {
 
   reuse( tile ) {
     generatorQueue.push( this.generator( tile ) );
-  }
-
-  *generator( tile ) {
     let z = tile[ 2 ];
     let width = tileWidth[ z ];
     this.mesh.scale.x = width;
@@ -243,6 +236,9 @@ class ReusedMesh {
     this.mesh.geometry.computeVertexNormals();
     // this.mesh.material.clippingPlanes = null;
     scene.add( this.mesh );
+  }
+
+  *generator( tile ) {
   }
 
   remove() {
