@@ -256,7 +256,7 @@ class ReusedMesh {
     const loader = new THREE.ImageLoader();
     let thisReusedMesh = this;
     loader.load( url, function ( image ) {
-        let newGenerator = thisReusedMesh.generator( image );
+        let newGenerator = thisReusedMesh.terrainGenerator( image );
         newGenerator.intendedTile = tile;
         generatorQueue.push( newGenerator );
       },
@@ -267,8 +267,7 @@ class ReusedMesh {
     );
   }
 
-  *generator( image ) {
-
+  *terrainGenerator( image ) {
     this.context.drawImage( image, 0, 0 );
     let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
@@ -299,7 +298,7 @@ class ReusedMesh {
 }
 
 const ELEVATION_TILE_SIZE = 512;
-const downscale = 2 ** 3;
+const downscale = 2 ** 1; // power of 2
 const downSize = ELEVATION_TILE_SIZE / downscale;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = '5oT5Np7ipsbVhre3lxdi';
