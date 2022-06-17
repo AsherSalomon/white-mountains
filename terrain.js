@@ -293,8 +293,8 @@ class ReusedMesh {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         let x = vertices[ j + 0 ] + this.mesh.position.x;
         let z = vertices[ j + 2 ] + this.mesh.position.z;
-        let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
-        let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
+        let mIsEdge = m == 0 || m == downSize;
+        let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
         // } else if ( this.parent != null ) {
