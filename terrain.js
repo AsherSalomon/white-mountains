@@ -276,21 +276,22 @@ class ReusedMesh {
 
     // let size = ELEVATION_TILE_SIZE / downscale;
     for ( let i = 0; i < downSize ** 2; i++ ) {
-      this.heightData[ i ] = this.dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     }
 
     yield;
 
-    // const vertices = this.mesh.geometry.attributes.position.array;
-    // let size = ELEVATION_TILE_SIZE / downscale;
-    // for ( let m = 0; m < size + 1; m++ ) {
-    //   for ( let n = 0; n < size + 1; n++ ) {
-    //     let j = ( m * ( size + 1 ) + n ) * 3;
-    //     vertices[ j + 1 ] = 0; // to do, lookup data from parent as place holder
-    //   }
-    // }
-    // this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-    // this.mesh.geometry.computeVertexNormals();
+    const vertices = this.mesh.geometry.attributes.position.array;
+    let size = ELEVATION_TILE_SIZE / downscale;
+    for ( let m = 0; m < size + 1; m++ ) {
+      for ( let n = 0; n < size + 1; n++ ) {
+        let i = m * size + n;
+        let j = ( m * ( size + 1 ) + n ) * 3;
+        vertices[ j + 1 ] = this.heightData[ i ]; // to do, lookup data from parent as place holder
+      }
+    }
+    this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+    this.mesh.geometry.computeVertexNormals();
   }
 
   remove() {
@@ -312,4 +313,8 @@ let urlFormat = {
 function urlForTile( x, y, z, type ) {
   return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
+}
+dataToHeight( data ) {
+  // Elevation in meters
+  return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
 }
