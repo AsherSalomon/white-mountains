@@ -284,7 +284,7 @@ class ReusedMesh {
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
-        let i = m * downscale * downSize + n * downscale;
+        let i = m * ( downscale ** 2 )  * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         vertices[ j + 1 ] = this.heightData[ i ]; // to do, lookup data from parent as place holder
       }
