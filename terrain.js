@@ -314,7 +314,7 @@ function urlForTile( x, y, z, type ) {
   return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
-dataToHeight( data ) {
+function dataToHeight( data ) {
   // Elevation in meters
   return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
 }
