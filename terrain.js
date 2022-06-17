@@ -261,6 +261,7 @@ class ReusedMesh {
     scene.add( this.mesh );
 
     let url = urlForTile( ...tile.tile, 'terrain' );
+    console.log( url );
     const loader = new THREE.ImageLoader();
     // loader.setCrossOrigin( 'use-credentials' );
     let thisReusedMesh = this;
