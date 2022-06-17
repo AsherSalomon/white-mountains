@@ -53,7 +53,9 @@ export function update() {
   }
 
   if ( generatorQueue.length > 0 ) {
-    if ( generatorQueue[ 0 ].next().done ) {
+    if ( generatorQueue[ 0 ].intendedTile.disposed ) {
+      generatorQueue.shift();
+    } else if ( generatorQueue[ 0 ].next().done ) {
       generatorQueue.shift();
     }
   }
@@ -188,7 +190,8 @@ class Tile {
     } else {
       this.reusedMesh = new ReusedMesh();
     }
-    this.reusedMesh.reuse( this.tile );
+    this.disposed = false;
+    this.reusedMesh.reuse( this );
   }
 
   update() {
@@ -199,6 +202,8 @@ class Tile {
 
     this.reusedMesh.remove();
     meshBin.push( this.reusedMesh );
+
+    this.disposed = true;
   }
 }
 
@@ -217,38 +222,64 @@ class ReusedMesh {
   }
 
   reuse( tile ) {
-    let z = tile[ 2 ];
+    // this.tile = tile.tile.slice();
+
+    let z = tile.tile[ 2 ];
     let width = tileWidth[ z ];
     this.mesh.scale.x = width;
     this.mesh.scale.z = width;
-    this.mesh.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * width;
-    this.mesh.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * width;
+    this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width;
+    this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ z ][ 1 ] ) * width;
+
+    const vertices = this.mesh.geometry.attributes.position.array;
+    let size = ELEVATION_TILE_SIZE / downscale;
+    for ( let m = 0; m < size + 1; m++ ) {
+      for ( let n = 0; n < size + 1; n++ ) {
+        let j = ( m * ( size + 1 ) + n ) * 3;
+        vertices[ j + 1 ] = 0; // to do, lookup data from parent as place holder
+      }
+    }
+    this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+    this.mesh.geometry.computeVertexNormals();
+
+    scene.add( this.mesh );
+
+    let url = urlForTile( ...tile.tile, 'terrain' );
+    const loader = new THREE.ImageLoader();
+    let thisReusedMesh = this;
+    loader.load( url, function ( image ) {
+        let newGenerator = thisReusedMesh.generator( image );
+        newGenerator.intendedTile = tile;
+        generatorQueue.push( newGenerator );
+      },
+      undefined, // onProgress not supported
+      function () {
+        // console.error( 'terrain ImageLoader error' );
+      }
+    );
+  }
+
+  *generator( image ) {
+
+
+    yield;
 
     // const vertices = this.mesh.geometry.attributes.position.array;
     // let size = ELEVATION_TILE_SIZE / downscale;
     // for ( let m = 0; m < size + 1; m++ ) {
     //   for ( let n = 0; n < size + 1; n++ ) {
     //     let j = ( m * ( size + 1 ) + n ) * 3;
-    //     vertices[ j + 1 ] = tileWidth[ z ] * Math.random() * -0.01;
+    //     vertices[ j + 1 ] = 0; // to do, lookup data from parent as place holder
     //   }
     // }
     // this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     // this.mesh.geometry.computeVertexNormals();
-
-    scene.add( this.mesh );
-
-    // generatorQueue.push( this.generator( tile ) );
-  }
-
-  *generator( tile ) {
   }
 
   remove() {
     scene.remove( this.mesh );
   }
 }
-
-
 
 const ELEVATION_TILE_SIZE = 512;
 const downscale = 8;
