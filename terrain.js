@@ -267,6 +267,7 @@ class ReusedMesh {
         let newGenerator = thisReusedMesh.terrainGenerator( image );
         newGenerator.intendedTile = tile;
         generatorQueue.push( newGenerator );
+        console.log( THREE.Cache.files[ url ] );
       },
       undefined, // onProgress not supported
       function () {
