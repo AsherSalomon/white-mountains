@@ -271,7 +271,9 @@ class ReusedMesh {
       undefined, // onProgress not supported
       function () {
         console.log( 'terrain ImageLoader error' );
-        THREE.Cache.remove( url );
+        console.log( THREE.Cache.files );
+        console.log( THREE.Cache.remove( url ) );
+        console.log( THREE.Cache.files );
       }
     );
   }
