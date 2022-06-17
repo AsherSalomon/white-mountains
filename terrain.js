@@ -222,11 +222,11 @@ class ReusedMesh {
     this.mesh = new THREE.Mesh( geometry, material );
 
     let canvas = document.createElement( 'canvas' );
-    canvas.width = downSize;
-    canvas.height = downSize;
+    canvas.width = ELEVATION_TILE_SIZE;
+    canvas.height = ELEVATION_TILE_SIZE;
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
-    this.heightData = new Float32Array( downSize ** 2 );
+    this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
   }
 
   reuse( tile ) {
@@ -269,13 +269,13 @@ class ReusedMesh {
 
   *generator( image ) {
 
-    this.context.drawImage( image, 0, 0, downSize, downSize );
-    let imageData = this.context.getImageData( 0, 0, downSize, downSize ).data;
+    this.context.drawImage( image, 0, 0 );
+    let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
     yield;
 
     // let size = ELEVATION_TILE_SIZE / downscale;
-    for ( let i = 0; i < downSize ** 2; i++ ) {
+    for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
       this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     }
 
@@ -284,7 +284,7 @@ class ReusedMesh {
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
-        let i = m * downSize + n;
+        let i = m * downscale * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         vertices[ j + 1 ] = this.heightData[ i ]; // to do, lookup data from parent as place holder
       }
