@@ -291,8 +291,8 @@ class ReusedMesh {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let i = m * ( downscale ** 2 )  * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        let x = vertices[ j + 0 ] + this.centerX;
-        let z = vertices[ j + 2 ] + this.centerZ;
+        let x = vertices[ j + 0 ] + this.mesh.position.x;
+        let z = vertices[ j + 2 ] + this.mesh.position.z;
         let mIsEdge = m == 0 || m == ELEVATION_TILE_SIZE;
         let nIsEdge = n == 0 || n == ELEVATION_TILE_SIZE;
         if ( !mIsEdge && !nIsEdge ) {
