@@ -192,7 +192,7 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
-      if ( oneOff && isNaN( vertices[ j + 1 ] ) ) {
+      if ( oneOff && isNaN( dataFound ) ) {
         oneOff = false;
         console.log( x, z );
       }
