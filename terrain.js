@@ -112,6 +112,7 @@ class Layer {
           } else {
             clampingLayer = null;
           }
+          console.log( clampingLayer );
 
           this.tiles.push( new Tile( proposedTile, clampingLayer ) );
           updateClipping = true;
