@@ -185,15 +185,15 @@ class Layer {
   }
 
   lookupData( x, z ) {
-    if ( oneOff ) {
-      oneOff = false;
-      console.log( 'debug' );
-    }
     let dataFound = null;
     for ( let i = 0; i < this.tiles.length; i++ ) {
       if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
         dataFound = this.tiles[ i ].lookupData( x, z );
       }
+    }
+    if ( oneOff ) {
+      oneOff = false;
+      console.log( dataFound );
     }
     if ( dataFound != null ) {
       return dataFound;
