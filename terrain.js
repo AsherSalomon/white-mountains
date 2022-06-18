@@ -375,8 +375,8 @@ class ReusedMesh {
       return interpolated;
     // } else if ( this.parent != null ) {
     //   return this.parent.lookupData( x, z );
-  //   } else {
-  //     return 0;
+    } else {
+      return 0;
     }
   }
 
