@@ -350,7 +350,7 @@ class ReusedMesh {
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
     }
-    if ( oneOff ) {
+    if ( oneOff && debug.length > 0 ) {
       oneOff = false;
       console.log( debug );
     }
