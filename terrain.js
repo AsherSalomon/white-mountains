@@ -197,7 +197,7 @@ class Layer {
       // go up a layer and look it up there
       if ( oneOff ) {
         oneOff = false;
-        console.log( vertices[ j + 1 ] );
+        console.log( 'debug' );
       }
     }
   }
