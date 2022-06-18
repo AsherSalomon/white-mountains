@@ -328,6 +328,8 @@ class ReusedMesh {
 
     yield;
 
+    let debug = [];
+
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
@@ -341,12 +343,14 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+          debug.append( vertices[ j + 1 ] );
         } else {
           vertices[ j + 1 ] = 0;
         }
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
     }
+    console.log( debug );
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
   }
