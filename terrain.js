@@ -378,7 +378,7 @@ class ReusedMesh {
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
 
-      if ( oneOff ) {
+      if ( oneOff && interpolated != 0 ) {
         oneOff = false;
         console.log( interpolated );
       }
