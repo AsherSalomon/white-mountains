@@ -328,7 +328,7 @@ class ReusedMesh {
 
     for ( let m = 0; m < downSize; m++ ) {
       for ( let n = 0; n < downSize; n++ ) {
-        let i = m * ( downscale ** 2 )  * downSize + n * downscale;
+        let i = m * ( downscale ** 2 ) * downSize + n * downscale;
         let j = m * downSize + n;
         this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
       }
@@ -339,8 +339,8 @@ class ReusedMesh {
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
-        let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-        // let i = m * downSize + n;
+        // let i = m * ( downscale ** 2 ) * downSize + n * downscale;
+        let i = m * downSize + n;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
