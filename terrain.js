@@ -343,6 +343,11 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+
+          if ( oneOff && vertices[ j + 1 ] == NaN ) {
+            oneOff = false;
+            console.log( interpolated );
+          }
         } else {
           vertices[ j + 1 ] = 0;
         }
@@ -377,11 +382,6 @@ class ReusedMesh {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-
-      if ( oneOff && interpolated != 0 ) {
-        oneOff = false;
-        console.log( interpolated );
-      }
 
       return interpolated;
 
