@@ -192,14 +192,15 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
-      if ( oneOff && isNaN( dataFound ) ) {
-        oneOff = false;
-        console.log( x, z );
-      }
       return dataFound;
     } else {
       if ( this.parent != null ) {
-        this.parent.lookupData( x, z );
+        return this.parent.lookupData( x, z );
+
+          // if ( oneOff && isNaN( dataFound ) ) {
+          //   oneOff = false;
+          //   console.log( x, z );
+          // }
       } else {
         return 0;
       }
