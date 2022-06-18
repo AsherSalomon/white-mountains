@@ -108,9 +108,9 @@ class Layer {
 
           let clampingLayer;
           if ( this.parent != null ) {
-            newTile.clampingLayer = this.parrent;
+            clampingLayer = this.parrent;
           } else {
-            newTile.clampingLayer = null;
+            clampingLayer = null;
           }
 
           this.tiles.push( new Tile( proposedTile, clampingLayer ) );
