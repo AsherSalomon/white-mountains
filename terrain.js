@@ -221,13 +221,10 @@ class Tile {
   }
 
   pointIsInTile( x, z ) {
-    if ( this.reusedMesh != undefined ) {
-      let deltaX = ( x - this.reusedMesh.position.x ) / this.reusedMesh.width;
-      let deltaZ = ( z - this.reusedMesh.position.z ) / this.reusedMesh.width;
-      return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
-    } else {
-      return false;
-    }
+    let a = x
+    let deltaX = ( x - this.reusedMesh.position.x ) / this.reusedMesh.width;
+    let deltaZ = ( z - this.reusedMesh.position.z ) / this.reusedMesh.width;
+    return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
   }
 
   lookupData( x, z ) {
