@@ -108,7 +108,7 @@ class Layer {
           let newTile = new Tile( proposedTile );
           if ( this.parent != null ) {
             newTile.clampingLayer = this.parrent;
-            console.log( newTile.clampingLayer );
+            console.log( this.parrent );
           } else {
             newTile.clampingLayer = null;
           }
