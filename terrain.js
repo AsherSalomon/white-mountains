@@ -191,16 +191,16 @@ class Layer {
         dataFound = this.tiles[ i ].lookupData( x, z );
       }
     }
-    if ( oneOff ) {
-      oneOff = false;
-      console.log( dataFound );
-    }
     if ( dataFound != null ) {
       return dataFound;
     } else {
       if ( this.parent != null ) {
         this.parent.lookupData( x, z );
       } else {
+        if ( oneOff ) {
+          oneOff = false;
+          console.log( '0' );
+        }
         return 0;
       }
     }
