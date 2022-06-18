@@ -105,7 +105,9 @@ class Layer {
       for ( let n = this.minX; n <= this.maxX; n++ ) {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
-          this.tiles.push( new Tile( proposedTile ) );
+          let newTile = new Tile( proposedTile );
+          // newTile.layer = this;
+          this.tiles.push( newTile );
           updateClipping = true;
         }
       }
@@ -175,6 +177,9 @@ class Layer {
   }
 
   lookupData( x, z ) {
+    for ( let i = 0; i < this.tiles.length; i++ ) {
+
+    }
   }
 }
 
@@ -194,6 +199,7 @@ class Tile {
       this.reusedMesh = new ReusedMesh();
     }
     this.disposed = false;
+    // this.reusedMesh.layer = this.layer;
     this.reusedMesh.reuse( this );
   }
 
@@ -201,6 +207,7 @@ class Tile {
   }
 
   lookupData( x, z ) {
+    // this.reusedMesh
   }
 
   dispose() {
@@ -244,6 +251,7 @@ class ReusedMesh {
     this.mesh.scale.z = width;
     this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width;
     this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ z ][ 1 ] ) * width;
+    console.log( this.mesh.position.x - ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width );
 
     const vertices = this.mesh.geometry.attributes.position.array;
     // let size = ELEVATION_TILE_SIZE / downscale;
@@ -305,15 +313,42 @@ class ReusedMesh {
         } else {
           vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
         }
-
       }
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
   }
 
-  lookupData( x, z ) {
-  }
+  // lookupData( x, z ) { // , debug = false ) {
+  //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+  //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+  //   if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
+  //     let m1 = Math.floor( m );
+  //     let m2 = Math.ceil( m );
+  //     let n1 = Math.floor( n );
+  //     let n2 = Math.ceil( n );
+  //     let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+  //     let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+  //     let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+  //     let i22 = m2 * ELEVATION_TILE_SIZE + n2;
+  //     let d11 = this.heightData[ i11 ];
+  //     let d21 = this.heightData[ i21 ];
+  //     let d12 = this.heightData[ i12 ];
+  //     let d22 = this.heightData[ i22 ];
+  //     let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
+  //     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
+  //     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+  //     // if ( debug ) {
+  //     //   console.log( d12, d22, d12, m, m1 );
+  //     // }
+  //     return interpolated;
+  //     // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
+  //   } else if ( this.parent != null ) {
+  //     return this.parent.lookupData( x, z );
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   remove() {
     scene.remove( this.mesh );
