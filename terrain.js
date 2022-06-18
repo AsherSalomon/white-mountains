@@ -343,7 +343,7 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-          debug.push( , );
+          debug.push( x );
         } else {
           vertices[ j + 1 ] = 0;
         }
