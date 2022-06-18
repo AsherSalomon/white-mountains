@@ -343,7 +343,7 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
           if ( oneOff ) {
             oneOff = false;
-            console.log( vertices[ j + 1 ] );
+            console.log( x, z );
           }
         } else {
           vertices[ j + 1 ] = 0;
