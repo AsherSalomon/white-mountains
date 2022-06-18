@@ -197,10 +197,6 @@ class Layer {
       if ( this.parent != null ) {
         this.parent.lookupData( x, z );
       } else {
-        if ( oneOff ) {
-          oneOff = false;
-          console.log( '0' );
-        }
         return 0;
       }
     }
@@ -234,6 +230,10 @@ class Tile {
     if ( this.reusedMesh.position != undefined ) {
       let deltaX = ( x - this.reusedMesh.position.x ) / this.reusedMesh.width;
       let deltaZ = ( z - this.reusedMesh.position.z ) / this.reusedMesh.width;
+      if ( oneOff ) {
+        oneOff = false;
+        console.log( Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5 );
+      }
       return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
     } else {
       return false;
