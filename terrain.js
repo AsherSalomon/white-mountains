@@ -228,8 +228,8 @@ class Tile {
 
   pointIsInTile( x, z ) {
     if ( this.reusedMesh.position != undefined ) {
-      let deltaX = ( x - this.reusedMesh.position.x ) / this.reusedMesh.width;
-      let deltaZ = ( z - this.reusedMesh.position.z ) / this.reusedMesh.width;
+      let deltaX = ( x - this.reusedMesh.centerX ) / this.reusedMesh.width;
+      let deltaZ = ( z - this.reusedMesh.centerZ ) / this.reusedMesh.width;
       if ( oneOff && Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5 ) {
         oneOff = false;
         console.log( 'debug' );
