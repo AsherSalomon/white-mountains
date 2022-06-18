@@ -204,12 +204,12 @@ class Layer {
 class Tile {
   constructor( tile, clampingLayer ) {
     this.tile = tile;
-    // let z = tile[ 2 ];
-    // this.gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE / downscale );
-    // // let tile = tilebelt.pointToTile( longitude, latitude, z );
-    // this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
-    // this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
-    // scene.add( this.gridHelper );
+    let z = tile[ 2 ];
+    this.gridHelper = new THREE.GridHelper( tileWidth[ z ], downSize );
+    // let tile = tilebelt.pointToTile( longitude, latitude, z );
+    this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
+    this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
+    scene.add( this.gridHelper );
 
     if ( meshBin.length > 0 ) {
       this.reusedMesh = meshBin.shift();
@@ -235,7 +235,7 @@ class Tile {
   }
 
   dispose() {
-    // scene.remove( this.gridHelper );
+    scene.remove( this.gridHelper );
 
     this.reusedMesh.remove();
     meshBin.push( this.reusedMesh );
