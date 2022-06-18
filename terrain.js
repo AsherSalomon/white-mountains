@@ -188,10 +188,8 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
-      console.log( 'dataFound' );
       return dataFound;
     } else {
-      console.log( 'dataFound == false' );
       // go up a layer and look it up there
     }
   }
@@ -273,7 +271,7 @@ class ReusedMesh {
     this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
 
     const vertices = this.mesh.geometry.attributes.position.array;
-    // let size = ELEVATION_TILE_SIZE / downscale;
+    console.log( this.clampingLayer != null );
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
