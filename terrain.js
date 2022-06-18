@@ -346,7 +346,7 @@ class ReusedMesh {
 
           if ( oneOff && isNaN( vertices[ j + 1 ] ) ) {
             oneOff = false;
-            console.log( interpolated );
+            console.log( vertices[ j + 1 ] );
           }
         } else {
           vertices[ j + 1 ] = 0;
