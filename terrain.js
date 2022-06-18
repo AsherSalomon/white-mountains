@@ -19,8 +19,6 @@ let layers = [];
 let generatorQueue = [];
 let meshBin = [];
 
-let oneOff = true;
-
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
@@ -276,8 +274,10 @@ class ReusedMesh {
     this.width = tileWidth[ zoom ];
     this.mesh.scale.x = this.width;
     this.mesh.scale.z = this.width;
-    this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
-    this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
+    this.centerX = ( 0.5 + tile.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
+    this.centerZ = ( 0.5 + tile.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
+    this.mesh.position.x = this.centerX;
+    this.mesh.position.z = this.centerZ;
 
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
@@ -328,31 +328,24 @@ class ReusedMesh {
 
     yield;
 
-    let debug = [];
-
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let i = m * ( downscale ** 2 )  * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        let x = vertices[ j + 0 ];
-        let z = vertices[ j + 2 ];
+        let x = this.centerX + this.width * ( n * downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m * downSize - 0.5 );
         let mIsEdge = m == 0 || m == downSize;
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-          debug.push( x );
         } else {
           vertices[ j + 1 ] = 0;
         }
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
-    }
-    if ( oneOff && debug.length > 0 ) {
-      oneOff = false;
-      console.log( debug );
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
