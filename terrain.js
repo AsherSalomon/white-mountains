@@ -192,13 +192,13 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
-      if ( oneOff ) {
-        oneOff = false;
-        console.log( dataFound );
-      }
       return dataFound;
     } else {
       if ( this.parent != null ) {
+        if ( oneOff ) {
+          oneOff = false;
+          console.log( 'debug' );
+        }
         this.parent.lookupData( x, z );
       } else {
         return 0;
