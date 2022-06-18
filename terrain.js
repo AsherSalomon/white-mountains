@@ -339,8 +339,8 @@ class ReusedMesh {
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
-        // } else if ( this.clampingLayer != null ) {
-        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        } else if ( this.clampingLayer != null ) {
+          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
           vertices[ j + 1 ] = 0;
         }
