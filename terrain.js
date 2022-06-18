@@ -351,8 +351,6 @@ class ReusedMesh {
     this.mesh.geometry.computeVertexNormals();
   }
 
-  let oneOff = true;
-
   lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
@@ -376,7 +374,7 @@ class ReusedMesh {
       let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
       let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
       let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-      
+
        if ( oneOff ) {
          oneOff = false;
         console.log( interpolated );
@@ -397,6 +395,8 @@ class ReusedMesh {
     scene.remove( this.mesh );
   }
 }
+
+let oneOff = true;
 
 const ELEVATION_TILE_SIZE = 512;
 const downscale = 2 ** 1; // power of 2
