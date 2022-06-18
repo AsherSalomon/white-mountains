@@ -352,8 +352,8 @@ class ReusedMesh {
   }
 
   lookupData( x, z ) {
-    let m = ( z - ( this.mesh.position.z - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-    let n = ( x - ( this.mesh.position.x - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
 
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
       let m1 = Math.floor( m );
