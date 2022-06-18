@@ -355,7 +355,7 @@ class ReusedMesh {
 
     if ( oneOff ) {
       oneOff = false;
-      console.log( interpolated );
+      console.log( 'debug' );
     }
 
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
