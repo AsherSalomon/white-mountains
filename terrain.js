@@ -43,7 +43,6 @@ export function init( newScene, newCamera ) {
   for ( let i = 0; i < layers.length - 1; i++ ) {
     layers[ i ].child = layers[ i + 1 ];
     layers[ i + 1 ].parent = layers[ i ];
-    console.log( 'a', layers[ i + 1 ].parent );
   }
 
 }
@@ -109,11 +108,10 @@ class Layer {
 
           let clampingLayer;
           if ( this.parent != null ) {
-            clampingLayer = this.parrent;
+            clampingLayer = this.parent;
           } else {
             clampingLayer = null;
           }
-          console.log( 'b', clampingLayer );
 
           this.tiles.push( new Tile( proposedTile, clampingLayer ) );
           updateClipping = true;
