@@ -192,6 +192,10 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
+      if ( oneOff && isNaN( vertices[ j + 1 ] ) ) {
+        oneOff = false;
+        console.log( x, z );
+      }
       return dataFound;
     } else {
       if ( this.parent != null ) {
@@ -343,11 +347,6 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-
-          if ( oneOff && isNaN( vertices[ j + 1 ] ) ) {
-            oneOff = false;
-            console.log( x, z );
-          }
         } else {
           vertices[ j + 1 ] = 0;
         }
