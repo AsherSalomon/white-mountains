@@ -106,12 +106,14 @@ class Layer {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           let newTile = new Tile( proposedTile );
+
           if ( this.parent != null ) {
             newTile.clampingLayer = this.parrent;
-            console.log( this.parrent );
+            console.log( typeof this.parent );
           } else {
             newTile.clampingLayer = null;
           }
+
           this.tiles.push( newTile );
           updateClipping = true;
         }
