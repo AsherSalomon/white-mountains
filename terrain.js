@@ -383,7 +383,7 @@ class ReusedMesh {
       return interpolated;
 
     } else if ( this.clampingLayer != null ) {
-      return = this.clampingLayer.lookupData( x, z );
+      return this.clampingLayer.lookupData( x, z );
 
     } else {
       return 0;
