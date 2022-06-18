@@ -333,8 +333,8 @@ class ReusedMesh {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let i = m * ( downscale ** 2 )  * downSize + n * downscale;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
-        let x = this.centerX + this.width * ( n * downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m * downSize - 0.5 );
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         let mIsEdge = m == 0 || m == downSize;
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
