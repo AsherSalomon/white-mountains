@@ -192,13 +192,12 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
+      if ( oneOff ) {
+        oneOff = false;
+        console.log( dataFound );
+      }
       return dataFound;
     } else {
-      // go up a layer and look it up there
-      // if ( oneOff ) {
-      //   oneOff = false;
-      //   console.log( 'debug' );
-      // }
       if ( this.parent != null ) {
         this.parent.lookupData( x, z );
       } else {
