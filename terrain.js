@@ -195,6 +195,10 @@ class Layer {
       return dataFound;
     } else {
       // go up a layer and look it up there
+      if ( oneOff ) {
+        oneOff = false;
+        console.log( vertices[ j + 1 ] );
+      }
     }
   }
 }
@@ -343,10 +347,6 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-          if ( oneOff ) {
-            oneOff = false;
-            console.log( vertices[ j + 1 ] );
-          }
         } else {
           vertices[ j + 1 ] = 0;
         }
