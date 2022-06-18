@@ -106,7 +106,11 @@ class Layer {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           let newTile = new Tile( proposedTile );
-          // newTile.layer = this;
+          if ( this.parent != null ) {
+            newTile.clampingLayer = this.parrent;
+          } else {
+            newTile.clampingLayer = null;
+          }
           this.tiles.push( newTile );
           updateClipping = true;
         }
@@ -177,8 +181,16 @@ class Layer {
   }
 
   lookupData( x, z ) {
+    let dataFound = null;
     for ( let i = 0; i < this.tiles.length; i++ ) {
-
+      if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
+        dataFound = this.tiles[ i ].lookupData( x, z );
+      }
+    }
+    if ( dataFound != null ) {
+      return dataFound;
+    } else {
+      // go up a layer and look it up there
     }
   }
 }
@@ -199,15 +211,21 @@ class Tile {
       this.reusedMesh = new ReusedMesh();
     }
     this.disposed = false;
-    // this.reusedMesh.layer = this.layer;
+    this.reusedMesh.clampingLayer = this.clampingLayer;
     this.reusedMesh.reuse( this );
   }
 
   update() {
   }
 
+  pointIsInTile( x, z ) {
+    let deltaX = ( x - this.reusedMesh.position.x ) / this.reusedMesh.width;
+    let deltaZ = ( z - this.reusedMesh.position.z ) / this.reusedMesh.width;
+    return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
+  }
+
   lookupData( x, z ) {
-    // this.reusedMesh
+    return this.reusedMesh.lookupData( x, z );
   }
 
   dispose() {
@@ -245,13 +263,12 @@ class ReusedMesh {
   reuse( tile ) {
     // this.tile = tile.tile.slice();
 
-    let z = tile.tile[ 2 ];
-    let width = tileWidth[ z ];
-    this.mesh.scale.x = width;
-    this.mesh.scale.z = width;
-    this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width;
-    this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ z ][ 1 ] ) * width;
-    console.log( this.mesh.position.x - ( 0.5 + tile.tile[ 0 ] - origin[ z ][ 0 ] ) * width );
+    let zoom = tile.tile[ 2 ];
+    this.width = tileWidth[ z ];
+    this.mesh.scale.x = this.width;
+    this.mesh.scale.z = this.width;
+    this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
+    this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
 
     const vertices = this.mesh.geometry.attributes.position.array;
     // let size = ELEVATION_TILE_SIZE / downscale;
@@ -307,48 +324,50 @@ class ReusedMesh {
         let mIsEdge = m == 0 || m == downSize;
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
-          vertices[ j + 1 ] = this.heightData[ i ] - curvatureOfTheEarth( x, z );
-        // } else if ( this.parent != null ) {
-        //   vertices[ j + 1 ] = this.parent.lookupData( x, z ) - curvatureOfTheEarth( x, z );
+          vertices[ j + 1 ] = this.heightData[ i ];
+        } else if ( this.clampingLayer != null ) {
+          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
-          vertices[ j + 1 ] = 0 - curvatureOfTheEarth( x, z );
+          vertices[ j + 1 ] = 0;
         }
+        vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
   }
 
-  // lookupData( x, z ) { // , debug = false ) {
-  //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-  //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-  //   if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
-  //     let m1 = Math.floor( m );
-  //     let m2 = Math.ceil( m );
-  //     let n1 = Math.floor( n );
-  //     let n2 = Math.ceil( n );
-  //     let i11 = m1 * ELEVATION_TILE_SIZE + n1;
-  //     let i21 = m2 * ELEVATION_TILE_SIZE + n1;
-  //     let i12 = m1 * ELEVATION_TILE_SIZE + n2;
-  //     let i22 = m2 * ELEVATION_TILE_SIZE + n2;
-  //     let d11 = this.heightData[ i11 ];
-  //     let d21 = this.heightData[ i21 ];
-  //     let d12 = this.heightData[ i12 ];
-  //     let d22 = this.heightData[ i22 ];
-  //     let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
-  //     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
-  //     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-  //     // if ( debug ) {
-  //     //   console.log( d12, d22, d12, m, m1 );
-  //     // }
-  //     return interpolated;
-  //     // return this.heightData[ Math.round( m ) * ELEVATION_TILE_SIZE + Math.round( n ) ];
-  //   } else if ( this.parent != null ) {
-  //     return this.parent.lookupData( x, z );
+  lookupData( x, z ) {
+    let m = ( z - ( this.mesh.position.z - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+    let n = ( x - ( this.mesh.position.x - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+
+    if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
+      let m1 = Math.floor( m );
+      let m2 = Math.ceil( m );
+      let n1 = Math.floor( n );
+      let n2 = Math.ceil( n );
+
+      let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+      let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+      let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+      let i22 = m2 * ELEVATION_TILE_SIZE + n2;
+
+      let d11 = this.heightData[ i11 ];
+      let d21 = this.heightData[ i21 ];
+      let d12 = this.heightData[ i12 ];
+      let d22 = this.heightData[ i22 ];
+
+      let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
+      let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
+      let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+
+      return interpolated;
+    // } else if ( this.parent != null ) {
+    //   return this.parent.lookupData( x, z );
   //   } else {
   //     return 0;
-  //   }
-  // }
+    }
+  }
 
   remove() {
     scene.remove( this.mesh );
