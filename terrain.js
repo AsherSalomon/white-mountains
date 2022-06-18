@@ -106,6 +106,7 @@ class Layer {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
           let newTile = new Tile( proposedTile );
+          console.log( this.parent, this.parent != null );
           if ( this.parent != null ) {
             newTile.clampingLayer = this.parrent;
           } else {
@@ -271,7 +272,6 @@ class ReusedMesh {
     this.mesh.position.z = ( 0.5 + tile.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
 
     const vertices = this.mesh.geometry.attributes.position.array;
-    console.log( this.clampingLayer != null );
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
