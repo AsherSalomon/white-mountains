@@ -188,8 +188,10 @@ class Layer {
       }
     }
     if ( dataFound != null ) {
+      console.log( 'dataFound' );
       return dataFound;
     } else {
+      console.log( 'dataFound == false' );
       // go up a layer and look it up there
     }
   }
