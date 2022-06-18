@@ -229,10 +229,6 @@ class Tile {
   pointIsInTile( x, z ) {
     let deltaX = ( x - this.reusedMesh.centerX ) / this.reusedMesh.width;
     let deltaZ = ( z - this.reusedMesh.centerZ ) / this.reusedMesh.width;
-    if ( oneOff && Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5 ) {
-      oneOff = false;
-      console.log( 'debug' );
-    }
     return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
   }
 
@@ -291,12 +287,12 @@ class ReusedMesh {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         let x = vertices[ j + 0 ];
         let z = vertices[ j + 2 ];
-        // if ( this.clampingLayer != null ) {
-        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-        // } else {
-        //   vertices[ j + 1 ] = 0;
-        // }
-        vertices[ j + 1 ] = 0;
+        if ( this.clampingLayer != null ) {
+          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        } else {
+          vertices[ j + 1 ] = 0;
+        }
+        // vertices[ j + 1 ] = 0;
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
     }
