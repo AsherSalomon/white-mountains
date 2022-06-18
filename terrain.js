@@ -264,7 +264,7 @@ class ReusedMesh {
     // this.tile = tile.tile.slice();
 
     let zoom = tile.tile[ 2 ];
-    this.width = tileWidth[ z ];
+    this.width = tileWidth[ zoom ];
     this.mesh.scale.x = this.width;
     this.mesh.scale.z = this.width;
     this.mesh.position.x = ( 0.5 + tile.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
