@@ -263,8 +263,8 @@ class ReusedMesh {
     canvas.height = ELEVATION_TILE_SIZE;
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
-    this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
-    // this.heightData = new Float32Array( downSize ** 2 );
+    // this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
+    this.heightData = new Float32Array( downSize ** 2 );
   }
 
   reuse( tile, clampingLayer ) {
@@ -322,25 +322,25 @@ class ReusedMesh {
 
     yield;
 
-    for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
-      this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-    }
-
-    // for ( let m = 0; m < downSize + 1; m++ ) {
-    //   for ( let n = 0; n < downSize + 1; n++ ) {
-    //     let i = m * ( downscale ** 2 )  * downSize + n * downscale;
-    //     let j = ( m * ( downSize + 1 ) + n ) * 3;
-    //     this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-    //   }
+    // for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
+    //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     // }
+
+    for ( let m = 0; m < downSize + 1; m++ ) {
+      for ( let n = 0; n < downSize + 1; n++ ) {
+        let i = m * ( downscale ** 2 )  * downSize + n * downscale;
+        let j = ( m * ( downSize + 1 ) + n ) * 3;
+        this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+      }
+    }
 
     yield;
 
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m < downSize + 1; m++ ) {
       for ( let n = 0; n < downSize + 1; n++ ) {
-        let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-        // let i = m * downSize + n;
+        // let i = m * ( downscale ** 2 ) * downSize + n * downscale;
+        let i = m * downSize + n;
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
@@ -375,15 +375,15 @@ class ReusedMesh {
       let n1 = Math.floor( n );
       let n2 = Math.ceil( n );
 
-      let i11 = m1 * ELEVATION_TILE_SIZE + n1;
-      let i21 = m2 * ELEVATION_TILE_SIZE + n1;
-      let i12 = m1 * ELEVATION_TILE_SIZE + n2;
-      let i22 = m2 * ELEVATION_TILE_SIZE + n2;
+      // let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+      // let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+      // let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+      // let i22 = m2 * ELEVATION_TILE_SIZE + n2;
 
-      // let i11 = m1 * downSize + n1;
-      // let i21 = m2 * downSize + n1;
-      // let i12 = m1 * downSize + n2;
-      // let i22 = m2 * downSize + n2;
+      let i11 = m1 * downSize + n1;
+      let i21 = m2 * downSize + n1;
+      let i12 = m1 * downSize + n2;
+      let i22 = m2 * downSize + n2;
 
       let d11 = this.heightData[ i11 ];
       let d21 = this.heightData[ i21 ];
