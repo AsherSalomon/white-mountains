@@ -105,16 +105,15 @@ class Layer {
       for ( let n = this.minX; n <= this.maxX; n++ ) {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
-          let newTile = new Tile( proposedTile );
 
+          let clampingLayer;
           if ( this.parent != null ) {
             newTile.clampingLayer = this.parrent;
-            console.log( typeof this.parent );
           } else {
             newTile.clampingLayer = null;
           }
 
-          this.tiles.push( newTile );
+          this.tiles.push( new Tile( proposedTile, clampingLayer ) );
           updateClipping = true;
         }
       }
@@ -199,7 +198,7 @@ class Layer {
 }
 
 class Tile {
-  constructor( tile ) {
+  constructor( tile, clampingLayer ) {
     this.tile = tile;
     // let z = tile[ 2 ];
     // this.gridHelper = new THREE.GridHelper( tileWidth[ z ], ELEVATION_TILE_SIZE / downscale );
@@ -215,7 +214,7 @@ class Tile {
     }
     this.disposed = false;
     this.reusedMesh.clampingLayer = this.clampingLayer;
-    this.reusedMesh.reuse( this );
+    this.reusedMesh.reuse( this, clampingLayer );
   }
 
   update() {
@@ -263,7 +262,8 @@ class ReusedMesh {
     this.heightData = new Float32Array( ELEVATION_TILE_SIZE ** 2 );
   }
 
-  reuse( tile ) {
+  reuse( tile, clampingLayer ) {
+    this.clampingLayer = clampingLayer;
     // this.tile = tile.tile.slice();
 
     let zoom = tile.tile[ 2 ];
