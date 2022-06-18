@@ -19,6 +19,8 @@ let layers = [];
 let generatorQueue = [];
 let meshBin = [];
 
+let oneOff = true;
+
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
@@ -340,6 +342,11 @@ class ReusedMesh {
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
+
+          if ( oneOff ) {
+            oneOff = false;
+            console.log( 'debug' );
+          }
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
           vertices[ j + 1 ] = 0;
@@ -352,11 +359,6 @@ class ReusedMesh {
   }
 
   lookupData( x, z ) {
-
-    if ( oneOff ) {
-      oneOff = false;
-      console.log( 'debug' );
-    }
 
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
@@ -396,8 +398,6 @@ class ReusedMesh {
     scene.remove( this.mesh );
   }
 }
-
-let oneOff = true;
 
 const ELEVATION_TILE_SIZE = 512;
 const downscale = 2 ** 1; // power of 2
