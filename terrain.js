@@ -344,7 +344,7 @@ class ReusedMesh {
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
 
-          if ( oneOff && vertices[ j + 1 ] == NaN ) {
+          if ( oneOff && isNaN( vertices[ j + 1 ] ) ) {
             oneOff = false;
             console.log( interpolated );
           }
