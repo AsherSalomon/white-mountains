@@ -341,6 +341,10 @@ class ReusedMesh {
           vertices[ j + 1 ] = this.heightData[ i ];
         } else if ( this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+          if ( oneOff ) {
+            oneOff = false;
+            console.log( vertices[ j + 1 ] );
+          }
         } else {
           vertices[ j + 1 ] = 0;
         }
@@ -354,11 +358,6 @@ class ReusedMesh {
   lookupData( x, z ) {
     let m = ( z - ( this.mesh.position.z - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     let n = ( x - ( this.mesh.position.x - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-
-    if ( oneOff ) {
-      oneOff = false;
-      console.log( x, z, m, n );
-    }
 
     if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
       let m1 = Math.floor( m );
