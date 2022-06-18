@@ -332,7 +332,7 @@ class ReusedMesh {
     //     let j = ( m * ( downSize + 1 ) + n ) * 3;
     //     this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     //   }
-    }
+    // }
 
     yield;
 
