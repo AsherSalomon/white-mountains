@@ -427,7 +427,7 @@ class ReusedMesh {
     let conditionW = northOrWest == 'west' && v == 0 && v != downSize - 1;
     if ( conditionN || conditionW ) {
       let i = u * downSize + v;
-      return = this.heightData[ i ];
+      return this.heightData[ i ];
     } else {
       return null;
     }
