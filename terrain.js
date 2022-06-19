@@ -201,20 +201,20 @@ class Layer {
     //   //   oneoff = false;
     //   //   console.log( 'oneoff' );
     //   // }
-    //   if ( dataFound == null ) {
-    //     if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
-    //       dataFound = this.tiles[ i ].lookupData( x, z );
-    //     }
-    //   }
+      if ( dataFound == null ) {
+        if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
+          dataFound = this.tiles[ i ].lookupData( x, z );
+        }
+      }
     }
     if ( dataFound != null ) {
       return dataFound;
     } else {
-      // if ( this.parent != null ) {
-      //   return this.parent.lookupData( x, z );
-      // } else {
+      if ( this.parent != null ) {
+        return this.parent.lookupData( x, z );
+      } else {
         return 0;
-      // }
+      }
     }
   }
 }
