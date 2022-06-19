@@ -21,6 +21,7 @@ let meshBin = [];
 
 let oneoff = true;
 // if ( oneoff ) {
+//   oneoff = false;
 //   console.log( 'oneoff' );
 // }
 
@@ -192,6 +193,7 @@ class Layer {
     for ( let i = 0; i < this.tiles.length; i++ ) {
       if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
         if ( oneoff ) {
+          oneoff = false;
           console.log( 'oneoff' );
         }
         dataFound = this.tiles[ i ].lookupData( x, z, 'west' );
