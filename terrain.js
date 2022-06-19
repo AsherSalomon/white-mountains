@@ -430,11 +430,11 @@ class ReusedMesh {
     let v = Math.round( n );
     let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
     let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
+    if ( oneoff ) {
+      console.log( 'oneoff' );
+    }
     if ( conditionN || conditionW ) {
       let i = u * downSize + v;
-      if ( oneoff ) {
-        console.log( 'oneoff' );
-      }
       return this.heightData[ i ];
     } else {
       return null;
