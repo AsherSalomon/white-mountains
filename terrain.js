@@ -192,10 +192,10 @@ class Layer {
     let dataFound = null;
     for ( let i = 0; i < this.tiles.length; i++ ) {
       if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
-        dataFound = this.tiles[ i ].lookupData( x, z, 'west' );
+        dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'west' );
       }
       if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
-        dataFound = this.tiles[ i ].lookupData( x, z, 'north' );
+        dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'north' );
       }
     //   // if ( oneoff ) {
     //   //   oneoff = false;
