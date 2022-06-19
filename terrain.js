@@ -191,6 +191,9 @@ class Layer {
     let dataFound = null;
     for ( let i = 0; i < this.tiles.length; i++ ) {
       if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
+        if ( oneoff ) {
+          console.log( 'oneoff' );
+        }
         dataFound = this.tiles[ i ].lookupData( x, z, 'west' );
       }
       if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
@@ -430,9 +433,6 @@ class ReusedMesh {
     let v = Math.round( n );
     let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
     let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
-    if ( oneoff ) {
-      console.log( 'oneoff' );
-    }
     if ( conditionN || conditionW ) {
       let i = u * downSize + v;
       return this.heightData[ i ];
