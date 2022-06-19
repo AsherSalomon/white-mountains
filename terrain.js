@@ -188,35 +188,35 @@ class Layer {
     return isInTiles;
   }
 
-  lookupData( x, z ) {
-    let dataFound = null;
-    for ( let i = 0; i < this.tiles.length; i++ ) {
-      if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
-        dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'west' );
-      }
-      if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
-        dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'north' );
-      }
-    //   // if ( oneoff ) {
-    //   //   oneoff = false;
-    //   //   console.log( 'oneoff' );
-    //   // }
-      if ( dataFound == null ) {
-        if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
-          dataFound = this.tiles[ i ].lookupData( x, z );
-        }
-      }
-    }
-    if ( dataFound != null ) {
-      return dataFound;
-    } else {
-      if ( this.parent != null ) {
-        return this.parent.lookupData( x, z );
-      } else {
-        return 0;
-      }
-    }
-  }
+  // lookupData( x, z ) {
+  //   let dataFound = null;
+  //   for ( let i = 0; i < this.tiles.length; i++ ) {
+  //     if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
+  //       dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'west' );
+  //     }
+  //     if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
+  //       dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'north' );
+  //     }
+  //   //   // if ( oneoff ) {
+  //   //   //   oneoff = false;
+  //   //   //   console.log( 'oneoff' );
+  //   //   // }
+  //     if ( dataFound == null ) {
+  //       if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
+  //         dataFound = this.tiles[ i ].lookupData( x, z );
+  //       }
+  //     }
+  //   }
+  //   if ( dataFound != null ) {
+  //     return dataFound;
+  //   } else {
+  //     if ( this.parent != null ) {
+  //       return this.parent.lookupData( x, z );
+  //     } else {
+  //       return 0;
+  //     }
+  //   }
+  // }
 }
 
 class Tile {
@@ -243,19 +243,19 @@ class Tile {
   update() {
   }
 
-  pointIsInTile( x, z ) {
-    let deltaX = ( x - this.reusedMesh.centerX ) / this.reusedMesh.width;
-    let deltaZ = ( z - this.reusedMesh.centerZ ) / this.reusedMesh.width;
-    return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
-  }
-
-  lookupData( x, z ) {
-    return this.reusedMesh.lookupData( x, z );
-  }
-
-  lookupDataPoint( x, z, northOrWest ) {
-    return this.reusedMesh.lookupDataPoint( x, z, northOrWest );
-  }
+  // pointIsInTile( x, z ) {
+  //   let deltaX = ( x - this.reusedMesh.centerX ) / this.reusedMesh.width;
+  //   let deltaZ = ( z - this.reusedMesh.centerZ ) / this.reusedMesh.width;
+  //   return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
+  // }
+  //
+  // lookupData( x, z ) {
+  //   return this.reusedMesh.lookupData( x, z );
+  // }
+  //
+  // lookupDataPoint( x, z, northOrWest ) {
+  //   return this.reusedMesh.lookupDataPoint( x, z, northOrWest );
+  // }
 
   dispose() {
     // scene.remove( this.gridHelper );
@@ -371,8 +371,8 @@ class ReusedMesh {
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
-        } else if ( this.clampingLayer != null ) {
-          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        // } else if ( this.clampingLayer != null ) {
+        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
           vertices[ j + 1 ] = 0;
         }
@@ -383,66 +383,66 @@ class ReusedMesh {
     this.mesh.geometry.computeVertexNormals();
   }
 
-  lookupData( x, z ) {
-
-    // let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-    // let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-
-    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
-    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
-
-    // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
-    if ( m > 0 && n > 0 && m < downSize - 1 && n < downSize - 1 ) {
-      let m1 = Math.floor( m );
-      let m2 = Math.ceil( m );
-      let n1 = Math.floor( n );
-      let n2 = Math.ceil( n );
-
-      // let i11 = m1 * ELEVATION_TILE_SIZE + n1;
-      // let i21 = m2 * ELEVATION_TILE_SIZE + n1;
-      // let i12 = m1 * ELEVATION_TILE_SIZE + n2;
-      // let i22 = m2 * ELEVATION_TILE_SIZE + n2;
-
-      let i11 = m1 * downSize + n1;
-      let i21 = m2 * downSize + n1;
-      let i12 = m1 * downSize + n2;
-      let i22 = m2 * downSize + n2;
-
-      let d11 = this.heightData[ i11 ];
-      let d21 = this.heightData[ i21 ];
-      let d12 = this.heightData[ i12 ];
-      let d22 = this.heightData[ i22 ];
-
-      let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
-      let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
-      let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-
-      return interpolated;
-
-    } else if ( this.clampingLayer != null ) {
-      return this.clampingLayer.lookupData( x, z );
-
-    } else {
-      return 0;
-    }
-
-  }
-
-  lookupDataPoint( x, z, northOrWest ) {
-    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
-    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
-    let u = Math.round( m );
-    let v = Math.round( n );
-    let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
-    let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
-    let condition3 = u >= 0 && v >= 0 && u <= downSize - 1 && v <= downSize - 1;
-    if ( ( conditionN || conditionW ) && condition3 ) {
-      let i = u * downSize + v;
-      return this.heightData[ i ];
-    } else {
-      return null;
-    }
-  }
+  // lookupData( x, z ) {
+  //
+  //   // let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+  //   // let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+  //
+  //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+  //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+  //
+  //   // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
+  //   if ( m > 0 && n > 0 && m < downSize - 1 && n < downSize - 1 ) {
+  //     let m1 = Math.floor( m );
+  //     let m2 = Math.ceil( m );
+  //     let n1 = Math.floor( n );
+  //     let n2 = Math.ceil( n );
+  //
+  //     // let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+  //     // let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+  //     // let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+  //     // let i22 = m2 * ELEVATION_TILE_SIZE + n2;
+  //
+  //     let i11 = m1 * downSize + n1;
+  //     let i21 = m2 * downSize + n1;
+  //     let i12 = m1 * downSize + n2;
+  //     let i22 = m2 * downSize + n2;
+  //
+  //     let d11 = this.heightData[ i11 ];
+  //     let d21 = this.heightData[ i21 ];
+  //     let d12 = this.heightData[ i12 ];
+  //     let d22 = this.heightData[ i22 ];
+  //
+  //     let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
+  //     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
+  //     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+  //
+  //     return interpolated;
+  //
+  //   } else if ( this.clampingLayer != null ) {
+  //     return this.clampingLayer.lookupData( x, z );
+  //
+  //   } else {
+  //     return 0;
+  //   }
+  //
+  // }
+  //
+  // lookupDataPoint( x, z, northOrWest ) {
+  //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+  //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+  //   let u = Math.round( m );
+  //   let v = Math.round( n );
+  //   let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
+  //   let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
+  //   let condition3 = u >= 0 && v >= 0 && u <= downSize - 1 && v <= downSize - 1;
+  //   if ( ( conditionN || conditionW ) && condition3 ) {
+  //     let i = u * downSize + v;
+  //     return this.heightData[ i ];
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   remove() {
     scene.remove( this.mesh );
