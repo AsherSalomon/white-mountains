@@ -435,7 +435,7 @@ class ReusedMesh {
     let v = Math.round( n );
     let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
     let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
-    let condition3 = u >= 0 && v >= 0 && u <= downSize - 1 && v <= downSize - 1 ) {
+    let condition3 = u >= 0 && v >= 0 && u <= downSize - 1 && v <= downSize - 1;
     if ( ( conditionN || conditionW ) && condition3 ) {
       let i = u * downSize + v;
       return this.heightData[ i ];
