@@ -197,24 +197,24 @@ class Layer {
       if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
         dataFound = this.tiles[ i ].lookupData( x, z, 'north' );
       }
-      // if ( oneoff ) {
-      //   oneoff = false;
-      //   console.log( 'oneoff' );
-      // }
-      if ( dataFound == null ) {
-        if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
-          dataFound = this.tiles[ i ].lookupData( x, z );
-        }
-      }
+    //   // if ( oneoff ) {
+    //   //   oneoff = false;
+    //   //   console.log( 'oneoff' );
+    //   // }
+    //   if ( dataFound == null ) {
+    //     if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
+    //       dataFound = this.tiles[ i ].lookupData( x, z );
+    //     }
+    //   }
     }
     if ( dataFound != null ) {
       return dataFound;
     } else {
-      if ( this.parent != null ) {
-        return this.parent.lookupData( x, z );
-      } else {
+      // if ( this.parent != null ) {
+      //   return this.parent.lookupData( x, z );
+      // } else {
         return 0;
-      }
+      // }
     }
   }
 }
@@ -371,8 +371,8 @@ class ReusedMesh {
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
-        // } else if ( this.clampingLayer != null ) {
-        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        } else if ( this.clampingLayer != null ) {
+          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
           vertices[ j + 1 ] = 0;
         }
