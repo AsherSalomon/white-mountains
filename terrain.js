@@ -19,6 +19,11 @@ let layers = [];
 let generatorQueue = [];
 let meshBin = [];
 
+let oneoff = true;
+// if ( oneoff ) {
+//   console.log( 'oneoff' );
+// }
+
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
@@ -423,10 +428,13 @@ class ReusedMesh {
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
     let u = Math.round( m );
     let v = Math.round( n );
-    let conditionN = northOrWest == 'north' && u == 0 && u != downSize - 1;
-    let conditionW = northOrWest == 'west' && v == 0 && v != downSize - 1;
+    let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
+    let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
     if ( conditionN || conditionW ) {
       let i = u * downSize + v;
+      if ( oneoff ) {
+        console.log( 'oneoff' );
+      }
       return this.heightData[ i ];
     } else {
       return null;
