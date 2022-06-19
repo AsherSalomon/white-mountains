@@ -188,35 +188,35 @@ class Layer {
     return isInTiles;
   }
 
-  // lookupData( x, z ) {
-  //   let dataFound = null;
-  //   for ( let i = 0; i < this.tiles.length; i++ ) {
-  //     if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
-  //       dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'west' );
-  //     }
-  //     if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
-  //       dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'north' );
-  //     }
-  //   //   // if ( oneoff ) {
-  //   //   //   oneoff = false;
-  //   //   //   console.log( 'oneoff' );
-  //   //   // }
-  //     if ( dataFound == null ) {
-  //       if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
-  //         dataFound = this.tiles[ i ].lookupData( x, z );
-  //       }
-  //     }
-  //   }
-  //   if ( dataFound != null ) {
-  //     return dataFound;
-  //   } else {
-  //     if ( this.parent != null ) {
-  //       return this.parent.lookupData( x, z );
-  //     } else {
-  //       return 0;
-  //     }
-  //   }
-  // }
+  lookupData( x, z ) {
+    let dataFound = null;
+    for ( let i = 0; i < this.tiles.length; i++ ) {
+    //   if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
+    //     dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'west' );
+    //   }
+    //   if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
+    //     dataFound = this.tiles[ i ].lookupDataPoint( x, z, 'north' );
+    //   }
+    // //   // if ( oneoff ) {
+    // //   //   oneoff = false;
+    // //   //   console.log( 'oneoff' );
+    // //   // }
+    //   if ( dataFound == null ) {
+    //     if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
+          dataFound = this.tiles[ i ].lookupData( x, z );
+    //     }
+    //   }
+    }
+    if ( dataFound != null ) {
+      return dataFound;
+    } else {
+    //   if ( this.parent != null ) {
+    //     return this.parent.lookupData( x, z );
+    //   } else {
+        return 0;
+    //   }
+    }
+  }
 }
 
 class Tile {
@@ -248,11 +248,11 @@ class Tile {
   //   let deltaZ = ( z - this.reusedMesh.centerZ ) / this.reusedMesh.width;
   //   return Math.abs( deltaX ) < 0.5 && Math.abs( deltaZ ) < 0.5;
   // }
-  //
-  // lookupData( x, z ) {
-  //   return this.reusedMesh.lookupData( x, z );
-  // }
-  //
+
+  lookupData( x, z ) {
+    return this.reusedMesh.lookupData( x, z );
+  }
+
   // lookupDataPoint( x, z, northOrWest ) {
   //   return this.reusedMesh.lookupDataPoint( x, z, northOrWest );
   // }
@@ -371,8 +371,8 @@ class ReusedMesh {
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
-        // } else if ( this.clampingLayer != null ) {
-        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        } else if ( this.clampingLayer != null ) {
+          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
           vertices[ j + 1 ] = 0;
         }
@@ -443,6 +443,17 @@ class ReusedMesh {
   //     return null;
   //   }
   // }
+
+  lookupData( x, z ) {
+    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+    if ( m > 0 && n > 0 && m < downSize && n < downSize ) {
+      let i = m * downSize + n;
+      return this.heightData[ i ];
+    } else {
+      return null;
+    }
+  }
 
   remove() {
     scene.remove( this.mesh );
