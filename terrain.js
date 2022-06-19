@@ -182,13 +182,21 @@ class Layer {
     return isInTiles;
   }
 
-  repairSeams( x, z ) {
-
-  }
-
   lookupData( x, z ) {
     let dataFound = null;
     for ( let i = 0; i < this.tiles.length; i++ ) {
+      if ( this.tiles[ i ].tile[ 0 ] == this.maxX ) {
+
+      }
+      if ( this.tiles[ i ].tile[ 1 ] == this.maxZ ) {
+
+      }
+      // let dataPoint = this.tiles[ i ].lookupDataPoint( x, z );
+      // if ( dataPoint != null ) {
+      //
+      // } else {
+      //
+      // }
       if ( this.tiles[ i ].pointIsInTile( x, z ) ) {
         dataFound = this.tiles[ i ].lookupData( x, z );
       }
@@ -237,6 +245,10 @@ class Tile {
 
   lookupData( x, z ) {
     return this.reusedMesh.lookupData( x, z );
+  }
+
+  lookupDataPoint( x, z, northOrWest ) {
+    return this.reusedMesh.lookupDataPoint( x, z, northOrWest );
   }
 
   dispose() {
@@ -370,8 +382,8 @@ class ReusedMesh {
     // let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
     // let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
 
-      let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
-      let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
     // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
     if ( m > 0 && n > 0 && m < downSize - 1 && n < downSize - 1 ) {
@@ -408,6 +420,21 @@ class ReusedMesh {
       return 0;
     }
 
+  }
+
+  lookupDataPoint( x, z, northOrWest ) {
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+    let u = Math.round( m );
+    let v = Math.round( n );
+    let conditionN = northOrWest == 'north' && u == 0 && u != downSize - 1;
+    let conditionW = northOrWest == 'west' && v == 0 && v != downSize - 1;
+    if ( conditionN || conditionW ) {
+      let i = u * downSize + v;
+      return = this.heightData[ i ];
+    } else {
+      return null;
+    }
   }
 
   remove() {
