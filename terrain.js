@@ -399,6 +399,10 @@ class ReusedMesh {
 
     yield;
 
+    this.refreshMesh();
+  }
+
+  refreshMesh() {
     const vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
