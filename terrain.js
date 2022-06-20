@@ -62,10 +62,10 @@ export function update() {
     if ( generatorQueue.length > 0 ) {
       if ( generatorQueue[ 0 ].intendedTile.disposed ) {
         // generatorQueue.shift();
-          generatorQueue.splice( 0 );
+          generatorQueue.splice( 0, 1 );
       } else if ( generatorQueue[ 0 ].next().done ) {
         // generatorQueue.shift();
-          generatorQueue.splice( 0 );
+          generatorQueue.splice( 0, 1 );
       }
     }
   // }
