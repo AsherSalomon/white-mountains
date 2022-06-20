@@ -336,8 +336,8 @@ class ReusedMesh {
     this.mesh.position.z = this.centerZ;
 
     const vertices = this.mesh.geometry.attributes.position.array;
-    for ( let m = 0; m < downSize + 1; m++ ) {
-      for ( let n = 0; n < downSize + 1; n++ ) {
+    for ( let m = 0; m <= downSize + 1; m++ ) {
+      for ( let n = 0; n <= downSize + 1; n++ ) {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
