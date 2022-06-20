@@ -321,6 +321,7 @@ class ReusedMesh {
   }
 
   reuse( tile, layer ) {
+    this.layer = layer;
     this.clampingLayer = layer.parent;
     // this.tile = tile.tile.slice();
 
@@ -386,6 +387,13 @@ class ReusedMesh {
         let j = m * ( downSize + 1 ) + n;
         if ( m == downSize || n == downSize ) {
           // this.heightData[ j ] = ?; obtain dataPoint from adjacent tiles
+          let x = this.centerX + this.width * ( n / downSize - 0.5 );
+          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+          for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+            if ( this.layer.tiles[ t ] != this ) {
+              this.heightData[ j ] = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+            }
+          }
         } else {
           let i = m * ( downscale ** 2 ) * downSize + n * downscale;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
@@ -478,21 +486,25 @@ class ReusedMesh {
 
   }
 
-  // lookupDataPoint( x, z, northOrWest ) {
-  //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
-  //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
-  //   let u = Math.round( m );
-  //   let v = Math.round( n );
-  //   let conditionN = northOrWest == 'north' && u == 0 && v != downSize - 1;
-  //   let conditionW = northOrWest == 'west' && v == 0 && u != downSize - 1;
-  //   let condition3 = u >= 0 && v >= 0 && u <= downSize - 1 && v <= downSize - 1;
-  //   if ( ( conditionN || conditionW ) && condition3 ) {
-  //     let i = u * downSize + v;
-  //     return this.heightData[ i ];
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  lookupDataPoint( x, z ) {
+    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
+      let i = m * downSize + n;
+      return this.heightData[ i ];
+    } else {
+      return null;
+    }
+  }
+
+  setDataPoint( x, z, dataPoint ) {
+    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
+      let i = m * downSize + n;
+      this.heightData[ i ] = dataPoint;
+    }
+  }
 
   // clampEdges() {
   //   const vertices = this.mesh.geometry.attributes.position.array;
