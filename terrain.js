@@ -383,15 +383,15 @@ class ReusedMesh {
 
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         // let j = m * downSize + n;
         let j = m * ( downSize + 1 ) + n;
         if ( m == downSize || n == downSize ) {
-          // this.heightData[ j ] = ?; obtain dataPoint from adjacent tiles
-          let x = this.centerX + this.width * ( n / downSize - 0.5 );
-          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
           for ( let t = 0; t < this.layer.tiles.length; t++ ) {
             if ( this.layer.tiles[ t ] != this ) {
-              this.heightData[ j ] = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+              // obtain dataPoint from adjacent tiles
+              // this.heightData[ j ] = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
             }
           }
         } else {
@@ -399,7 +399,12 @@ class ReusedMesh {
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
           this.heightData[ j ] = dataPoint;
           if ( ( m == 0 || n == 0 ) && m < downSize && n < downSize ) {
-            // report dataPoint to adjacent tiles
+            for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+              if ( this.layer.tiles[ t ] != this ) {
+                // report dataPoint to adjacent tiles
+                this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, this.heightData[ j ] );
+              }
+            }
           }
         }
       }
