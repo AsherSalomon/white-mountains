@@ -421,14 +421,16 @@ class ReusedMesh {
 
     yield;
 
+    this.refreshMesh();
+
+    yield;
+
     for ( let t = 0; t < this.layer.tiles.length; t++ ) {
       if ( needsRefresh[ t ] ) {
         this.layer.tiles[ t ].reusedMesh.refreshMesh();
         yield;
       }
     }
-
-    this.refreshMesh();
   }
 
   refreshMesh() {
