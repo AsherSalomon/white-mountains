@@ -390,6 +390,7 @@ class ReusedMesh {
       for ( let n = 0; n <= downSize; n++ ) {
         // let j = m * downSize + n;
         let j = m * ( downSize + 1 ) + n;
+        this.heightData[ j ] = 0;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         if ( m == downSize || n == downSize ) {
