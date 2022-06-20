@@ -395,51 +395,51 @@ class ReusedMesh {
     this.mesh.geometry.computeVertexNormals();
   }
 
-  // lookupData( x, z ) {
-  //
-  //   // let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-  //   // let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
-  //
-  //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
-  //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
-  //
-  //   // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
-  //   if ( m > 0 && n > 0 && m < downSize - 1 && n < downSize - 1 ) {
-  //     let m1 = Math.floor( m );
-  //     let m2 = Math.ceil( m );
-  //     let n1 = Math.floor( n );
-  //     let n2 = Math.ceil( n );
-  //
-  //     // let i11 = m1 * ELEVATION_TILE_SIZE + n1;
-  //     // let i21 = m2 * ELEVATION_TILE_SIZE + n1;
-  //     // let i12 = m1 * ELEVATION_TILE_SIZE + n2;
-  //     // let i22 = m2 * ELEVATION_TILE_SIZE + n2;
-  //
-  //     let i11 = m1 * downSize + n1;
-  //     let i21 = m2 * downSize + n1;
-  //     let i12 = m1 * downSize + n2;
-  //     let i22 = m2 * downSize + n2;
-  //
-  //     let d11 = this.heightData[ i11 ];
-  //     let d21 = this.heightData[ i21 ];
-  //     let d12 = this.heightData[ i12 ];
-  //     let d22 = this.heightData[ i22 ];
-  //
-  //     let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
-  //     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
-  //     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
-  //
-  //     return interpolated;
-  //
-  //   } else if ( this.clampingLayer != null ) {
-  //     return this.clampingLayer.lookupData( x, z );
-  //
-  //   } else {
-  //     return 0;
-  //   }
-  //
-  // }
-  //
+  lookupData( x, z ) {
+
+    // let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+    // let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * ELEVATION_TILE_SIZE;
+
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+
+    // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
+    if ( m > 0 && n > 0 && m < downSize - 1 && n < downSize - 1 ) {
+      let m1 = Math.floor( m );
+      let m2 = Math.ceil( m );
+      let n1 = Math.floor( n );
+      let n2 = Math.ceil( n );
+
+      // let i11 = m1 * ELEVATION_TILE_SIZE + n1;
+      // let i21 = m2 * ELEVATION_TILE_SIZE + n1;
+      // let i12 = m1 * ELEVATION_TILE_SIZE + n2;
+      // let i22 = m2 * ELEVATION_TILE_SIZE + n2;
+
+      let i11 = m1 * downSize + n1;
+      let i21 = m2 * downSize + n1;
+      let i12 = m1 * downSize + n2;
+      let i22 = m2 * downSize + n2;
+
+      let d11 = this.heightData[ i11 ];
+      let d21 = this.heightData[ i21 ];
+      let d12 = this.heightData[ i12 ];
+      let d22 = this.heightData[ i22 ];
+
+      let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
+      let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
+      let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+
+      return interpolated;
+
+    } else if ( this.clampingLayer != null ) {
+      return this.clampingLayer.lookupData( x, z );
+
+    } else {
+      return 0;
+    }
+
+  }
+
   // lookupDataPoint( x, z, northOrWest ) {
   //   let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
   //   let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
@@ -456,16 +456,16 @@ class ReusedMesh {
   //   }
   // }
 
-  lookupData( x, z ) {
-    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
-    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
-    if ( m > 0 && n > 0 && m < downSize && n < downSize ) {
-      let i = m * downSize + n;
-      return this.heightData[ i ];
-    } else {
-      return null;
-    }
-  }
+  // lookupData( x, z ) {
+  //   let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+  //   let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+  //   if ( m > 0 && n > 0 && m < downSize && n < downSize ) {
+  //     let i = m * downSize + n;
+  //     return this.heightData[ i ];
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   remove() {
     scene.remove( this.mesh );
