@@ -58,17 +58,24 @@ export function update() {
     layers[ i ].update();
   }
 
-  // for ( let z = minZoom; z <= maxZoom; z++ ) {
-    if ( generatorQueue.length > 0 ) {
-      if ( generatorQueue[ 0 ].intendedTile.disposed ) {
-        // generatorQueue.shift();
-          generatorQueue.splice( 0, 1 );
-      } else if ( generatorQueue[ 0 ].next().done ) {
-        // generatorQueue.shift();
-          generatorQueue.splice( 0, 1 );
+  for ( let z = minZoom; z <= maxZoom; z++ ) {
+    let breakOut = false;
+    // if ( generatorQueue.length > 0 ) {
+    for ( let i = 0; i < generatorQueue.length; i++ ) {
+      if ( generatorQueue[ i ].zoom == z ) {
+        if ( generatorQueue[ i ].intendedTile.disposed ) {
+          // generatorQueue.shift();
+          generatorQueue.splice( i, 1 );
+        } else if ( generatorQueue[ i ].next().done ) {
+          // generatorQueue.shift();
+          generatorQueue.splice( i, 1 );
+        }
+        breakOut = true;
+        break;
       }
     }
-  // }
+    if ( breakOut ) { break; }
+  }
 }
 
 class Layer {
