@@ -25,8 +25,8 @@ let oneoff = true;
 //   console.log( 'oneoff' );
 // }
 
-// let showGridHelper = false;
-let showGridHelper = true;
+let showGridHelper = false;
+// let showGridHelper = true;
 
 export function init( newScene, newCamera ) {
   scene = newScene;
