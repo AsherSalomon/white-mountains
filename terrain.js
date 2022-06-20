@@ -230,6 +230,14 @@ class Layer {
     //   }
     }
   }
+
+  // repairEdges() {
+  //   for ( let i = 0; i < this.tiles.length; i++ ) {
+  //     for ( let j = 0; j < this.tiles.length; j++ ) {
+  //       this.tiles[ i ].reusedMesh.repairEdges( this.tiles[ j ].reusedMesh );
+  //     }
+  //   }
+  // }
 }
 
 class Tile {
@@ -328,12 +336,12 @@ class ReusedMesh {
         let j = ( m * ( downSize + 1 ) + n ) * 3;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( this.clampingLayer != null ) {
-          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-        } else {
-          vertices[ j + 1 ] = 0;
-        }
-        // vertices[ j + 1 ] = 0;
+        // if ( this.clampingLayer != null ) {
+        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        // } else {
+        //   vertices[ j + 1 ] = 0;
+        // }
+        vertices[ j + 1 ] = 0;
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
     }
