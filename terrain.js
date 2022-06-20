@@ -392,7 +392,10 @@ class ReusedMesh {
           for ( let t = 0; t < this.layer.tiles.length; t++ ) {
             if ( this.layer.tiles[ t ] != this ) {
               // obtain dataPoint from adjacent tiles
-              this.heightData[ j ] = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+              let dataPoint = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+              if ( dataPoint != null ) {
+                this.heightData[ j ] = dataPoint;
+              }
             }
           }
         } else {
