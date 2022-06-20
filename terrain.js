@@ -25,6 +25,8 @@ let oneoff = true;
 //   console.log( 'oneoff' );
 // }
 
+let showGridHelper = true;
+
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
@@ -233,13 +235,16 @@ class Layer {
 class Tile {
   constructor( tile, clampingLayer ) {
     this.tile = tile;
-    // let z = tile[ 2 ];
-    // this.gridHelper = new THREE.GridHelper( tileWidth[ z ], downSize );
-    // // let tile = tilebelt.pointToTile( longitude, latitude, z );
-    // this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
-    // this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
-    // this.gridHelper.position.y = 2000;
-    // scene.add( this.gridHelper );
+
+    if ( showGridHelper ) {
+      let z = tile[ 2 ];
+      this.gridHelper = new THREE.GridHelper( tileWidth[ z ], downSize );
+      // let tile = tilebelt.pointToTile( longitude, latitude, z );
+      this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
+      this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
+      this.gridHelper.position.y = 2000;
+      scene.add( this.gridHelper );
+    }
 
     if ( meshBin.length > 0 ) {
       this.reusedMesh = meshBin.shift();
@@ -269,7 +274,9 @@ class Tile {
   // }
 
   dispose() {
-    // scene.remove( this.gridHelper );
+    if ( showGridHelper ) {
+      scene.remove( this.gridHelper );
+    }
 
     this.reusedMesh.remove();
     meshBin.push( this.reusedMesh );
