@@ -383,15 +383,15 @@ class ReusedMesh {
 
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         // let j = m * downSize + n;
-        let j = m * ( downSize + 1 ) + n;
         if ( m == downSize || n == downSize ) {
           for ( let t = 0; t < this.layer.tiles.length; t++ ) {
             if ( this.layer.tiles[ t ] != this ) {
               // obtain dataPoint from adjacent tiles
-              this.heightData[ j ] = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+              // this.heightData[ j ] = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
             }
           }
         } else {
@@ -402,7 +402,7 @@ class ReusedMesh {
             for ( let t = 0; t < this.layer.tiles.length; t++ ) {
               if ( this.layer.tiles[ t ] != this ) {
                 // report dataPoint to adjacent tiles
-                this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, this.heightData[ j ] );
+                // this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, this.heightData[ j ] );
               }
             }
           }
