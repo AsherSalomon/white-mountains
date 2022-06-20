@@ -377,20 +377,27 @@ class ReusedMesh {
     //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     // }
 
-    for ( let m = 0; m < downSize; m++ ) {
-      for ( let n = 0; n < downSize; n++ ) {
-        let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-        // let j = m * downSize + n;
-        let j = m * ( downSize + 1 ) + n;
-        this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        if ( m == downSize || n == downSize ) {
+
+        } else {
+          let i = m * ( downscale ** 2 ) * downSize + n * downscale;
+          // let j = m * downSize + n;
+          let j = m * ( downSize + 1 ) + n;
+          this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          if ( ( m == 0 || n == 0 ) && m < downSize && n < downSize ) {
+            
+          }
+        }
       }
     }
 
     yield;
 
     const vertices = this.mesh.geometry.attributes.position.array;
-    for ( let m = 0; m < downSize + 1; m++ ) {
-      for ( let n = 0; n < downSize + 1; n++ ) {
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
         // let i = m * ( downscale ** 2 ) * downSize + n * downscale;
         // let i = m * downSize + n;
         let i = m * ( downSize + 1 ) + n;
