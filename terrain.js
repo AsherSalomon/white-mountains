@@ -495,7 +495,7 @@ class ReusedMesh {
     let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
     let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
     if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
-      let i = m * downSize + n;
+      let i = m * ( downSize + 1 ) + n;
       return this.heightData[ i ];
     } else {
       return null;
@@ -506,7 +506,7 @@ class ReusedMesh {
     let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
     let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
     if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
-      let i = m * downSize + n;
+      let i = m * ( downSize + 1 ) + n;
       this.heightData[ i ] = dataPoint;
     }
   }
