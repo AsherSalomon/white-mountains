@@ -58,13 +58,17 @@ export function update() {
     layers[ i ].update();
   }
 
-  if ( generatorQueue.length > 0 ) {
-    if ( generatorQueue[ 0 ].intendedTile.disposed ) {
-      generatorQueue.shift();
-    } else if ( generatorQueue[ 0 ].next().done ) {
-      generatorQueue.shift();
+  // for ( let z = minZoom; z <= maxZoom; z++ ) {
+    if ( generatorQueue.length > 0 ) {
+      if ( generatorQueue[ 0 ].intendedTile.disposed ) {
+        // generatorQueue.shift();
+          generatorQueue.splice( 0 );
+      } else if ( generatorQueue[ 0 ].next().done ) {
+        // generatorQueue.shift();
+          generatorQueue.splice( 0 );
+      }
     }
-  }
+  // }
 }
 
 class Layer {
@@ -329,6 +333,7 @@ class ReusedMesh {
     loader.load( url, function ( image ) {
         let newGenerator = thisReusedMesh.terrainGenerator( image );
         newGenerator.intendedTile = tile;
+        newGenerator.zoom = zoom;
         generatorQueue.push( newGenerator );
       },
       undefined, // onProgress not supported
