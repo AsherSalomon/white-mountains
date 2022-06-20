@@ -402,7 +402,7 @@ class ReusedMesh {
             for ( let t = 0; t < this.layer.tiles.length; t++ ) {
               if ( this.layer.tiles[ t ] != this ) {
                 // report dataPoint to adjacent tiles
-                // this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, this.heightData[ j ] );
+                this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, this.heightData[ j ] );
               }
             }
           }
