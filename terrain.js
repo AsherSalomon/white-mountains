@@ -89,6 +89,7 @@ class Layer {
     this.maxX = -1000000;
     this.minZ = 1000000;
     this.maxZ = -1000000;
+    this.parent = null;
   }
 
   update() {
@@ -125,14 +126,14 @@ class Layer {
         let proposedTile = [ n, m, this.z ];
         if ( this.inTiles( proposedTile ) == false ) {
 
-          let clampingLayer;
-          if ( this.parent != null ) {
-            clampingLayer = this.parent;
-          } else {
-            clampingLayer = null;
-          }
+          // let clampingLayer;
+          // if ( this.parent != null ) {
+          //   clampingLayer = this.parent;
+          // } else {
+          //   clampingLayer = null;
+          // }
 
-          this.tiles.push( new Tile( proposedTile, clampingLayer ) );
+          this.tiles.push( new Tile( proposedTile, this ) );
           updateClipping = true;
         }
       }
@@ -234,14 +235,16 @@ class Layer {
   // repairEdges() {
   //   for ( let i = 0; i < this.tiles.length; i++ ) {
   //     for ( let j = 0; j < this.tiles.length; j++ ) {
-  //       this.tiles[ i ].reusedMesh.repairEdges( this.tiles[ j ].reusedMesh );
+  //       if ( i != j ) {
+  //         this.tiles[ i ].reusedMesh.repairEdges( this.tiles[ j ].reusedMesh );
+  //       }
   //     }
   //   }
   // }
 }
 
 class Tile {
-  constructor( tile, clampingLayer ) {
+  constructor( tile, layer ) {
     this.tile = tile;
 
     if ( showGridHelper ) {
@@ -261,7 +264,7 @@ class Tile {
     }
     this.disposed = false;
     this.reusedMesh.clampingLayer = this.clampingLayer;
-    this.reusedMesh.reuse( this, clampingLayer );
+    this.reusedMesh.reuse( this, layer );
   }
 
   update() {
@@ -317,8 +320,8 @@ class ReusedMesh {
     this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
   }
 
-  reuse( tile, clampingLayer ) {
-    this.clampingLayer = clampingLayer;
+  reuse( tile, layer ) {
+    this.clampingLayer = layer.parent;
     // this.tile = tile.tile.slice();
 
     let zoom = tile.tile[ 2 ];
@@ -379,15 +382,16 @@ class ReusedMesh {
 
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
+        // let j = m * downSize + n;
+        let j = m * ( downSize + 1 ) + n;
         if ( m == downSize || n == downSize ) {
-
+          // this.heightData[ j ] = ?; obtain dataPoint from adjacent tiles
         } else {
           let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-          // let j = m * downSize + n;
-          let j = m * ( downSize + 1 ) + n;
-          this.heightData[ j ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          this.heightData[ j ] = dataPoint;
           if ( ( m == 0 || n == 0 ) && m < downSize && n < downSize ) {
-            
+            // report dataPoint to adjacent tiles
           }
         }
       }
