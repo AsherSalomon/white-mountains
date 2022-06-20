@@ -382,6 +382,10 @@ class ReusedMesh {
     //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     // }
 
+    let needsRefresh = [];
+    for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+      needsRefresh.push( false );
+    }
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         // let j = m * downSize + n;
@@ -402,11 +406,12 @@ class ReusedMesh {
           let i = m * ( downscale ** 2 ) * downSize + n * downscale;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
           this.heightData[ j ] = dataPoint;
-          if ( ( m == 0 || n == 0 ) && m < downSize && n < downSize ) {
+          if ( m == 0 || n == 0 ) {
             for ( let t = 0; t < this.layer.tiles.length; t++ ) {
               if ( this.layer.tiles[ t ] != this ) {
                 // report dataPoint to adjacent tiles
-                this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, this.heightData[ j ] );
+                this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, dataPoint );
+                needsRefresh[ t ] = true;
               }
             }
           }
@@ -415,6 +420,13 @@ class ReusedMesh {
     }
 
     yield;
+
+    for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+      if ( needsRefresh[ t ] ) {
+        this.layer.tiles[ t ].reusedMesh.refreshMesh();
+        yield;
+      }
+    }
 
     this.refreshMesh();
   }
