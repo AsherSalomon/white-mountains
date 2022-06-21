@@ -502,7 +502,7 @@ class ReusedMesh {
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
     // if ( m > 0 && n > 0 && m < ELEVATION_TILE_SIZE - 1 && n < ELEVATION_TILE_SIZE - 1 ) {
-    if ( m > 0 && n > 0 && m < downSize && n < downSize ) {
+    if ( m > 0.5 && n > 0.5 && m < downSize - 0.5 && n < downSize - 0.5 ) {
       let m1 = Math.floor( m );
       let m2 = Math.ceil( m );
       let n1 = Math.floor( n );
