@@ -454,7 +454,7 @@ class ReusedMesh {
 
     yield;
 
-    this.clampEdges();
+    // this.clampEdges();
     this.refreshMesh();
 
     yield;
@@ -479,13 +479,16 @@ class ReusedMesh {
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         let mIsEdge = m == 0 || m == downSize;
         let nIsEdge = n == 0 || n == downSize;
-        // if ( !mIsEdge && !nIsEdge ) {
+        if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
         // } else if ( this.clampingLayer != null ) {
         //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         // } else {
         //   vertices[ j + 1 ] = 0;
         // }
+        } else if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
+          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        }
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
     }
@@ -563,18 +566,20 @@ class ReusedMesh {
     }
   }
 
-  clampEdges() {
-    // for ( let m = 0; m <= downSize; m++ ) {
-    //   for ( let n = 0; n <= downSize; n++ ) {
-    //     let i = m * ( downSize + 1 ) + n;
-    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
-    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-    //     if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
-    //       this.heightData[ i ] = this.clampingLayer.lookupData( x, z );
-    //     }
-    //   }
-    // }
-  }
+  // clampEdges() {
+  //   for ( let m = 0; m <= downSize; m++ ) {
+  //     for ( let n = 0; n <= downSize; n++ ) {
+  //       let i = m * ( downSize + 1 ) + n;
+  //       let x = this.centerX + this.width * ( n / downSize - 0.5 );
+  //       let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+  //       if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
+  //         return this.clampingLayer.lookupData( x, z );
+  //       } else {
+  //         return null;
+  //       }
+  //     }
+  //   }
+  // }
 
   remove() {
     scene.remove( this.mesh );
