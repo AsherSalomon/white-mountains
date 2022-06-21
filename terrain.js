@@ -488,6 +488,8 @@ class ReusedMesh {
         // }
         } else if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
           vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        } else {
+          vertices[ j + 1 ] = this.heightData[ i ];
         }
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
