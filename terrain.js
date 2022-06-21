@@ -242,6 +242,22 @@ class Layer {
   //     }
   //   }
   // }
+
+  isEdge( x, z ) {
+    let width = tileWidth[ this.z ];
+
+    let westEdge = ( this.minX - origin[ this.z ][ 0 ] ) * width;
+    let northEdge = ( this.minZ - origin[ this.z ][ 1 ] ) * width;
+    let eastEdge = ( this.maxX + 1 - origin[ this.z ][ 0 ] ) * width;
+    let southEdge = ( this.maxZ + 1 - origin[ this.z ][ 1 ] ) * width;
+
+    let isWest = Math.round( ( x - westEdge ) / width * downSize ) == 0;
+    let isNorth = Math.round( ( z - northEdge ) / width * downSize ) == 0;
+    let isEast = Math.round( ( x - eastEdge ) / width * downSize ) == 0;
+    let isSouth = Math.round( ( z - southEdge ) / width * downSize ) == 0;
+
+    return isWest || isNorth || isEast || isSouth;
+  }
 }
 
 class Tile {
@@ -422,6 +438,7 @@ class ReusedMesh {
 
     yield;
 
+    this.clampEdges();
     this.refreshMesh();
 
     yield;
@@ -530,26 +547,18 @@ class ReusedMesh {
     }
   }
 
-  // clampEdges() {
-  //   const vertices = this.mesh.geometry.attributes.position.array;
-  //   for ( let m = 0; m < downSize + 1; m++ ) {
-  //     for ( let n = 0; n < downSize + 1; n++ ) {
-  //       // let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-  //       let i = m * downSize + n;
-  //       let j = ( m * ( downSize + 1 ) + n ) * 3;
-  //       let x = this.centerX + this.width * ( n / downSize - 0.5 );
-  //       let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-  //       let mIsEdge = m == 0 || m == downSize;
-  //       let nIsEdge = n == 0 || n == downSize;
-  //       if ( mIsEdge || nIsEdge ) {
-  //         vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-  //         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
-  //       }
-  //     }
-  //   }
-  //   this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-  //   this.mesh.geometry.computeVertexNormals();
-  // }
+  clampEdges() {
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( this.layer.isEdge( x, z ) ) {
+          this.heightData[ i ] = this.clampingLayer.lookupData( x, z );
+        }
+      }
+    }
+  }
 
   remove() {
     scene.remove( this.mesh );
