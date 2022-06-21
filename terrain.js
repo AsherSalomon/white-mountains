@@ -373,9 +373,13 @@ class ReusedMesh {
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        this.heightData[ j ] = this.clampingLayer.lookupData( x, z );
+        if ( this.clampingLayer != null ) {
+          let x = this.centerX + this.width * ( n / downSize - 0.5 );
+          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+          this.heightData[ j ] = this.clampingLayer.lookupData( x, z );
+        } else {
+          this.heightData[ j ] = 0;
+        }
       }
     }
 
