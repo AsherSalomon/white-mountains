@@ -351,23 +351,33 @@ class ReusedMesh {
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
-    const vertices = this.mesh.geometry.attributes.position.array;
-    for ( let m = 0; m <= downSize + 1; m++ ) {
-      for ( let n = 0; n <= downSize + 1; n++ ) {
-        let j = ( m * ( downSize + 1 ) + n ) * 3;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( this.clampingLayer != null ) {
-          vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
-        } else {
-          vertices[ j + 1 ] = 0;
-        }
-        // vertices[ j + 1 ] = 0;
-        vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
+    // const vertices = this.mesh.geometry.attributes.position.array;
+    // for ( let m = 0; m <= downSize + 1; m++ ) {
+    //   for ( let n = 0; n <= downSize + 1; n++ ) {
+    //     let j = ( m * ( downSize + 1 ) + n ) * 3;
+    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
+    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+    //     if ( this.clampingLayer != null ) {
+    //       vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+    //     } else {
+    //       vertices[ j + 1 ] = 0;
+    //     }
+    //     // vertices[ j + 1 ] = 0;
+    //     vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
+    //   }
+    // }
+    // this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+    // this.mesh.geometry.computeVertexNormals();
+
+
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.heightData[ j ] = 0;
       }
     }
-    this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-    this.mesh.geometry.computeVertexNormals();
+
+    this.refreshMesh();
 
     scene.add( this.mesh );
 
