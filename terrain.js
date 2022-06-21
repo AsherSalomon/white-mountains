@@ -550,7 +550,7 @@ class ReusedMesh {
   clampEdges() {
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
-        let j = m * ( downSize + 1 ) + n;
+        let i = m * ( downSize + 1 ) + n;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         if ( this.layer.isEdge( x, z ) ) {
