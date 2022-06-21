@@ -553,7 +553,7 @@ class ReusedMesh {
         let i = m * ( downSize + 1 ) + n;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( this.layer.isEdge( x, z ) ) {
+        if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
           this.heightData[ i ] = this.clampingLayer.lookupData( x, z );
         }
       }
