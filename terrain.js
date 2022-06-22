@@ -140,7 +140,9 @@ class Square {
       scene.remove( this.gridHelper );
     }
 
-    this.reusedMesh.remove();
+    if ( this.reusedMesh != null ) {
+      this.reusedMesh.remove();
+    }
     meshBin.push( this.reusedMesh );
     this.reusedMesh = null;
 
