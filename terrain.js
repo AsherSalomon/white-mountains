@@ -111,7 +111,7 @@ class Square {
 
   makeVisible() {
     this.visible = true;
-    if ( showGridHelper ) {
+    if ( showGridHelper && this.removeFromSquares == false ) {
       this.gridHelper = new THREE.GridHelper( this.width, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
@@ -188,11 +188,9 @@ class Square {
   }
 
   merge() {
-    if ( this.removeFromSquares == false ) {
-      this.makeVisible();
-      for ( let i = 0; i < this.children.length; i ++ ) {
-        this.children[i].makeNotVisible();
-      }
+    this.makeVisible();
+    for ( let i = 0; i < this.children.length; i ++ ) {
+      this.children[i].makeNotVisible();
     }
   }
 
