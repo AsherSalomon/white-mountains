@@ -71,8 +71,8 @@ export function init( newScene, newCamera ) {
 export function update() {
   for ( let i = squares.length - 1; i >= 0; i-- ) {
     if ( squares[i].removeFromSquares ) {
-      // squares[i].makeNotVisible();
-      scene.remove( squares[i].gridHelper );
+      if ( squares[i].visible ) { console.log('wtf'); }
+      // scene.remove( squares[i].gridHelper );
       squares[i].removeFromSquares = false;
       squares.splice( i, 1 );
     } else {
