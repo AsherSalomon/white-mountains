@@ -9,9 +9,11 @@ const earthsRaius = 6371000; // meters
 const eyeHeight = 1.6256; // meters
 const maxElevation = 1916.582; // 9144; // meters
 
+const angularResolution = 4 / 1; // tile width / distance to camera
+
 const pineGreen = new THREE.Color( 0x204219 );
 
-const minZoom = 10//5;
+const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 12;
 
@@ -59,10 +61,10 @@ export function init( newScene, newCamera ) {
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
   squares.push( minZoomSquare );
 
-  minZoomSquare.split();
-  for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
-    minZoomSquare.children[i].split();
-  }
+  // minZoomSquare.split();
+  // for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
+  //   minZoomSquare.children[i].split();
+  // }
 }
 
 export function update() {
@@ -144,22 +146,34 @@ class Square {
 
   }
 
-  // update() {
-  // }
+  update() {
+    if ( this.zoom < maxZoom && this.isTooBig() ) {
+      this.split();
+    }
+  }
 
-  // distanceFromCamera() {
-  //   let positionDelta = new THREE.Vector3().subVectors( this.gridHelper.position, camera.position );
-  //   let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
-  //   let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
-  //   let distance = 0;
-  //   if ( deltaX < 0 || deltaZ < 0 ) {
-  //     distance = Math.max( deltaX, deltaZ );
-  //     if ( distance < 0 ) { distance = 0; }
-  //   } else {
-  //     distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
-  //   }
-  //   return distance;
-  // }
+  distanceFromCamera() {
+    let positionDelta = new THREE.Vector3().subVectors(
+      new THREE.Vector3( this.centerX, 0, this.centerZ ), camera.position );
+    let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
+    let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
+    let distance = 0;
+    if ( deltaX < 0 || deltaZ < 0 ) {
+      distance = Math.max( deltaX, deltaZ );
+      if ( distance < 0 ) { distance = 0; }
+    } else {
+      distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
+    }
+    return distance;
+  }
+  isTooBig() {
+    let tooBig = this.width / this.distanceFromCamera() > angularResolution;
+    return tooBig; // && frustum.intersectsBox( this.boundingBox );
+  }
+  isTooSmall() {
+    let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
+    return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
+  }
 }
 
 class Edge {
