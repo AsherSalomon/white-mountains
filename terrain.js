@@ -110,10 +110,10 @@ class Square {
   }
 
   makeNotVisible() {
-    console.log('makeNotVisible');
     this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
+      console.log('scene.remove( this.gridHelper );');
     }
     for ( let i = 0; i < squares.length; i++ ) {
       if ( squares[i] == this ) { squares.splice( i, 1 ); }
