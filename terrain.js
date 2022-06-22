@@ -126,6 +126,7 @@ class Square {
       this.splitAlready = true;
 
       let childrenTiles = tilebelt.getChildren( this.tile ); // NW, NE, SE, SW
+      this.children = [];
       for ( let i = 0; i < childrenTiles.length; i ++ ) {
         let newSquare = new Square( childrenTiles[i], this );
         this.children.push( newSquare );
