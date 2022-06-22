@@ -197,14 +197,15 @@ class Square {
   distanceFromCamera() {
     let positionDelta = new THREE.Vector3().subVectors(
       new THREE.Vector3( this.centerX, 0, this.centerZ ), camera.position );
+    let elevation = camera.position.y;
     let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
     let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
     let distance = 0;
     if ( deltaX < 0 || deltaZ < 0 ) {
-      distance = Math.max( deltaX, deltaZ );
+      distance = Math.sqrt( Math.max( deltaX, deltaZ ) ** 2 + elevation ** 2 );
       if ( distance < 0 ) { distance = 0; }
     } else {
-      distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
+      distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 + elevation ** 2 );
     }
     return distance;
   }
