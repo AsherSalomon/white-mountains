@@ -172,12 +172,12 @@ class Edge {
 
     this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
-    // if ( showGridHelper ) {
-    //   const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
-    //   dir.normalize();
-    //   this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-    //   scene.add( this.arrowHelper );
-    // }
+    if ( showGridHelper ) {
+      const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
+      dir.normalize();
+      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
+      scene.add( this.arrowHelper );
+    }
 
   }
   split() {
