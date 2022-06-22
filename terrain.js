@@ -11,7 +11,7 @@ const maxElevation = 1916.582; // 9144; // meters
 
 const pineGreen = new THREE.Color( 0x204219 );
 
-const minZoom = 6;
+const minZoom = 5;
 const maxZoom = 12; // 12;
 
 let origin = {};
