@@ -197,7 +197,6 @@ class Square {
   distanceFromCamera() {
     let positionDelta = new THREE.Vector3().subVectors(
       new THREE.Vector3( this.centerX, 0, this.centerZ ), camera.position );
-    let elevation = camera.position.y;
     let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
     let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
     let distance = 0;
@@ -207,7 +206,8 @@ class Square {
     } else {
       distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
     }
-    distance = Math.sqrt( distance ** 2 + elevation ** 2 );
+    // let elevation = camera.position.y;
+    // distance = Math.sqrt( distance ** 2 + elevation ** 2 );
     return distance;
   }
 
