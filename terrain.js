@@ -30,7 +30,7 @@ export function init( newScene, newCamera ) {
   let tileWidth = ( tileWidthNS + tileWidthEW ) / 2; // 6999.478360682135 meters
 
   for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
-    origin[zoom] = tilebelt.pointToTileFraction( longitude, latitude, z );
+    origin[zoom] = tilebelt.pointToTileFraction( longitude, latitude, zoom );
     width[zoom] = Math.pow( 2, maxZoom - zoom ) * tileWidth;
   }
 
