@@ -113,6 +113,7 @@ class Square {
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
       count++;
+      console.log(count);
     }
     squares.push( this );
   }
