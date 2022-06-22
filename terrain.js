@@ -67,10 +67,10 @@ class Square {
     this.westEdge = new Edge( this, 'w' );
 
     if ( showGridHelper ) {
-      this.gridHelper = new THREE.GridHelper( this.width, downSize );
-      this.gridHelper.position.x = this.centerX;
-      this.gridHelper.position.z = this.centerZ;
-      scene.add( this.gridHelper );
+      // this.gridHelper = new THREE.GridHelper( this.width, downSize );
+      // this.gridHelper.position.x = this.centerX;
+      // this.gridHelper.position.z = this.centerZ;
+      // scene.add( this.gridHelper );
     }
   }
 
