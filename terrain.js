@@ -58,6 +58,8 @@ export function init( newScene, newCamera ) {
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
   squares.push( minZoomSquare );
+
+  minZoomSquare.split();
 }
 
 export function update() {
