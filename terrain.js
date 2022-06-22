@@ -60,6 +60,9 @@ export function init( newScene, newCamera ) {
   squares.push( minZoomSquare );
 
   minZoomSquare.split();
+  for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
+    minZoomSquare.children[i].split();
+  }
 }
 
 export function update() {
