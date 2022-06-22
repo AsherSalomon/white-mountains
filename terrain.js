@@ -20,10 +20,12 @@ const maxZoom = 20;//12;
 let origin = {};
 let width = {};
 
-// let showGridHelper = false;
-let showGridHelper = true;
+let showGridHelper = false;
+// let showGridHelper = true;
 
 let squares = [];
+let generatorQueue = [];
+let meshBin = [];
 
 export function init( newScene, newCamera ) {
   scene = newScene;
@@ -97,6 +99,8 @@ class Square {
     this.visible = false;
     this.splitAlready = false;
     this.removeFromSquares = false;
+
+    this.reusedMesh = null;
   }
 
   update() {
@@ -111,20 +115,35 @@ class Square {
 
   makeVisible() {
     this.visible = true;
+
     if ( showGridHelper ) {
       this.gridHelper = new THREE.GridHelper( this.width, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
     }
+
+    if ( meshBin.length > 0 ) {
+      this.reusedMesh = meshBin.shift();
+    } else {
+      this.reusedMesh = new ReusedMesh();
+    }
+    this.reusedMesh.reuse( this );
+
     squares.push( this );
   }
 
   makeNotVisible() {
     this.visible = false;
+
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
     }
+
+    this.reusedMesh.remove();
+    meshBin.push( this.reusedMesh );
+    this.reusedMesh = null;
+
     this.removeFromSquares = true;
   }
 
@@ -206,7 +225,7 @@ class Square {
     } else {
       distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
     }
-    // let elevation = camera.position.y;
+    // let elevation = camera.position.y; // - terrain
     // distance = Math.sqrt( distance ** 2 + elevation ** 2 );
     return distance;
   }
@@ -271,6 +290,42 @@ class Edge {
   }
 }
 
+class ReusedMesh {
+  constructor() {
+    let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
+    geometry.rotateX( - Math.PI / 2 );
+    let material = new THREE.MeshStandardMaterial( {
+      roughness: 0.9,
+      color: pineGreen
+      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
+    } );
+    this.mesh = new THREE.Mesh( geometry, material );
+
+    let canvas = document.createElement( 'canvas' );
+    canvas.width = ELEVATION_TILE_SIZE;
+    canvas.height = ELEVATION_TILE_SIZE;
+    this.context = canvas.getContext( '2d', {willReadFrequently: true} );
+
+    this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
+  }
+
+  reuse( square ) {
+    let zoom = square.tile[ 2 ];
+    this.width = tileWidth[ zoom ];
+    this.mesh.scale.x = this.width;
+    this.mesh.scale.z = this.width;
+    this.centerX = ( 0.5 + square.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
+    this.centerZ = ( 0.5 + square.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
+    this.mesh.position.x = this.centerX;
+    this.mesh.position.z = this.centerZ;
+
+    scene.add( this.mesh );
+  }
+
+  remove() {
+    scene.remove( this.mesh );
+  }
+}
 
 const ELEVATION_TILE_SIZE = 512;
 const downscale = 2 ** 4; // power of 2
