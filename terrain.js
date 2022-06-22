@@ -41,7 +41,7 @@ export function init( newScene, newCamera ) {
   }
 
   let minZoomTile = tilebelt.pointToTile( longitude, latitude, minZoom );
-  let minZoomSquare = new Square( minZoomTile );
+  let minZoomSquare = new Square( minZoomTile, null );
   let centerX = minZoomSquare.centerX;
   let centerZ = minZoomSquare.centerZ;
   let widthOverTwo = minZoomSquare.width / 2;
@@ -69,11 +69,11 @@ export function update() {
 }
 
 class Square {
-  constructor( tile ) {
+  constructor( tile, parent ) {
     this.tile = tile;
     this.zoom = tile[2];
     this.width = width[this.zoom];
-    this.parent = null;
+    this.parent = parent;
     this.children = [];
     this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
     this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
@@ -91,20 +91,17 @@ class Square {
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
     }
-    
-    let childrenTiles = tilebelt.getChildren( this.tile ); // NE, NW, SW, SE
-    for ( let i = 0; i < childrenTiles.length; i ++ ) {
-      let newSquare = new Square( childrenTiles[i] );
-      this.children.push( newSquare );
+
+    for ( let i = 0; i < squares.length; i++ ) {
+      if ( squares[i] == this ) { squares.splice( i, 1 ); }
     }
-    // this.northEdge.children.push( this.children[0].northEdge );
-    // this.northEdge.children.push( this.children[1].northEdge );
-    // this.southEdge.children.push( this.children[3].southEdge );
-    // this.southEdge.children.push( this.children[2].southEdge );
-    // this.eastEdge.children.push( this.children[0].eastEdge );
-    // this.eastEdge.children.push( this.children[3].eastEdge );
-    // this.westEdge.children.push( this.children[1].westEdge );
-    // this.westEdge.children.push( this.children[2].westEdge );
+
+    let childrenTiles = tilebelt.getChildren( this.tile ); // NW, NE, SE, SW
+    for ( let i = 0; i < childrenTiles.length; i ++ ) {
+      let newSquare = new Square( childrenTiles[i], this );
+      this.children.push( newSquare );
+      squares.push( newSquare );
+    }
 
     let newEdgeNorth = new Edge(
       new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
@@ -118,6 +115,29 @@ class Square {
     let newEdgeWest = new Edge(
       new THREE.Vector3( this.centerX, 0, this.centerZ ),
       new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
+
+    this.northEdge.split();
+    this.southEdge.split();
+    this.eastEdge.split();
+    this.westEdge.split();
+
+    this.children[0].northEdge = this.northEdge.children[0];
+    this.children[1].northEdge = this.northEdge.children[1];
+    this.children[1].eastEdge = this.eastEdge.children[0];
+    this.children[2].eastEdge = this.eastEdge.children[1];
+    this.children[2].southEdge = this.southEdge.children[1];
+    this.children[3].southEdge = this.southEdge.children[0];
+    this.children[3].westEdge = this.westEdge.children[1];
+    this.children[0].westEdge = this.westEdge.children[0];
+
+    this.children[0].eastEdge = newEdgeNorth;
+    this.children[0].southEdge = newEdgeWest;
+    this.children[1].westEdge = newEdgeNorth;
+    this.children[1].southEdge = newEdgeEast;
+    this.children[2].northEdge = newEdgeEast;
+    this.children[2].westEdge = newEdgeSouth;
+    this.children[3].northEdge = newEdgeWest;
+    this.children[3].eastEdge = newEdgeSouth;
 
   }
 
@@ -145,19 +165,32 @@ class Edge {
     this.parent = null;
     this.children = [];
 
+    this.splitAlready = false;
+
     this.endA = endA;
     this.endB = endB;
 
     this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
-    if ( showGridHelper ) {
-      const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
-      dir.normalize();
-      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-      scene.add( this.arrowHelper );
-    }
+    // if ( showGridHelper ) {
+    //   const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
+    //   dir.normalize();
+    //   this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
+    //   scene.add( this.arrowHelper );
+    // }
 
-    // this.children.push()
+  }
+  split() {
+    if ( this.splitAlready == false ) {
+      this.splitAlready = true;
+
+      const direction = new THREE.Vector3().subVectors( this.endB, this.endA );
+      direction.multiplyScalar( 0.5 );
+      let midPoint = this.endA.clone();
+      midPoint.add( direction );
+      this.children.push( new Edge( this.endA, midPoint ) );
+      this.children.push( new Edge( midPoint, this.endB ) );
+    }
   }
 }
 
