@@ -110,6 +110,7 @@ class Square {
   }
 
   makeNotVisible() {
+    console.log('makeNotVisible');
     this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
@@ -182,7 +183,6 @@ class Square {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
-      console.log('makeNotVisible');
     }
   }
 
@@ -238,14 +238,13 @@ class Edge {
 
     this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
-    if ( showGridHelper ) {
-      const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
-      dir.normalize();
-      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-      // this.arrowHelper.position.y += this.length / downSize;
-      scene.add( this.arrowHelper );
-    }
-
+    // if ( showGridHelper ) {
+    //   const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
+    //   dir.normalize();
+    //   this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
+    //   // this.arrowHelper.position.y += this.length / downSize;
+    //   scene.add( this.arrowHelper );
+    // }
   }
   split() {
     if ( this.splitAlready == false ) {
