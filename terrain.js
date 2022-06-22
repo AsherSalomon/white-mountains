@@ -67,10 +67,10 @@ class Square {
     this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
 
     if ( showGridHelper ) {
-      this.gridHelper = new THREE.GridHelper( this.width, downSize );
-      this.gridHelper.position.x = this.centerX;
-      this.gridHelper.position.z = this.centerZ;
-      scene.add( this.gridHelper );
+      // this.gridHelper = new THREE.GridHelper( this.width, downSize );
+      // this.gridHelper.position.x = this.centerX;
+      // this.gridHelper.position.z = this.centerZ;
+      // scene.add( this.gridHelper );
     }
   }
 
