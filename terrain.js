@@ -45,16 +45,16 @@ export function init( newScene, newCamera ) {
   let centerX = minZoomSquare.centerX;
   let centerZ = minZoomSquare.centerZ;
   let widthOverTwo = minZoomSquare.width / 2;
-  this.northEdge = new Edge(
+  minZoomSquare.northEdge = new Edge(
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ) );
-  this.southEdge = new Edge(
+  minZoomSquare.southEdge = new Edge(
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ),
     new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
-  this.eastEdge = new Edge(
+  minZoomSquare.eastEdge = new Edge(
     new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
-  this.westEdge = new Edge(
+  minZoomSquare.westEdge = new Edge(
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
   squares.push( minZoomSquare );
@@ -140,10 +140,10 @@ class Edge {
     this.parent = null;
     this.children = [];
 
-    this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
+    // this.endA = new THREE.Vector3();
+    // this.endB = new THREE.Vector3();
 
-    this.endA = new THREE.Vector3();
-    this.endB = new THREE.Vector3();
+    this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
     if ( showGridHelper ) {
       const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
