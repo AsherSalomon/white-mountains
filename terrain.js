@@ -83,7 +83,7 @@ class Square {
     // this.visible = true;
 
     if ( showGridHelper ) {
-      this.gridHelper = new THREE.GridHelper( this.width, downSize );
+      this.gridHelper = new THREE.GridHelper( this.width - 1, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
