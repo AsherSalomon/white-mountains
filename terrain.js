@@ -107,6 +107,7 @@ class Square {
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
+      scene.remove( this.gridHelper );
     }
     squares.push( this );
   }
