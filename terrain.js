@@ -91,10 +91,12 @@ class Square {
   }
 
   update() {
-    if ( this.zoom < maxZoom && this.isTooBig() ) {
-      this.split();
-    } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
-      this.parent.merge();
+    if ( this.visible ) {
+      if ( this.zoom < maxZoom && this.isTooBig() ) {
+        this.split();
+      } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
+        this.parent.merge();
+      }
     }
   }
 
@@ -113,7 +115,6 @@ class Square {
     this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
-      console.log('scene.remove( this.gridHelper );');
     }
     for ( let i = 0; i < squares.length; i++ ) {
       if ( squares[i] == this ) { squares.splice( i, 1 ); }
