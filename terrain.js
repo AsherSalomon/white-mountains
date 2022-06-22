@@ -59,7 +59,7 @@ export function init( newScene, newCamera ) {
   minZoomSquare.westEdge = new Edge(
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
-  squares.push( minZoomSquare );
+  // squares.push( minZoomSquare );
 
   // minZoomSquare.split();
   // for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
@@ -82,73 +82,102 @@ class Square {
     this.children = [];
     this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
     this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
-    // this.visible = true;
 
+    this.visible = false;
+    this.splitAlready = false;
+
+    this.makeVisible();
+  }
+
+  update() {
+    if ( this.zoom < maxZoom && this.isTooBig() ) {
+      this.split();
+    }
+  }
+
+  makeVisible() {
+    this.visible = true;
     if ( showGridHelper ) {
       this.gridHelper = new THREE.GridHelper( this.width, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
     }
+    squares.push( minZoomSquare );
   }
 
-  split() {
+  makeNotVisible() {
+    this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
     }
-
     for ( let i = 0; i < squares.length; i++ ) {
       if ( squares[i] == this ) { squares.splice( i, 1 ); }
     }
-
-    let childrenTiles = tilebelt.getChildren( this.tile ); // NW, NE, SE, SW
-    for ( let i = 0; i < childrenTiles.length; i ++ ) {
-      let newSquare = new Square( childrenTiles[i], this );
-      this.children.push( newSquare );
-      squares.push( newSquare );
-    }
-
-    let newEdgeNorth = new Edge(
-      new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
-      new THREE.Vector3( this.centerX, 0, this.centerZ ) );
-    let newEdgeSouth = new Edge(
-      new THREE.Vector3( this.centerX, 0, this.centerZ ),
-      new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
-    let newEdgeEast = new Edge(
-      new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
-      new THREE.Vector3( this.centerX, 0, this.centerZ ) );
-    let newEdgeWest = new Edge(
-      new THREE.Vector3( this.centerX, 0, this.centerZ ),
-      new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
-
-    this.northEdge.split();
-    this.southEdge.split();
-    this.eastEdge.split();
-    this.westEdge.split();
-
-    this.children[0].northEdge = this.northEdge.children[0];
-    this.children[1].northEdge = this.northEdge.children[1];
-    this.children[1].eastEdge = this.eastEdge.children[0];
-    this.children[2].eastEdge = this.eastEdge.children[1];
-    this.children[2].southEdge = this.southEdge.children[1];
-    this.children[3].southEdge = this.southEdge.children[0];
-    this.children[3].westEdge = this.westEdge.children[1];
-    this.children[0].westEdge = this.westEdge.children[0];
-
-    this.children[0].eastEdge = newEdgeNorth;
-    this.children[0].southEdge = newEdgeWest;
-    this.children[1].westEdge = newEdgeNorth;
-    this.children[1].southEdge = newEdgeEast;
-    this.children[2].northEdge = newEdgeEast;
-    this.children[2].westEdge = newEdgeSouth;
-    this.children[3].northEdge = newEdgeWest;
-    this.children[3].eastEdge = newEdgeSouth;
-
   }
 
-  update() {
-    if ( this.zoom < maxZoom && this.isTooBig() ) {
-      this.split();
+  split() {
+    this.makeNotVisible();
+
+    if ( this.splitAlready == false ) {
+      this.splitAlready = true;
+
+      let childrenTiles = tilebelt.getChildren( this.tile ); // NW, NE, SE, SW
+      for ( let i = 0; i < childrenTiles.length; i ++ ) {
+        let newSquare = new Square( childrenTiles[i], this );
+        this.children.push( newSquare );
+      }
+
+      let newEdgeNorth = new Edge(
+        new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
+        new THREE.Vector3( this.centerX, 0, this.centerZ ) );
+      let newEdgeSouth = new Edge(
+        new THREE.Vector3( this.centerX, 0, this.centerZ ),
+        new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
+      let newEdgeEast = new Edge(
+        new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
+        new THREE.Vector3( this.centerX, 0, this.centerZ ) );
+      let newEdgeWest = new Edge(
+        new THREE.Vector3( this.centerX, 0, this.centerZ ),
+        new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
+
+      this.northEdge.split();
+      this.southEdge.split();
+      this.eastEdge.split();
+      this.westEdge.split();
+
+      this.children[0].northEdge = this.northEdge.children[0];
+      this.children[1].northEdge = this.northEdge.children[1];
+      this.children[1].eastEdge = this.eastEdge.children[0];
+      this.children[2].eastEdge = this.eastEdge.children[1];
+      this.children[2].southEdge = this.southEdge.children[1];
+      this.children[3].southEdge = this.southEdge.children[0];
+      this.children[3].westEdge = this.westEdge.children[1];
+      this.children[0].westEdge = this.westEdge.children[0];
+
+      this.children[0].eastEdge = newEdgeNorth;
+      this.children[0].southEdge = newEdgeWest;
+      this.children[1].westEdge = newEdgeNorth;
+      this.children[1].southEdge = newEdgeEast;
+      this.children[2].northEdge = newEdgeEast;
+      this.children[2].westEdge = newEdgeSouth;
+      this.children[3].northEdge = newEdgeWest;
+      this.children[3].eastEdge = newEdgeSouth;
+
+    }
+
+    for ( let i = 0; i < childrenTiles.length; i ++ ) {
+      childrenTiles[i].makeVisible();
+    }
+  }
+
+  merge() {
+    this.visible = false;
+    if ( showGridHelper ) {
+      scene.remove( this.gridHelper );
+    }
+    for ( let i = 0; i < childrenTiles.length; i ++ ) {
+      squares.push( this.children[i] );
     }
   }
 
@@ -166,10 +195,12 @@ class Square {
     }
     return distance;
   }
+
   isTooBig() {
     let tooBig = this.width / this.distanceFromCamera() > angularResolution;
     return tooBig; // && frustum.intersectsBox( this.boundingBox );
   }
+
   isTooSmall() {
     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
     return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
