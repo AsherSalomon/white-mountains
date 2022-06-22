@@ -12,7 +12,8 @@ const maxElevation = 1916.582; // 9144; // meters
 const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5;
-const maxZoom = 12; // 12;
+const maxZoom = 12;
+// const extraZoom = 12;
 
 let origin = {};
 let width = {};
@@ -44,7 +45,9 @@ export function init( newScene, newCamera ) {
 }
 
 export function update() {
-
+  for ( let i = 0; i < squares.length; i++ ) {
+    squares[ i ].update();
+  }
 }
 
 class Square {
@@ -54,28 +57,93 @@ class Square {
     this.width = width[this.zoom];
     this.parent = null;
     this.children = [];
-    this.northEdge = new Edge( this );
-    this.southEdge = new Edge( this );
-    this.eastEdge = new Edge( this );
-    this.westEdge = new Edge( this );
+    this.northEdge = new Edge( this, 'n' );
+    this.southEdge = new Edge( this, 's' );
+    this.eastEdge = new Edge( this, 'e' );
+    this.westEdge = new Edge( this, 'w' );
     // this.visible = true;
+
+    this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
+    this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
 
     if ( showGridHelper ) {
       this.gridHelper = new THREE.GridHelper( this.width, downSize );
-      // let tile = tilebelt.pointToTile( longitude, latitude, z );
-      this.gridHelper.position.x = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
-      this.gridHelper.position.z = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
-      // this.gridHelper.position.y = 2000;
+      this.gridHelper.position.x = this.centerX;
+      this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
     }
   }
+
+  split() {
+    let childrenTiles = tilebelt.getChildren( this.tile );
+    for ( let i = 0; i < childrenTiles.length; i ++ ) {
+      this.children.push( new Square( childrenTiles[i] ) )
+    }
+  }
+
+  // update() {
+  // }
+
+  // distanceFromCamera() {
+  //   let positionDelta = new THREE.Vector3().subVectors( this.gridHelper.position, camera.position );
+  //   let deltaX = Math.abs( positionDelta.x ) - this.width / 2;
+  //   let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
+  //   let distance = 0;
+  //   if ( deltaX < 0 || deltaZ < 0 ) {
+  //     distance = Math.max( deltaX, deltaZ );
+  //     if ( distance < 0 ) { distance = 0; }
+  //   } else {
+  //     distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
+  //   }
+  //   return distance;
+  // }
 }
 
 class Edge {
-  constructor( square ) {
+  constructor( square, nsew ) {
     this.squares = [ square ];
     this.parent = null;
     this.children = [];
+
+    this.length = square.width;
+
+    this.endA = new THREE.Vector3();
+    this.endB = new THREE.Vector3();
+
+    if ( nsew == 'n' ) {
+      this.endA.x = square.centerX - square.width / 2;
+      this.endA.z = square.centerZ - square.width / 2;
+      this.endB.x = square.centerX + square.width / 2;
+      this.endB.z = square.centerZ - square.width / 2;
+    }
+
+    if ( nsew == 's' ) {
+      this.endA.x = square.centerX - square.width / 2;
+      this.endA.z = square.centerZ + square.width / 2;
+      this.endB.x = square.centerX + square.width / 2;
+      this.endB.z = square.centerZ + square.width / 2;
+    }
+
+    if ( nsew == 'e' ) {
+      this.endA.x = square.centerX - square.width / 2;
+      this.endA.z = square.centerZ - square.width / 2;
+      this.endB.x = square.centerX - square.width / 2;
+      this.endB.z = square.centerZ + square.width / 2;
+    }
+
+    if ( nsew == 'w' ) {
+      this.endA.x = square.centerX + square.width / 2;
+      this.endA.z = square.centerZ - square.width / 2;
+      this.endB.x = square.centerX + square.width / 2;
+      this.endB.z = square.centerZ + square.width / 2;
+    }
+
+    if ( showGridHelper ) {
+      const dir = new THREE.Vector3().subVectors( this.endB, this.endA ) ;
+      dir.normalize();
+      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff );
+      scene.add( arrowHelper );
+    }
   }
 }
 
