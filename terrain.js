@@ -180,7 +180,7 @@ class Square {
 
   merge() {
     this.makeVisible();
-    for ( let i = 0; i < childrenTiles.length; i ++ ) {
+    for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
     }
   }
