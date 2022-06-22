@@ -45,9 +45,9 @@ export function init( newScene, newCamera ) {
 }
 
 export function update() {
-  for ( let i = 0; i < squares.length; i++ ) {
-    squares[ i ].update();
-  }
+  // for ( let i = 0; i < squares.length; i++ ) {
+  //   squares[ i ].update();
+  // }
 }
 
 class Square {
