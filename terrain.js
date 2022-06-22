@@ -11,7 +11,7 @@ const maxElevation = 1916.582; // 9144; // meters
 
 const pineGreen = new THREE.Color( 0x204219 );
 
-const minZoom = 10;//5;
+const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 12;
 
@@ -141,7 +141,7 @@ class Edge {
     if ( showGridHelper ) {
       const dir = new THREE.Vector3().subVectors( this.endB, this.endA ) ;
       dir.normalize();
-      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff );
+      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
       scene.add( this.arrowHelper );
     }
   }
