@@ -68,10 +68,8 @@ export function init( newScene, newCamera ) {
 }
 
 export function update() {
-  for ( let i = 0; i < squares.length; i++ ) {
-    squares[ i ].update();
-  }
   for ( let i = squares.length - 1; i >= 0; i-- ) {
+    squares[ i ].update();
     if ( squares[i].removeFromSquares ) { squares.splice( i, 1 ); }
   }
 }
