@@ -67,7 +67,7 @@ class Square {
     this.westEdge = new Edge( this, 'w' );
 
     if ( showGridHelper ) {
-      this.gridHelper = new THREE.GridHelper( this.width - 0.01, downSize );
+      this.gridHelper = new THREE.GridHelper( this.width - 0.1, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
