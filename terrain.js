@@ -103,7 +103,7 @@ class Square {
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
     }
-    squares.push( minZoomSquare );
+    squares.push( this );
   }
 
   makeNotVisible() {
