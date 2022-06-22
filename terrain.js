@@ -39,8 +39,8 @@ export function init( newScene, newCamera ) {
     width[zoom] = Math.pow( 2, maxZoom - zoom ) * tileWidth;
   }
 
-  let tile = tilebelt.pointToTile( longitude, latitude, minZoom );
-  squares.push( new Square( tile ) );
+  let minZoomTile = tilebelt.pointToTile( longitude, latitude, minZoom );
+  squares.push( new Square( minZoomTile ) );
 }
 
 export function update() {
