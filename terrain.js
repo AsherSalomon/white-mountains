@@ -41,7 +41,23 @@ export function init( newScene, newCamera ) {
   }
 
   let minZoomTile = tilebelt.pointToTile( longitude, latitude, minZoom );
-  squares.push( new Square( minZoomTile ) );
+  let minZoomSquare = new Square( minZoomTile );
+  let centerX = minZoomSquare.centerX;
+  let centerZ = minZoomSquare.centerZ;
+  let widthOverTwo = minZoomSquare.width / 2;
+  this.northEdge = new Edge(
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ) );
+  this.southEdge = new Edge(
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ),
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
+  this.eastEdge = new Edge(
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ),
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
+  this.westEdge = new Edge(
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
+  squares.push( minZoomSquare );
 }
 
 export function update() {
@@ -61,24 +77,43 @@ class Square {
     this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
     // this.visible = true;
 
-    this.northEdge = new Edge( this, 'n' );
-    this.southEdge = new Edge( this, 's' );
-    this.eastEdge = new Edge( this, 'e' );
-    this.westEdge = new Edge( this, 'w' );
-
     if ( showGridHelper ) {
-      this.gridHelper = new THREE.GridHelper( this.width - 2, downSize );
+      this.gridHelper = new THREE.GridHelper( this.width, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
     }
+
   }
 
   split() {
-    let childrenTiles = tilebelt.getChildren( this.tile );
+    let childrenTiles = tilebelt.getChildren( this.tile ); // NE, NW, SW, SE
     for ( let i = 0; i < childrenTiles.length; i ++ ) {
-      this.children.push( new Square( childrenTiles[i] ) )
+      let newSquare = new Square( childrenTiles[i] );
+      this.children.push( newSquare );
     }
+    // this.northEdge.children.push( this.children[0].northEdge );
+    // this.northEdge.children.push( this.children[1].northEdge );
+    // this.southEdge.children.push( this.children[3].southEdge );
+    // this.southEdge.children.push( this.children[2].southEdge );
+    // this.eastEdge.children.push( this.children[0].eastEdge );
+    // this.eastEdge.children.push( this.children[3].eastEdge );
+    // this.westEdge.children.push( this.children[1].westEdge );
+    // this.westEdge.children.push( this.children[2].westEdge );
+
+    let newEdgeNorth = new Edge(
+      new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
+      new THREE.Vector3( this.centerX, 0, this.centerZ ) );
+    let newEdgeSouth = new Edge(
+      new THREE.Vector3( this.centerX, 0, this.centerZ ),
+      new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
+    let newEdgeEast = new Edge(
+      new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
+      new THREE.Vector3( this.centerX, 0, this.centerZ ) );
+    let newEdgeWest = new Edge(
+      new THREE.Vector3( this.centerX, 0, this.centerZ ),
+      new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
+
   }
 
   // update() {
@@ -100,8 +135,8 @@ class Square {
 }
 
 class Edge {
-  constructor( square, nsew ) {
-    this.squares = [ square ];
+  constructor( endA, endB ) {
+    this.squares = [];
     this.parent = null;
     this.children = [];
 
@@ -110,40 +145,14 @@ class Edge {
     this.endA = new THREE.Vector3();
     this.endB = new THREE.Vector3();
 
-    if ( nsew == 'n' ) {
-      this.endA.x = square.centerX - square.width / 2;
-      this.endA.z = square.centerZ - square.width / 2;
-      this.endB.x = square.centerX + square.width / 2;
-      this.endB.z = square.centerZ - square.width / 2;
-    }
-
-    if ( nsew == 's' ) {
-      this.endA.x = square.centerX - square.width / 2;
-      this.endA.z = square.centerZ + square.width / 2;
-      this.endB.x = square.centerX + square.width / 2;
-      this.endB.z = square.centerZ + square.width / 2;
-    }
-
-    if ( nsew == 'e' ) {
-      this.endA.x = square.centerX - square.width / 2;
-      this.endA.z = square.centerZ - square.width / 2;
-      this.endB.x = square.centerX - square.width / 2;
-      this.endB.z = square.centerZ + square.width / 2;
-    }
-
-    if ( nsew == 'w' ) {
-      this.endA.x = square.centerX + square.width / 2;
-      this.endA.z = square.centerZ - square.width / 2;
-      this.endB.x = square.centerX + square.width / 2;
-      this.endB.z = square.centerZ + square.width / 2;
-    }
-
     if ( showGridHelper ) {
       const dir = new THREE.Vector3().subVectors( this.endB, this.endA ) ;
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
       scene.add( this.arrowHelper );
     }
+
+    // this.children.push()
   }
 }
 
