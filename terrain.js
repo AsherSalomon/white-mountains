@@ -74,6 +74,8 @@ export function update() {
   }
 }
 
+let count = 0;
+
 class Square {
   constructor( tile, parent ) {
     this.tile = tile;
@@ -110,6 +112,7 @@ class Square {
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
+      count++;
     }
     squares.push( this );
   }
@@ -118,7 +121,8 @@ class Square {
     this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
-      console.log('remove');
+      count--;
+      console.log(count);
     }
     this.removeFromSquares = true;
   }
