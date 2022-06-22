@@ -311,7 +311,7 @@ class ReusedMesh {
 
   reuse( square ) {
     let zoom = square.tile[ 2 ];
-    this.width = tileWidth[ zoom ];
+    this.width = width[ zoom ];
     this.mesh.scale.x = this.width;
     this.mesh.scale.z = this.width;
     this.centerX = ( 0.5 + square.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
