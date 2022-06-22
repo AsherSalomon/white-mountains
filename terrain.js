@@ -228,7 +228,7 @@ class Edge {
   constructor( endA, endB ) {
     this.squares = [];
     this.parent = null;
-    this.children = [];
+    this.children = null;
 
     this.splitAlready = false;
 
@@ -254,6 +254,7 @@ class Edge {
       direction.multiplyScalar( 0.5 );
       let midPoint = this.endA.clone();
       midPoint.add( direction );
+      this.children = [];
       this.children.push( new Edge( this.endA, midPoint ) );
       this.children.push( new Edge( midPoint, this.endB ) );
     }
