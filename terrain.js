@@ -68,8 +68,11 @@ export function init( newScene, newCamera ) {
 }
 
 export function update() {
-  for ( let i = squares.length - 1; i >= 0; i-- ) {
+  for ( let i = 0; i < squares.length; i++ ) {
     squares[ i ].update();
+  }
+  for ( let i = squares.length - 1; i >= 0; i-- ) {
+    if ( squares[i].removeFromSquares ) { squares.splice( i, 1 ); }
   }
 }
 
@@ -88,6 +91,8 @@ class Square {
     this.splitAlready = false;
 
     this.makeVisible();
+
+    this.removeFromSquares = false;
   }
 
   update() {
@@ -116,9 +121,7 @@ class Square {
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
     }
-    for ( let i = 0; i < squares.length; i++ ) {
-      if ( squares[i] == this ) { squares.splice( i, 1 ); }
-    }
+    this.removeFromSquares = true;
   }
 
   split() {
