@@ -95,7 +95,6 @@ class Square {
       this.split();
     } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
       this.parent.merge();
-      console.log('merge');
     }
   }
 
@@ -180,6 +179,7 @@ class Square {
   }
 
   merge() {
+  console.log('merge');
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
