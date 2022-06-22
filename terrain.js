@@ -199,7 +199,7 @@ class Edge {
 
 
 const ELEVATION_TILE_SIZE = 512;
-const downscale = 2 ** 2; // power of 2
+const downscale = 2 ** 4; // power of 2
 const downSize = ELEVATION_TILE_SIZE / downscale;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = 'MrM7HIm1w0P1BQYO7MY3';
