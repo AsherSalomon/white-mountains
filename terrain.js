@@ -166,8 +166,8 @@ class Square {
 
     }
 
-    for ( let i = 0; i < childrenTiles.length; i ++ ) {
-      childrenTiles[i].makeVisible();
+    for ( let i = 0; i < this.children.length; i ++ ) {
+      this.children[i].makeVisible();
     }
   }
 
