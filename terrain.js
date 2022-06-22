@@ -61,12 +61,11 @@ class Square {
     // this.visible = true;
 
     if ( showGridHelper ) {
-      let z = tile[ 2 ];
-      this.gridHelper = new THREE.GridHelper( tileWidth[ z ], downSize );
+      this.gridHelper = new THREE.GridHelper( this.width, downSize );
       // let tile = tilebelt.pointToTile( longitude, latitude, z );
-      this.gridHelper.position.x = ( 0.5 + tile[ 0 ] - origin[ z ][ 0 ] ) * tileWidth[ z ];
-      this.gridHelper.position.z = ( 0.5 + tile[ 1 ] - origin[ z ][ 1 ] ) * tileWidth[ z ];
-      this.gridHelper.position.y = 2000;
+      this.gridHelper.position.x = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
+      this.gridHelper.position.z = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
+      // this.gridHelper.position.y = 2000;
       scene.add( this.gridHelper );
     }
   }
