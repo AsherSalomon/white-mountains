@@ -73,7 +73,7 @@ export function update() {
     if ( squares[i].removeFromSquares ) {
       if ( squares[i].visible ) {
         console.log('wtf');
-        scene.remove( squares[i].gridHelper );
+      //   scene.remove( squares[i].gridHelper );
       }
       squares[i].removeFromSquares = false;
       squares.splice( i, 1 );
@@ -188,9 +188,11 @@ class Square {
   }
 
   merge() {
-    this.makeVisible();
-    for ( let i = 0; i < this.children.length; i ++ ) {
-      this.children[i].makeNotVisible();
+    if ( this.removeFromSquares == false ) {
+      this.makeVisible();
+      for ( let i = 0; i < this.children.length; i ++ ) {
+        this.children[i].makeNotVisible();
+      }
     }
   }
 
