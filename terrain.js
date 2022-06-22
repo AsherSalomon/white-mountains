@@ -95,6 +95,7 @@ class Square {
       this.split();
     } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
       this.parent.merge();
+      console.log('merge');
     }
   }
 
