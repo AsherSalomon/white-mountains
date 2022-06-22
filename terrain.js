@@ -11,7 +11,7 @@ const maxElevation = 1916.582; // 9144; // meters
 
 const pineGreen = new THREE.Color( 0x204219 );
 
-const minZoom = 5;
+const minZoom = 10//5;
 const maxZoom = 12;
 // const extraZoom = 12;
 
@@ -67,10 +67,10 @@ class Square {
     this.westEdge = new Edge( this, 'w' );
 
     if ( showGridHelper ) {
-      // this.gridHelper = new THREE.GridHelper( this.width, downSize );
-      // this.gridHelper.position.x = this.centerX;
-      // this.gridHelper.position.z = this.centerZ;
-      // scene.add( this.gridHelper );
+      this.gridHelper = new THREE.GridHelper( this.width, downSize );
+      this.gridHelper.position.x = this.centerX;
+      this.gridHelper.position.z = this.centerZ;
+      scene.add( this.gridHelper );
     }
   }
 
