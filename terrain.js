@@ -118,6 +118,7 @@ class Square {
     this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
+      console.log('remove');
     }
     this.removeFromSquares = true;
   }
