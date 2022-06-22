@@ -85,7 +85,7 @@ class Square {
     // this.visible = true;
 
     if ( showGridHelper ) {
-      this.gridHelper = new THREE.GridHelper( this.width - 1, downSize );
+      this.gridHelper = new THREE.GridHelper( this.width, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
@@ -193,7 +193,7 @@ class Edge {
       const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-      this.arrowHelper.position.y += 1;
+      this.arrowHelper.position.y += 10;
       scene.add( this.arrowHelper );
     }
 
