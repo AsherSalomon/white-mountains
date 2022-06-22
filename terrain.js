@@ -202,7 +202,7 @@ class Square {
     let deltaZ = Math.abs( positionDelta.z ) - this.width / 2;
     let distance = 0;
     if ( deltaX < 0 || deltaZ < 0 ) {
-      distance = Math.sqrt( Math.max( deltaX, deltaZ ) ** 2 + elevation ** 2 );
+      distance = Math.max( deltaX, deltaZ );
       if ( distance < 0 ) { distance = 0; }
       distance = Math.sqrt( distance ** 2 + elevation ** 2 );
     } else {
