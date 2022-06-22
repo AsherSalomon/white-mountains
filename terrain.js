@@ -83,7 +83,6 @@ class Square {
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
     }
-
   }
 
   split() {
@@ -140,8 +139,8 @@ class Edge {
     this.parent = null;
     this.children = [];
 
-    // this.endA = new THREE.Vector3();
-    // this.endB = new THREE.Vector3();
+    this.endA = endA;
+    this.endB = endB;
 
     this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
