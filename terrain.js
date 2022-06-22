@@ -20,8 +20,8 @@ const maxZoom = 20;//12;
 let origin = {};
 let width = {};
 
-let showGridHelper = false;
-// let showGridHelper = true;
+// let showGridHelper = false;
+let showGridHelper = true;
 
 let squares = [];
 let generatorQueue = [];
