@@ -79,7 +79,8 @@ class Square {
     this.zoom = tile[2];
     this.width = width[this.zoom];
     this.parent = parent;
-    this.children = [];
+    this.siblings = null;
+    this.children = null;
     this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
     this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
 
@@ -92,6 +93,8 @@ class Square {
   update() {
     if ( this.zoom < maxZoom && this.isTooBig() ) {
       this.split();
+    } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
+      this.parent.merge();
     }
   }
 
@@ -164,6 +167,9 @@ class Square {
       this.children[3].northEdge = newEdgeWest;
       this.children[3].eastEdge = newEdgeSouth;
 
+      for ( let i = 0; i < this.children.length; i ++ ) {
+        this.children[i].siblings = this.children;
+      }
     }
 
     for ( let i = 0; i < this.children.length; i ++ ) {
@@ -172,12 +178,9 @@ class Square {
   }
 
   merge() {
-    this.visible = false;
-    if ( showGridHelper ) {
-      scene.remove( this.gridHelper );
-    }
+    this.makeVisible();
     for ( let i = 0; i < childrenTiles.length; i ++ ) {
-      squares.push( this.children[i] );
+      this.children[i].makeNotVisible();
     }
   }
 
@@ -204,6 +207,19 @@ class Square {
   isTooSmall() {
     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
     return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
+  }
+
+  allSiblingsSmall() {
+    let allSiblingsAreSmall = false;
+    if ( this.siblings != null ) {
+      allSiblingsAreSmall = true;
+      for ( let i = 0; i < this.siblings.length; i ++ ) {
+        if ( this.siblings[ i ].isTooSmall() == false ) {
+          allSiblingsAreSmall = false;
+        }
+      }
+    }
+    return allSiblingsAreSmall;
   }
 }
 
