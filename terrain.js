@@ -31,11 +31,11 @@ export function init( newScene, newCamera ) {
 
   for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
     origin[zoom] = tilebelt.pointToTileFraction( longitude, latitude, z );
-    width[zoom] = Math.pow( 2, maxZoom - z ) * tileWidth;
+    width[zoom] = Math.pow( 2, maxZoom - zoom ) * tileWidth;
   }
 
 }
 
 export function update() {
-  
+
 }
