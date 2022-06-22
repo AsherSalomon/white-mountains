@@ -72,6 +72,7 @@ export function update() {
   for ( let i = squares.length - 1; i >= 0; i-- ) {
     if ( squares[i].removeFromSquares ) {
       squares[i].removeFromSquares = false;
+      squares[i].makeNotVisible();
       squares.splice( i, 1 );
     } else {
       squares[ i ].update();
