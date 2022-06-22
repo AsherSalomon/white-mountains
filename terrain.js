@@ -100,7 +100,7 @@ class Square {
   }
 
   update() {
-    if ( this.visible ) {
+    if ( this.visible && this.removeFromSquares == false ) {
       if ( this.zoom < maxZoom && this.isTooBig() ) {
         this.split();
       } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
@@ -111,7 +111,7 @@ class Square {
 
   makeVisible() {
     this.visible = true;
-    if ( showGridHelper && this.removeFromSquares == false ) {
+    if ( showGridHelper ) {
       this.gridHelper = new THREE.GridHelper( this.width, downSize );
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
