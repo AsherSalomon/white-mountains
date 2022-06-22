@@ -89,10 +89,9 @@ class Square {
 
     this.visible = false;
     this.splitAlready = false;
+    this.removeFromSquares = false;
 
     this.makeVisible();
-
-    this.removeFromSquares = false;
   }
 
   update() {
@@ -112,8 +111,8 @@ class Square {
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
-      count++;
-      console.log(count);
+      // count++;
+      // console.log(count);
     }
     squares.push( this );
   }
@@ -122,8 +121,8 @@ class Square {
     this.visible = false;
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
-      count--;
-      console.log(count);
+      // count--;
+      // console.log(count);
     }
     this.removeFromSquares = true;
   }
