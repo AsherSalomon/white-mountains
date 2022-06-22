@@ -61,16 +61,16 @@ export function init( newScene, newCamera ) {
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
   squares.push( minZoomSquare );
 
-  minZoomSquare.split();
-  for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
-    minZoomSquare.children[i].split();
-  }
+  // minZoomSquare.split();
+  // for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
+  //   minZoomSquare.children[i].split();
+  // }
 }
 
 export function update() {
-  // for ( let i = 0; i < squares.length; i++ ) {
-  //   squares[ i ].update();
-  // }
+  for ( let i = 0; i < squares.length; i++ ) {
+    squares[ i ].update();
+  }
 }
 
 class Square {
@@ -193,7 +193,7 @@ class Edge {
       const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-      this.arrowHelper.position.y += this.length / downSize;
+      // this.arrowHelper.position.y += this.length / downSize;
       scene.add( this.arrowHelper );
     }
 
