@@ -96,13 +96,13 @@ class Square {
   }
 
   update() {
-    // if ( this.visible ) {
+    if ( this.visible ) {
       if ( this.zoom < maxZoom && this.isTooBig() ) {
         this.split();
       } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
         this.parent.merge();
       }
-    // }
+    }
   }
 
   makeVisible() {
