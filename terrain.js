@@ -88,6 +88,10 @@ class Square {
   }
 
   split() {
+    if ( showGridHelper ) {
+      scene.remove( this.gridHelper );
+    }
+    
     let childrenTiles = tilebelt.getChildren( this.tile ); // NE, NW, SW, SE
     for ( let i = 0; i < childrenTiles.length; i ++ ) {
       let newSquare = new Square( childrenTiles[i] );
