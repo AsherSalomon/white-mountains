@@ -204,10 +204,10 @@ class Square {
     if ( deltaX < 0 || deltaZ < 0 ) {
       distance = Math.max( deltaX, deltaZ );
       if ( distance < 0 ) { distance = 0; }
-      distance = Math.sqrt( distance ** 2 + elevation ** 2 );
     } else {
-      distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 + elevation ** 2 );
+      distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
     }
+    distance = Math.sqrt( distance ** 2 + elevation ** 2 );
     return distance;
   }
 
