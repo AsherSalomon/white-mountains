@@ -140,13 +140,13 @@ class Edge {
     this.parent = null;
     this.children = [];
 
-    this.length = square.width;
+    this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
     this.endA = new THREE.Vector3();
     this.endB = new THREE.Vector3();
 
     if ( showGridHelper ) {
-      const dir = new THREE.Vector3().subVectors( this.endB, this.endA ) ;
+      const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
       scene.add( this.arrowHelper );
