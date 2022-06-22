@@ -224,7 +224,7 @@ class Square {
     if ( this.siblings != null ) {
       allSiblingsAreSmall = true;
       for ( let i = 0; i < this.siblings.length; i ++ ) {
-        if ( this.siblings[ i ].isTooSmall() == false ) {
+        if ( this.siblings[ i ].isTooSmall() == false || this.siblings[ i ].visible == false ) {
           allSiblingsAreSmall = false;
         }
       }
