@@ -60,6 +60,7 @@ export function init( newScene, newCamera ) {
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
   // squares.push( minZoomSquare );
+  minZoomSquare.makeVisible();
 
   // minZoomSquare.split();
   // for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
@@ -90,8 +91,6 @@ class Square {
     this.visible = false;
     this.splitAlready = false;
     this.removeFromSquares = false;
-
-    this.makeVisible();
   }
 
   update() {
