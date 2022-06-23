@@ -313,8 +313,8 @@ class ReusedMesh {
     geometry.rotateX( - Math.PI / 2 );
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
-      // color: pineGreen
-      color: new THREE.Color( Math.random(), Math.random(), Math.random() )
+      color: pineGreen
+      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
 
