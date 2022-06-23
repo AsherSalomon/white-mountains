@@ -268,7 +268,8 @@ class Square {
     if ( this.children != null ) {
       allChildrenAreSmall = true;
       for ( let i = 0; i < this.children.length; i ++ ) {
-        if ( this.children[ i ].isTooSmall() == false || this.children[ i ].visible == false ) {
+        // if ( this.children[ i ].isTooSmall() == false || this.children[ i ].visible == false ) {
+        if ( this.children[ i ].isTooSmall() == false ) {
           allChildrenAreSmall = false;
         }
       }
