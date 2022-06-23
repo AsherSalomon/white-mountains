@@ -121,8 +121,10 @@ class Square {
   update() {
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
+      console.log('split');
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
+      console.log('merge');
     }
   }
 
@@ -342,7 +344,7 @@ class ReusedMesh {
   }
 
   reuse( square ) {
-    this.square = square;
+    // this.square = square;
     let zoom = square.tile[ 2 ];
     this.width = width[ zoom ];
     this.mesh.scale.x = this.width;
@@ -463,14 +465,14 @@ class ReusedMesh {
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
-    if ( this.suqare != null ) {
-      square.boundingBox.expandByObject( this.mesh );
-    }
+    // if ( this.suqare != null ) {
+    //   square.boundingBox.expandByObject( this.mesh );
+    // }
   }
 
   remove() {
     scene.remove( this.mesh );
-    this.square = null;
+    // this.square = null;
   }
 }
 
