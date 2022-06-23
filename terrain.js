@@ -128,9 +128,9 @@ class Square {
     } else {
       this.reusedMesh = new ReusedMesh();
     }
-    if ( this.reusedMesh != null ) { // wtf
+    // if ( this.reusedMesh != null ) { // wtf
       this.reusedMesh.reuse( this );
-    }
+    // }
 
     squares.push( this );
   }
@@ -142,10 +142,12 @@ class Square {
       scene.remove( this.gridHelper );
     }
 
-    if ( this.reusedMesh != null ) { // wtf
+    // if ( this.reusedMesh != null ) { // wtf
       this.reusedMesh.remove();
+    // }
+    if ( this.reusedMesh != null ) { // wtf
+      meshBin.push( this.reusedMesh );
     }
-    meshBin.push( this.reusedMesh );
     this.reusedMesh = null;
 
     this.removeFromSquares = true;
