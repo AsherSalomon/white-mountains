@@ -358,7 +358,7 @@ class ReusedMesh {
     //   }
     // }
 
-    // this.refreshMesh();
+    this.refreshMesh();
 
     scene.add( this.mesh );
 
