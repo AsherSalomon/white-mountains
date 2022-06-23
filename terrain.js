@@ -65,15 +65,21 @@ export function init( newScene, newCamera ) {
   minZoomSquare.makeVisible();
 }
 
+let delay = 0;
 export function update() {
-  frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
+  delay++;
+  if ( delay == 10 ) {
+    delay = 0;
 
-  for ( let i = squares.length - 1; i >= 0; i-- ) {
-    if ( squares[i].removeFromSquares ) {
-      squares[i].removeFromSquares = false;
-      squares.splice( i, 1 );
-    } else {
-      squares[ i ].update();
+    frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
+
+    for ( let i = squares.length - 1; i >= 0; i-- ) {
+      if ( squares[i].removeFromSquares ) {
+        squares[i].removeFromSquares = false;
+        squares.splice( i, 1 );
+      } else {
+        squares[ i ].update();
+      }
     }
   }
 }
