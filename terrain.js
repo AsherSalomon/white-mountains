@@ -90,7 +90,6 @@ export function update() {
           generatorQueue.splice( i, 1 );
         } else if ( generatorQueue[ i ].next().done ) {
           generatorQueue.splice( i, 1 );
-          console.log('done');
         }
         breakOut = true;
         break;
@@ -372,6 +371,7 @@ class ReusedMesh {
         newGenerator.intendedSquare = square;
         newGenerator.zoom = zoom;
         generatorQueue.push( newGenerator );
+        console.log('Queue.push');
       },
       undefined, // onProgress not supported
       function () {
