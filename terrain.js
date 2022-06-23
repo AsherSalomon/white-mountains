@@ -109,6 +109,7 @@ class Square {
     // } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
     //   this.parent.merge();
     } else if ( this.zoom > minZoom && this.allChildrenSmall() ) {
+      console.log('merge');
       this.merge();
     }
   }
@@ -273,7 +274,6 @@ class Square {
         }
       }
     }
-    console.log( allChildrenAreSmall );
     return allChildrenAreSmall;
   }
 }
