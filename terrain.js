@@ -257,13 +257,13 @@ class Edge {
 
     this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
-    // if ( showGridHelper ) {
-    //   const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
-    //   dir.normalize();
-    //   this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-    //   // this.arrowHelper.position.y += this.length / downSize;
-    //   scene.add( this.arrowHelper );
-    // }
+    if ( showGridHelper ) {
+      const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
+      dir.normalize();
+      this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
+      // this.arrowHelper.position.y += this.length / downSize;
+      scene.add( this.arrowHelper );
+    }
   }
   split() {
     if ( this.splitAlready == false ) {
@@ -309,11 +309,11 @@ class ReusedMesh {
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
-    scene.add( this.mesh );
+    // scene.add( this.mesh );
   }
 
   remove() {
-    scene.remove( this.mesh );
+    // scene.remove( this.mesh );
   }
 }
 
