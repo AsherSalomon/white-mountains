@@ -65,12 +65,10 @@ export function init( newScene, newCamera ) {
   minZoomSquare.makeVisible();
 }
 
-// let delay = 0;
+let ticks = 0;
 export function update() {
-  // delay++;
-  // if ( delay == 10 ) {
-  //   delay = 0;
-  // }
+  console.log( ticks );
+
   frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
   for ( let i = squares.length - 1; i >= 0; i-- ) {
@@ -271,6 +269,7 @@ class Square {
       for ( let i = 0; i < this.children.length; i ++ ) {
         if ( this.children[ i ].isTooSmall() == false || this.children[ i ].visible == false ) {
           allChildrenAreSmall = false;
+          ticks++;
         }
       }
     }
@@ -371,7 +370,6 @@ class ReusedMesh {
         newGenerator.intendedSquare = square;
         newGenerator.zoom = zoom;
         generatorQueue.push( newGenerator );
-        console.log('Queue.push');
       },
       undefined, // onProgress not supported
       function () {
