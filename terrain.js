@@ -114,6 +114,10 @@ class Square {
       this.gridHelper.position.x = this.centerX;
       this.gridHelper.position.z = this.centerZ;
       scene.add( this.gridHelper );
+      this.northEdge.show();
+      this.southEdge.show();
+      this.eastEdge.show();
+      this.westEdge.show();
     }
 
     if ( meshBin.length > 0 ) {
@@ -267,7 +271,7 @@ class Edge {
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
       // this.arrowHelper.position.y += this.length / downSize;
-      scene.add( this.arrowHelper );
+      this.show();
     }
   }
 
@@ -283,6 +287,10 @@ class Edge {
       this.children.push( new Edge( this.endA, midPoint ) );
       this.children.push( new Edge( midPoint, this.endB ) );
     }
+  }
+
+  show() {
+    scene.add( this.arrowHelper );
   }
 
   hide() {
