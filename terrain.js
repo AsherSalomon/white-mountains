@@ -422,7 +422,7 @@ class ReusedMesh {
     // this.clampEdges();
     this.refreshMesh();
 
-    yield;
+    // yield;
 
     // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
     //   if ( needsRefresh[ t ] ) {
