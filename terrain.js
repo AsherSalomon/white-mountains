@@ -14,7 +14,7 @@ const angularResolution = 4 / 1; // tile width / distance to camera
 const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5;
-const maxZoom = 20;//12;
+const maxZoom = 12;
 // const extraZoom = 20;
 
 let origin = {};
@@ -80,6 +80,22 @@ export function update() {
     } else {
       squares[ i ].update();
     }
+  }
+
+  for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
+    let breakOut = false;
+    for ( let i = 0; i < generatorQueue.length; i++ ) {
+      if ( generatorQueue[ i ].zoom == zoom ) {
+        if ( generatorQueue[ i ].intendedSquare.visible = false ) {
+          generatorQueue.splice( i, 1 );
+        } else if ( generatorQueue[ i ].next().done ) {
+          generatorQueue.splice( i, 1 );
+        }
+        breakOut = true;
+        break;
+      }
+    }
+    if ( breakOut ) { break; }
   }
 }
 
@@ -338,21 +354,106 @@ class ReusedMesh {
 
     scene.add( this.mesh );
 
-    // let url = urlForTile( ...tile.tile, 'terrain' );
-    // const loader = new THREE.ImageLoader();
-    // let thisReusedMesh = this;
-    // loader.load( url, function ( image ) {
-    //     let newGenerator = thisReusedMesh.terrainGenerator( image );
-    //     newGenerator.intendedTile = tile;
-    //     newGenerator.zoom = zoom;
-    //     generatorQueue.push( newGenerator );
-    //   },
-    //   undefined, // onProgress not supported
-    //   function () {
-    //     console.log( 'terrain ImageLoader error' );
-    //     // console.log( THREE.Cache.files[ url ] ); // undefined i.e. not chached
+    let url = urlForTile( ...square.tile, 'terrain' );
+    const loader = new THREE.ImageLoader();
+    let thisReusedMesh = this;
+    loader.load( url, function ( image ) {
+        let newGenerator = thisReusedMesh.terrainGenerator( image );
+        newGenerator.intendedSquare = tile;
+        newGenerator.zoom = zoom;
+        generatorQueue.push( newGenerator );
+      },
+      undefined, // onProgress not supported
+      function () {
+        console.log( 'terrain ImageLoader error' );
+      }
+    );
+  }
+
+  *terrainGenerator( image ) {
+    this.context.drawImage( image, 0, 0 );
+    let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+
+    yield;
+
+    // for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
+    //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    // }
+
+    // let needsRefresh = [];
+    // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+    //   needsRefresh.push( false );
+    // }
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.heightData[ j ] = 0;
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( m == downSize || n == downSize ) {
+          // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+          //   if ( this.layer.tiles[ t ] != this ) {
+          //     // obtain dataPoint from adjacent tiles
+          //     let dataPoint = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+          //     if ( dataPoint != null ) {
+          //       this.heightData[ j ] = dataPoint;
+          //     }
+          //   }
+          // }
+        } else {
+          let i = m * ( downscale ** 2 ) * downSize + n * downscale;
+          let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          this.heightData[ j ] = dataPoint;
+          // if ( m == 0 || n == 0 ) {
+          //   for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+          //     if ( this.layer.tiles[ t ] != this ) {
+          //       // report dataPoint to adjacent tiles
+          //       this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, dataPoint );
+          //       needsRefresh[ t ] = true;
+          //     }
+          //   }
+          // }
+        }
+      }
+    }
+
+    yield;
+
+    // this.clampEdges();
+    this.refreshMesh();
+
+    yield;
+
+    // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+    //   if ( needsRefresh[ t ] ) {
+    //     this.layer.tiles[ t ].reusedMesh.refreshMesh();
+    //     yield;
     //   }
-    // );
+    // }
+  }
+
+  refreshMesh() {
+    const vertices = this.mesh.geometry.attributes.position.array;
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let i = m * ( downSize + 1 ) + n;
+        let j = ( m * ( downSize + 1 ) + n ) * 3;
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        let mIsEdge = m == 0 || m == downSize;
+        let nIsEdge = n == 0 || n == downSize;
+        if ( !mIsEdge && !nIsEdge ) {
+          vertices[ j + 1 ] = this.heightData[ i ];
+        // } else if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
+        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
+        } else {
+          vertices[ j + 1 ] = this.heightData[ i ];
+        }
+        vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
+      }
+    }
+    this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+    this.mesh.geometry.computeVertexNormals();
   }
 
   remove() {
