@@ -90,6 +90,7 @@ export function update() {
           generatorQueue.splice( i, 1 );
         } else if ( generatorQueue[ i ].next().done ) {
           generatorQueue.splice( i, 1 );
+          console.log('done');
         }
         breakOut = true;
         break;
@@ -121,10 +122,8 @@ class Square {
   update() {
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
-      console.log('split');
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
-      console.log('merge');
     }
   }
 
