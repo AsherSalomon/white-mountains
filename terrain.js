@@ -104,7 +104,7 @@ class Square {
   }
 
   update() {
-    if ( this.zoom < maxZoom && this.isTooBig() ) {
+    if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
     // } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
     //   this.parent.merge();
