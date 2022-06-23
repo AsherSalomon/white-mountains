@@ -20,8 +20,8 @@ const maxZoom = 20;//12;
 let origin = {};
 let width = {};
 
-// let showGridHelper = false;
-let showGridHelper = true;
+let showGridHelper = false;
+// let showGridHelper = true;
 
 let squares = [];
 let generatorQueue = [];
@@ -336,11 +336,27 @@ class ReusedMesh {
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
-    // scene.add( this.mesh );
+    scene.add( this.mesh );
+
+    // let url = urlForTile( ...tile.tile, 'terrain' );
+    // const loader = new THREE.ImageLoader();
+    // let thisReusedMesh = this;
+    // loader.load( url, function ( image ) {
+    //     let newGenerator = thisReusedMesh.terrainGenerator( image );
+    //     newGenerator.intendedTile = tile;
+    //     newGenerator.zoom = zoom;
+    //     generatorQueue.push( newGenerator );
+    //   },
+    //   undefined, // onProgress not supported
+    //   function () {
+    //     console.log( 'terrain ImageLoader error' );
+    //     // console.log( THREE.Cache.files[ url ] ); // undefined i.e. not chached
+    //   }
+    // );
   }
 
   remove() {
-    // scene.remove( this.mesh );
+    scene.remove( this.mesh );
   }
 }
 
