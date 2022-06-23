@@ -133,7 +133,11 @@ class Square {
     }
     this.reusedMesh.reuse( this );
 
-    this.boundingBox.expandByObject( this.reusedMesh.mesh );
+    if ( showGridHelper ) {
+      this.boundingBox.expandByObject( this.gridHelper );
+    } else {
+      this.boundingBox.expandByObject( this.reusedMesh.mesh );
+    }
 
     squares.push( this );
   }
