@@ -65,9 +65,7 @@ export function init( newScene, newCamera ) {
   minZoomSquare.makeVisible();
 }
 
-let ticks = 0;
 export function update() {
-  console.log( ticks );
 
   frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
