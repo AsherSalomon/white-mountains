@@ -351,12 +351,12 @@ class ReusedMesh {
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
-    // for ( let m = 0; m <= downSize; m++ ) {
-    //   for ( let n = 0; n <= downSize; n++ ) {
-    //     let j = m * ( downSize + 1 ) + n;
-    //     this.heightData[ j ] = 0;
-    //   }
-    // }
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.heightData[ j ] = 0;
+      }
+    }
 
     this.refreshMesh();
 
