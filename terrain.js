@@ -351,6 +351,8 @@ class ReusedMesh {
     this.centerZ = ( 0.5 + square.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
+    
+    this.refreshMesh();
 
     scene.add( this.mesh );
 
