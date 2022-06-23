@@ -213,6 +213,7 @@ class Square {
       if ( this.children[i].children != null ) {
         for ( let j = 0; j < this.children[i].children.length; j ++ ) {
           if ( this.children[i].children[j].visible ) {
+            console.log('extra wtf')
             this.children[i].children[j].makeNotVisible();
           }
         }
