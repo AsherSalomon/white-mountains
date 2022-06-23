@@ -295,7 +295,6 @@ class Edge {
       const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
-      // this.arrowHelper.position.y += this.length / downSize;
       this.show();
     }
   }
@@ -329,8 +328,8 @@ class ReusedMesh {
     geometry.rotateX( - Math.PI / 2 );
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
-      color: pineGreen
-      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
+      // color: pineGreen
+      color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
 
@@ -352,14 +351,14 @@ class ReusedMesh {
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
-    for ( let m = 0; m <= downSize; m++ ) {
-      for ( let n = 0; n <= downSize; n++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        this.heightData[ j ] = 0;
-      }
-    }
+    // for ( let m = 0; m <= downSize; m++ ) {
+    //   for ( let n = 0; n <= downSize; n++ ) {
+    //     let j = m * ( downSize + 1 ) + n;
+    //     this.heightData[ j ] = 0;
+    //   }
+    // }
 
-    this.refreshMesh();
+    // this.refreshMesh();
 
     scene.add( this.mesh );
 
