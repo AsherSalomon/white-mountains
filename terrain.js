@@ -73,10 +73,6 @@ export function init( newScene, newCamera ) {
 export function update() {
   for ( let i = squares.length - 1; i >= 0; i-- ) {
     if ( squares[i].removeFromSquares ) {
-      if ( squares[i].visible ) {
-        console.log('wtf');
-      //   scene.remove( squares[i].gridHelper );
-      }
       squares[i].removeFromSquares = false;
       squares.splice( i, 1 );
     } else {
@@ -140,10 +136,8 @@ class Square {
       scene.remove( this.gridHelper );
     }
 
-    // if ( this.reusedMesh != null ) { // wtf
     this.reusedMesh.remove();
     meshBin.push( this.reusedMesh );
-    // }
     this.reusedMesh = null;
 
     this.removeFromSquares = true;
