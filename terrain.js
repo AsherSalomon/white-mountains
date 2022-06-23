@@ -104,13 +104,11 @@ class Square {
   }
 
   update() {
-    // if ( this.visible ) {
-      if ( this.zoom < maxZoom && this.isTooBig() ) {
-        this.split();
-      } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
-        this.parent.merge();
-      }
-    // }
+    if ( this.zoom < maxZoom && this.isTooBig() ) {
+      this.split();
+    } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
+      this.parent.merge();
+    }
   }
 
   makeVisible() {
@@ -128,9 +126,7 @@ class Square {
     } else {
       this.reusedMesh = new ReusedMesh();
     }
-    // if ( this.reusedMesh != null ) { // wtf
-      this.reusedMesh.reuse( this );
-    // }
+    this.reusedMesh.reuse( this );
 
     squares.push( this );
   }
@@ -300,8 +296,8 @@ class ReusedMesh {
     geometry.rotateX( - Math.PI / 2 );
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
-      color: pineGreen
-      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
+      // color: pineGreen
+      color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
 
