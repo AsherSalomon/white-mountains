@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import * as tilebelt from './lib/tilebelt.js';
 
-let scene, camera;
+let scene, camera, frustum;
 
 const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
@@ -20,8 +20,8 @@ const maxZoom = 20;//12;
 let origin = {};
 let width = {};
 
-let showGridHelper = false;
-// let showGridHelper = true;
+// let showGridHelper = false;
+let showGridHelper = true;
 
 let squares = [];
 let generatorQueue = [];
@@ -30,6 +30,7 @@ let meshBin = [];
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
+  frustum = new THREE.Frustum();
 
   let tile = tilebelt.pointToTile( longitude, latitude,  maxZoom );
   let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
@@ -61,16 +62,12 @@ export function init( newScene, newCamera ) {
   minZoomSquare.westEdge = new Edge(
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
     new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
-  // squares.push( minZoomSquare );
   minZoomSquare.makeVisible();
-
-  // minZoomSquare.split();
-  // for ( let i = 0; i < minZoomSquare.children.length; i ++ ) {
-  //   minZoomSquare.children[i].split();
-  // }
 }
 
 export function update() {
+  frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
+
   for ( let i = squares.length - 1; i >= 0; i-- ) {
     if ( squares[i].removeFromSquares ) {
       squares[i].removeFromSquares = false;
@@ -87,7 +84,6 @@ class Square {
     this.zoom = tile[2];
     this.width = width[this.zoom];
     this.parent = parent;
-    // this.siblings = null;
     this.children = null;
     this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
     this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
@@ -97,13 +93,13 @@ class Square {
     this.removeFromSquares = false;
 
     this.reusedMesh = null;
+
+    this.boundingBox = new THREE.Box3();
   }
 
   update() {
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
-    // } else if ( this.zoom > minZoom && this.allSiblingsSmall() ) {
-    //   this.parent.merge();
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
     }
@@ -125,6 +121,8 @@ class Square {
       this.reusedMesh = new ReusedMesh();
     }
     this.reusedMesh.reuse( this );
+
+    this.boundingBox.expandByObject( this.reusedMesh.mesh );
 
     squares.push( this );
   }
@@ -191,10 +189,6 @@ class Square {
       this.children[2].westEdge = newEdgeSouth;
       this.children[3].northEdge = newEdgeWest;
       this.children[3].eastEdge = newEdgeSouth;
-
-      // for ( let i = 0; i < this.children.length; i ++ ) {
-      //   this.children[i].siblings = this.children;
-      // }
     }
 
     for ( let i = 0; i < this.children.length; i ++ ) {
@@ -206,14 +200,6 @@ class Square {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
-      // if ( this.children[i].children != null ) {
-      //   for ( let j = 0; j < this.children[i].children.length; j ++ ) {
-      //     if ( this.children[i].children[j].visible ) {
-      //       console.log('extra wtf')
-      //       this.children[i].children[j].makeNotVisible();
-      //     }
-      //   }
-      // }
     }
   }
 
@@ -236,26 +222,13 @@ class Square {
 
   isTooBig() {
     let tooBig = this.width / this.distanceFromCamera() > angularResolution;
-    return tooBig; // && frustum.intersectsBox( this.boundingBox );
+    return tooBig && frustum.intersectsBox( this.boundingBox );
   }
 
   isTooSmall() {
     let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
-    return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
+    return tooSmall || frustum.intersectsBox( this.boundingBox ) == false;
   }
-
-  // allSiblingsSmall() {
-  //   let allSiblingsAreSmall = false;
-  //   if ( this.siblings != null ) {
-  //     allSiblingsAreSmall = true;
-  //     for ( let i = 0; i < this.siblings.length; i ++ ) {
-  //       if ( this.siblings[ i ].isTooSmall() == false || this.siblings[ i ].visible == false ) {
-  //         allSiblingsAreSmall = false;
-  //       }
-  //     }
-  //   }
-  //   return allSiblingsAreSmall;
-  // }
 
   allChildrenSmall() {
     let allChildrenAreSmall = false;
