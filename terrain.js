@@ -133,6 +133,10 @@ class Square {
 
     if ( showGridHelper ) {
       scene.remove( this.gridHelper );
+      this.northEdge.hide();
+      this.southEdge.hide();
+      this.eastEdge.hide();
+      this.westEdge.hide();
     }
 
     this.reusedMesh.remove();
@@ -266,6 +270,7 @@ class Edge {
       scene.add( this.arrowHelper );
     }
   }
+
   split() {
     if ( this.splitAlready == false ) {
       this.splitAlready = true;
@@ -278,6 +283,10 @@ class Edge {
       this.children.push( new Edge( this.endA, midPoint ) );
       this.children.push( new Edge( midPoint, this.endB ) );
     }
+  }
+
+  hide() {
+    scene.remove( this.arrowHelper );
   }
 }
 
