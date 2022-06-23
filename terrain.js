@@ -342,6 +342,7 @@ class ReusedMesh {
   }
 
   reuse( square ) {
+    this.square = square;
     let zoom = square.tile[ 2 ];
     this.width = width[ zoom ];
     this.mesh.scale.x = this.width;
@@ -462,10 +463,14 @@ class ReusedMesh {
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
+    if ( this.suqare != null ) {
+      square.boundingBox.expandByObject( this.mesh );
+    }
   }
 
   remove() {
     scene.remove( this.mesh );
+    this.square = null;
   }
 }
 
