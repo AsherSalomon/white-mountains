@@ -210,6 +210,9 @@ class Square {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
+      for ( let j = 0; j < this.children.length; j ++ ) {
+        this.children[i].children[j].makeNotVisible();
+      }
     }
   }
 
