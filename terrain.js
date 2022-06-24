@@ -78,7 +78,6 @@ export function update() {
     }
   }
 
-  console.log( generatorQueue.length );
   for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
     let breakOut = false;
     for ( let i = 0; i < generatorQueue.length; i++ ) {
