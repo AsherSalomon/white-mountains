@@ -126,7 +126,7 @@ class Square {
       this.parent.merge();
     }
     if ( this.reusedMesh != null ) {
-      this.boundingBox.expandByObject( this.reusedMesh.mesh );
+      this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
     }
   }
 
