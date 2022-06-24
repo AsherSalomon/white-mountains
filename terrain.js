@@ -84,12 +84,17 @@ export function update() {
       if ( generatorQueue[ i ].zoom == zoom ) {
         if ( generatorQueue[ i ].intendedSquare.visible = false ) {
           generatorQueue.splice( i, 1 );
+          console.log('intendedSquare.visible = false');
         } else if ( generatorQueue[ i ].next().done ) {
-          console.log('next().done');
           generatorQueue.splice( i, 1 );
+          console.log('next().done');
+        } else {
+          console.log('else');
         }
         breakOut = true;
         break;
+      } else {
+        console.log('generatorQueue[ i ].zoom == zoom');
       }
     }
     if ( breakOut ) { break; }
