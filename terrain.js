@@ -382,14 +382,14 @@ class ReusedMesh {
   }
 
   loadUrl() {
-      let url = urlForTile( ...square.tile, 'terrain' );
+      let url = urlForTile( ...this.square.tile, 'terrain' );
       const loader = new THREE.ImageLoader();
       let thisReusedMesh = this;
       loader.load( url, function ( image ) {
           filesLoaded++;
           console.log( filesLoaded );
           let newGenerator = thisReusedMesh.terrainGenerator( image );
-          newGenerator.intendedSquare = square;
+          newGenerator.intendedSquare = thisReusedMesh.square;
           newGenerator.zoom = zoom;
           generatorQueue.push( newGenerator );
         },
