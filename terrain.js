@@ -387,7 +387,7 @@ class ReusedMesh {
 
     scene.add( this.mesh );
 
-    this.reusedMesh.readyToLoad = true;
+    this.readyToLoad = true;
   }
 
   loadUrl() {
