@@ -282,7 +282,7 @@ class Square {
   }
 
   isTooSmall() {
-    let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 2;
+    let tooSmall = this.width / this.distanceFromCamera() < angularResolution / 3;
     return tooSmall; // || frustum.intersectsBox( this.boundingBox ) == false;
   }
 
