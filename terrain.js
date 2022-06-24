@@ -127,7 +127,7 @@ class Square {
       this.parent.merge();
     } else if ( this.reusedMesh != null ) {
       if ( this.reusedMesh.readyToLoad ) {
-        this.reusedMesh.readyToLoad = false;
+        // this.reusedMesh.readyToLoad = false;
         this.reusedMesh.loadUrl();
       }
     }
@@ -164,7 +164,7 @@ class Square {
     }
     this.reusedMesh.reuse( this );
     // this.reusedMesh.loadUrl();
-    this.reusedMesh.readyToLoad = true;
+    // this.reusedMesh.readyToLoad = true;
 
     if ( showGridHelper ) {
       this.boundingBox.expandByObject( this.gridHelper, true );
@@ -386,23 +386,26 @@ class ReusedMesh {
     this.refreshMesh();
 
     scene.add( this.mesh );
+
+    this.reusedMesh.readyToLoad = true;
   }
 
   loadUrl() {
-      let url = urlForTile( ...this.square.tile, 'terrain' );
-      const loader = new THREE.ImageLoader();
-      let thisReusedMesh = this;
-      loader.load( url, function ( image ) {
-          let newGenerator = thisReusedMesh.terrainGenerator( image );
-          newGenerator.intendedSquare = thisReusedMesh.square;
-          newGenerator.zoom = thisReusedMesh.zoom;
-          generatorQueue.push( newGenerator );
-        },
-        undefined, // onProgress not supported
-        function () {
-          console.log( 'terrain ImageLoader error' );
-        }
-      );
+    this.readyToLoad = false;
+    let url = urlForTile( ...this.square.tile, 'terrain' );
+    const loader = new THREE.ImageLoader();
+    let thisReusedMesh = this;
+    loader.load( url, function ( image ) {
+        let newGenerator = thisReusedMesh.terrainGenerator( image );
+        newGenerator.intendedSquare = thisReusedMesh.square;
+        newGenerator.zoom = thisReusedMesh.zoom;
+        generatorQueue.push( newGenerator );
+      },
+      undefined, // onProgress not supported
+      function () {
+        console.log( 'terrain ImageLoader error' );
+      }
+    );
   }
 
   *terrainGenerator( image ) {
