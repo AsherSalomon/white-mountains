@@ -126,9 +126,10 @@ class Square {
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
     }
-    // if ( this.reusedMesh != null ) {
-    //   this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
-    // }
+    if ( this.reusedMesh != null && this.updateBoundingBox ) {
+      this.updateBoundingBox = false;
+      this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
+    }
   }
 
   makeVisible() {
