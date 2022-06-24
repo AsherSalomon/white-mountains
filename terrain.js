@@ -117,7 +117,6 @@ class Square {
     this.reusedMesh = null;
 
     this.boundingBox = new THREE.Box3();
-    // this.updateBoundingBox = false;
   }
 
   update() {
@@ -126,6 +125,7 @@ class Square {
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
     }
+    this.boundingBox.expandByObject( this.reusedMesh.mesh );
   }
 
   makeVisible() {
@@ -474,9 +474,6 @@ class ReusedMesh {
     }
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
-    if ( this.suqare != null ) {
-      this.suqare.boundingBox.expandByObject( this.mesh );
-    }
   }
 
   remove() {
