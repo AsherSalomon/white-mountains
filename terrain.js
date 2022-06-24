@@ -78,23 +78,18 @@ export function update() {
     }
   }
 
+  console.log( generatorQueue.length );
   for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
     let breakOut = false;
     for ( let i = 0; i < generatorQueue.length; i++ ) {
       if ( generatorQueue[ i ].zoom == zoom ) {
         if ( generatorQueue[ i ].intendedSquare.visible = false ) {
           generatorQueue.splice( i, 1 );
-          console.log('intendedSquare.visible = false');
         } else if ( generatorQueue[ i ].next().done ) {
           generatorQueue.splice( i, 1 );
-          console.log('next().done');
-        } else {
-          console.log('else');
         }
         breakOut = true;
         break;
-      } else {
-        console.log('generatorQueue[ i ].zoom == zoom');
       }
     }
     if ( breakOut ) { break; }
