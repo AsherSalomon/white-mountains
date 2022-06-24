@@ -328,8 +328,8 @@ class ReusedMesh {
     geometry.rotateX( - Math.PI / 2 );
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
-      color: pineGreen
-      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
+      // color: pineGreen
+      color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
 
@@ -363,20 +363,20 @@ class ReusedMesh {
 
     scene.add( this.mesh );
 
-    let url = urlForTile( ...square.tile, 'terrain' );
-    const loader = new THREE.ImageLoader();
-    let thisReusedMesh = this;
-    loader.load( url, function ( image ) {
-        let newGenerator = thisReusedMesh.terrainGenerator( image );
-        newGenerator.intendedSquare = square;
-        newGenerator.zoom = zoom;
-        generatorQueue.push( newGenerator );
-      },
-      undefined, // onProgress not supported
-      function () {
-        console.log( 'terrain ImageLoader error' );
-      }
-    );
+    // let url = urlForTile( ...square.tile, 'terrain' );
+    // const loader = new THREE.ImageLoader();
+    // let thisReusedMesh = this;
+    // loader.load( url, function ( image ) {
+    //     let newGenerator = thisReusedMesh.terrainGenerator( image );
+    //     newGenerator.intendedSquare = square;
+    //     newGenerator.zoom = zoom;
+    //     generatorQueue.push( newGenerator );
+    //   },
+    //   undefined, // onProgress not supported
+    //   function () {
+    //     console.log( 'terrain ImageLoader error' );
+    //   }
+    // );
   }
 
   *terrainGenerator( image ) {
