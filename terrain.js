@@ -114,6 +114,9 @@ class Square {
   }
 
   update() {
+    if ( this.distanceFromCamera() == 0 ) {
+      console.log('update');
+    }
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
