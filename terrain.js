@@ -344,7 +344,6 @@ class Edge {
   }
 }
 
-let filesLoaded = 0;
 class ReusedMesh {
   constructor() {
     let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
@@ -394,8 +393,6 @@ class ReusedMesh {
       const loader = new THREE.ImageLoader();
       let thisReusedMesh = this;
       loader.load( url, function ( image ) {
-          filesLoaded++;
-          console.log( filesLoaded );
           let newGenerator = thisReusedMesh.terrainGenerator( image );
           newGenerator.intendedSquare = thisReusedMesh.square;
           newGenerator.zoom = thisReusedMesh.zoom;
