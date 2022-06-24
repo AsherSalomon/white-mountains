@@ -360,12 +360,12 @@ class ReusedMesh {
 
   reuse( square ) {
     this.square = square;
-    let zoom = square.tile[ 2 ];
-    this.width = width[ zoom ];
+    this.zoom = square.tile[ 2 ];
+    this.width = width[ this.zoom ];
     this.mesh.scale.x = this.width;
     this.mesh.scale.z = this.width;
-    this.centerX = ( 0.5 + square.tile[ 0 ] - origin[ zoom ][ 0 ] ) * this.width;
-    this.centerZ = ( 0.5 + square.tile[ 1 ] - origin[ zoom ][ 1 ] ) * this.width;
+    this.centerX = ( 0.5 + square.tile[ 0 ] - origin[ this.zoom ][ 0 ] ) * this.width;
+    this.centerZ = ( 0.5 + square.tile[ 1 ] - origin[ this.zoom ][ 1 ] ) * this.width;
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
@@ -390,7 +390,7 @@ class ReusedMesh {
           console.log( filesLoaded );
           let newGenerator = thisReusedMesh.terrainGenerator( image );
           newGenerator.intendedSquare = thisReusedMesh.square;
-          newGenerator.zoom = zoom;
+          newGenerator.zoom = thisReusedMesh.zoom;
           generatorQueue.push( newGenerator );
         },
         undefined, // onProgress not supported
