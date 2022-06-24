@@ -87,7 +87,7 @@ export function update() {
           if ( generatorQueue[ i ].intendedSquare.visible = false ) {
             generatorQueue.splice( i, 1 );
           } else if ( generatorQueue[ i ].next().done ) { // wtf inhibits merge
-          //   generatorQueue.splice( i, 1 );
+            generatorQueue.splice( i, 1 );
           }
           breakOut = true;
           break;
