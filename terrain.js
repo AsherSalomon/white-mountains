@@ -367,7 +367,7 @@ class ReusedMesh {
     const loader = new THREE.ImageLoader();
     let thisReusedMesh = this;
     loader.load( url, function ( image ) {
-        // let newGenerator = thisReusedMesh.terrainGenerator( image );
+        let newGenerator = thisReusedMesh.terrainGenerator( image );
         // newGenerator.intendedSquare = square;
         // newGenerator.zoom = zoom;
         // generatorQueue.push( newGenerator );
