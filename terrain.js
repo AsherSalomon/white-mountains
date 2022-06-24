@@ -356,7 +356,7 @@ class ReusedMesh {
   }
 
   reuse( square ) {
-    // this.square = square;
+    this.square = square;
     let zoom = square.tile[ 2 ];
     this.width = width[ zoom ];
     this.mesh.scale.x = this.width;
