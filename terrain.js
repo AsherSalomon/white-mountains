@@ -118,8 +118,6 @@ class Square {
 
     this.boundingBox = new THREE.Box3();
     this.updateBoundingBox = false;
-
-    this.readyToLoad = false;
   }
 
   update() {
@@ -127,9 +125,11 @@ class Square {
       this.split();
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
-    } else if ( this.reusedMesh != null && this.readyToLoad ) {
-      this.readyToLoad = false;
-      this.reusedMesh.loadUrl();
+    } else if ( this.reusedMesh != null ) {
+      if ( this.reusedMesh.readyToLoad ) {
+        this.reusedMesh.readyToLoad = false;
+        this.reusedMesh.loadUrl();
+      }
     }
     if ( this.reusedMesh != null && this.updateBoundingBox ) {
       this.updateBoundingBox = false;
@@ -164,7 +164,7 @@ class Square {
     }
     this.reusedMesh.reuse( this );
     // this.reusedMesh.loadUrl();
-    this.readyToLoad = true;
+    this.reusedMesh.readyToLoad = true;
 
     if ( showGridHelper ) {
       this.boundingBox.expandByObject( this.gridHelper, true );
@@ -362,6 +362,8 @@ class ReusedMesh {
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
     this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
+
+    this.readyToLoad = false;
   }
 
   reuse( square ) {
