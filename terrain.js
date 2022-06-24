@@ -160,9 +160,9 @@ class Square {
     this.reusedMesh.reuse( this );
 
     if ( showGridHelper ) {
-      this.boundingBox.expandByObject( this.gridHelper );
+      this.boundingBox.expandByObject( this.gridHelper, true );
     } else {
-      this.boundingBox.expandByObject( this.reusedMesh.mesh );
+      this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
     }
 
     squares.push( this );
@@ -337,6 +337,7 @@ class Edge {
   }
 }
 
+let filesLoaded = 0;
 class ReusedMesh {
   constructor() {
     let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
@@ -382,6 +383,8 @@ class ReusedMesh {
     const loader = new THREE.ImageLoader();
     let thisReusedMesh = this;
     loader.load( url, function ( image ) {
+        filesLoaded++;
+        console.log( filesLoaded );
         let newGenerator = thisReusedMesh.terrainGenerator( image );
         newGenerator.intendedSquare = square;
         newGenerator.zoom = zoom;
