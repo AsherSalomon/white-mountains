@@ -22,8 +22,8 @@ let width = {};
 
 let showGridHelper = false;
 // let showGridHelper = true;
-// let showBoundingBoxHelper = false;
-let showBoundingBoxHelper = true;
+let showBoundingBoxHelper = false;
+// let showBoundingBoxHelper = true;
 
 let squares = [];
 let generatorQueue = [];
