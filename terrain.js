@@ -364,19 +364,19 @@ class ReusedMesh {
     scene.add( this.mesh );
 
     let url = urlForTile( ...square.tile, 'terrain' );
-    const loader = new THREE.ImageLoader();
-    let thisReusedMesh = this;
-    loader.load( url, function ( image ) {
-        let newGenerator = thisReusedMesh.terrainGenerator( image );
-        newGenerator.intendedSquare = square;
-        newGenerator.zoom = zoom;
-        generatorQueue.push( newGenerator );
-      },
-      undefined, // onProgress not supported
-      function () {
-        console.log( 'terrain ImageLoader error' );
-      }
-    );
+    // const loader = new THREE.ImageLoader();
+    // let thisReusedMesh = this;
+    // loader.load( url, function ( image ) {
+    //     let newGenerator = thisReusedMesh.terrainGenerator( image );
+    //     newGenerator.intendedSquare = square;
+    //     newGenerator.zoom = zoom;
+    //     generatorQueue.push( newGenerator );
+    //   },
+    //   undefined, // onProgress not supported
+    //   function () {
+    //     console.log( 'terrain ImageLoader error' );
+    //   }
+    // );
   }
 
   *terrainGenerator( image ) {
