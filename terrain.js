@@ -22,6 +22,8 @@ let width = {};
 
 let showGridHelper = false;
 // let showGridHelper = true;
+// let showBoundingBoxHelper = false;
+let showBoundingBoxHelper = true;
 
 let squares = [];
 let generatorQueue = [];
@@ -140,6 +142,11 @@ class Square {
       this.westEdge.show();
     }
 
+    if ( showBoundingBoxHelper ) {
+      this.boundingBoxHelper = new THREE.Box3Helper( this.boundingBox, 0xffff00 );
+      scene.add( this.boundingBoxHelper );
+    }
+
     if ( meshBin.length > 0 ) {
       this.reusedMesh = meshBin.shift();
     } else {
@@ -165,6 +172,10 @@ class Square {
       this.southEdge.hide();
       this.eastEdge.hide();
       this.westEdge.hide();
+    }
+
+    if ( showBoundingBoxHelper ) {
+      scene.remove( this.boundingBoxHelper );
     }
 
     this.reusedMesh.remove();
