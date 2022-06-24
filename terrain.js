@@ -118,6 +118,8 @@ class Square {
 
     this.boundingBox = new THREE.Box3();
     this.updateBoundingBox = false;
+
+    this.readyToLoad = false;
   }
 
   update() {
@@ -125,6 +127,9 @@ class Square {
       this.split();
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
+    } else if ( this.reusedMesh != null && this.readyToLoad ) {
+      this.readyToLoad = false;
+      this.reusedMesh.loadUrl();
     }
     if ( this.reusedMesh != null && this.updateBoundingBox ) {
       this.updateBoundingBox = false;
@@ -158,7 +163,8 @@ class Square {
       this.reusedMesh = new ReusedMesh();
     }
     this.reusedMesh.reuse( this );
-    this.reusedMesh.loadUrl();
+    // this.reusedMesh.loadUrl();
+    this.readyToLoad = true;
 
     if ( showGridHelper ) {
       this.boundingBox.expandByObject( this.gridHelper, true );
