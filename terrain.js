@@ -363,82 +363,82 @@ class ReusedMesh {
 
     scene.add( this.mesh );
 
-    // let url = urlForTile( ...square.tile, 'terrain' );
-    // const loader = new THREE.ImageLoader();
-    // let thisReusedMesh = this;
-    // loader.load( url, function ( image ) {
-    //     let newGenerator = thisReusedMesh.terrainGenerator( image );
-    //     newGenerator.intendedSquare = square;
-    //     newGenerator.zoom = zoom;
-    //     generatorQueue.push( newGenerator );
-    //   },
-    //   undefined, // onProgress not supported
-    //   function () {
-    //     console.log( 'terrain ImageLoader error' );
-    //   }
-    // );
+    let url = urlForTile( ...square.tile, 'terrain' );
+    const loader = new THREE.ImageLoader();
+    let thisReusedMesh = this;
+    loader.load( url, function ( image ) {
+        let newGenerator = thisReusedMesh.terrainGenerator( image );
+        newGenerator.intendedSquare = square;
+        newGenerator.zoom = zoom;
+        generatorQueue.push( newGenerator );
+      },
+      undefined, // onProgress not supported
+      function () {
+        console.log( 'terrain ImageLoader error' );
+      }
+    );
   }
 
   *terrainGenerator( image ) {
-    this.context.drawImage( image, 0, 0 );
-    let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
-
-    yield;
-
-    // for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
-    //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-    // }
-
-    // let needsRefresh = [];
-    // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-    //   needsRefresh.push( false );
-    // }
-    for ( let m = 0; m <= downSize; m++ ) {
-      for ( let n = 0; n <= downSize; n++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        this.heightData[ j ] = 0;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( m == downSize || n == downSize ) {
-          // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-          //   if ( this.layer.tiles[ t ] != this ) {
-          //     // obtain dataPoint from adjacent tiles
-          //     let dataPoint = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
-          //     if ( dataPoint != null ) {
-          //       this.heightData[ j ] = dataPoint;
-          //     }
-          //   }
-          // }
-        } else {
-          let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-          let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-          this.heightData[ j ] = dataPoint;
-          // if ( m == 0 || n == 0 ) {
-          //   for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-          //     if ( this.layer.tiles[ t ] != this ) {
-          //       // report dataPoint to adjacent tiles
-          //       this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, dataPoint );
-          //       needsRefresh[ t ] = true;
-          //     }
-          //   }
-          // }
-        }
-      }
-    }
-
-    yield;
-
-    // this.clampEdges();
-    this.refreshMesh();
-
+    // this.context.drawImage( image, 0, 0 );
+    // let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
+    //
     // yield;
-
-    // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-    //   if ( needsRefresh[ t ] ) {
-    //     this.layer.tiles[ t ].reusedMesh.refreshMesh();
-    //     yield;
+    //
+    // // for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
+    // //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    // // }
+    //
+    // // let needsRefresh = [];
+    // // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+    // //   needsRefresh.push( false );
+    // // }
+    // for ( let m = 0; m <= downSize; m++ ) {
+    //   for ( let n = 0; n <= downSize; n++ ) {
+    //     let j = m * ( downSize + 1 ) + n;
+    //     this.heightData[ j ] = 0;
+    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
+    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+    //     if ( m == downSize || n == downSize ) {
+    //       // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+    //       //   if ( this.layer.tiles[ t ] != this ) {
+    //       //     // obtain dataPoint from adjacent tiles
+    //       //     let dataPoint = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
+    //       //     if ( dataPoint != null ) {
+    //       //       this.heightData[ j ] = dataPoint;
+    //       //     }
+    //       //   }
+    //       // }
+    //     } else {
+    //       let i = m * ( downscale ** 2 ) * downSize + n * downscale;
+    //       let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    //       this.heightData[ j ] = dataPoint;
+    //       // if ( m == 0 || n == 0 ) {
+    //       //   for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+    //       //     if ( this.layer.tiles[ t ] != this ) {
+    //       //       // report dataPoint to adjacent tiles
+    //       //       this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, dataPoint );
+    //       //       needsRefresh[ t ] = true;
+    //       //     }
+    //       //   }
+    //       // }
+    //     }
     //   }
     // }
+    //
+    // yield;
+    //
+    // // this.clampEdges();
+    // this.refreshMesh();
+    //
+    // // yield;
+    //
+    // // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
+    // //   if ( needsRefresh[ t ] ) {
+    // //     this.layer.tiles[ t ].reusedMesh.refreshMesh();
+    // //     yield;
+    // //   }
+    // // }
   }
 
   refreshMesh() {
