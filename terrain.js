@@ -371,7 +371,7 @@ class ReusedMesh {
         let newGenerator = thisReusedMesh.terrainGenerator( image );
         newGenerator.intendedSquare = square;
         newGenerator.zoom = zoom;
-        generatorQueue.push( newGenerator );
+        // generatorQueue.push( newGenerator );
       },
       undefined, // onProgress not supported
       function () {
