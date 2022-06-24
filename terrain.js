@@ -119,7 +119,7 @@ class Square {
 
   update() {
     if ( this.distanceFromCamera() == 0 ) {
-      console.log( this.isTooBig() );
+      console.log( this.parent.allChildrenSmall() );
     }
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
