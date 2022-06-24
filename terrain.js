@@ -84,7 +84,7 @@ export function update() {
       let breakOut = false;
       for ( let i = 0; i < generatorQueue.length; i++ ) {
         if ( generatorQueue[ i ].zoom == zoom ) {
-          if ( generatorQueue[ i ].intendedSquare.visible = false ) {
+          if ( generatorQueue[ i ].intendedSquare.visible == false ) {
             generatorQueue.splice( i, 1 );
           } else if ( generatorQueue[ i ].next().done ) {
             generatorQueue.splice( i, 1 ); // wtf inhibits merge
