@@ -67,7 +67,7 @@ export function init( newScene, newCamera ) {
 
 let delay = 0;
 export function update() {
-  delay++;
+  // delay++;
   if ( delay % 10 == 0 ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
@@ -87,7 +87,7 @@ export function update() {
           if ( generatorQueue[ i ].intendedSquare.visible == false ) {
             generatorQueue.splice( i, 1 );
           } else if ( generatorQueue[ i ].next().done ) {
-            generatorQueue.splice( i, 1 ); // wtf inhibits merge
+            generatorQueue.splice( i, 1 );
           }
           breakOut = true;
           break;
@@ -118,16 +118,10 @@ class Square {
   }
 
   update() {
-    // if ( this.distanceFromCamera() == 0 ) {
-    //   if ( this.parent != null ) {
-    //     console.log( this.parent.allChildrenSmall() );
-    //   }
-    // }
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
-      console.log( 'merge' );
     }
   }
 
@@ -333,8 +327,8 @@ class ReusedMesh {
     geometry.rotateX( - Math.PI / 2 );
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
-      // color: pineGreen
-      color: new THREE.Color( Math.random(), Math.random(), Math.random() )
+      color: pineGreen
+      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
 
