@@ -158,6 +158,7 @@ class Square {
       this.reusedMesh = new ReusedMesh();
     }
     this.reusedMesh.reuse( this );
+    this.reusedMesh.loadUrl();
 
     if ( showGridHelper ) {
       this.boundingBox.expandByObject( this.gridHelper, true );
@@ -378,23 +379,25 @@ class ReusedMesh {
     this.refreshMesh();
 
     scene.add( this.mesh );
+  }
 
-    let url = urlForTile( ...square.tile, 'terrain' );
-    const loader = new THREE.ImageLoader();
-    let thisReusedMesh = this;
-    loader.load( url, function ( image ) {
-        filesLoaded++;
-        console.log( filesLoaded );
-        let newGenerator = thisReusedMesh.terrainGenerator( image );
-        newGenerator.intendedSquare = square;
-        newGenerator.zoom = zoom;
-        generatorQueue.push( newGenerator );
-      },
-      undefined, // onProgress not supported
-      function () {
-        console.log( 'terrain ImageLoader error' );
-      }
-    );
+  loadUrl() {
+      let url = urlForTile( ...square.tile, 'terrain' );
+      const loader = new THREE.ImageLoader();
+      let thisReusedMesh = this;
+      loader.load( url, function ( image ) {
+          filesLoaded++;
+          console.log( filesLoaded );
+          let newGenerator = thisReusedMesh.terrainGenerator( image );
+          newGenerator.intendedSquare = square;
+          newGenerator.zoom = zoom;
+          generatorQueue.push( newGenerator );
+        },
+        undefined, // onProgress not supported
+        function () {
+          console.log( 'terrain ImageLoader error' );
+        }
+      );
   }
 
   *terrainGenerator( image ) {
