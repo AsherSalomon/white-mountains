@@ -117,6 +117,7 @@ class Square {
     this.reusedMesh = null;
 
     this.boundingBox = new THREE.Box3();
+    // this.updateBoundingBox = false;
   }
 
   update() {
@@ -474,7 +475,7 @@ class ReusedMesh {
     this.mesh.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
     this.mesh.geometry.computeVertexNormals();
     if ( this.suqare != null ) {
-      square.boundingBox.expandByObject( this.mesh );
+      this.suqare.boundingBox.expandByObject( this.mesh );
     }
   }
 
