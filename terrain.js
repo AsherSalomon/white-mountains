@@ -128,7 +128,7 @@ class Square {
     } else if ( this.reusedMesh != null ) {
       if ( this.reusedMesh.readyToLoad ) {
         this.reusedMesh.readyToLoad = false;
-        // this.reusedMesh.loadUrl();
+        this.reusedMesh.loadUrl();
       }
     }
     if ( this.reusedMesh != null && this.updateBoundingBox ) {
@@ -163,7 +163,7 @@ class Square {
       this.reusedMesh = new ReusedMesh();
     }
     this.reusedMesh.reuse( this );
-    this.reusedMesh.loadUrl();
+    // this.reusedMesh.loadUrl();
     this.reusedMesh.readyToLoad = true;
 
     if ( showGridHelper ) {
