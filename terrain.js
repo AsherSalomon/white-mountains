@@ -364,8 +364,8 @@ class ReusedMesh {
     scene.add( this.mesh );
 
     let url = urlForTile( ...square.tile, 'terrain' );
-    // const loader = new THREE.ImageLoader();
-    // let thisReusedMesh = this;
+    const loader = new THREE.ImageLoader();
+    let thisReusedMesh = this;
     // loader.load( url, function ( image ) {
     //     let newGenerator = thisReusedMesh.terrainGenerator( image );
     //     newGenerator.intendedSquare = square;
