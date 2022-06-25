@@ -17,7 +17,7 @@ const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 20;
 
-const edgeOverlapTolerance = 0;
+const edgeOverlapTolerance = 10;
 
 let origin = {};
 let width = {};
