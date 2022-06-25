@@ -388,7 +388,7 @@ class Edge {
       let tBx = Math.round( ( this.endB.x - this.endA.x ) / minLength * downSize );
       let eAx = Math.round( ( edge.endA.x - this.endA.x ) / minLength * downSize );
       let eBx = Math.round( ( edge.endB.x - this.endA.x ) / minLength * downSize );
-      overlaps = tBx >= eAx && tax <= eBx;
+      overlaps = tBx >= eAx && tAx <= eBx;
     }
     if ( xorz == 'z' ) {
       let tAz = 0;
