@@ -412,6 +412,11 @@ class Edge {
     }
     return adjacents;
   }
+
+  // pointsOnEdge() {
+  //   let points = [];
+  //   return points;
+  // }
 }
 
 class ReusedMesh {
@@ -550,9 +555,40 @@ class ReusedMesh {
       }
     }
 
+    // yield;
+    //
+    // for ( let i = 0; i < southAdjacents.length; i++ ) {
+    //   let adjSquare = southAdjacents[i].square;
+    //   let adjEdge = southAdjacents[i].edge;
+    //   let indexZ =
+    //   if ( adjSquare.width > this.square.width ) {
+    //
+    //   }
+    // }
+
     yield;
 
     this.refreshMesh();
+  }
+
+  getDataPoint( x, z ) {
+    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
+      let i = m * ( downSize + 1 ) + n;
+      return this.heightData[ i ];
+    } else {
+      return null;
+    }
+  }
+
+  setDataPoint( x, z, dataPoint ) {
+    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
+      let i = m * ( downSize + 1 ) + n;
+      this.heightData[ i ] = dataPoint;
+    }
   }
 
   refreshMesh() {
