@@ -475,7 +475,19 @@ class ReusedMesh {
     let southAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
     let eastAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
 
+    let adjacents = [].concat(
+      northAdjacents,
+      westAdjacents,
+      southAdjacents,
+      eastAdjacents
+    );
+
     this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
+
+    for ( let i = 0; i < adjacents.length; i++ ) {
+      adjacents[i].square.reusedMesh.mesh.material.color =
+        new THREE.Color( Math.random(), Math.random(), Math.random() );
+    }
 
     yield;
 
