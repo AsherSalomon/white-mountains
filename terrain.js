@@ -481,6 +481,7 @@ class ReusedMesh {
       southAdjacents,
       eastAdjacents
     );
+    console.log(adjacents.length);
 
     this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
 
