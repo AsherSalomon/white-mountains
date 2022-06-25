@@ -355,7 +355,6 @@ class Edge {
     while ( root.parent != null ) {
       root = root.parent;
     }
-    console.log( root );
     return root;
   }
 
@@ -363,6 +362,7 @@ class Edge {
     let visibleList = [];
     for ( let i = 0; i < this.squares.length; i++ ) {
       if ( this.squares[i].visible ) {
+        console.log( 'this.squares[i].visible' );
         visibleList.push( { square: this.squares[i], edge: this } );
       }
     }
