@@ -137,7 +137,9 @@ class Square {
       this.updateBoundingBox = false;
       this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
     }
-    this.reusedMesh.mesh.material.color = pineGreen;
+    if ( this.reusedMesh != null ) {
+      this.reusedMesh.mesh.material.color = pineGreen;
+    }
   }
 
   makeVisible() {
