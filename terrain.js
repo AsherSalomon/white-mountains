@@ -137,6 +137,7 @@ class Square {
       this.updateBoundingBox = false;
       this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
     }
+    this.reusedMesh.mesh.material.color = pineGreen;
   }
 
   makeVisible() {
@@ -407,7 +408,6 @@ class ReusedMesh {
       // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
-    this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
 
     let canvas = document.createElement( 'canvas' );
     canvas.width = ELEVATION_TILE_SIZE;
@@ -472,6 +472,8 @@ class ReusedMesh {
     let westAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
     let southAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
     let eastAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
+
+    this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
 
     yield;
 
