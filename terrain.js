@@ -307,7 +307,7 @@ class Square {
 
 class Edge {
   constructor( endA, endB ) {
-    this.squares = [];
+    this.squares = []; // wtf never implimented
     this.parent = null;
     this.children = null;
 
