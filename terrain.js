@@ -348,7 +348,7 @@ class Edge {
   }
 
   findRootEdge() {
-    let root == this;
+    let root = this;
     while ( root.parent != null ) {
       root = root.parent;
     }
