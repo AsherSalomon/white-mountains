@@ -250,6 +250,13 @@ class Square {
       this.children[2].westEdge = newEdgeSouth;
       this.children[3].northEdge = newEdgeWest;
       this.children[3].eastEdge = newEdgeSouth;
+
+      for ( let i = 0; i < this.children.length; i ++ ) {
+        this.children[i].northEdge.squares.push( this.children[i] );
+        this.children[i].southEdge.squares.push( this.children[i] );
+        this.children[i].eastEdge.squares.push( this.children[i] );
+        this.children[i].westEdge.squares.push( this.children[i] );
+      }
     }
 
     for ( let i = 0; i < this.children.length; i ++ ) {
