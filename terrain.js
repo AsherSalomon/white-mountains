@@ -17,15 +17,18 @@ const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 20;
 
-const edgeOverlapTolerance = 10;
-
 let origin = {};
 let width = {};
+
+// let delayUpdate = false;
+let delayUpdate = true;
 
 let showGridHelper = false;
 // let showGridHelper = true;
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
+// let flashAdjacentColors = false;
+let flashAdjacentColors = true;
 
 let squares = [];
 let generatorQueue = [];
@@ -71,8 +74,8 @@ export function init( newScene, newCamera ) {
 
 let delay = 0;
 export function update() {
-  // delay++;
-  if ( delay % 10 == 0 ) {
+  delay++;
+  if ( delay % 10 == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
     for ( let i = squares.length - 1; i >= 0; i-- ) {
@@ -137,7 +140,7 @@ class Square {
       this.updateBoundingBox = false;
       this.boundingBox.expandByObject( this.reusedMesh.mesh, true );
     }
-    if ( this.reusedMesh != null ) {
+    if ( flashAdjacentColors && this.reusedMesh != null ) {
       this.reusedMesh.mesh.material.color = pineGreen;
     }
   }
@@ -378,13 +381,21 @@ class Edge {
   }
 
   overlapsEdge( edge, xorz ) {
+    let minLength = Math.min( this.length, edge.length );
     let overlaps = false;
-    let tol = edgeOverlapTolerance;
     if ( xorz == 'x' ) {
-      overlaps = this.endB.x + tol >= edge.endA.x && this.endA.x - tol <= edge.endB.x;
+      let tAx = 0;
+      let tBx = Math.round( ( this.endB.x - this.endA.x ) / minLength * downSize );
+      let eAx = Math.round( ( edge.endA.x - this.endA.x ) / minLength * downSize );
+      let eBx = Math.round( ( edge.endB.x - this.endA.x ) / minLength * downSize );
+      overlaps = tBx >= eAx && tax <= eBx;
     }
     if ( xorz == 'z' ) {
-      overlaps = this.endB.z + tol >= edge.endA.z && this.endA.z - tol <= edge.endB.z;
+      let tAz = 0;
+      let tBz = Math.round( ( this.endB.z - this.endA.z ) / minLength * downSize );
+      let eAz = Math.round( ( edge.endA.z - this.endA.z ) / minLength * downSize );
+      let eBz = Math.round( ( edge.endB.z - this.endA.z ) / minLength * downSize );
+      overlaps = tBz >= eAz && tAz  <= eBz;
     }
     return overlaps;
   }
@@ -486,11 +497,13 @@ class ReusedMesh {
       eastAdjacents
     );
 
-    this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
+    if ( flashAdjacentColors ) {
+      this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
 
-    for ( let i = 0; i < adjacents.length; i++ ) {
-      adjacents[i].square.reusedMesh.mesh.material.color =
-        new THREE.Color( Math.random(), Math.random(), Math.random() );
+      for ( let i = 0; i < adjacents.length; i++ ) {
+        adjacents[i].square.reusedMesh.mesh.material.color =
+          new THREE.Color( Math.random(), Math.random(), Math.random() );
+      }
     }
 
     yield;
@@ -501,7 +514,13 @@ class ReusedMesh {
         this.heightData[ j ] = 0;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( m == downSize || n == downSize ) {
+        let isSouthEdge = m == downSize;
+        let isEastEdge = n == downSize;
+        let isNorthEdge = m == 0;
+        let isWestEdge = n == 0;
+        if ( isSouthEdge ) {
+        }
+        if ( isEastEdge ) {
           // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
           //   if ( this.layer.tiles[ t ] != this ) {
           //     // obtain dataPoint from adjacent tiles
@@ -511,11 +530,14 @@ class ReusedMesh {
           //     }
           //   }
           // }
-        } else {
+        }
+        if ( isSouthEdge == false && isEastEdge == false ) {
           let i = m * ( downscale ** 2 ) * downSize + n * downscale;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
           this.heightData[ j ] = dataPoint;
-          // if ( m == 0 || n == 0 ) {
+          if ( isNorthEdge ) {
+          }
+          if ( isWestEdge ) {
           //   for ( let t = 0; t < this.layer.tiles.length; t++ ) {
           //     if ( this.layer.tiles[ t ] != this ) {
           //       // report dataPoint to adjacent tiles
@@ -523,7 +545,7 @@ class ReusedMesh {
           //       needsRefresh[ t ] = true;
           //     }
           //   }
-          // }
+          }
         }
       }
     }
