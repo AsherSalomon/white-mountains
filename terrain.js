@@ -508,18 +508,19 @@ class ReusedMesh {
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         let isSouthEdge = m == downSize;
         let isEastEdge = n == downSize;
-        let isNorthEdge = m == 0;
-        let isWestEdge = n == 0;
-        if ( isSouthEdge ) {
-          for ( let i = 0; i < southAdjacents.length; i++ ) {
-            let adjSquare = southAdjacents[i].square;
-            let adjEdge = southAdjacents[i].edge;
-            if ( adjSquare.width > this.square.width ) {
-
-            }
-          }
-        }
-        if ( isEastEdge ) {
+        // let isNorthEdge = m == 0;
+        // let isWestEdge = n == 0;
+        // if ( isSouthEdge ) {
+        //   for ( let i = 0; i < southAdjacents.length; i++ ) {
+        //     let adjSquare = southAdjacents[i].square;
+        //     let adjEdge = southAdjacents[i].edge;
+            // let indexZ =
+            // if ( adjSquare.width > this.square.width ) {
+            //
+            // }
+        //   }
+        // }
+        // if ( isEastEdge ) {
           // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
           //   if ( this.layer.tiles[ t ] != this ) {
           //     // obtain dataPoint from adjacent tiles
@@ -529,14 +530,14 @@ class ReusedMesh {
           //     }
           //   }
           // }
-        }
+        // }
         if ( isSouthEdge == false && isEastEdge == false ) {
           let i = m * ( downscale ** 2 ) * downSize + n * downscale;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
           this.heightData[ j ] = dataPoint;
-          if ( isNorthEdge ) {
-          }
-          if ( isWestEdge ) {
+          // if ( isNorthEdge ) {
+          // }
+          // if ( isWestEdge ) {
           //   for ( let t = 0; t < this.layer.tiles.length; t++ ) {
           //     if ( this.layer.tiles[ t ] != this ) {
           //       // report dataPoint to adjacent tiles
@@ -544,7 +545,7 @@ class ReusedMesh {
           //       needsRefresh[ t ] = true;
           //     }
           //   }
-          }
+          // }
         }
       }
     }
