@@ -17,6 +17,8 @@ const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 20;
 
+const edgeOverlapTolerance = 1;
+
 let origin = {};
 let width = {};
 
@@ -332,6 +334,8 @@ class Edge {
       this.children = [];
       this.children.push( new Edge( this.endA, midPoint ) );
       this.children.push( new Edge( midPoint, this.endB ) );
+      this.children[0].parent = this;
+      this.children[1].parent = this;
     }
   }
 
@@ -341,6 +345,49 @@ class Edge {
 
   hide() {
     scene.remove( this.arrowHelper );
+  }
+
+  findRootEdge() {
+    let root == this;
+    while ( root.parent != null ) {
+      root = root.parent;
+    }
+    return root;
+  }
+
+  recursiveVisibleSquares() {
+    let visibleList = [];
+    for ( let i = 0; i < this.squares.length; i++ ) {
+      if ( this.squares[i].visible ) {
+        visibleList.push( this.squares[i] );
+      }
+    }
+    for ( let i = 0; i < this.children.length; i++ ) {
+      visibleList = visibleList.concat( this.children[i].recursiveVisibleSquares() );
+    }
+    return visibleList;
+  }
+
+  overlapsEdge( edge, xory ) {
+    let overlaps = false;
+    let tol = edgeOverlapTolerance;
+    if ( xory == 'x' ) {
+      overlaps = this.endB.x + tol >= edge.endA.x && this.endA.x - tol <= edge.endB.x;
+    }
+    if ( xory == 'y' ) {
+      overlaps = this.endB.y + tol >= edge.endA.y && this.endA.y - tol <= edge.endB.y;
+    }
+    return overlaps;
+  }
+
+  findAdjacent( square, xory ) {
+    let root = this.findRootEdge();
+    let visibleList = root.recursiveVisibleSquares();
+    for ( let i = 0; i < visibleList.length; i++ ) {
+      if ( visibleList[i] != square ) {
+        // if ( visibleList[i] )
+      }
+    }
   }
 }
 
