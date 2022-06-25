@@ -396,6 +396,7 @@ class Edge {
         }
       }
     }
+    console.log( adjacents.length );
     return adjacents;
   }
 }
@@ -471,9 +472,9 @@ class ReusedMesh {
     yield;
 
     let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
-    let westAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
-    let southAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
-    let eastAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
+    let westAdjacents = this.square.westEdge.findAdjacents( this.square, 'z' );
+    let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
+    let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
 
     let adjacents = [].concat(
       northAdjacents,
@@ -481,7 +482,6 @@ class ReusedMesh {
       southAdjacents,
       eastAdjacents
     );
-    console.log(adjacents.length);
 
     this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
 
