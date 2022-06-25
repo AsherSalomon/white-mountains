@@ -71,8 +71,8 @@ export function init( newScene, newCamera ) {
 
 let delay = 0;
 export function update() {
-  delay++;
-  if ( delay % 60 == 0 ) {
+  // delay++;
+  if ( delay % 10 == 0 ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
     for ( let i = squares.length - 1; i >= 0; i-- ) {
