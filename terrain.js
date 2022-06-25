@@ -362,8 +362,10 @@ class Edge {
         visibleList.push( { square: this.squares[i], edge: this } );
       }
     }
-    for ( let i = 0; i < this.children.length; i++ ) {
-      visibleList = visibleList.concat( this.children[i].recursiveVisibleSquares() );
+    if ( this.children != null ) {
+      for ( let i = 0; i < this.children.length; i++ ) {
+        visibleList = visibleList.concat( this.children[i].recursiveVisibleSquares() );
+      }
     }
     return visibleList;
   }
