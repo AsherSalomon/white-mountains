@@ -391,12 +391,12 @@ class Edge {
     let visibleList = root.recursiveVisibleSquares();
     for ( let i = 0; i < visibleList.length; i++ ) {
       if ( visibleList[i].square != square ) {
+        console.log( adjacents.length );
         if ( this.overlapsEdge( visibleList[i].edge, xorz ) ) {
           adjacents.push( visibleList[i] );
         }
       }
     }
-    console.log( adjacents.length );
     return adjacents;
   }
 }
