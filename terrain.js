@@ -389,9 +389,9 @@ class Edge {
     let adjacents = [];
     let root = this.findRootEdge();
     let visibleList = root.recursiveVisibleSquares();
+    console.log( visibleList.length );
     for ( let i = 0; i < visibleList.length; i++ ) {
       if ( visibleList[i].square != square ) {
-        console.log( adjacents.length );
         if ( this.overlapsEdge( visibleList[i].edge, xorz ) ) {
           adjacents.push( visibleList[i] );
         }
