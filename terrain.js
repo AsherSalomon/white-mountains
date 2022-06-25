@@ -71,7 +71,7 @@ export function init( newScene, newCamera ) {
 
 let delay = 0;
 export function update() {
-  // delay++;
+  delay++;
   if ( delay % 10 == 0 ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
@@ -407,6 +407,7 @@ class ReusedMesh {
       // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     this.mesh = new THREE.Mesh( geometry, material );
+    this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
 
     let canvas = document.createElement( 'canvas' );
     canvas.width = ELEVATION_TILE_SIZE;
