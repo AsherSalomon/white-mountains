@@ -17,18 +17,17 @@ const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 20;
 
-let origin = {};
-let width = {};
-
-// let delayUpdate = false;
-let delayUpdate = true;
-
+let delayUpdate = false;
+// let delayUpdate = true;
 let showGridHelper = false;
 // let showGridHelper = true;
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
-// let flashAdjacentColors = false;
-let flashAdjacentColors = true;
+let flashAdjacentColors = false;
+// let flashAdjacentColors = true;
+
+let origin = {};
+let width = {};
 
 let squares = [];
 let generatorQueue = [];
@@ -438,8 +437,8 @@ class ReusedMesh {
 
   reuse( square ) {
     this.square = square;
-    this.zoom = square.tile[ 2 ];
-    this.width = width[ this.zoom ];
+    this.zoom = square.zoom;
+    this.width = square.width;
     this.mesh.scale.x = this.width;
     this.mesh.scale.z = this.width;
     this.centerX = ( 0.5 + square.tile[ 0 ] - origin[ this.zoom ][ 0 ] ) * this.width;
@@ -490,16 +489,9 @@ class ReusedMesh {
     let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
     let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
 
-    let adjacents = [].concat(
-      northAdjacents,
-      westAdjacents,
-      southAdjacents,
-      eastAdjacents
-    );
-
     if ( flashAdjacentColors ) {
       this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
-
+      let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
       for ( let i = 0; i < adjacents.length; i++ ) {
         adjacents[i].square.reusedMesh.mesh.material.color =
           new THREE.Color( Math.random(), Math.random(), Math.random() );
@@ -519,6 +511,13 @@ class ReusedMesh {
         let isNorthEdge = m == 0;
         let isWestEdge = n == 0;
         if ( isSouthEdge ) {
+          for ( let i = 0; i < southAdjacents.length; i++ ) {
+            let adjSquare = southAdjacents[i].square;
+            let adjEdge = southAdjacents[i].edge;
+            if ( adjSquare.width > this.square.width ) {
+
+            }
+          }
         }
         if ( isEastEdge ) {
           // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
