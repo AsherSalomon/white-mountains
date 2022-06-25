@@ -17,7 +17,7 @@ const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 20;
 
-const edgeOverlapTolerance = 1;
+const edgeOverlapTolerance = 0;
 
 let origin = {};
 let width = {};
@@ -369,7 +369,7 @@ class Edge {
     let visibleList = [];
     for ( let i = 0; i < this.squares.length; i++ ) {
       if ( this.squares[i].visible ) {
-        console.log( 'this.squares[i].visible' );
+        // console.log( 'this.squares[i].visible' );
         visibleList.push( { square: this.squares[i], edge: this } );
       }
     }
