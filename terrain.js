@@ -215,19 +215,6 @@ class Square {
         this.children.push( newSquare );
       }
 
-      let newEdgeNorth = new Edge(
-        new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
-        new THREE.Vector3( this.centerX, 0, this.centerZ ) );
-      let newEdgeSouth = new Edge(
-        new THREE.Vector3( this.centerX, 0, this.centerZ ),
-        new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
-      let newEdgeEast = new Edge(
-        new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
-        new THREE.Vector3( this.centerX, 0, this.centerZ ) );
-      let newEdgeWest = new Edge(
-        new THREE.Vector3( this.centerX, 0, this.centerZ ),
-        new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
-
       this.northEdge.split();
       this.southEdge.split();
       this.eastEdge.split();
@@ -242,14 +229,23 @@ class Square {
       this.children[3].westEdge = this.westEdge.children[1];
       this.children[0].westEdge = this.westEdge.children[0];
 
-      this.children[0].eastEdge = newEdgeNorth;
-      this.children[0].southEdge = newEdgeWest;
-      this.children[1].westEdge = newEdgeNorth;
-      this.children[1].southEdge = newEdgeEast;
-      this.children[2].northEdge = newEdgeEast;
-      this.children[2].westEdge = newEdgeSouth;
-      this.children[3].northEdge = newEdgeWest;
-      this.children[3].eastEdge = newEdgeSouth;
+      let newEdgeNS = new Edge(
+        new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
+        new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
+      let newEdgeEW = new Edge(
+        new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
+        new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
+      newEdgeNS.split();
+      newEdgeEW.split();
+
+      this.children[0].eastEdge = newEdgeNS.children[0];
+      this.children[0].southEdge = newEdgeEW.children[0];
+      this.children[1].westEdge = newEdgeNS.children[0];
+      this.children[1].southEdge = newEdgeEW.children[1];
+      this.children[2].northEdge = newEdgeEW.children[1];
+      this.children[2].westEdge = newEdgeNS.children[1];
+      this.children[3].northEdge = newEdgeEW.children[0];
+      this.children[3].eastEdge = newEdgeNS.children[1];
 
       for ( let i = 0; i < this.children.length; i ++ ) {
         this.children[i].northEdge.squares.push( this.children[i] );
