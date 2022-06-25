@@ -359,7 +359,7 @@ class Edge {
     let visibleList = [];
     for ( let i = 0; i < this.squares.length; i++ ) {
       if ( this.squares[i].visible ) {
-        visibleList.push( this.squares[i] );
+        visibleList.push( { square: this.squares[i], edge: this } );
       }
     }
     for ( let i = 0; i < this.children.length; i++ ) {
@@ -368,26 +368,30 @@ class Edge {
     return visibleList;
   }
 
-  overlapsEdge( edge, xory ) {
+  overlapsEdge( edge, xorz ) {
     let overlaps = false;
     let tol = edgeOverlapTolerance;
-    if ( xory == 'x' ) {
+    if ( xorz == 'x' ) {
       overlaps = this.endB.x + tol >= edge.endA.x && this.endA.x - tol <= edge.endB.x;
     }
-    if ( xory == 'y' ) {
-      overlaps = this.endB.y + tol >= edge.endA.y && this.endA.y - tol <= edge.endB.y;
+    if ( xorz == 'z' ) {
+      overlaps = this.endB.z + tol >= edge.endA.z && this.endA.z - tol <= edge.endB.z;
     }
     return overlaps;
   }
 
-  findAdjacent( square, xory ) {
+  findAdjacents( square, xorz ) {
+    let adjacents = [];
     let root = this.findRootEdge();
     let visibleList = root.recursiveVisibleSquares();
     for ( let i = 0; i < visibleList.length; i++ ) {
-      if ( visibleList[i] != square ) {
-        // if ( visibleList[i] )
+      if ( visibleList[i].square != square ) {
+        if ( this.overlapsEdge( visibleList[i].edge, xorz ) ) {
+          adjacents.push( visibleList[i] );
+        }
       }
     }
+    return adjacents;
   }
 }
 
@@ -461,14 +465,13 @@ class ReusedMesh {
 
     yield;
 
-    // for ( let i = 0; i < ELEVATION_TILE_SIZE ** 2; i++ ) {
-    //   this.heightData[ i ] = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-    // }
+    let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
+    let westAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
+    let southAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
+    let eastAdjacents = this.square.northEdge.findAdjacents( this.square, 'z' );
 
-    // let needsRefresh = [];
-    // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-    //   needsRefresh.push( false );
-    // }
+    yield;
+
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
@@ -504,17 +507,7 @@ class ReusedMesh {
 
     yield;
 
-    // this.clampEdges();
     this.refreshMesh();
-
-    // yield;
-
-    // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-    //   if ( needsRefresh[ t ] ) {
-    //     this.layer.tiles[ t ].reusedMesh.refreshMesh();
-    //     yield;
-    //   }
-    // }
   }
 
   refreshMesh() {
