@@ -423,9 +423,29 @@ class Edge {
     return points;
   }
 
-  pointIsAllongSegment( x, z ) {
-
-    return false;
+  pointIsWithinEnds( x, z ) {
+    let xorz;
+    if ( this.endB.x - this.endA.x > this.endB.z - this.endB.z ) {
+      xorz = 'x';
+    } else {
+      xorz = 'z';
+    }
+    if ( xorz == 'x' ) {
+      let n = Math.round( ( x - this.endA.x ) / this.length * downSize );
+      if ( n >= 0 && n < downSize ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    if ( xorz == 'z' ) {
+      let m = Math.round( ( z - this.endA.z ) / this.length * downSize );
+      if ( m >= 0 && m < downSize ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 }
 
@@ -538,37 +558,39 @@ class ReusedMesh {
 
     for ( let i = 0; i < southAdjacents.length; i++ ) {
       let adjReusedMesh = southAdjacents[i].square.reusedMesh;
+      let adjEdge = southAdjacents[i].edge;
       if ( adjReusedMesh != null ) {
-        this.clampEdge( this.square.southEdge, adjReusedMesh );
+        this.clampEdge( this.square.southEdge, adjReusedMesh, adjEdge );
       }
     }
 
     for ( let i = 0; i < eastAdjacents.length; i++ ) {
       let adjReusedMesh = eastAdjacents[i].square.reusedMesh;
+      let adjEdge = southAdjacents[i].edge;
       if ( adjReusedMesh != null ) {
-        this.clampEdge( this.square.eastEdge, adjReusedMesh );
+        this.clampEdge( this.square.eastEdge, adjReusedMesh, adjEdge );
       }
     }
 
     for ( let i = 0; i < northAdjacents.length; i++ ) {
       let adjReusedMesh = northAdjacents[i].square.reusedMesh;
+      let adjEdge = southAdjacents[i].edge;
       if ( adjReusedMesh != null ) {
-        adjReusedMesh.clampEdge( adjReusedMesh.square.southEdge, this );
+        adjReusedMesh.clampEdge( adjEdge, this, this.square.northEdge );
       }
     }
 
     for ( let i = 0; i < westAdjacents.length; i++ ) {
       let adjReusedMesh = westAdjacents[i].square.reusedMesh;
+      let adjEdge = southAdjacents[i].edge;
       if ( adjReusedMesh != null ) {
-        adjReusedMesh.clampEdge( adjReusedMesh.square.eastEdge, this );
+        adjReusedMesh.clampEdge( adjEdge, this, this.square.westEdge );
       }
     }
 
     yield;
 
     this.refreshMesh();
-
-    yield;
 
     let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     for ( let i = 0; i < adjacents.length; i++ ) {
@@ -578,12 +600,14 @@ class ReusedMesh {
     }
   }
 
-  clampEdge( edge, reusedMesh ) {
+  clampEdge( edge, reusedMesh, restrictToEdge ) {
     let points = edge.pointsOnEdge();
     for ( let i = 0; i < points.length; i++ ) {
       let x = points[i].x;
       let z = points[i].z;
-      this.setDataPoint( x, z, reusedMesh.lookupData( x, z ) );
+      if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+        this.setDataPoint( x, z, reusedMesh.lookupData( x, z ) );
+      }
     }
   }
 
