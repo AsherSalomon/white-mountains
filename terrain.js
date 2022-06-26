@@ -77,6 +77,22 @@ export function update() {
   if ( delay % 30 == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
+    let cx = camera.position.x;
+    let cy = camera.position.z;
+    let cz = camera.position.z;
+    let elevationAtCamera = 0;
+    for ( let i = 0; i < squares.length; i++ ) {
+      if ( squares[i].pointIsWithin( cx, cz ) ) {
+        if ( squares[i].reusedMesh != null ) {
+          elevationAtCamera = squares[i].reusedMesh.lookupData( cx, cz )
+            - curvatureOfTheEarth( cx, cz );
+        }
+      }
+    }
+    if ( cy < elevationAtCamera + eyeHeight ) {
+      cy = elevationAtCamera + eyeHeight;
+    }
+
     for ( let i = squares.length - 1; i >= 0; i-- ) {
       if ( squares[i].removeFromSquares ) {
         squares[i].removeFromSquares = false;
@@ -307,6 +323,16 @@ class Square {
       }
     }
     return allChildrenAreSmall;
+  }
+
+  pointIsWithin( x, z ) {
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+    if ( m > 0 && n > 0 && m < downSize && n < downSize ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
