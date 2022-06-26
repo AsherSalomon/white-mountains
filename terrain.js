@@ -23,8 +23,8 @@ let showGridHelper = false;
 // let showGridHelper = true;
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
-// let randomizeColors = false;
-let randomizeColors = true;
+let randomizeColors = false;
+// let randomizeColors = true;
 let flashAdjacentColors = false;
 // let flashAdjacentColors = true;
 
