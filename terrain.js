@@ -422,6 +422,11 @@ class Edge {
     }
     return points;
   }
+
+  pointIsAllongSegment( x, z ) {
+
+    return false;
+  }
 }
 
 class ReusedMesh {
@@ -533,16 +538,29 @@ class ReusedMesh {
 
     for ( let i = 0; i < southAdjacents.length; i++ ) {
       let adjReusedMesh = southAdjacents[i].square.reusedMesh;
-      if ( adjReusedMesh.width > this.width ) {
+      if ( adjReusedMesh != null ) {
         this.clampEdge( this.square.southEdge, adjReusedMesh );
       }
     }
 
     for ( let i = 0; i < eastAdjacents.length; i++ ) {
       let adjReusedMesh = eastAdjacents[i].square.reusedMesh;
-      if ( adjReusedMesh.width
-        > this.width ) {
+      if ( adjReusedMesh != null ) {
         this.clampEdge( this.square.eastEdge, adjReusedMesh );
+      }
+    }
+
+    for ( let i = 0; i < northAdjacents.length; i++ ) {
+      let adjReusedMesh = northAdjacents[i].square.reusedMesh;
+      if ( adjReusedMesh != null ) {
+        adjReusedMesh.clampEdge( adjReusedMesh.square.southEdge, this );
+      }
+    }
+
+    for ( let i = 0; i < westAdjacents.length; i++ ) {
+      let adjReusedMesh = westAdjacents[i].square.reusedMesh;
+      if ( adjReusedMesh != null ) {
+        adjReusedMesh.clampEdge( adjReusedMesh.square.eastEdge, this );
       }
     }
 
