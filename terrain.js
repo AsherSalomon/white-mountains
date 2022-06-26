@@ -495,6 +495,8 @@ class ReusedMesh {
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
     this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
+    this.backupEdgeN = null;
+    this.backupEdgeW = null;
 
     this.readyToLoad = false;
   }
@@ -666,34 +668,39 @@ class ReusedMesh {
       }
     }
     if ( norw == 'w' ) {
+      this.backupEdgeW = [];
       let m = 0;
       for ( let n = 0; n < downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        this.backupEdgeN.push( this.heightData[j] );
+        this.backupEdgeW.push( this.heightData[j] );
       }
     }
   }
 
   restoreEdge( norw, restrictToEdge ) { // to do, restrict to line segment
     if ( norw == 'n' ) {
-      let n = 0;
-      for ( let m = 0; m < downSize; m++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-          this.heightData[j] = this.backupEdgeN[m];
+      if ( this.backupEdgeN != null ) {
+        let n = 0;
+        for ( let m = 0; m < downSize; m++ ) {
+          let j = m * ( downSize + 1 ) + n;
+          let x = this.centerX + this.width * ( n / downSize - 0.5 );
+          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+          if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+            this.heightData[j] = this.backupEdgeN[m];
+          }
         }
       }
     }
     if ( norw == 'w' ) {
-      let m = 0;
-      for ( let n = 0; n < downSize; n++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-          this.heightData[j] = this.backupEdgeN[n];
+      if ( this.backupEdgeW != null ) {
+        let m = 0;
+        for ( let n = 0; n < downSize; n++ ) {
+          let j = m * ( downSize + 1 ) + n;
+          let x = this.centerX + this.width * ( n / downSize - 0.5 );
+          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+          if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+            this.heightData[j] = this.backupEdgeW[n];
+          }
         }
       }
     }
