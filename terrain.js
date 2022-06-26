@@ -592,20 +592,21 @@ class ReusedMesh {
 
     this.refreshMesh();
 
-    let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
-    let adjacents = [];
-    for ( let i = 0; i < simpleConcat.length; i++ ) {
-      let allreadyAdded = false;
-      for ( let j = 0; j < adjacents.length; j++ ) {
-        if ( simpleConcat[i] == adjacents[j] ) {
-          allreadyAdded = true;
-          break;
-        }
-      }
-      if ( allreadyAdded = false ) {
-        adjacents.push( simpleConcat[i] );
-      }
-    }
+    let adjacents = [[].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    // let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    // let adjacents = [];
+    // for ( let i = 0; i < simpleConcat.length; i++ ) {
+    //   let allreadyAdded = false;
+    //   for ( let j = 0; j < adjacents.length; j++ ) {
+    //     if ( simpleConcat[i] == adjacents[j] ) {
+    //       allreadyAdded = true;
+    //       break;
+    //     }
+    //   }
+    //   if ( allreadyAdded = false ) {
+    //     adjacents.push( simpleConcat[i] );
+    //   }
+    // }
     for ( let i = 0; i < adjacents.length; i++ ) {
       if ( adjacents[i].square.reusedMesh != null ) {
         adjacents[i].square.reusedMesh.refreshMesh();
