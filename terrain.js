@@ -610,7 +610,7 @@ class ReusedMesh {
       let adjEdge = northAdjacents[i].edge;
       if ( adjReusedMesh != null ) {
         adjReusedMesh.clampEdge( adjEdge, this, this.square.northEdge );
-        this.clampEdge( this.square.northEdge, adjReusedMesh, this.square.northEdge );
+        // this.clampEdge( this.square.northEdge, adjReusedMesh, this.square.northEdge );
       }
     }
 
@@ -619,7 +619,7 @@ class ReusedMesh {
       let adjEdge = westAdjacents[i].edge;
       if ( adjReusedMesh != null ) {
         adjReusedMesh.clampEdge( adjEdge, this, this.square.westEdge );
-        this.clampEdge( this.square.westEdge, adjReusedMesh, this.square.westEdge );
+        // this.clampEdge( this.square.westEdge, adjReusedMesh, this.square.westEdge );
       }
     }
 
