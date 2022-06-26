@@ -78,7 +78,6 @@ export function update() {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
     let cx = camera.position.x;
-    let cy = camera.position.z;
     let cz = camera.position.z;
     let elevationAtCamera = 0;
     for ( let i = 0; i < squares.length; i++ ) {
@@ -89,8 +88,8 @@ export function update() {
         }
       }
     }
-    if ( cy < elevationAtCamera + eyeHeight ) {
-      cy = elevationAtCamera + eyeHeight;
+    if ( camera.position.y < elevationAtCamera + eyeHeight ) {
+      camera.position.y = elevationAtCamera + eyeHeight;
     }
 
     for ( let i = squares.length - 1; i >= 0; i-- ) {
