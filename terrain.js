@@ -592,7 +592,7 @@ class ReusedMesh {
 
     this.refreshMesh();
 
-    let adjacents = [[].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     // let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     // let adjacents = [];
     // for ( let i = 0; i < simpleConcat.length; i++ ) {
