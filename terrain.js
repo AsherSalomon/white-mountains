@@ -23,6 +23,8 @@ let showGridHelper = false;
 // let showGridHelper = true;
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
+// let randomizeColors = false;
+let randomizeColors = true;
 let flashAdjacentColors = false;
 // let flashAdjacentColors = true;
 
@@ -483,6 +485,9 @@ class ReusedMesh {
       color: pineGreen
       // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
+    if ( randomizeColors ) {
+      material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
+    }
     this.mesh = new THREE.Mesh( geometry, material );
 
     let canvas = document.createElement( 'canvas' );
