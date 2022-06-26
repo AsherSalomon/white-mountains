@@ -592,7 +592,20 @@ class ReusedMesh {
 
     this.refreshMesh();
 
-    let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    let adjacents = [];
+    for ( let i = 0; i < simpleConcat.length; i++ ) {
+      let allreadyAdded = false;
+      for ( let j = 0; j < adjacents.length; j++ ) {
+        if ( simpleConcat[i] == adjacents[j] ) {
+          allreadyAdded = true;
+          break;
+        }
+      }
+      if ( allreadyAdded = false ) {
+        adjacents.push( simpleConcat[i] );
+      }
+    }
     for ( let i = 0; i < adjacents.length; i++ ) {
       if ( adjacents[i].square.reusedMesh != null ) {
         adjacents[i].square.reusedMesh.refreshMesh();
@@ -629,19 +642,27 @@ class ReusedMesh {
     }
   }
 
-  restoreEdge( norw ) { // to do, restrict to line segment
+  restoreEdge( norw, restrictToEdge ) { // to do, restrict to line segment
     if ( norw == 'n' ) {
       let n = 0;
       for ( let m = 0; m < downSize; m++ ) {
         let j = m * ( downSize + 1 ) + n;
-        this.heightData[j] = this.backupEdgeN[m];
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+          this.heightData[j] = this.backupEdgeN[m];
+        }
       }
     }
     if ( norw == 'w' ) {
       let m = 0;
       for ( let n = 0; n < downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        this.heightData[j] = this.backupEdgeN[n];
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+          this.heightData[j] = this.backupEdgeN[n];
+        }
       }
     }
   }
