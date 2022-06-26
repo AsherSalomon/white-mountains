@@ -324,7 +324,7 @@ class Edge {
     this.length = new THREE.Vector3().subVectors( this.endB, this.endA ).length();
 
     if ( showGridHelper ) {
-      const dir = new THREE.Vector3().subVectors( this.endB, this.endA );
+      let dir = new THREE.Vector3().subVectors( this.endB, this.endA );
       dir.normalize();
       this.arrowHelper = new THREE.ArrowHelper( dir, this.endA, this.length, 0xff00ff, 0, 0 );
       this.show();
@@ -335,7 +335,7 @@ class Edge {
     if ( this.splitAlready == false ) {
       this.splitAlready = true;
 
-      const direction = new THREE.Vector3().subVectors( this.endB, this.endA );
+      let direction = new THREE.Vector3().subVectors( this.endB, this.endA );
       direction.multiplyScalar( 0.5 );
       let midPoint = this.endA.clone();
       midPoint.add( direction );
@@ -413,10 +413,15 @@ class Edge {
     return adjacents;
   }
 
-  // pointsOnEdge() {
-  //   let points = [];
-  //   return points;
-  // }
+  pointsOnEdge() {
+    let points = [];
+    for ( let i = 0; i <= downSize; i++ ) {
+      let alpha = i / downSize;
+      let newPoint = new THREE.Vector3().lerpVectors( this.endA, this.endB, alpha );
+      points.push( newPoint );
+    }
+    return points;
+  }
 }
 
 class ReusedMesh {
@@ -508,79 +513,131 @@ class ReusedMesh {
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        this.heightData[ j ] = 0;
+        this.heightData[j] = 0;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         let isSouthEdge = m == downSize;
         let isEastEdge = n == downSize;
-        // let isNorthEdge = m == 0;
-        // let isWestEdge = n == 0;
-        // if ( isSouthEdge ) {
-        //   for ( let i = 0; i < southAdjacents.length; i++ ) {
-        //     let adjSquare = southAdjacents[i].square;
-        //     let adjEdge = southAdjacents[i].edge;
-            // let indexZ =
-            // if ( adjSquare.width > this.square.width ) {
-            //
-            // }
-        //   }
-        // }
-        // if ( isEastEdge ) {
-          // for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-          //   if ( this.layer.tiles[ t ] != this ) {
-          //     // obtain dataPoint from adjacent tiles
-          //     let dataPoint = this.layer.tiles[ t ].reusedMesh.lookupDataPoint( x, z );
-          //     if ( dataPoint != null ) {
-          //       this.heightData[ j ] = dataPoint;
-          //     }
-          //   }
-          // }
-        // }
         if ( isSouthEdge == false && isEastEdge == false ) {
           let i = m * ( downscale ** 2 ) * downSize + n * downscale;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-          this.heightData[ j ] = dataPoint;
-          // if ( isNorthEdge ) {
-          // }
-          // if ( isWestEdge ) {
-          //   for ( let t = 0; t < this.layer.tiles.length; t++ ) {
-          //     if ( this.layer.tiles[ t ] != this ) {
-          //       // report dataPoint to adjacent tiles
-          //       this.layer.tiles[ t ].reusedMesh.setDataPoint( x, z, dataPoint );
-          //       needsRefresh[ t ] = true;
-          //     }
-          //   }
-          // }
+          this.heightData[j] = dataPoint;
         }
       }
     }
 
-    // yield;
-    //
-    // for ( let i = 0; i < southAdjacents.length; i++ ) {
-    //   let adjSquare = southAdjacents[i].square;
-    //   let adjEdge = southAdjacents[i].edge;
-    //   let indexZ =
-    //   if ( adjSquare.width > this.square.width ) {
-    //
-    //   }
-    // }
+    this.backupEdge( 'n' );
+    this.backupEdge( 'w' );
+
+    yield;
+
+    for ( let i = 0; i < southAdjacents.length; i++ ) {
+      let adjReusedMesh = southAdjacents[i].square.reusedMesh;
+      adjReusedMesh.restoreEdge( 'n' );
+      if ( adjReusedMesh.width > this.width ) {
+        this.clampEdge( this.square.southEdge, adjReusedMesh );
+      }
+    }
+
+    for ( let i = 0; i < eastAdjacents.length; i++ ) {
+      let adjReusedMesh = eastAdjacents[i].square.reusedMesh;
+      adjReusedMesh.restoreEdge( 'n' );
+      if ( adjReusedMesh.width > this.width ) {
+        this.clampEdge( this.square.eastEdge, adjReusedMesh );
+      }
+    }
 
     yield;
 
     this.refreshMesh();
   }
 
-  getDataPoint( x, z ) {
-    let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
-    let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
-    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
-      let i = m * ( downSize + 1 ) + n;
-      return this.heightData[ i ];
-    } else {
-      return null;
+  clampEdge( edge, reusedMesh ) {
+    let points = edge.pointsOnEdge();
+    for ( let i = 0; i < points.length; i++ ) {
+      let x = points[i].x;
+      let z = points[i].z;
+      this.setDataPoint( x, z, reusedMesh.lookupData( x, z ) );
     }
   }
+
+  backupEdge( norw ) {
+    if ( norw == 'n' ) {
+      this.backupEdgeN = [];
+      let n = 0;
+      for ( let m = 0; m < downSize; m++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.backupEdgeN.push( this.heightData[j] );
+      }
+    }
+    if ( norw == 'w' ) {
+      let m = 0;
+      for ( let n = 0; n < downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.backupEdgeN.push( this.heightData[j] );
+      }
+    }
+  }
+
+  restoreEdge( norw ) { // to do, restrict to line segment
+    if ( norw == 'n' ) {
+      let n = 0;
+      for ( let m = 0; m < downSize; m++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.heightData[j] = this.backupEdgeN[m];
+      }
+    }
+    if ( norw == 'w' ) {
+      let m = 0;
+      for ( let n = 0; n < downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        this.heightData[j] = this.backupEdgeN[n];
+      }
+    }
+  }
+
+  lookupData( x, z ) {
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+
+    // if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {}
+    if ( m < 0 ) { m = 0; }
+    if ( n < 0 ) { n = 0; }
+    if ( m > downSize ) { m = downSize; }
+    if ( n > downSize ) { n = downSize; }
+
+    let m1 = Math.floor( m );
+    let m2 = Math.ceil( m );
+    let n1 = Math.floor( n );
+    let n2 = Math.ceil( n );
+
+    let i11 = m1 * ( downSize + 1 ) + n1;
+    let i21 = m2 * ( downSize + 1 ) + n1;
+    let i12 = m1 * ( downSize + 1 ) + n2;
+    let i22 = m2 * ( downSize + 1 ) + n2;
+
+    let d11 = this.heightData[ i11 ];
+    let d21 = this.heightData[ i21 ];
+    let d12 = this.heightData[ i12 ];
+    let d22 = this.heightData[ i22 ];
+
+    let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
+    let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
+    let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+
+    return interpolated;
+  }
+
+  // getDataPoint( x, z ) {
+  //   let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
+  //   let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
+  //   if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
+  //     let i = m * ( downSize + 1 ) + n;
+  //     return this.heightData[ i ];
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   setDataPoint( x, z, dataPoint ) {
     let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
@@ -592,7 +649,7 @@ class ReusedMesh {
   }
 
   refreshMesh() {
-    const vertices = this.mesh.geometry.attributes.position.array;
+    let vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let i = m * ( downSize + 1 ) + n;
