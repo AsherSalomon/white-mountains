@@ -567,6 +567,15 @@ class ReusedMesh {
     yield;
 
     this.refreshMesh();
+
+    yield;
+
+    let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    for ( let i = 0; i < adjacents.length; i++ ) {
+      if ( adjacents[i].square.reusedMesh != null ) {
+        adjacents[i].square.reusedMesh.refreshMesh();
+      }
+    }
   }
 
   clampEdge( edge, reusedMesh ) {
