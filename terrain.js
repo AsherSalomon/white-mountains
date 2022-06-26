@@ -23,8 +23,8 @@ let showGridHelper = false;
 // let showGridHelper = true;
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
-// let randomizeColors = false;
-let randomizeColors = true;
+let randomizeColors = false;
+// let randomizeColors = true;
 let flashAdjacentColors = false;
 // let flashAdjacentColors = true;
 
@@ -483,7 +483,6 @@ class ReusedMesh {
     let material = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
       color: pineGreen
-      // color: new THREE.Color( Math.random(), Math.random(), Math.random() )
     } );
     if ( randomizeColors ) {
       material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
