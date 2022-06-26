@@ -633,7 +633,7 @@ class ReusedMesh {
     for ( let i = 0; i < simpleConcat.length; i++ ) {
       let allreadyAdded = false;
       for ( let j = 0; j < adjacents.length; j++ ) {
-        if ( simpleConcat[i] == adjacents[j] ) {
+        if ( simpleConcat[i].square == adjacents[j].square ) {
           allreadyAdded = true;
           break;
         }
