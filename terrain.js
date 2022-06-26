@@ -627,7 +627,6 @@ class ReusedMesh {
 
     this.refreshMesh();
 
-    // let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     let adjacents = [];
     for ( let i = 0; i < simpleConcat.length; i++ ) {
@@ -642,7 +641,7 @@ class ReusedMesh {
         adjacents.push( simpleConcat[i] );
       }
     }
-    console.log( simpleConcat.length, adjacents.length, simpleConcat.length - adjacents.length );
+    console.log( simpleConcat.length, '-', adjacents.length, '=', simpleConcat.length - adjacents.length );
     for ( let i = 0; i < adjacents.length; i++ ) {
       if ( adjacents[i].square.reusedMesh != null ) {
         adjacents[i].square.reusedMesh.refreshMesh();
