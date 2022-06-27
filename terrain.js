@@ -731,11 +731,13 @@ class ReusedMesh {
     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
 
-    if ( m == downSize && n == downSize ) {
-      return 0;
-    } else {
-      return interpolated;
-    }
+    return interpolated;
+
+    // if ( m == downSize && n == downSize ) {
+    //   return 0;
+    // } else {
+    //   return interpolated;
+    // }
   }
 
   // getDataPoint( x, z ) {
