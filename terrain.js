@@ -11,6 +11,8 @@ const maxElevation = 1916.582; // 9144; // meters
 
 const angularResolution = 4 / 1; // tile width / distance to camera
 
+const downscale = 2 ** 0; // power of 2
+
 const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5;
@@ -793,7 +795,6 @@ class ReusedMesh {
 }
 
 const ELEVATION_TILE_SIZE = 512;
-const downscale = 2 ** 2; // power of 2
 const downSize = ELEVATION_TILE_SIZE / downscale;
 const IMAGERY_TILE_SIZE = 256;
 const apiKey = 'MrM7HIm1w0P1BQYO7MY3';
