@@ -563,6 +563,7 @@ class ReusedMesh {
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         if ( this.square.parent.reusedMesh != null ) {
           this.heightData[j] = this.square.parent.reusedMesh.lookupData( x, z );
+          // to do, parent mesh is recycled before this ever happens
         } else {
           this.heightData[j] = 0;
         }
@@ -677,7 +678,7 @@ class ReusedMesh {
   //   }
   // }
   //
-  // restoreEdge( norw, restrictToEdge ) { // to do, restrict to line segment
+  // restoreEdge( norw, restrictToEdge ) {
   //   if ( norw == 'n' ) {
   //     if ( this.backupEdgeN != null ) {
   //       let n = 0;
@@ -710,7 +711,6 @@ class ReusedMesh {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
-    // if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {}
     if ( m < 0 ) { m = 0; }
     if ( n < 0 ) { n = 0; }
     if ( m > downSize ) { m = downSize; }
@@ -743,17 +743,6 @@ class ReusedMesh {
     //   return interpolated;
     // }
   }
-
-  // getDataPoint( x, z ) {
-  //   let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
-  //   let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
-  //   if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
-  //     let i = m * ( downSize + 1 ) + n;
-  //     return this.heightData[ i ];
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   setDataPoint( x, z, dataPoint ) {
     let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
