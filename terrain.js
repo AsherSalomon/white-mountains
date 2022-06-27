@@ -480,7 +480,7 @@ class Edge {
     let direction = new THREE.Vector3().subVectors( this.endB, this.endA );
     direction.normalize();
     let dot = xz.dot( direction );
-    if ( dot >= 0 && dot <= length ) {
+    if ( dot >= 0 && dot <= this.length ) {
       return true;
     } else {
       return false;
