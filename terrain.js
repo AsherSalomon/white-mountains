@@ -25,8 +25,8 @@ let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
 let randomizeColors = false;
 // let randomizeColors = true;
-let flashAdjacentColors = false;
-// let flashAdjacentColors = true;
+// let flashAdjacentColors = false;
+let flashAdjacentColors = true;
 
 let origin = {};
 let width = {};
