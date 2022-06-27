@@ -658,7 +658,10 @@ class ReusedMesh {
       let x = points[i].x;
       let z = points[i].z;
       if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-        this.setDataPoint( x, z, reusedMesh.lookupData( x, z ) );
+        let dataPoint = reusedMesh.lookupData( x, z );
+        if ( dataPoint != 0 ) {
+          this.setDataPoint( x, z, dataPoint );
+        }
       }
     }
   }
