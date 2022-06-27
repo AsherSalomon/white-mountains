@@ -17,8 +17,8 @@ const minZoom = 5;
 const maxZoom = 12;
 // const extraZoom = 20;
 
-let delayUpdate = false;
-// let delayUpdate = true;
+// let delayUpdate = false;
+let delayUpdate = true;
 let showGridHelper = false;
 // let showGridHelper = true;
 let showBoundingBoxHelper = false;
