@@ -453,27 +453,37 @@ class Edge {
   }
 
   pointIsWithinEnds( x, z ) {
-    let xorz;
-    if ( this.endB.x - this.endA.x > this.endB.z - this.endB.z ) {
-      xorz = 'x';
+    // let xorz;
+    // if ( this.endB.x - this.endA.x > this.endB.z - this.endB.z ) {
+    //   xorz = 'x';
+    // } else {
+    //   xorz = 'z';
+    // }
+    // if ( xorz == 'x' ) {
+    //   let n = Math.round( ( x - this.endA.x ) / this.length * downSize );
+    //   if ( n >= 0 && n <= downSize ) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    // if ( xorz == 'z' ) {
+    //   let m = Math.round( ( z - this.endA.z ) / this.length * downSize );
+    //   if ( m >= 0 && m <= downSize ) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+    let xz = new THREE.Vector3( x, 0, z );
+    xz.sub( this.endA );
+    let direction = new THREE.Vector3().subVectors( this.endB, this.endA );
+    direction.normalize();
+    let dot = xz.dot( direction );
+    if ( dot >= 0 && dot <= length ) {
+      return true;
     } else {
-      xorz = 'z';
-    }
-    if ( xorz == 'x' ) {
-      let n = Math.round( ( x - this.endA.x ) / this.length * downSize );
-      if ( n >= 0 && n <= downSize ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if ( xorz == 'z' ) {
-      let m = Math.round( ( z - this.endA.z ) / this.length * downSize );
-      if ( m >= 0 && m <= downSize ) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
 }
@@ -778,8 +788,6 @@ class ReusedMesh {
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
           vertices[ j + 1 ] = this.heightData[ i ];
-        // } else if ( this.layer.isEdge( x, z ) && this.clampingLayer != null ) {
-        //   vertices[ j + 1 ] = this.clampingLayer.lookupData( x, z );
         } else {
           vertices[ j + 1 ] = this.heightData[ i ];
         }
