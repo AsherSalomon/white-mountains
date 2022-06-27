@@ -559,9 +559,13 @@ class ReusedMesh {
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        this.heightData[j] = 0;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( this.square.parent.reusedMesh != null ) {
+          this.heightData[j] = this.square.parent.reusedMesh.lookupData( x, z );
+        } else {
+          this.heightData[j] = 0;
+        }
         let isSouthEdge = m == downSize;
         let isEastEdge = n == downSize;
         if ( isSouthEdge == false && isEastEdge == false ) {
