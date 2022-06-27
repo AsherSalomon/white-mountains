@@ -461,7 +461,7 @@ class Edge {
     }
     if ( xorz == 'x' ) {
       let n = Math.round( ( x - this.endA.x ) / this.length * downSize );
-      if ( n >= 0 && n < downSize ) {
+      if ( n >= 0 && n <= downSize ) {
         return true;
       } else {
         return false;
@@ -469,7 +469,7 @@ class Edge {
     }
     if ( xorz == 'z' ) {
       let m = Math.round( ( z - this.endA.z ) / this.length * downSize );
-      if ( m >= 0 && m < downSize ) {
+      if ( m >= 0 && m <= downSize ) {
         return true;
       } else {
         return false;
@@ -497,8 +497,8 @@ class ReusedMesh {
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
     this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
-    this.backupEdgeN = null;
-    this.backupEdgeW = null;
+    // this.backupEdgeN = null;
+    // this.backupEdgeW = null;
 
     this.readyToLoad = false;
   }
@@ -584,8 +584,8 @@ class ReusedMesh {
       }
     }
 
-    this.backupEdge( 'n' );
-    this.backupEdge( 'w' );
+    // this.backupEdge( 'n' );
+    // this.backupEdge( 'w' );
 
     yield;
 
@@ -663,53 +663,53 @@ class ReusedMesh {
     }
   }
 
-  backupEdge( norw ) {
-    if ( norw == 'n' ) {
-      this.backupEdgeN = [];
-      let n = 0;
-      for ( let m = 0; m < downSize; m++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        this.backupEdgeN.push( this.heightData[j] );
-      }
-    }
-    if ( norw == 'w' ) {
-      this.backupEdgeW = [];
-      let m = 0;
-      for ( let n = 0; n < downSize; n++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        this.backupEdgeW.push( this.heightData[j] );
-      }
-    }
-  }
-
-  restoreEdge( norw, restrictToEdge ) { // to do, restrict to line segment
-    if ( norw == 'n' ) {
-      if ( this.backupEdgeN != null ) {
-        let n = 0;
-        for ( let m = 0; m < downSize; m++ ) {
-          let j = m * ( downSize + 1 ) + n;
-          let x = this.centerX + this.width * ( n / downSize - 0.5 );
-          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-          if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-            this.heightData[j] = this.backupEdgeN[m];
-          }
-        }
-      }
-    }
-    if ( norw == 'w' ) {
-      if ( this.backupEdgeW != null ) {
-        let m = 0;
-        for ( let n = 0; n < downSize; n++ ) {
-          let j = m * ( downSize + 1 ) + n;
-          let x = this.centerX + this.width * ( n / downSize - 0.5 );
-          let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-          if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-            this.heightData[j] = this.backupEdgeW[n];
-          }
-        }
-      }
-    }
-  }
+  // backupEdge( norw ) {
+  //   if ( norw == 'n' ) {
+  //     this.backupEdgeN = [];
+  //     let n = 0;
+  //     for ( let m = 0; m < downSize; m++ ) {
+  //       let j = m * ( downSize + 1 ) + n;
+  //       this.backupEdgeN.push( this.heightData[j] );
+  //     }
+  //   }
+  //   if ( norw == 'w' ) {
+  //     this.backupEdgeW = [];
+  //     let m = 0;
+  //     for ( let n = 0; n < downSize; n++ ) {
+  //       let j = m * ( downSize + 1 ) + n;
+  //       this.backupEdgeW.push( this.heightData[j] );
+  //     }
+  //   }
+  // }
+  //
+  // restoreEdge( norw, restrictToEdge ) { // to do, restrict to line segment
+  //   if ( norw == 'n' ) {
+  //     if ( this.backupEdgeN != null ) {
+  //       let n = 0;
+  //       for ( let m = 0; m < downSize; m++ ) {
+  //         let j = m * ( downSize + 1 ) + n;
+  //         let x = this.centerX + this.width * ( n / downSize - 0.5 );
+  //         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+  //         if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+  //           this.heightData[j] = this.backupEdgeN[m];
+  //         }
+  //       }
+  //     }
+  //   }
+  //   if ( norw == 'w' ) {
+  //     if ( this.backupEdgeW != null ) {
+  //       let m = 0;
+  //       for ( let n = 0; n < downSize; n++ ) {
+  //         let j = m * ( downSize + 1 ) + n;
+  //         let x = this.centerX + this.width * ( n / downSize - 0.5 );
+  //         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+  //         if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
+  //           this.heightData[j] = this.backupEdgeW[n];
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
