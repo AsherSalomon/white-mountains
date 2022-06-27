@@ -731,17 +731,15 @@ class ReusedMesh {
     let d12 = this.heightData[ i12 ];
     let d22 = this.heightData[ i22 ];
 
+    if ( d11 == 0 || d21 == 0 || d12 == 0 || d22 == 0 ) {
+      return 0;
+    }
+
     let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
 
     return interpolated;
-
-    // if ( m == downSize && n == downSize ) {
-    //   return 0;
-    // } else {
-    //   return interpolated;
-    // }
   }
 
   setDataPoint( x, z, dataPoint ) {
