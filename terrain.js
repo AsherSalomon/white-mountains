@@ -453,28 +453,6 @@ class Edge {
   }
 
   pointIsWithinEnds( x, z ) {
-    // let xorz;
-    // if ( this.endB.x - this.endA.x > this.endB.z - this.endB.z ) {
-    //   xorz = 'x';
-    // } else {
-    //   xorz = 'z';
-    // }
-    // if ( xorz == 'x' ) {
-    //   let n = Math.round( ( x - this.endA.x ) / this.length * downSize );
-    //   if ( n >= 0 && n <= downSize ) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-    // if ( xorz == 'z' ) {
-    //   let m = Math.round( ( z - this.endA.z ) / this.length * downSize );
-    //   if ( m >= 0 && m <= downSize ) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
     let xz = new THREE.Vector3( x, 0, z );
     xz.sub( this.endA );
     let direction = new THREE.Vector3().subVectors( this.endB, this.endA );
@@ -753,7 +731,11 @@ class ReusedMesh {
     let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
 
-    return interpolated;
+    if ( m = downSize && n = downSize ) {
+      return 0;
+    } else {
+      return interpolated;
+    }
   }
 
   // getDataPoint( x, z ) {
