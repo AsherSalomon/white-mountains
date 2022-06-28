@@ -701,13 +701,13 @@ class ReusedMesh {
   }
 
   loadSatellite() {
-    if ( this.texture != null ) {
-      this.texture.dispose();
-      this.mesh.material.map = null;
-      this.mesh.material.needsUpdate = true;
-      this.mesh.material.color = pineGreen;
-      this.satelliteCanvas = null;
-    }
+    // if ( this.texture != null ) {
+    //   this.texture.dispose();
+    //   this.mesh.material.map = null;
+    //   this.mesh.material.needsUpdate = true;
+    //   this.mesh.material.color = pineGreen;
+    //   this.satelliteCanvas = null;
+    // }
 
     // this.satelliteCanvas = document.createElement( 'canvas' );
     // this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
