@@ -498,10 +498,10 @@ class ReusedMesh {
     this.texture = null;
     this.satelliteCanvas = null;
 
-    // this.satelliteCanvas = document.createElement( 'canvas' );
-    // this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    // this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    this.satelliteCanvas = document.createElement( 'canvas' );
+    this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     // this.satiliteContext = this.satelliteCanvas.getContext( '2d' );
   }
 
@@ -709,10 +709,10 @@ class ReusedMesh {
       this.satelliteCanvas = null;
     }
 
-    this.satelliteCanvas = document.createElement( 'canvas' );
-    this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    // this.satelliteCanvas = document.createElement( 'canvas' );
+    // this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    // this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
@@ -835,6 +835,52 @@ class ReusedMesh {
   remove() {
     scene.remove( this.mesh );
     // this.square = null;
+  }
+}
+
+class dataCopy() {
+  constructor( reusedMesh ) {
+    this.width = reusedMesh.width;
+    this.centerX = reusedMesh.centerX;
+    this.centerZ = reusedMesh.centerZ;
+    this.heightData = reusedMesh.heightData.slice();
+
+
+  }
+
+  lookupData( x, z ) {
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+
+    if ( m < 0 ) { m = 0; }
+    if ( n < 0 ) { n = 0; }
+    if ( m > downSize ) { m = downSize; }
+    if ( n > downSize ) { n = downSize; }
+
+    let m1 = Math.floor( m );
+    let m2 = Math.ceil( m );
+    let n1 = Math.floor( n );
+    let n2 = Math.ceil( n );
+
+    let i11 = m1 * ( downSize + 1 ) + n1;
+    let i21 = m2 * ( downSize + 1 ) + n1;
+    let i12 = m1 * ( downSize + 1 ) + n2;
+    let i22 = m2 * ( downSize + 1 ) + n2;
+
+    let d11 = this.heightData[i11];
+    let d21 = this.heightData[i21];
+    let d12 = this.heightData[i12];
+    let d22 = this.heightData[i22];
+
+    if ( d11 == 0 || d21 == 0 || d12 == 0 || d22 == 0 ) {
+      return 0;
+    }
+
+    let d1 = d11 + ( d21 - d11 ) * ( m - m1 );
+    let d2 = d12 + ( d22 - d12 ) * ( m - m1 );
+    let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
+
+    return interpolated;
   }
 }
 
