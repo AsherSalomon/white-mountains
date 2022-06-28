@@ -722,9 +722,9 @@ class ReusedMesh {
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
         let satiliteTile = [
-          this.tile[ 0 ] * satiliteTilesWidth + x,
-          this.tile[ 1 ] * satiliteTilesWidth + y,
-          this.tile[ 2 ] + satilliteZoom
+          this.square.tile[ 0 ] * satiliteTilesWidth + x,
+          this.square.tile[ 1 ] * satiliteTilesWidth + y,
+          this.square.tile[ 2 ] + satilliteZoom
         ];
         let url = urlForTile( ...satiliteTile, 'satellite' );
         let thisReusedMesh = this;
