@@ -102,17 +102,17 @@ export function update() {
         squares[i].removeFromSquares = false;
         squares.splice( i, 1 );
       } else {
-        squares[ i ].update();
+        squares[i].update();
       }
     }
 
     for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
       let breakOut = false;
       for ( let i = 0; i < generatorQueue.length; i++ ) {
-        if ( generatorQueue[ i ].zoom == zoom ) {
-          if ( generatorQueue[ i ].intendedSquare.visible == false ) {
+        if ( generatorQueue[i].zoom == zoom ) {
+          if ( generatorQueue[i].intendedSquare.visible == false ) {
             generatorQueue.splice( i, 1 );
-          } else if ( generatorQueue[ i ].next().done ) {
+          } else if ( generatorQueue[i].next().done ) {
             generatorQueue.splice( i, 1 );
           }
           breakOut = true;
@@ -131,8 +131,8 @@ class Square {
     this.width = width[this.zoom];
     this.parent = parent;
     this.children = null;
-    this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][ 0 ] ) * this.width;
-    this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][ 1 ] ) * this.width;
+    this.centerX = ( 0.5 + this.tile[0] - origin[this.zoom][0] ) * this.width;
+    this.centerZ = ( 0.5 + this.tile[1] - origin[this.zoom][1] ) * this.width;
 
     this.visible = false;
     this.splitAlready = false;
@@ -321,7 +321,7 @@ class Square {
     if ( this.children != null ) {
       allChildrenAreSmall = true;
       for ( let i = 0; i < this.children.length; i ++ ) {
-        if ( this.children[ i ].isTooSmall() == false || this.children[ i ].visible == false ) {
+        if ( this.children[i].isTooSmall() == false || this.children[i].visible == false ) {
           allChildrenAreSmall = false;
         }
       }
@@ -497,7 +497,7 @@ class ReusedMesh {
     this.zoom = square.zoom;
     this.width = square.width;
     this.mesh.scale.x = this.width;
-    this.mesh.scale.z = this.width; // to do
+    this.mesh.scale.z = this.width;
     this.centerX = square.centerX;
     this.centerZ = square.centerZ;
     this.mesh.position.x = this.centerX;
@@ -506,7 +506,7 @@ class ReusedMesh {
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        // this.heightData[ j ] = 0;
+        // this.heightData[j] = 0;
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         if ( this.square.parent != null ) {
@@ -560,28 +560,6 @@ class ReusedMesh {
     yield;
     timeList.push( performance.now() );
 
-    for ( let m = 0; m <= downSize; m++ ) {
-      for ( let n = 0; n <= downSize; n++ ) {
-        let j = m * ( downSize + 1 ) + n;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        this.heightData[j] = 0;
-        let isSouthEdge = m == downSize;
-        let isEastEdge = n == downSize;
-        if ( isSouthEdge == false && isEastEdge == false ) {
-          let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-          let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-          this.heightData[j] = dataPoint;
-        }
-      }
-    }
-
-    // let urlTile = this.square.tile;
-    // while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
-    // let urlWidth = width[urlTile[2]];
-    // let urlCenterX =( 0.5 + square.tile[ 0 ] - origin[ this.zoom ][ 0 ] ) * this.width;
-    // let urlCenterZ =( 0.5 + square.tile[ 1 ] - origin[ this.zoom ][ 1 ] ) * this.width;
-    //
     // for ( let m = 0; m <= downSize; m++ ) {
     //   for ( let n = 0; n <= downSize; n++ ) {
     //     let j = m * ( downSize + 1 ) + n;
@@ -591,18 +569,40 @@ class ReusedMesh {
     //     let isSouthEdge = m == downSize;
     //     let isEastEdge = n == downSize;
     //     if ( isSouthEdge == false && isEastEdge == false ) {
-    //
-    //       let u = ( z - ( centerZ - width / 2 ) ) / width * downSize;
-    //       let v = ( x - ( centerX - width / 2 ) ) / width * downSize;
-    //       let i = u * ( downscale ** 2 ) * downSize + v * downscale;
+    //       let i = m * ( downscale ** 2 ) * downSize + n * downscale;
     //       let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
     //       this.heightData[j] = dataPoint;
     //     }
     //   }
     // }
 
-    // this.backupEdge( 'n' );
-    // this.backupEdge( 'w' );
+    let urlTile = this.square.tile;
+    while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
+    let urlWidth = width[urlTile[2]];
+    let urlCenterX =( 0.5 + urlTile[0] - origin[ urlTile[2] ][0] ) * this.width;
+    let urlCenterZ =( 0.5 + urlTile[1] - origin[ urlTile[2] ][1] ) * this.width;
+
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let j = m * ( downSize + 1 ) + n;
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        this.heightData[j] = 0;
+        let isSouthEdge = m == downSize;
+        let isEastEdge = n == downSize;
+        if ( isSouthEdge == false && isEastEdge == false ) {
+
+          let u = ( z - ( centerZ - width / 2 ) ) / width * downSize;
+          let v = ( x - ( centerX - width / 2 ) ) / width * downSize;
+          let i = u * ( downscale ** 2 ) * downSize + v * downscale;
+          let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+          this.heightData[j] = dataPoint;
+        }
+      }
+    }
+
+    this.backupEdge( 'n' );
+    this.backupEdge( 'w' );
 
     yield;
     timeList.push( performance.now() );
@@ -690,7 +690,7 @@ class ReusedMesh {
     timeList.push( performance.now() );
     let timeReport = 'Terrain Generator took ';
     for ( let i = 0; i < timeList.length - 1; i++ ) {
-      timeReport += Math.round( timeList[ i + 1 ] - timeList[ i ] ) + 'ms ';
+      timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
     // console.log( timeReport );
   }
@@ -776,10 +776,10 @@ class ReusedMesh {
     let i12 = m1 * ( downSize + 1 ) + n2;
     let i22 = m2 * ( downSize + 1 ) + n2;
 
-    let d11 = this.heightData[ i11 ];
-    let d21 = this.heightData[ i21 ];
-    let d12 = this.heightData[ i12 ];
-    let d22 = this.heightData[ i22 ];
+    let d11 = this.heightData[i11];
+    let d21 = this.heightData[i21];
+    let d12 = this.heightData[i12];
+    let d22 = this.heightData[i22];
 
     if ( d11 == 0 || d21 == 0 || d12 == 0 || d22 == 0 ) {
       return 0;
@@ -797,7 +797,7 @@ class ReusedMesh {
     let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
     if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
       let i = m * ( downSize + 1 ) + n;
-      this.heightData[ i ] = dataPoint;
+      this.heightData[i] = dataPoint;
     }
   }
 
@@ -812,9 +812,9 @@ class ReusedMesh {
         let mIsEdge = m == 0 || m == downSize;
         let nIsEdge = n == 0 || n == downSize;
         if ( !mIsEdge && !nIsEdge ) {
-          vertices[ j + 1 ] = this.heightData[ i ];
+          vertices[ j + 1 ] = this.heightData[i];
         } else {
-          vertices[ j + 1 ] = this.heightData[ i ];
+          vertices[ j + 1 ] = this.heightData[i];
         }
         vertices[ j + 1 ] -= curvatureOfTheEarth( x, z );
       }
@@ -842,12 +842,12 @@ let urlFormat = {
   // https://wiki.openstreetmap.org/wiki/PBF_Format
 }
 function urlForTile( x, y, z, type ) {
-  return urlFormat[ type ].replace( '{x}', x ).replace( '{y}', y )
+  return urlFormat[type].replace( '{x}', x ).replace( '{y}', y )
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 function dataToHeight( data ) {
   // Elevation in meters
-  return -10000 + ( data[ 0 ] * 65536 + data[ 1 ] * 256 + data[ 2 ] ) * 0.1;
+  return -10000 + ( data[0] * 65536 + data[1] * 256 + data[2] ) * 0.1;
 }
 function curvatureOfTheEarth( x, z ) {
   return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
