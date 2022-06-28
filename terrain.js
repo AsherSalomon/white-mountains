@@ -475,19 +475,18 @@ class ReusedMesh {
     let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
     geometry.rotateX( - Math.PI / 2 );
 
-    // let material = new THREE.MeshStandardMaterial( {
+    let material = new THREE.MeshStandardMaterial( {
+      roughness: 0.9,
+      color: pineGreen
+    } );
+    // this.groundMaterial = new THREE.MeshStandardMaterial( {
     //   roughness: 0.9,
     //   color: pineGreen
     // } );
-    this.groundMaterial = new THREE.MeshStandardMaterial( {
-      roughness: 0.9,
-      clipIntersection: true,
-      color: pineGreen
-    } );
     if ( randomizeColors ) {
-      this.groundMaterial.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
+      material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
     }
-    this.mesh = new THREE.Mesh( geometry, this.groundMaterial );
+    this.mesh = new THREE.Mesh( geometry, material );
 
     let canvas = document.createElement( 'canvas' );
     canvas.width = ELEVATION_TILE_SIZE;
@@ -499,7 +498,6 @@ class ReusedMesh {
     this.readyToLoad = false;
 
     this.texture = null;
-    // this.groundMaterial = null;
     this.satelliteCanvas = null;
   }
 
@@ -701,9 +699,9 @@ class ReusedMesh {
   loadSatellite() {
     if ( this.texture != null ) {
       this.texture.dispose();
-      this.groundMaterial.map = null;
-      this.groundMaterial.needsUpdate = true;
-      this.groundMaterial.color = pineGreen;
+      this.mesh.material.map = null;
+      this.mesh.material.needsUpdate = true;
+      this.mesh.material.color = pineGreen;
       this.satelliteCanvas = null;
     }
 
@@ -720,9 +718,6 @@ class ReusedMesh {
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.fillStyle = '#' + pineGreen.getHexString();
     ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
-    // this.groundMaterial.map = this.texture;
-    // this.groundMaterial.color = new THREE.Color();
-    // this.groundMaterial.needsUpdate = true;
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
@@ -752,9 +747,9 @@ class ReusedMesh {
   *satelliteGenerator( image, x, y ) {
     const ctx = this.satelliteCanvas.getContext( '2d' );
     ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
-    this.groundMaterial.map = this.texture;
-    this.groundMaterial.color = new THREE.Color();
-    this.groundMaterial.needsUpdate = true;
+    this.mesh.material.map = this.texture;
+    this.mesh.material.color = new THREE.Color();
+    this.mesh.material.needsUpdate = true;
     this.texture.needsUpdate = true;
   }
 
