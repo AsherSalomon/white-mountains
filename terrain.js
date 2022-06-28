@@ -215,7 +215,7 @@ class Square {
     }
 
     this.reusedMesh.remove();
-    this.nullifyReusedMesh();
+    // this.nullifyReusedMesh();
 
     this.removeFromSquares = true;
   }
@@ -281,6 +281,7 @@ class Square {
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
     }
+    this.nullifyReusedMesh();
   }
 
   merge() {
