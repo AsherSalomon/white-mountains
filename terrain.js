@@ -601,8 +601,8 @@ class ReusedMesh {
     //   }
     // }
 
-    this.backupEdge( 'n' );
-    this.backupEdge( 'w' );
+    // this.backupEdge( 'n' );
+    // this.backupEdge( 'w' );
 
     yield;
     timeList.push( performance.now() );
