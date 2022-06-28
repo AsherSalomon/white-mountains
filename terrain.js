@@ -829,7 +829,7 @@ class DataCopy {
   pointWithinData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
-    if ( m >= 0 && n >= 0 && m <= downSize + 1 && n <= downSize + 1 ) {
+    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
       return true;
     } else {
       return false;
