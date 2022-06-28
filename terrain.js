@@ -838,7 +838,7 @@ class ReusedMesh {
   }
 }
 
-class dataCopy() {
+class dataCopy {
   constructor( reusedMesh ) {
     this.width = reusedMesh.width;
     this.centerX = reusedMesh.centerX;
