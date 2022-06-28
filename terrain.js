@@ -16,8 +16,8 @@ const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5;
 const terrainZoom = 12;
-const maxZoom = 13;
 const polygonReduction = 2;
+const maxZoom = terrainZoom + polygonReduction;
 // const extraZoom = 20;
 
 let delayUpdate = false;
