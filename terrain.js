@@ -497,9 +497,9 @@ class ReusedMesh {
     this.zoom = square.zoom;
     this.width = square.width;
     this.mesh.scale.x = this.width;
-    this.mesh.scale.z = this.width;
-    this.centerX = ( 0.5 + square.tile[ 0 ] - origin[ this.zoom ][ 0 ] ) * this.width;
-    this.centerZ = ( 0.5 + square.tile[ 1 ] - origin[ this.zoom ][ 1 ] ) * this.width;
+    this.mesh.scale.z = this.width; // to do
+    this.centerX = square.centerX;
+    this.centerZ = square.centerZ;
     this.mesh.position.x = this.centerX;
     this.mesh.position.z = this.centerZ;
 
@@ -550,26 +550,15 @@ class ReusedMesh {
   }
 
   *terrainGenerator( image ) {
+
+    let timeList = [];
+    timeList.push( performance.now() );
+
     this.context.drawImage( image, 0, 0 );
     let imageData = this.context.getImageData( 0, 0, ELEVATION_TILE_SIZE, ELEVATION_TILE_SIZE ).data;
 
     yield;
-
-    let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
-    let westAdjacents = this.square.westEdge.findAdjacents( this.square, 'z' );
-    let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
-    let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
-
-    if ( flashAdjacentColors ) {
-      this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
-      let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
-      for ( let i = 0; i < adjacents.length; i++ ) {
-        adjacents[i].square.reusedMesh.mesh.material.color =
-          new THREE.Color( Math.random(), Math.random(), Math.random() );
-      }
-    }
-
-    yield;
+    timeList.push( performance.now() );
 
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
@@ -587,10 +576,53 @@ class ReusedMesh {
       }
     }
 
+    // let urlTile = this.square.tile;
+    // while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
+    // let urlWidth = width[urlTile[2]];
+    // let urlCenterX =( 0.5 + square.tile[ 0 ] - origin[ this.zoom ][ 0 ] ) * this.width;
+    // let urlCenterZ =( 0.5 + square.tile[ 1 ] - origin[ this.zoom ][ 1 ] ) * this.width;
+    //
+    // for ( let m = 0; m <= downSize; m++ ) {
+    //   for ( let n = 0; n <= downSize; n++ ) {
+    //     let j = m * ( downSize + 1 ) + n;
+    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
+    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+    //     this.heightData[j] = 0;
+    //     let isSouthEdge = m == downSize;
+    //     let isEastEdge = n == downSize;
+    //     if ( isSouthEdge == false && isEastEdge == false ) {
+    //
+    //       let u = ( z - ( centerZ - width / 2 ) ) / width * downSize;
+    //       let v = ( x - ( centerX - width / 2 ) ) / width * downSize;
+    //       let i = u * ( downscale ** 2 ) * downSize + v * downscale;
+    //       let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    //       this.heightData[j] = dataPoint;
+    //     }
+    //   }
+    // }
+
     // this.backupEdge( 'n' );
     // this.backupEdge( 'w' );
 
     yield;
+    timeList.push( performance.now() );
+
+    let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
+    let westAdjacents = this.square.westEdge.findAdjacents( this.square, 'z' );
+    let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
+    let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
+
+    if ( flashAdjacentColors ) {
+      this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
+      let adjacents = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+      for ( let i = 0; i < adjacents.length; i++ ) {
+        adjacents[i].square.reusedMesh.mesh.material.color =
+          new THREE.Color( Math.random(), Math.random(), Math.random() );
+      }
+    }
+
+    yield;
+    timeList.push( performance.now() );
 
     for ( let i = 0; i < southAdjacents.length; i++ ) {
       let adjReusedMesh = southAdjacents[i].square.reusedMesh;
@@ -631,6 +663,7 @@ class ReusedMesh {
     }
 
     yield;
+    timeList.push( performance.now() );
 
     this.refreshMesh();
 
@@ -653,6 +686,13 @@ class ReusedMesh {
         adjacents[i].square.reusedMesh.refreshMesh();
       }
     }
+
+    timeList.push( performance.now() );
+    let timeReport = 'Terrain Generator took ';
+    for ( let i = 0; i < timeList.length - 1; i++ ) {
+      timeReport += Math.round( timeList[ i + 1 ] - timeList[ i ] ) + 'ms ';
+    }
+    // console.log( timeReport );
   }
 
   clampEdge( edge, reusedMesh, restrictToEdge ) {
