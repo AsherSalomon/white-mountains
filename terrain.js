@@ -474,14 +474,20 @@ class ReusedMesh {
   constructor() {
     let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
     geometry.rotateX( - Math.PI / 2 );
-    let material = new THREE.MeshStandardMaterial( {
+
+    // let material = new THREE.MeshStandardMaterial( {
+    //   roughness: 0.9,
+    //   color: pineGreen
+    // } );
+    this.groundMaterial = new THREE.MeshStandardMaterial( {
       roughness: 0.9,
+      clipIntersection: true,
       color: pineGreen
     } );
     if ( randomizeColors ) {
-      material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
+      this.groundMaterial.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
     }
-    this.mesh = new THREE.Mesh( geometry, material );
+    this.mesh = new THREE.Mesh( geometry, this.groundMaterial );
 
     let canvas = document.createElement( 'canvas' );
     canvas.width = ELEVATION_TILE_SIZE;
@@ -493,7 +499,7 @@ class ReusedMesh {
     this.readyToLoad = false;
 
     this.texture = null;
-    this.groundMaterial = null;
+    // this.groundMaterial = null;
     this.satelliteCanvas = null;
   }
 
