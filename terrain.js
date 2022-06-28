@@ -732,7 +732,7 @@ class ReusedMesh {
             let newGenerator = thisReusedMesh.satelliteGenerator( image, x, y, );
             newGenerator.intendedSquare = thisReusedMesh.square;
             newGenerator.zoom = thisReusedMesh.zoom;
-            thisReusedMesh.generatorQueue.push( newGenerator );
+            generatorQueue.push( newGenerator );
           },
           undefined, // onProgress not supported
           function () {
