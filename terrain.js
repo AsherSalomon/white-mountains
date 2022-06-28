@@ -215,7 +215,7 @@ class Square {
     }
 
     this.reusedMesh.remove();
-    // this.nullifyReusedMesh();
+    this.nullifyReusedMesh();
 
     this.removeFromSquares = true;
   }
@@ -281,14 +281,14 @@ class Square {
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
     }
-    this.nullifyReusedMesh();
+    // this.nullifyReusedMesh();
   }
 
   merge() {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
-      this.children[i].nullifyReusedMesh();
+      // this.children[i].nullifyReusedMesh();
     }
   }
 
@@ -507,28 +507,28 @@ class ReusedMesh {
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
-        // this.heightData[j] = 0;
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( this.square.parent != null ) {
-          if ( this.square.parent.reusedMesh != null ) {
-            this.heightData[j] = this.square.parent.reusedMesh.lookupData( x, z );
-          } else if( this.square.children != null ) {
-            for ( let k = 0; k < this.square.children.length; k++ ) {
-              let dataPoint = 0;
-              if ( this.square.children[k].reusedMesh != null ) {
-                dataPoint = this.square.children[k].reusedMesh.lookupData( x, z );
-              }
-              if ( dataPoint != 0 ) {
-                this.heightData[j] = dataPoint;
-              }
-            }
-          } else {
-            this.heightData[j] = 0;
-          }
-        } else {
-          this.heightData[j] = 0;
-        }
+        this.heightData[j] = 0;
+        // let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        // let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        // if ( this.square.parent != null ) {
+        //   if ( this.square.parent.reusedMesh != null ) {
+        //     this.heightData[j] = this.square.parent.reusedMesh.lookupData( x, z );
+        //   } else if( this.square.children != null ) {
+        //     for ( let k = 0; k < this.square.children.length; k++ ) {
+        //       let dataPoint = 0;
+        //       if ( this.square.children[k].reusedMesh != null ) {
+        //         dataPoint = this.square.children[k].reusedMesh.lookupData( x, z );
+        //       }
+        //       if ( dataPoint != 0 ) {
+        //         this.heightData[j] = dataPoint;
+        //       }
+        //     }
+        //   } else {
+        //     this.heightData[j] = 0;
+        //   }
+        // } else {
+        //   this.heightData[j] = 0;
+        // } // to do, get some temporary data while you're looking for the real thing
       }
     }
 
