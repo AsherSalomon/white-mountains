@@ -217,17 +217,14 @@ class Square {
     }
 
     this.reusedMesh.remove();
-    this.nullifyReusedMesh();
+    meshBin.push( this.reusedMesh );
+    this.reusedMesh = null;
 
     this.removeFromSquares = true;
   }
 
-  nullifyReusedMesh() {
-    meshBin.push( this.reusedMesh );
-    this.reusedMesh = null;
-  }
-
   split() {
+    let dataCopy = new DataCopy( this.reusedMesh );
     this.makeNotVisible();
 
     if ( this.splitAlready == false ) {
@@ -282,16 +279,15 @@ class Square {
 
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
+      dataCopy.putDataOn( this.children[i].reusedMesh );
     }
-    // this.nullifyReusedMesh();
   }
 
   merge() {
-    this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
-      // this.children[i].nullifyReusedMesh();
     }
+    this.makeVisible();
   }
 
   distanceFromCamera() {
@@ -520,27 +516,6 @@ class ReusedMesh {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
         this.heightData[j] = 0;
-        // let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        // let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        // if ( this.square.parent != null ) {
-        //   if ( this.square.parent.reusedMesh != null ) {
-        //     this.heightData[j] = this.square.parent.reusedMesh.lookupData( x, z );
-        //   } else if( this.square.children != null ) {
-        //     for ( let k = 0; k < this.square.children.length; k++ ) {
-        //       let dataPoint = 0;
-        //       if ( this.square.children[k].reusedMesh != null ) {
-        //         dataPoint = this.square.children[k].reusedMesh.lookupData( x, z );
-        //       }
-        //       if ( dataPoint != 0 ) {
-        //         this.heightData[j] = dataPoint;
-        //       }
-        //     }
-        //   } else {
-        //     this.heightData[j] = 0;
-        //   }
-        // } else {
-        //   this.heightData[j] = 0;
-        // } // to do, get some temporary data while you're looking for the real thing
       }
     }
 
@@ -831,14 +806,17 @@ class ReusedMesh {
   }
 }
 
-class dataCopy {
+class DataCopy {
   constructor( reusedMesh ) {
     this.width = reusedMesh.width;
     this.centerX = reusedMesh.centerX;
     this.centerZ = reusedMesh.centerZ;
     this.heightData = reusedMesh.heightData.slice();
 
-
+    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    let raw = reusedMesh.satilliteCtx.getImageData( 0, 0, size, size ).data.slice();
+    // to do, to slice or not to slice, that is the question
+    this.imageData = new ImageData( raw, size );
   }
 
   lookupData( x, z ) {
@@ -875,13 +853,26 @@ class dataCopy {
 
     return interpolated;
   }
+
+  putDataOn( reusedMesh ) {
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let x = reusedMesh.centerX + reusedMesh.width * ( n / downSize - 0.5 );
+        let z = reusedMesh.centerZ + reusedMesh.width * ( m / downSize - 0.5 );
+        let j = m * ( downSize + 1 ) + n;
+        reusedMesh.heightData[j] = this.lookupData( x, z );
+      }
+    }
+
+
+  }
 }
 
 const ELEVATION_TILE_SIZE = 512;
-const downscale = 2 ** polygonReduction; // power of 2
+const downscale = 2 ** polygonReduction;
 const downSize = ELEVATION_TILE_SIZE / downscale;
 const IMAGERY_TILE_SIZE = 256;
-const apiKey = 'MrM7HIm1w0P1BQYO7MY3';
+const apiKey = 'MrM7HIm1w0P1BQYO7MY3'; // restricted to nlmusic.net
 let urlFormat = {
   terrain: 'https://api.maptiler.com/tiles/terrain-rgb/{z}/{x}/{y}.png?key={apiKey}',
   satellite: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key={apiKey}'
