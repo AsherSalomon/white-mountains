@@ -560,28 +560,6 @@ class ReusedMesh {
     yield;
     timeList.push( performance.now() );
 
-    // for ( let m = 0; m <= downSize; m++ ) {
-    //   for ( let n = 0; n <= downSize; n++ ) {
-    //     let j = m * ( downSize + 1 ) + n;
-    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
-    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-    //     this.heightData[j] = 0;
-    //     let isSouthEdge = m == downSize;
-    //     let isEastEdge = n == downSize;
-    //     if ( isSouthEdge == false && isEastEdge == false ) {
-    //       let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-    //       let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-    //       this.heightData[j] = dataPoint;
-    //     }
-    //   }
-    // }
-
-    let urlTile = this.square.tile;
-    while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
-    let urlWidth = width[urlTile[2]];
-    let urlCenterX =( 0.5 + urlTile[0] - origin[ urlTile[2] ][0] ) * this.width;
-    let urlCenterZ =( 0.5 + urlTile[1] - origin[ urlTile[2] ][1] ) * this.width;
-
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let j = m * ( downSize + 1 ) + n;
@@ -591,15 +569,37 @@ class ReusedMesh {
         let isSouthEdge = m == downSize;
         let isEastEdge = n == downSize;
         if ( isSouthEdge == false && isEastEdge == false ) {
-
-          let u = ( z - ( centerZ - width / 2 ) ) / width * downSize;
-          let v = ( x - ( centerX - width / 2 ) ) / width * downSize;
-          let i = u * ( downscale ** 2 ) * downSize + v * downscale;
+          let i = m * ( downscale ** 2 ) * downSize + n * downscale;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
           this.heightData[j] = dataPoint;
         }
       }
     }
+
+    // let urlTile = this.square.tile;
+    // while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
+    // let urlWidth = width[urlTile[2]];
+    // let urlCenterX =( 0.5 + urlTile[0] - origin[ urlTile[2] ][0] ) * this.width;
+    // let urlCenterZ =( 0.5 + urlTile[1] - origin[ urlTile[2] ][1] ) * this.width;
+    //
+    // for ( let m = 0; m <= downSize; m++ ) {
+    //   for ( let n = 0; n <= downSize; n++ ) {
+    //     let j = m * ( downSize + 1 ) + n;
+    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
+    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+    //     this.heightData[j] = 0;
+    //     let isSouthEdge = m == downSize;
+    //     let isEastEdge = n == downSize;
+    //     if ( isSouthEdge == false && isEastEdge == false ) {
+    //
+    //       let u = ( z - ( centerZ - width / 2 ) ) / width * downSize;
+    //       let v = ( x - ( centerX - width / 2 ) ) / width * downSize;
+    //       let i = u * ( downscale ** 2 ) * downSize + v * downscale;
+    //       let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
+    //       this.heightData[j] = dataPoint;
+    //     }
+    //   }
+    // }
 
     this.backupEdge( 'n' );
     this.backupEdge( 'w' );
