@@ -284,10 +284,15 @@ class Square {
   }
 
   merge() {
+    let dataCopies = [];
     for ( let i = 0; i < this.children.length; i ++ ) {
+      dataCopies.push( new DataCopy( this.children[i].reusedMesh ) );
       this.children[i].makeNotVisible();
     }
     this.makeVisible();
+    for ( let i = 0; i < this.children.length; i ++ ) {
+      dataCopies[i].putDataOn( this.reusedMesh );
+    }
   }
 
   distanceFromCamera() {
