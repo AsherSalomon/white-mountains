@@ -513,7 +513,16 @@ class ReusedMesh {
         if ( this.square.parent != null ) {
           if ( this.square.parent.reusedMesh != null ) {
             this.heightData[j] = this.square.parent.reusedMesh.lookupData( x, z );
-            // to do, parent mesh is recycled before this ever happens
+          } else if( this.square.children != null ) {
+            for ( let k = 0; k < this.square.children.length; k++ ) {
+              let dataPoint = 0;
+              if ( this.square.children[k].reusedMesh != null ) {
+                dataPoint = this.square.children[k].reusedMesh.lookupData( x, z );
+              }
+              if ( dataPoint != 0 ) {
+                this.heightData[j] = dataPoint;
+              }
+            }
           } else {
             this.heightData[j] = 0;
           }
