@@ -18,7 +18,7 @@ const minZoom = 5;
 const terrainZoom = 12;
 const polygonReduction = 2;
 const maxZoom = terrainZoom + polygonReduction;
-// const extraZoom = 20;
+let satilliteZoom = 2;
 
 let delayUpdate = false;
 // let delayUpdate = true;
@@ -491,6 +491,10 @@ class ReusedMesh {
     this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
 
     this.readyToLoad = false;
+
+    this.texture = null;
+    this.groundMaterial = null;
+    this.satelliteCanvas = null;
   }
 
   reuse( square ) {
@@ -684,6 +688,68 @@ class ReusedMesh {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
     // console.log( timeReport );
+
+    this.loadSatellite();
+  }
+
+  loadSatellite() {
+    if ( this.texture != null ) {
+      this.texture.dispose();
+      this.groundMaterial.map = null;
+      this.groundMaterial.needsUpdate = true;
+      this.groundMaterial.color = pineGreen;
+      this.satelliteCanvas = null;
+    }
+
+    let satiliteTilesWidth = Math.pow( 2, satilliteZoom );
+
+    if ( this.zoom + satilliteZoom > 20 ) {
+      console.error( 'this.zoom + satilliteZoom > 20' );
+    }
+
+    this.satelliteCanvas = document.createElement( 'canvas' );
+    this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    const ctx = this.satelliteCanvas.getContext( '2d' );
+    ctx.fillStyle = '#' + pineGreen.getHexString();
+    ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    // this.groundMaterial.map = this.texture;
+    // this.groundMaterial.color = new THREE.Color();
+    // this.groundMaterial.needsUpdate = true;
+
+    const loader = new THREE.ImageLoader();
+    for ( let x = 0; x < satiliteTilesWidth; x++ ) {
+      for ( let y = 0; y < satiliteTilesWidth; y++ ) {
+        let satiliteTile = [
+          this.tile[ 0 ] * satiliteTilesWidth + x,
+          this.tile[ 1 ] * satiliteTilesWidth + y,
+          this.tile[ 2 ] + satilliteZoom
+        ];
+        let url = urlForTile( ...satiliteTile, 'satellite' );
+        let thisReusedMesh = this;
+        loader.load( url, function ( image ) {
+            let newGenerator = thisReusedMesh.satelliteGenerator( image, x, y, );
+            newGenerator.intendedSquare = thisReusedMesh.square;
+            newGenerator.zoom = thisReusedMesh.zoom;
+            thisReusedMesh.generatorQueue.push( newGenerator );
+          },
+          undefined, // onProgress not supported
+          function () {
+            // console.error( 'satellite ImageLoader error' );
+          }
+        );
+      }
+    }
+  }
+
+  *satelliteGenerator( image, x, y ) {
+    const ctx = this.satelliteCanvas.getContext( '2d' );
+    ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    this.groundMaterial.map = this.texture;
+    this.groundMaterial.color = new THREE.Color();
+    this.groundMaterial.needsUpdate = true;
+    this.texture.needsUpdate = true;
   }
 
   clampEdge( edge, reusedMesh, restrictToEdge ) {
