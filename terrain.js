@@ -288,6 +288,7 @@ class Square {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeNotVisible();
+      this.children[i].nullifyReusedMesh();
     }
   }
 
