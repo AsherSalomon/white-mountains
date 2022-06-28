@@ -592,9 +592,12 @@ class ReusedMesh {
         let isSouthEdge = m == downSize;
         let isEastEdge = n == downSize;
         if ( isSouthEdge == false && isEastEdge == false ) {
-          let u = Math.round( ( z - ( urlCenterZ - urlWidth / 2 ) ) / urlWidth * downSize );
-          let v = Math.round( ( x - ( urlCenterX - urlWidth / 2 ) ) / urlWidth * downSize );
-          let i = u * downscale * ELEVATION_TILE_SIZE + v * downscale;
+          // let u = Math.round( ( z - ( urlCenterZ - urlWidth / 2 ) ) / urlWidth * downSize );
+          // let v = Math.round( ( x - ( urlCenterX - urlWidth / 2 ) ) / urlWidth * downSize );
+          // let i = u * downscale * ELEVATION_TILE_SIZE + v * downscale;
+          let u = Math.round( ( z - ( urlCenterZ - urlWidth / 2 ) ) / urlWidth * ELEVATION_TILE_SIZE );
+          let v = Math.round( ( x - ( urlCenterX - urlWidth / 2 ) ) / urlWidth * ELEVATION_TILE_SIZE );
+          let i = u * ELEVATION_TILE_SIZE + v;
           let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
           this.heightData[j] = dataPoint;
         }
