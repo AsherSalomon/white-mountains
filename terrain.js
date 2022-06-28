@@ -20,6 +20,7 @@ const polygonReduction = 2;
 const maxZoom = terrainZoom + polygonReduction;
 const satilliteZoom = 2;
 const satiliteTilesWidth = 2 ** satilliteZoom;
+if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
 
 let delayUpdate = false;
 // let delayUpdate = true;
@@ -496,6 +497,12 @@ class ReusedMesh {
 
     this.texture = null;
     this.satelliteCanvas = null;
+
+    // this.satelliteCanvas = document.createElement( 'canvas' );
+    // this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    // this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
+    // this.satiliteContext = this.satelliteCanvas.getContext( '2d' );
   }
 
   reuse( square ) {
@@ -700,10 +707,6 @@ class ReusedMesh {
       this.mesh.material.needsUpdate = true;
       this.mesh.material.color = pineGreen;
       this.satelliteCanvas = null;
-    }
-
-    if ( this.zoom + satilliteZoom > 20 ) {
-      console.error( 'this.zoom + satilliteZoom > 20' );
     }
 
     this.satelliteCanvas = document.createElement( 'canvas' );
