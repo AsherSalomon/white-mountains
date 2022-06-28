@@ -664,7 +664,7 @@ class ReusedMesh {
     }
 
     timeList.push( performance.now() );
-    let timeReport = 'Terrain Generator took ';
+    let timeReport = '';
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
