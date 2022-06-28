@@ -706,16 +706,8 @@ class ReusedMesh {
       this.mesh.material.map = null;
       this.mesh.material.needsUpdate = true;
       this.mesh.material.color = pineGreen;
-    //   this.satelliteCanvas = null;
     }
 
-    // this.satelliteCanvas = document.createElement( 'canvas' );
-    // this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    // this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
-    // const ctx = this.satelliteCanvas.getContext( '2d' );
-    // ctx.fillStyle = '#' + pineGreen.getHexString();
-    // ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
     this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
     this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
 
@@ -745,8 +737,6 @@ class ReusedMesh {
   }
 
   *satelliteGenerator( image, x, y ) {
-    // const ctx = this.satelliteCanvas.getContext( '2d' );
-    // ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.mesh.material.map = this.texture;
     this.mesh.material.color = new THREE.Color();
