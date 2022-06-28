@@ -215,10 +215,14 @@ class Square {
     }
 
     this.reusedMesh.remove();
-    meshBin.push( this.reusedMesh );
-    this.reusedMesh = null;
+    this.nullifyReusedMesh();
 
     this.removeFromSquares = true;
+  }
+
+  nullifyReusedMesh() {
+    meshBin.push( this.reusedMesh );
+    this.reusedMesh = null;
   }
 
   split() {
@@ -668,7 +672,7 @@ class ReusedMesh {
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
-    console.log( timeReport );
+    // console.log( timeReport );
   }
 
   clampEdge( edge, reusedMesh, restrictToEdge ) {
