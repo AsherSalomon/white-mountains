@@ -705,7 +705,7 @@ class ReusedMesh {
       this.texture.dispose();
       this.mesh.material.map = null;
       this.mesh.material.needsUpdate = true;
-    //   this.mesh.material.color = pineGreen;
+      this.mesh.material.color = pineGreen;
     //   this.satelliteCanvas = null;
     }
 
