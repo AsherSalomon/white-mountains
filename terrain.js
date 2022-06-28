@@ -826,6 +826,16 @@ class DataCopy {
     this.imageData = new ImageData( raw, size );
   }
 
+  pointWithinData( x, z ) {
+    let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
+    let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
+    if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
@@ -866,8 +876,10 @@ class DataCopy {
       for ( let n = 0; n <= downSize; n++ ) {
         let x = reusedMesh.centerX + reusedMesh.width * ( n / downSize - 0.5 );
         let z = reusedMesh.centerZ + reusedMesh.width * ( m / downSize - 0.5 );
-        let j = m * ( downSize + 1 ) + n;
-        reusedMesh.heightData[j] = this.lookupData( x, z );
+        if ( this.pointWithinData( x, z ) ) {
+          let j = m * ( downSize + 1 ) + n;
+          reusedMesh.heightData[j] = this.lookupData( x, z );
+        }
       }
     }
 
