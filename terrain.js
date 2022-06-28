@@ -532,6 +532,7 @@ class ReusedMesh {
   loadUrl() {
     this.readyToLoad = false;
     let urlTile = this.square.tile;
+    if ( urlTile[2] > terrainZoom ) { this.mesh.frustumCulled = false; }
     while ( urlTile[2] > terrainZoom ) { urlTile = tilebelt.getParent( urlTile ); }
     let url = urlForTile( ...urlTile, 'terrain' );
     const loader = new THREE.ImageLoader();
