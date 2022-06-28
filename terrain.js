@@ -18,7 +18,7 @@ const minZoom = 5;
 const terrainZoom = 12;
 const polygonReduction = 2;
 const maxZoom = terrainZoom + polygonReduction;
-const satilliteZoom = 2;
+const satilliteZoom = 4;
 const satiliteTilesWidth = 2 ** satilliteZoom;
 if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
 
