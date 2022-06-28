@@ -502,7 +502,7 @@ class ReusedMesh {
     this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
-    // this.satiliteContext = this.satelliteCanvas.getContext( '2d' );
+    this.satilliteCtx = this.satelliteCanvas.getContext( '2d' );
   }
 
   reuse( square ) {
@@ -713,9 +713,11 @@ class ReusedMesh {
     // this.satelliteCanvas.width = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     // this.satelliteCanvas.height = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     // this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
-    const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.fillStyle = '#' + pineGreen.getHexString();
-    ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    // const ctx = this.satelliteCanvas.getContext( '2d' );
+    // ctx.fillStyle = '#' + pineGreen.getHexString();
+    // ctx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
+    this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
@@ -743,8 +745,9 @@ class ReusedMesh {
   }
 
   *satelliteGenerator( image, x, y ) {
-    const ctx = this.satelliteCanvas.getContext( '2d' );
-    ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    // const ctx = this.satelliteCanvas.getContext( '2d' );
+    // ctx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.mesh.material.map = this.texture;
     this.mesh.material.color = new THREE.Color();
     this.mesh.material.needsUpdate = true;
