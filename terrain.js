@@ -18,7 +18,8 @@ const minZoom = 5;
 const terrainZoom = 12;
 const polygonReduction = 2;
 const maxZoom = terrainZoom + polygonReduction;
-let satilliteZoom = 2;
+const satilliteZoom = 2;
+const satiliteTilesWidth = 2 ** satilliteZoom;
 
 let delayUpdate = false;
 // let delayUpdate = true;
@@ -479,10 +480,6 @@ class ReusedMesh {
       roughness: 0.9,
       color: pineGreen
     } );
-    // this.groundMaterial = new THREE.MeshStandardMaterial( {
-    //   roughness: 0.9,
-    //   color: pineGreen
-    // } );
     if ( randomizeColors ) {
       material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
     }
@@ -704,8 +701,6 @@ class ReusedMesh {
       this.mesh.material.color = pineGreen;
       this.satelliteCanvas = null;
     }
-
-    let satiliteTilesWidth = Math.pow( 2, satilliteZoom );
 
     if ( this.zoom + satilliteZoom > 20 ) {
       console.error( 'this.zoom + satilliteZoom > 20' );
