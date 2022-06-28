@@ -151,7 +151,6 @@ class Square {
       this.parent.merge();
     } else if ( this.reusedMesh != null ) {
       if ( this.reusedMesh.readyToLoad ) {
-        // this.reusedMesh.readyToLoad = false;
         this.reusedMesh.loadUrl();
       }
     }
@@ -190,8 +189,6 @@ class Square {
       this.reusedMesh = new ReusedMesh();
     }
     this.reusedMesh.reuse( this );
-    // this.reusedMesh.loadUrl();
-    // this.reusedMesh.readyToLoad = true;
 
     if ( showGridHelper ) {
       this.boundingBox.expandByObject( this.gridHelper, true );
@@ -342,7 +339,7 @@ class Square {
 
 class Edge {
   constructor( endA, endB ) {
-    this.squares = []; // wtf never implimented
+    this.squares = [];
     this.parent = null;
     this.children = null;
 
@@ -486,8 +483,6 @@ class ReusedMesh {
     this.context = canvas.getContext( '2d', {willReadFrequently: true} );
 
     this.heightData = new Float32Array( ( downSize + 1 ) ** 2 );
-    // this.backupEdgeN = null;
-    // this.backupEdgeW = null;
 
     this.readyToLoad = false;
   }
@@ -561,22 +556,6 @@ class ReusedMesh {
     yield;
     timeList.push( performance.now() );
 
-    // for ( let m = 0; m <= downSize; m++ ) {
-    //   for ( let n = 0; n <= downSize; n++ ) {
-    //     let j = m * ( downSize + 1 ) + n;
-    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
-    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-    //     this.heightData[j] = 0;
-    //     let isSouthEdge = m == downSize;
-    //     let isEastEdge = n == downSize;
-    //     if ( isSouthEdge == false && isEastEdge == false ) {
-    //       let i = m * ( downscale ** 2 ) * downSize + n * downscale;
-    //       let dataPoint = dataToHeight( imageData.slice( i * 4, i * 4 + 3 ) );
-    //       this.heightData[j] = dataPoint;
-    //     }
-    //   }
-    // }
-
     let urlTile = this.square.tile;
     while ( urlTile[2] > terrainZoom ) { urlTile = tilebelt.getParent( urlTile ); }
     let urlWidth = width[ urlTile[2] ];
@@ -592,9 +571,6 @@ class ReusedMesh {
         let isSouthEdge = m == downSize;
         let isEastEdge = n == downSize;
         if ( isSouthEdge == false && isEastEdge == false ) {
-          // let u = Math.round( ( z - ( urlCenterZ - urlWidth / 2 ) ) / urlWidth * downSize );
-          // let v = Math.round( ( x - ( urlCenterX - urlWidth / 2 ) ) / urlWidth * downSize );
-          // let i = u * downscale * ELEVATION_TILE_SIZE + v * downscale;
           let u = Math.round( ( z - ( urlCenterZ - urlWidth / 2 ) ) / urlWidth * ELEVATION_TILE_SIZE );
           let v = Math.round( ( x - ( urlCenterX - urlWidth / 2 ) ) / urlWidth * ELEVATION_TILE_SIZE );
           let i = u * ELEVATION_TILE_SIZE + v;
@@ -603,9 +579,6 @@ class ReusedMesh {
         }
       }
     }
-
-    // this.backupEdge( 'n' );
-    // this.backupEdge( 'w' );
 
     yield;
     timeList.push( performance.now() );
@@ -695,7 +668,7 @@ class ReusedMesh {
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
-    // console.log( timeReport );
+    console.log( timeReport );
   }
 
   clampEdge( edge, reusedMesh, restrictToEdge ) {
@@ -711,54 +684,6 @@ class ReusedMesh {
       }
     }
   }
-
-  // backupEdge( norw ) {
-  //   if ( norw == 'n' ) {
-  //     this.backupEdgeN = [];
-  //     let n = 0;
-  //     for ( let m = 0; m < downSize; m++ ) {
-  //       let j = m * ( downSize + 1 ) + n;
-  //       this.backupEdgeN.push( this.heightData[j] );
-  //     }
-  //   }
-  //   if ( norw == 'w' ) {
-  //     this.backupEdgeW = [];
-  //     let m = 0;
-  //     for ( let n = 0; n < downSize; n++ ) {
-  //       let j = m * ( downSize + 1 ) + n;
-  //       this.backupEdgeW.push( this.heightData[j] );
-  //     }
-  //   }
-  // }
-  //
-  // restoreEdge( norw, restrictToEdge ) {
-  //   if ( norw == 'n' ) {
-  //     if ( this.backupEdgeN != null ) {
-  //       let n = 0;
-  //       for ( let m = 0; m < downSize; m++ ) {
-  //         let j = m * ( downSize + 1 ) + n;
-  //         let x = this.centerX + this.width * ( n / downSize - 0.5 );
-  //         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-  //         if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-  //           this.heightData[j] = this.backupEdgeN[m];
-  //         }
-  //       }
-  //     }
-  //   }
-  //   if ( norw == 'w' ) {
-  //     if ( this.backupEdgeW != null ) {
-  //       let m = 0;
-  //       for ( let n = 0; n < downSize; n++ ) {
-  //         let j = m * ( downSize + 1 ) + n;
-  //         let x = this.centerX + this.width * ( n / downSize - 0.5 );
-  //         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-  //         if ( restrictToEdge.pointIsWithinEnds( x, z ) ) {
-  //           this.heightData[j] = this.backupEdgeW[n];
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
   lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
