@@ -532,7 +532,7 @@ class ReusedMesh {
   loadUrl() {
     this.readyToLoad = false;
     let urlTile = this.square.tile;
-    while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
+    while ( urlTile[2] > terrainZoom ) { urlTile = tilebelt.getParent( urlTile ); }
     let url = urlForTile( ...urlTile, 'terrain' );
     const loader = new THREE.ImageLoader();
     let thisReusedMesh = this;
@@ -577,7 +577,7 @@ class ReusedMesh {
     // }
 
     let urlTile = this.square.tile;
-    while ( urlTile[2] > terrainZoom ) { urlTile = tileBelt.getParent( urlTile ); }
+    while ( urlTile[2] > terrainZoom ) { urlTile = tilebelt.getParent( urlTile ); }
     let urlWidth = width[ urlTile[2] ];
     let urlCenterX =( 0.5 + urlTile[0] - origin[ urlTile[2] ][0] ) * urlWidth;
     let urlCenterZ =( 0.5 + urlTile[1] - origin[ urlTile[2] ][1] ) * urlWidth;
