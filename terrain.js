@@ -863,7 +863,7 @@ class DataCopy {
         reusedMesh.heightData[j] = this.lookupData( x, z );
       }
     }
-
+    reusedMesh.refreshMesh();
 
   }
 }
