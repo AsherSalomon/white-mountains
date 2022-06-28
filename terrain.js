@@ -280,6 +280,7 @@ class Square {
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
       dataCopy.putDataOn( this.children[i].reusedMesh );
+      this.children[i].reusedMesh.refreshMesh();
     }
   }
 
@@ -293,6 +294,7 @@ class Square {
     for ( let i = 0; i < this.children.length; i ++ ) {
       dataCopies[i].putDataOn( this.reusedMesh );
     }
+    this.reusedMesh.refreshMesh();
   }
 
   distanceFromCamera() {
@@ -868,7 +870,6 @@ class DataCopy {
         reusedMesh.heightData[j] = this.lookupData( x, z );
       }
     }
-    reusedMesh.refreshMesh();
 
   }
 }
