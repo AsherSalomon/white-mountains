@@ -11,7 +11,6 @@ const maxElevation = 1916.582; // 9144; // meters
 
 const angularResolution = 4 / 1; // tile width / distance to camera
 
-
 const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5;
@@ -22,9 +21,9 @@ const satilliteZoom = 1;
 const satiliteTilesWidth = 2 ** satilliteZoom;
 if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
 
-let delayUpdate = false;
-// let delayUpdate = true;
-let delayFactor = 10;
+// let delayUpdate = false;
+let delayUpdate = true;
+let delayFactor = 4;
 
 let showGridHelper = false;
 // let showGridHelper = true;
