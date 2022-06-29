@@ -827,7 +827,7 @@ class ReusedMesh {
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         if ( dataCopy.pointWithinData( x, z ) ) {
           let j = m * ( downSize + 1 ) + n;
-          reusedMesh.heightData[j] = dataCopy.lookupData( x, z );
+          this.heightData[j] = dataCopy.lookupData( x, z );
         }
       }
     }
