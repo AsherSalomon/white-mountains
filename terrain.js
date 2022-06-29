@@ -852,12 +852,12 @@ class ReusedMesh {
 
     let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
     let sizeRatio = dataCopy.width / this.width;
-    let sx = 0;
-    let sy = 0;
+    let sx = ( dataCopy.centerX - this.centerX ) / this.width;
+    let sy = ( dataCopy.centerZ - this.centerZ ) / this.width;
     let sWidth = size;
     let sHeight = size;
-    let dx = ( dataCopy.centerX - this.centerX ) / this.width;
-    let dy = ( dataCopy.centerZ - this.centerZ ) / this.width;
+    let dx = 0;
+    let dy = 0;
     let dWidth = size * sizeRatio;
     let dHeight = size * sizeRatio;
     // let thisReusedMesh = this;
