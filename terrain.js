@@ -895,12 +895,12 @@ class DataCopy {
     let sizeRatio = this.width / reusedMesh.width;
 
     // position to place the image data in the destination canvas.
-    let dx = 0;
-    let dy = 0;
+    let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
+    let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
 
     // position of the top-left corner the image data will be extracted.
-    let dirtyX = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
-    let dirtyY = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
+    let dirtyX = 0;
+    let dirtyY = 0;
 
     // size of the rectangle to be painted. Defaults to the width of the image data.
     let dirtyWidth = size * sizeRatio;
