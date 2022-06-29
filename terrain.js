@@ -846,8 +846,8 @@ class ReusedMesh {
     let dirtyY = 0; // ( dataCopy.centerZ - this.centerZ ) / this.width;
 
     // size of the rectangle to be painted. Defaults to the width of the image data.
-    let dirtyWidth = size; // / sizeRatio;
-    let dirtyHeight = size; // / sizeRatio;
+    let dirtyWidth = size / sizeRatio;
+    let dirtyHeight = size / sizeRatio;
 
     this.satilliteCtx.putImageData(
       dataCopy.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
