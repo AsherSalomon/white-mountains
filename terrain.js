@@ -24,6 +24,7 @@ if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 
 
 // let delayUpdate = false;
 let delayUpdate = true;
+let delayFactor = 10;
 
 let showGridHelper = false;
 // let showGridHelper = true;
@@ -85,7 +86,7 @@ export function init( newScene, newCamera ) {
 let delay = 0;
 export function update() {
   delay++;
-  if ( delay % 30 == 0 || delayUpdate == false ) {
+  if ( delay % delayFactor == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
     let cx = camera.position.x;
@@ -687,15 +688,16 @@ class ReusedMesh {
   }
 
   loadSatellite() {
-    if ( this.texture != null ) {
-      this.texture.dispose();
-      this.mesh.material.map = null;
-      this.mesh.material.needsUpdate = true;
-      this.mesh.material.color = pineGreen;
-    }
+    // if ( this.texture != null ) {
+    //   this.texture.dispose();
+    //   this.mesh.material.map = null;
+    //   this.mesh.material.needsUpdate = true;
+    //   this.mesh.material.color = pineGreen;
+    // }
 
     this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
     this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    this.mapAndUpdate();
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
@@ -722,12 +724,16 @@ class ReusedMesh {
     }
   }
 
-  *satelliteGenerator( image, x, y ) {
-    this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+  mapAndUpdate() {
     this.mesh.material.map = this.texture;
     this.mesh.material.color = new THREE.Color();
     this.mesh.material.needsUpdate = true;
     this.texture.needsUpdate = true;
+  }
+
+  *satelliteGenerator( image, x, y ) {
+    this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    this.mapAndUpdate();
   }
 
   clampEdge( edge, reusedMesh, restrictToEdge ) {
