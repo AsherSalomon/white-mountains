@@ -838,12 +838,12 @@ class ReusedMesh {
     let sizeRatio = dataCopy.width / this.width;
 
     // position to place the image data in the destination canvas.
-    let dx = ( dataCopy.centerX - this.centerX ) / this.width;
-    let dy = ( dataCopy.centerZ - this.centerZ ) / this.width;
+    let dx = 0;
+    let dy = 0;
 
     // position of the top-left corner the image data will be extracted.
-    let dirtyX = 0;
-    let dirtyY = 0;
+    let dirtyX = ( dataCopy.centerX - this.centerX ) / this.width;
+    let dirtyY = ( dataCopy.centerZ - this.centerZ ) / this.width;
 
     // size of the rectangle to be painted. Defaults to the width of the image data.
     let dirtyWidth = size / sizeRatio;
