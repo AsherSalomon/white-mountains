@@ -108,7 +108,8 @@ export function update() {
       }
     }
 
-    for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
+    // for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
+    for ( let zoom = maxZoom; zoom >= minZoom; zoom-- ) {
       let breakOut = false;
       for ( let i = 0; i < generatorQueue.length; i++ ) {
         if ( generatorQueue[i].zoom == zoom ) {
