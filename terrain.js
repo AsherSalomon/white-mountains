@@ -821,16 +821,16 @@ class ReusedMesh {
   }
 
   pasteDataCopy( dataCopy ) {
-    for ( let m = 0; m <= downSize; m++ ) {
-      for ( let n = 0; n <= downSize; n++ ) {
-        let x = this.centerX + this.width * ( n / downSize - 0.5 );
-        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-        if ( dataCopy.pointWithinData( x, z ) ) {
-          let j = m * ( downSize + 1 ) + n;
-          this.heightData[j] = this.lookupData( x, z, dataCopy );
-        }
-      }
-    }
+    // for ( let m = 0; m <= downSize; m++ ) {
+    //   for ( let n = 0; n <= downSize; n++ ) {
+    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
+    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+    //     if ( dataCopy.pointWithinData( x, z ) ) {
+    //       let j = m * ( downSize + 1 ) + n;
+    //       this.heightData[j] = this.lookupData( x, z, dataCopy );
+    //     }
+    //   }
+    // }
 
     // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
     // let sizeRatio = this.width / reusedMesh.width;
