@@ -906,7 +906,7 @@ class DataCopy {
     let dirtyWidth = size * sizeRatio;
     let dirtyHeight = size * sizeRatio;
 
-    reusedMesh.satilliteCtx.putImageData( this.imageData );
+    reusedMesh.satilliteCtx.putImageData( this.imageData, 0, 0 );
 
     // reusedMesh.satilliteCtx.putImageData(
     //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
