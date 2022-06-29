@@ -891,28 +891,28 @@ class DataCopy {
       }
     }
 
-    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
-    let sizeRatio = this.width / reusedMesh.width;
-
-    // position to place the image data in the destination canvas.
-    let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
-    let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
-
-    // position of the top-left corner the image data will be extracted.
-    let dirtyX = 0;
-    let dirtyY = 0;
-
-    // size of the rectangle to be painted. Defaults to the width of the image data.
-    let dirtyWidth = size / sizeRatio;
-    let dirtyHeight = size / sizeRatio;
-
-    reusedMesh.satilliteCtx.putImageData(
-      this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-    );
-    reusedMesh.mesh.material.map = reusedMesh.texture;
-    reusedMesh.mesh.material.color = new THREE.Color();
-    reusedMesh.mesh.material.needsUpdate = true;
-    reusedMesh.texture.needsUpdate = true;
+    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
+    // let sizeRatio = this.width / reusedMesh.width;
+    //
+    // // position to place the image data in the destination canvas.
+    // let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
+    // let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
+    //
+    // // position of the top-left corner the image data will be extracted.
+    // let dirtyX = 0;
+    // let dirtyY = 0;
+    //
+    // // size of the rectangle to be painted. Defaults to the width of the image data.
+    // let dirtyWidth = size / sizeRatio;
+    // let dirtyHeight = size / sizeRatio;
+    //
+    // reusedMesh.satilliteCtx.putImageData(
+    //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+    // );
+    // reusedMesh.mesh.material.map = reusedMesh.texture;
+    // reusedMesh.mesh.material.color = new THREE.Color();
+    // reusedMesh.mesh.material.needsUpdate = true;
+    // reusedMesh.texture.needsUpdate = true;
   }
 }
 
