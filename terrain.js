@@ -862,6 +862,7 @@ class ReusedMesh {
     let dWidth = size / sizeRatio;
     let dHeight = size / sizeRatio;
     this.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
+    this.mapAndUpdate();
   }
 }
 
