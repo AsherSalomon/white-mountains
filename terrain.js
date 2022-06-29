@@ -906,9 +906,11 @@ class DataCopy {
     let dirtyWidth = size * sizeRatio;
     let dirtyHeight = size * sizeRatio;
 
-    reusedMesh.satilliteCtx.putImageData(
-      this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-    );
+    reusedMesh.satilliteCtx.putImageData( this.imageData );
+
+    // reusedMesh.satilliteCtx.putImageData(
+    //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+    // );
     reusedMesh.mesh.material.map = reusedMesh.texture;
     reusedMesh.mesh.material.color = new THREE.Color();
     reusedMesh.mesh.material.needsUpdate = true;
