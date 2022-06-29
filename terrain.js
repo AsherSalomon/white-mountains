@@ -855,7 +855,11 @@ class ReusedMesh {
     // reusedMesh.mesh.material.needsUpdate = true;
     // reusedMesh.texture.needsUpdate = true;
 
-    // this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
+    let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
+    let dWidth = size / sizeRatio;
+    let dHeight = size / sizeRatio;
+    this.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
   }
 }
 
@@ -866,10 +870,13 @@ class DataCopy {
     this.centerZ = reusedMesh.centerZ;
     this.heightData = reusedMesh.heightData.slice();
 
-    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    let raw = reusedMesh.satilliteCtx.getImageData( 0, 0, size, size ).data.slice();
-    // to do, to slice or not to slice, that is the question
-    this.imageData = new ImageData( raw, size );
+    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    // let raw = reusedMesh.satilliteCtx.getImageData( 0, 0, size, size ).data.slice();
+    // // to do, to slice or not to slice, that is the question
+    // this.imageData = new ImageData( raw, size );
+
+    this.savedImage = new Image();
+    this.savedImage.src = reusedMesh.satelliteCanvas.toDataURL();
   }
 
   pointWithinData( x, z ) {
