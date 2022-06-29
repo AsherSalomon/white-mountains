@@ -901,7 +901,7 @@ class DataCopy {
     reusedMesh.satilliteCtx.putImageData(
       this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
     );
-    reusedMesh.mesh.material.map = this.texture;
+    reusedMesh.mesh.material.map = reusedMesh.texture;
     reusedMesh.mesh.material.color = new THREE.Color();
     reusedMesh.mesh.material.needsUpdate = true;
     reusedMesh.texture.needsUpdate = true;
