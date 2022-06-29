@@ -748,7 +748,7 @@ class ReusedMesh {
     }
   }
 
-  lookupData( x, z, data = this.heightData ) {
+  lookupData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
@@ -767,10 +767,10 @@ class ReusedMesh {
     let i12 = m1 * ( downSize + 1 ) + n2;
     let i22 = m2 * ( downSize + 1 ) + n2;
 
-    let d11 = data[i11];
-    let d21 = data[i21];
-    let d12 = data[i12];
-    let d22 = data[i22];
+    let d11 = this.heightData[i11];
+    let d21 = this.heightData[i21];
+    let d12 = this.heightData[i12];
+    let d22 = this.heightData[i22];
 
     if ( d11 == 0 || d21 == 0 || d12 == 0 || d22 == 0 ) {
       return 0;
@@ -821,16 +821,16 @@ class ReusedMesh {
   }
 
   pasteDataCopy( dataCopy ) {
-    // for ( let m = 0; m <= downSize; m++ ) {
-    //   for ( let n = 0; n <= downSize; n++ ) {
-    //     let x = this.centerX + this.width * ( n / downSize - 0.5 );
-    //     let z = this.centerZ + this.width * ( m / downSize - 0.5 );
-    //     if ( dataCopy.pointWithinData( x, z ) ) {
-    //       let j = m * ( downSize + 1 ) + n;
-    //       this.heightData[j] = this.lookupData( x, z, dataCopy );
-    //     }
-    //   }
-    // }
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( dataCopy.pointWithinData( x, z ) ) {
+          let j = m * ( downSize + 1 ) + n;
+          this.heightData[j] = dataCopy.lookupData( x, z );
+        }
+      }
+    }
 
     // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
     // let sizeRatio = this.width / reusedMesh.width;
