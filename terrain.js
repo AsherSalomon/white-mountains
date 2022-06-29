@@ -690,12 +690,6 @@ class ReusedMesh {
   }
 
   loadSatellite() {
-    // if ( this.texture != null ) {
-    //   this.texture.dispose();
-    //   this.mesh.material.map = null;
-    //   this.mesh.material.needsUpdate = true;
-    //   this.mesh.material.color = pineGreen;
-    // }
 
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
@@ -912,13 +906,13 @@ class DataCopy {
     let dirtyWidth = size * sizeRatio;
     let dirtyHeight = size * sizeRatio;
 
-    // reusedMesh.satilliteCtx.putImageData(
-    //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-    // );
-    // reusedMesh.mesh.material.map = reusedMesh.texture;
-    // reusedMesh.mesh.material.color = new THREE.Color();
-    // reusedMesh.mesh.material.needsUpdate = true;
-    // reusedMesh.texture.needsUpdate = true;
+    reusedMesh.satilliteCtx.putImageData(
+      this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+    );
+    reusedMesh.mesh.material.map = reusedMesh.texture;
+    reusedMesh.mesh.material.color = new THREE.Color();
+    reusedMesh.mesh.material.needsUpdate = true;
+    reusedMesh.texture.needsUpdate = true;
   }
 }
 
