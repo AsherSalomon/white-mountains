@@ -286,6 +286,8 @@ class Square {
       this.children[i].makeVisible();
       this.children[i].reusedMesh.pasteDataCopy( dataCopy );
       this.children[i].reusedMesh.refreshMesh();
+      this.children[i].reusedMesh.mapAndUpdate();
+
     }
   }
 
@@ -300,6 +302,7 @@ class Square {
       this.reusedMesh.pasteDataCopy( dataCopies[i] );
     }
     this.reusedMesh.refreshMesh();
+    this.reusedMesh.mapAndUpdate();
   }
 
   distanceFromCamera() {
@@ -862,7 +865,6 @@ class ReusedMesh {
     let dWidth = size / sizeRatio;
     let dHeight = size / sizeRatio;
     this.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
-    this.mapAndUpdate();
   }
 }
 
