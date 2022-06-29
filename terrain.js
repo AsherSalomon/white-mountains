@@ -864,8 +864,10 @@ class ReusedMesh {
     let dy = 0; // ( dataCopy.centerZ - this.centerZ ) / this.width;
     let dWidth = size; // size / sizeRatio;
     let dHeight = size; // size / sizeRatio;
-    this.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
-    console.log( 'paste' );
+    let thisReusedMesh = this;
+    dataCopy.savedImage.onload = function() {
+      thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
+    };
   }
 }
 
