@@ -903,8 +903,8 @@ class DataCopy {
     let dirtyY = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
 
     // size of the rectangle to be painted. Defaults to the width of the image data.
-    let dirtyWidth = size * sizeRatio ** 2;
-    let dirtyHeight = size * sizeRatio ** 2;
+    let dirtyWidth = size * sizeRatio;
+    let dirtyHeight = size * sizeRatio;
 
     reusedMesh.satilliteCtx.putImageData(
       this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
