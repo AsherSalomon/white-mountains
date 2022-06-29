@@ -22,14 +22,18 @@ const satilliteZoom = 1;
 const satiliteTilesWidth = 2 ** satilliteZoom;
 if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
 
-let delayUpdate = false;
-// let delayUpdate = true;
+// let delayUpdate = false;
+let delayUpdate = true;
+
 let showGridHelper = false;
 // let showGridHelper = true;
+
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
+
 let randomizeColors = false;
 // let randomizeColors = true;
+
 let flashAdjacentColors = false;
 // let flashAdjacentColors = true;
 
