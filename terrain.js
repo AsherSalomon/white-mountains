@@ -108,7 +108,6 @@ export function update() {
       }
     }
 
-    // for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
     for ( let zoom = maxZoom; zoom >= minZoom; zoom-- ) {
       let breakOut = false;
       for ( let i = 0; i < generatorQueue.length; i++ ) {
@@ -830,7 +829,7 @@ class DataCopy {
   pointWithinData( x, z ) {
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
-    if ( m >= 0 && n >= 0 && m <= downSize + 1 && n <= downSize + 1 ) {
+    if ( m >= -1 && n >= -1 && m <= downSize + 1 && n <= downSize + 1 ) {
       return true;
     } else {
       return false;
@@ -884,6 +883,7 @@ class DataCopy {
       }
     }
 
+    // CanvasRenderingContext2D.putImageData()
   }
 }
 
