@@ -835,39 +835,40 @@ class ReusedMesh {
       }
     }
 
-    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
-    // let sizeRatio = this.width / reusedMesh.width;
-    //
-    // // position to place the image data in the destination canvas.
-    // let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
-    // let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
-    //
-    // // position of the top-left corner the image data will be extracted.
-    // let dirtyX = 0;
-    // let dirtyY = 0;
-    //
-    // // size of the rectangle to be painted. Defaults to the width of the image data.
-    // let dirtyWidth = size / sizeRatio;
-    // let dirtyHeight = size / sizeRatio;
-    //
-    // reusedMesh.satilliteCtx.putImageData(
-    //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-    // );
-    // reusedMesh.mesh.material.map = reusedMesh.texture;
-    // reusedMesh.mesh.material.color = new THREE.Color();
-    // reusedMesh.mesh.material.needsUpdate = true;
-    // reusedMesh.texture.needsUpdate = true;
-
     let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
     let sizeRatio = dataCopy.width / this.width;
-    let dx = 0; // ( dataCopy.centerX - this.centerX ) / this.width;
-    let dy = 0; // ( dataCopy.centerZ - this.centerZ ) / this.width;
-    let dWidth = size; // size / sizeRatio;
-    let dHeight = size; // size / sizeRatio;
-    let thisReusedMesh = this;
-    dataCopy.savedImage.onload = function() {
-      thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
-    };
+
+    // position to place the image data in the destination canvas.
+    let dx = ( dataCopy.centerX - this.centerX ) / this.width;
+    let dy = ( dataCopy.centerZ - this.centerZ ) / this.width;
+
+    // position of the top-left corner the image data will be extracted.
+    let dirtyX = 0;
+    let dirtyY = 0;
+
+    // size of the rectangle to be painted. Defaults to the width of the image data.
+    let dirtyWidth = size / sizeRatio;
+    let dirtyHeight = size / sizeRatio;
+
+    this.satilliteCtx.putImageData(
+      this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+    );
+    // this.mesh.material.map = this.texture;
+    // this.mesh.material.color = new THREE.Color();
+    // this.mesh.material.needsUpdate = true;
+    // this.texture.needsUpdate = true;
+    this.mapAndUpdate();
+
+    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
+    // let sizeRatio = dataCopy.width / this.width;
+    // let dx = 0; // ( dataCopy.centerX - this.centerX ) / this.width;
+    // let dy = 0; // ( dataCopy.centerZ - this.centerZ ) / this.width;
+    // let dWidth = size; // size / sizeRatio;
+    // let dHeight = size; // size / sizeRatio;
+    // let thisReusedMesh = this;
+    // dataCopy.savedImage.onload = function() {
+    //   thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
+    // };
   }
 }
 
@@ -878,13 +879,13 @@ class DataCopy {
     this.centerZ = reusedMesh.centerZ;
     this.heightData = reusedMesh.heightData.slice();
 
-    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    // let raw = reusedMesh.satilliteCtx.getImageData( 0, 0, size, size ).data.slice();
-    // // to do, to slice or not to slice, that is the question
-    // this.imageData = new ImageData( raw, size );
+    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    let raw = reusedMesh.satilliteCtx.getImageData( 0, 0, size, size ).data.slice();
+    // to do, to slice or not to slice, that is the question
+    this.imageData = new ImageData( raw, size );
 
-    this.savedImage = new Image();
-    this.savedImage.src = reusedMesh.satelliteCanvas.toDataURL();
+    // this.savedImage = new Image();
+    // this.savedImage.src = reusedMesh.satelliteCanvas.toDataURL();
   }
 
   pointWithinData( x, z ) {
