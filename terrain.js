@@ -883,7 +883,27 @@ class DataCopy {
       }
     }
 
-    // CanvasRenderingContext2D.putImageData()
+    // satiliteTilesWidth
+    // IMAGERY_TILE_SIZE
+
+    let sizeRatio = this.width / reusedMesh.width;
+    // this.imageData.width
+
+    // position to place the image data in the destination canvas.
+    let dx = this.centerX - reusedMesh.centerX;
+    let dy = this.centerZ - reusedMesh.centerZ;
+
+    // position of the top-left corner the image data will be extracted.
+    let dirtyX = 0;
+    let dirtyY = 0;
+
+    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
+    // size of the rectangle to be painted. Defaults to the width of the image data.
+    let dirtyWidth = size;
+    let dirtyHeight = size;
+    reusedMesh.satilliteCtx.putImageData(
+      this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+    );
   }
 }
 
