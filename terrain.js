@@ -22,8 +22,8 @@ const satilliteZoom = 1;
 const satiliteTilesWidth = 2 ** satilliteZoom;
 if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
 
-// let delayUpdate = false;
-let delayUpdate = true;
+let delayUpdate = false;
+// let delayUpdate = true;
 let delayFactor = 10;
 
 let showGridHelper = false;
