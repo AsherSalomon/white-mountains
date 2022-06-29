@@ -533,6 +533,8 @@ class ReusedMesh {
 
     this.refreshMesh();
 
+    this.clearTexture();
+
     scene.add( this.mesh );
 
     this.readyToLoad = true;
@@ -695,10 +697,6 @@ class ReusedMesh {
     //   this.mesh.material.color = pineGreen;
     // }
 
-    this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
-    this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
-    this.mapAndUpdate();
-
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
@@ -722,6 +720,12 @@ class ReusedMesh {
         );
       }
     }
+  }
+
+  clearTexture() {
+    this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
+    this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
+    this.mapAndUpdate();
   }
 
   mapAndUpdate() {
