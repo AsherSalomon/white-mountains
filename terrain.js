@@ -83,10 +83,10 @@ export function init( newScene, newCamera ) {
   minZoomSquare.makeVisible();
 }
 
-let delay = 0;
+let frameCount = 0;
 export function update() {
-  delay++;
-  if ( delay % delayFactor == 0 || delayUpdate == false ) {
+  frameCount++;
+  if ( frameCount % delayFactor == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
     let cx = camera.position.x;
@@ -284,7 +284,7 @@ class Square {
 
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
-      dataCopy.putDataOn( this.children[i].reusedMesh );
+      this.children[i].reusedMesh.pasteDataCopy( dataCopy );
       this.children[i].reusedMesh.refreshMesh();
     }
   }
@@ -297,7 +297,7 @@ class Square {
     }
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
-      dataCopies[i].putDataOn( this.reusedMesh );
+      this.reusedMesh.pasteDataCopy( dataCopies[i] );
     }
     this.reusedMesh.refreshMesh();
   }
@@ -722,16 +722,16 @@ class ReusedMesh {
     this.mapAndUpdate();
   }
 
+  *satelliteGenerator( image, x, y ) {
+    this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+    this.mapAndUpdate();
+  }
+
   mapAndUpdate() {
     this.mesh.material.map = this.texture;
     this.mesh.material.color = new THREE.Color();
     this.mesh.material.needsUpdate = true;
     this.texture.needsUpdate = true;
-  }
-
-  *satelliteGenerator( image, x, y ) {
-    this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
-    this.mapAndUpdate();
   }
 
   clampEdge( edge, reusedMesh, restrictToEdge ) {
@@ -819,6 +819,44 @@ class ReusedMesh {
     scene.remove( this.mesh );
     // this.square = null;
   }
+
+  pasteDataCopy( dataCopy ) {
+    for ( let m = 0; m <= downSize; m++ ) {
+      for ( let n = 0; n <= downSize; n++ ) {
+        let x = this.centerX + this.width * ( n / downSize - 0.5 );
+        let z = this.centerZ + this.width * ( m / downSize - 0.5 );
+        if ( dataCopy.pointWithinData( x, z ) ) {
+          let j = m * ( downSize + 1 ) + n;
+          reusedMesh.heightData[j] = dataCopy.lookupData( x, z );
+        }
+      }
+    }
+
+    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
+    // let sizeRatio = this.width / reusedMesh.width;
+    //
+    // // position to place the image data in the destination canvas.
+    // let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
+    // let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
+    //
+    // // position of the top-left corner the image data will be extracted.
+    // let dirtyX = 0;
+    // let dirtyY = 0;
+    //
+    // // size of the rectangle to be painted. Defaults to the width of the image data.
+    // let dirtyWidth = size / sizeRatio;
+    // let dirtyHeight = size / sizeRatio;
+    //
+    // reusedMesh.satilliteCtx.putImageData(
+    //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+    // );
+    // reusedMesh.mesh.material.map = reusedMesh.texture;
+    // reusedMesh.mesh.material.color = new THREE.Color();
+    // reusedMesh.mesh.material.needsUpdate = true;
+    // reusedMesh.texture.needsUpdate = true;
+
+    // this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
+  }
 }
 
 class DataCopy {
@@ -877,42 +915,6 @@ class DataCopy {
     let interpolated = d1 + ( d2 - d1 ) * ( n - n1 );
 
     return interpolated;
-  }
-
-  putDataOn( reusedMesh ) {
-    for ( let m = 0; m <= downSize; m++ ) {
-      for ( let n = 0; n <= downSize; n++ ) {
-        let x = reusedMesh.centerX + reusedMesh.width * ( n / downSize - 0.5 );
-        let z = reusedMesh.centerZ + reusedMesh.width * ( m / downSize - 0.5 );
-        if ( this.pointWithinData( x, z ) ) {
-          let j = m * ( downSize + 1 ) + n;
-          reusedMesh.heightData[j] = this.lookupData( x, z );
-        }
-      }
-    }
-
-    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
-    // let sizeRatio = this.width / reusedMesh.width;
-    //
-    // // position to place the image data in the destination canvas.
-    // let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
-    // let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
-    //
-    // // position of the top-left corner the image data will be extracted.
-    // let dirtyX = 0;
-    // let dirtyY = 0;
-    //
-    // // size of the rectangle to be painted. Defaults to the width of the image data.
-    // let dirtyWidth = size / sizeRatio;
-    // let dirtyHeight = size / sizeRatio;
-    //
-    // reusedMesh.satilliteCtx.putImageData(
-    //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-    // );
-    // reusedMesh.mesh.material.map = reusedMesh.texture;
-    // reusedMesh.mesh.material.color = new THREE.Color();
-    // reusedMesh.mesh.material.needsUpdate = true;
-    // reusedMesh.texture.needsUpdate = true;
   }
 }
 
