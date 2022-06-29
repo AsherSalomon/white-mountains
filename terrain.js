@@ -854,8 +854,8 @@ class ReusedMesh {
     let sizeRatio = dataCopy.width / this.width;
     let dx = ( dataCopy.centerX - this.centerX ) / this.width;
     let dy = ( dataCopy.centerZ - this.centerZ ) / this.width;
-    let dWidth = size / sizeRatio;
-    let dHeight = size / sizeRatio;
+    let dWidth = size * sizeRatio;
+    let dHeight = size * sizeRatio;
     // let thisReusedMesh = this;
     // dataCopy.savedImage.onload = function() {
     //   thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
