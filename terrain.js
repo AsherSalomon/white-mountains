@@ -855,6 +855,8 @@ class ReusedMesh {
     // reusedMesh.mesh.material.needsUpdate = true;
     // reusedMesh.texture.needsUpdate = true;
 
+    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
+    let sizeRatio = this.width / reusedMesh.width;
     let dx = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width;
     let dy = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width;
     let dWidth = size / sizeRatio;
