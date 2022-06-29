@@ -852,6 +852,10 @@ class ReusedMesh {
 
     let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
     let sizeRatio = dataCopy.width / this.width;
+    let sx = 0;
+    let sy = 0;
+    let sWidth = size;
+    let sHeight = size;
     let dx = ( dataCopy.centerX - this.centerX ) / this.width;
     let dy = ( dataCopy.centerZ - this.centerZ ) / this.width;
     let dWidth = size * sizeRatio;
@@ -861,7 +865,10 @@ class ReusedMesh {
     //   thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
     // };
 
-    this.satilliteCtx.drawImage( dataCopy.canvas, dx, dy, dWidth, dHeight );
+    // this.satilliteCtx.drawImage( dataCopy.canvas, dx, dy, dWidth, dHeight );
+    this.satilliteCtx.drawImage(
+      dataCopy.canvas, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
+    );
   }
 }
 
