@@ -851,7 +851,7 @@ class ReusedMesh {
     let dirtyHeight = size / sizeRatio;
 
     this.satilliteCtx.putImageData(
-      this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
+      dataCopy.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
     );
 
     // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
