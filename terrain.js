@@ -899,14 +899,14 @@ class DataCopy {
     let dy = 0;
 
     // position of the top-left corner the image data will be extracted.
-    let dirtyX = 0; // ( this.centerX - reusedMesh.centerX ) / reusedMesh.width * size;
-    let dirtyY = 0; // ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width * size;
+    let dirtyX = ( this.centerX - reusedMesh.centerX ) / reusedMesh.width * size;
+    let dirtyY = ( this.centerZ - reusedMesh.centerZ ) / reusedMesh.width * size;
 
     // size of the rectangle to be painted. Defaults to the width of the image data.
     let dirtyWidth = size * sizeRatio;
     let dirtyHeight = size * sizeRatio;
 
-    reusedMesh.satilliteCtx.putImageData( this.imageData, 0, 0 );
+    reusedMesh.satilliteCtx.putImageData( this.imageData, dx, dy, dirtyX, dirtyY );
 
     // reusedMesh.satilliteCtx.putImageData(
     //   this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
