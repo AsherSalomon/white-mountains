@@ -853,11 +853,6 @@ class ReusedMesh {
     this.satilliteCtx.putImageData(
       this.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
     );
-    // this.mesh.material.map = this.texture;
-    // this.mesh.material.color = new THREE.Color();
-    // this.mesh.material.needsUpdate = true;
-    // this.texture.needsUpdate = true;
-    this.mapAndUpdate();
 
     // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
     // let sizeRatio = dataCopy.width / this.width;
