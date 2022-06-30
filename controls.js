@@ -196,7 +196,7 @@ export function update( camera ) {
   camera.position.add( delta );
 
   if ( camera.position.y > maxElevation ) {
-    camera.position.y = maxElevation;
+    camera.position.y -= ( camera.position.y - maxElevation ) * 0.1;
   }
 
 }
