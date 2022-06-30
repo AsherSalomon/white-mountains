@@ -13,7 +13,7 @@ const angularResolution = 4 / 1; // tile width / distance to camera
 
 const pineGreen = new THREE.Color( 0x204219 );
 
-const minZoom = 0;
+const minZoom = 0; // 5
 const terrainZoom = 12;
 const polygonReduction = 3;
 const maxZoom = terrainZoom + polygonReduction;
@@ -968,5 +968,6 @@ function dataToHeight( data ) {
   return -10000 + ( data[0] * 65536 + data[1] * 256 + data[2] ) * 0.1;
 }
 function curvatureOfTheEarth( x, z ) {
-  return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
+  // return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
+  return Math.sqrt( earthsRaius ** 2 - ( x ** 2 + z ** 2 ) ) - earthsRaius;
 }
