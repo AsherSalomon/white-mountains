@@ -7,7 +7,6 @@ const latitude = 44.2705; // Mt. Washington
 const longitude = -71.30325;
 const earthsRaius = 6371000; // meters
 const eyeHeight = 1.6256; // meters
-const maxElevation = 1916.582; // 9144; // meters
 
 const angularResolution = 4 / 1; // tile width / distance to camera
 
