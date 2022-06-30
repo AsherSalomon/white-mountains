@@ -23,6 +23,7 @@ var rightTouch = { identifier: 0 };
 var leftTouch = { identifier: 0 };
 
 const maxElevation = 10668;
+const maxDistance = 150000;
 
 export function init( scene, camera ) {
 
@@ -197,6 +198,12 @@ export function update( camera ) {
 
   if ( camera.position.y > maxElevation ) {
     camera.position.y -= ( camera.position.y - maxElevation ) * 0.1;
+  }
+  let azimuth = camera.position.clone();
+  azimuth.y = 0;
+  if ( azimuth.length() > maxDistance ) {
+    camera.position.sub( azimuth );
+    camera.position.sub( azimuth );
   }
 
 }
