@@ -19,7 +19,7 @@ const polygonReduction = 3;
 const maxZoom = terrainZoom + polygonReduction;
 const satilliteZoom = 2;
 const satiliteTilesWidth = 2 ** satilliteZoom;
-if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
+// if ( maxZoom + satilliteZoom > 20 ) { console.error( 'maxZoom + satilliteZoom > 20' ); }
 
 let delayUpdate = false;
 // let delayUpdate = true;
@@ -58,6 +58,7 @@ export function init( newScene, newCamera ) {
   let tileWidthNS = earthsRaius * deltaNS * Math.PI / 180;
   let tileWidthEW = earthsRaius * deltaEW * Math.PI / 180 * Math.cos( latitude * Math.PI / 180 );
   let tileWidth = ( tileWidthNS + tileWidthEW ) / 2; // 6999.478360682135 meters
+  console.log( '( tileWidth of maxZoom ) / ELEVATION_TILE_SIZE', tileWidth / ELEVATION_TILE_SIZE );
 
   for ( let zoom = minZoom; zoom <= maxZoom; zoom++ ) {
     origin[zoom] = tilebelt.pointToTileFraction( longitude, latitude, zoom );
@@ -694,7 +695,6 @@ class ReusedMesh {
   }
 
   loadSatellite() {
-
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
@@ -703,19 +703,23 @@ class ReusedMesh {
           this.square.tile[ 1 ] * satiliteTilesWidth + y,
           this.square.tile[ 2 ] + satilliteZoom
         ];
-        let url = urlForTile( ...satiliteTile, 'satellite' );
-        let thisReusedMesh = this;
-        loader.load( url, function ( image ) {
-            let newGenerator = thisReusedMesh.satelliteGenerator( image, x, y, );
-            newGenerator.intendedSquare = thisReusedMesh.square;
-            newGenerator.zoom = thisReusedMesh.zoom;
-            generatorQueue.push( newGenerator );
-          },
-          undefined, // onProgress not supported
-          function () {
-            // console.error( 'satellite ImageLoader error' );
-          }
-        );
+        if ( maxZoom + satilliteZoom <= 20 ) {
+          let url = urlForTile( ...satiliteTile, 'satellite' );
+          let thisReusedMesh = this;
+          loader.load( url, function ( image ) {
+              let newGenerator = thisReusedMesh.satelliteGenerator( image, x, y, );
+              newGenerator.intendedSquare = thisReusedMesh.square;
+              newGenerator.zoom = thisReusedMesh.zoom;
+              generatorQueue.push( newGenerator );
+            },
+            undefined, // onProgress not supported
+            function () {
+              // console.error( 'satellite ImageLoader error' );
+            }
+          );
+        } else {
+          console.log( 'maxZoom + satilliteZoom > 20' );
+        }
       }
     }
   }
