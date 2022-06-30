@@ -867,7 +867,7 @@ class ReusedMesh {
     //   thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
     // };
 
-    // this.satilliteCtx.drawImage( dataCopy.canvas, dx, dy, dWidth, dHeight );
+    this.satilliteCtx.drawImage( dataCopy.canvas, dx, dy, dWidth, dHeight );
     // this.satilliteCtx.drawImage(
     //   dataCopy.canvas, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
     // );
