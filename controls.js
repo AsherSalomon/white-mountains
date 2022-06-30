@@ -158,6 +158,10 @@ export function init( scene, camera ) {
 
 }
 
+export function setSpeed( cameraElevation ) {
+  multiplier = cameraElevation
+}
+
 export function update( camera ) {
 
   let delta = new Vector3();
