@@ -90,6 +90,7 @@ function animate() {
 	stats.update();
 	renderer.render( scene, camera );
 
+	Controls.setSpeed( Terrain.cameraElevation );
 	Controls.update( camera );
 
 }
