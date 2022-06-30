@@ -15,7 +15,7 @@ let scene, renderer, camera, stats;
 
 // 1 micrometer to 100 billion light years in one scene, with 1 unit = 1 meter?  preposterous!  and yet...
 // const NEAR = 1e-6, FAR = 1e27; // for logarithmicDepthBuffer
-const NEAR = 1, FAR = 156284 * 10;
+const NEAR = 1, FAR = 6371000;// 156284 * 10;
 
 Ammo().then( function ( AmmoLib ) {
 
@@ -35,7 +35,7 @@ function init() {
   scene = new THREE.Scene();
 
 	// scene.background = new THREE.Color( 0x2759b0 );
-	scene.fog = new THREE.Fog( 0x7f7f7f, 1, 156260 );
+	// scene.fog = new THREE.Fog( 0x7f7f7f, 1, 156260 );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
