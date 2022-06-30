@@ -44,6 +44,8 @@ let squares = [];
 let generatorQueue = [];
 let meshBin = [];
 
+let cameraElevation = 0;
+
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
@@ -99,6 +101,7 @@ export function update() {
         }
       }
     }
+    cameraElevation = camera.position.y - elevationAtCamera;
     if ( camera.position.y < elevationAtCamera + eyeHeight ) {
       camera.position.y = elevationAtCamera + eyeHeight;
     }
@@ -316,8 +319,7 @@ class Square {
     } else {
       distance = Math.sqrt( deltaX ** 2 + deltaZ ** 2 );
     }
-    // let elevation = camera.position.y; // - terrain
-    // distance = Math.sqrt( distance ** 2 + elevation ** 2 );
+    distance = Math.sqrt( distance ** 2 + cameraElevation ** 2 );
     return distance;
   }
 
