@@ -35,7 +35,7 @@ function init() {
   scene = new THREE.Scene();
 
 	// scene.background = new THREE.Color( 0x2759b0 );
-	// scene.fog = new THREE.Fog( 0x7f7f7f, 1, 156260 );
+	scene.fog = new THREE.Fog( 0x7f7f7f, 1, 156260 );
 
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, NEAR, FAR );
 	scene.add( camera );
