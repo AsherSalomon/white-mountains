@@ -44,7 +44,7 @@ let squares = [];
 let generatorQueue = [];
 let meshBin = [];
 
-let cameraElevation = 0;
+export let cameraElevation = 0;
 
 export function init( newScene, newCamera ) {
   scene = newScene;
