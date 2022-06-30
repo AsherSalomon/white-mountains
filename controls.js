@@ -159,7 +159,7 @@ export function init( scene, camera ) {
 }
 
 export function setSpeed( cameraElevation ) {
-  multiplier = cameraElevation * 0.5;
+  multiplier = cameraElevation * 0.3;
 }
 
 export function update( camera ) {
