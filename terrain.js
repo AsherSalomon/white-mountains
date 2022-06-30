@@ -13,7 +13,7 @@ const angularResolution = 4 / 1; // tile width / distance to camera
 
 const pineGreen = new THREE.Color( 0x204219 );
 
-const minZoom = 5;
+const minZoom = 0;
 const terrainZoom = 12;
 const polygonReduction = 3;
 const maxZoom = terrainZoom + polygonReduction;
