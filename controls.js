@@ -22,6 +22,8 @@ const ongoingTouches = [];
 var rightTouch = { identifier: 0 };
 var leftTouch = { identifier: 0 };
 
+const maxElevation = 10668;
+
 export function init( scene, camera ) {
 
   controls = new PointerLockControls( camera, document.body );
@@ -192,5 +194,9 @@ export function update( camera ) {
   delta.multiplyScalar( multiplier );
 
   camera.position.add( delta );
+
+  if ( camera.postion.y > maxElevation ) {
+    camera.postion.y = maxElevation;
+  }
 
 }
