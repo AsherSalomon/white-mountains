@@ -45,10 +45,14 @@ let meshBin = [];
 
 export let cameraElevation = 0;
 
+let dataCopy;
+
 export function init( newScene, newCamera ) {
   scene = newScene;
   camera = newCamera;
   frustum = new THREE.Frustum();
+
+  dataCopy = new DataCopy();
 
   let tile = tilebelt.pointToTile( longitude, latitude,  maxZoom );
   let bbox = tilebelt.tileToBBOX( tile ); // [w, s, e, n]
@@ -877,7 +881,6 @@ class ReusedMesh {
   }
 }
 
-let dataCopy = new DataCopy();
 class DataCopy {
   constructor() {
     this.canvas = document.createElement('canvas');
