@@ -202,6 +202,9 @@ export function update( camera ) {
   let flattened = camera.position.clone();
   flattened.y = 0;
   if ( flattened.length() > maxDistance ) {
+    let delta = flattened.length() - maxDistance;
+    flattened.normalize()
+    flattened.multiplyScalar( delta * 0.1 );
     camera.position.sub( flattened ); // ha ha, just try to excape now
   }
 
