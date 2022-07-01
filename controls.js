@@ -196,14 +196,13 @@ export function update( camera ) {
 
   camera.position.add( delta );
 
-  if ( camera.position.y > maxElevation ) {
+  if ( camera.position.y > maxElevation ) { // a soft 30,000 ft ceiling
     camera.position.y -= ( camera.position.y - maxElevation ) * 0.1;
   }
   let flattened = camera.position.clone();
   flattened.y = 0;
   if ( flattened.length() > maxDistance ) {
-    camera.position.sub( flattened );
-    camera.position.sub( flattened );
+    camera.position.sub( flattened ); // ha ha, just try to excape now
   }
 
 }
