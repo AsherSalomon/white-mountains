@@ -231,7 +231,8 @@ class Square {
   }
 
   split() {
-    let dataCopy = new DataCopy( this.reusedMesh );
+    // let dataCopy = new DataCopy( this.reusedMesh );
+    dataCopy.init( this.reusedMesh );
     this.makeNotVisible();
 
     if ( this.splitAlready == false ) {
@@ -294,14 +295,11 @@ class Square {
   }
 
   merge() {
-    let dataCopies = [];
-    for ( let i = 0; i < this.children.length; i ++ ) {
-      dataCopies.push( new DataCopy( this.children[i].reusedMesh ) );
-      this.children[i].makeNotVisible();
-    }
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
-      this.reusedMesh.pasteDataCopy( dataCopies[i] );
+      dataCopy.init( this.children[i].reusedMesh );
+      this.reusedMesh.pasteDataCopy( dataCopy );
+      this.children[i].makeNotVisible();
     }
     this.reusedMesh.refreshMesh();
     this.reusedMesh.mapAndUpdate();
@@ -879,26 +877,22 @@ class ReusedMesh {
   }
 }
 
+let dataCopy = new DataCopy();
 class DataCopy {
-  constructor( reusedMesh ) {
+  constructor() {
+    this.canvas = document.createElement('canvas');
+    this.context = this.canvas.getContext('2d');
+  }
+
+  init(reusedMesh ) {
     this.width = reusedMesh.width;
     this.centerX = reusedMesh.centerX;
     this.centerZ = reusedMesh.centerZ;
     this.heightData = reusedMesh.heightData.slice();
 
-    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
-    // let raw = reusedMesh.satilliteCtx.getImageData( 0, 0, size, size ).data.slice();
-    // // to do, to slice or not to slice, that is the question
-    // this.imageData = new ImageData( raw, size );
-
-    // this.savedImage = new Image();
-    // this.savedImage.src = reusedMesh.satelliteCanvas.toDataURL();
-
-    this.canvas = document.createElement('canvas');
     this.canvas.width = reusedMesh.satelliteCanvas.width;
     this.canvas.height = reusedMesh.satelliteCanvas.height;
-    var context = this.canvas.getContext('2d');
-    context.drawImage( reusedMesh.satelliteCanvas, 0, 0 );
+    this.context.drawImage( reusedMesh.satelliteCanvas, 0, 0 );
   }
 
   pointWithinData( x, z ) {
