@@ -780,7 +780,6 @@ class ReusedMesh {
   }
 
   lookupData( x, z ) {
-    callsPerUpdate++;
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
@@ -907,6 +906,7 @@ class DataCopy {
   }
 
   lookupData( x, z ) {
+    callsPerUpdate++;
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
