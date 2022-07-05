@@ -754,6 +754,8 @@ class ReusedMesh {
   }
 
   *satelliteGenerator( image, x, y ) {
+    callsPerUpdate++;
+
     this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.mapAndUpdate();
   }
@@ -824,8 +826,6 @@ class ReusedMesh {
   }
 
   refreshMesh() {
-    callsPerUpdate++;
-
     let vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
