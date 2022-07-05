@@ -815,6 +815,7 @@ class ReusedMesh {
   }
 
   setDataPoint( x, z, dataPoint ) {
+    callsPerUpdate++;
     let m = Math.round( ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize );
     let n = Math.round( ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize );
     if ( m >= 0 && n >= 0 && m <= downSize && n <= downSize ) {
@@ -824,7 +825,6 @@ class ReusedMesh {
   }
 
   refreshMesh() {
-    callsPerUpdate++;
     let vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
