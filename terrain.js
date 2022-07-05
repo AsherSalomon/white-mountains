@@ -89,6 +89,7 @@ export function init( newScene, newCamera ) {
 }
 
 let callsPerUpdate = 0;
+  // callsPerUpdate++;
 
 let frameCount = 0;
 export function update() {
@@ -98,6 +99,7 @@ export function update() {
   }
 
   frameCount++;
+  console.log( frameCount );
   if ( frameCount % delayFactor == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
@@ -852,7 +854,6 @@ class ReusedMesh {
   }
 
   pasteDataCopy( dataCopy ) {
-    callsPerUpdate++;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
         let x = this.centerX + this.width * ( n / downSize - 0.5 );
@@ -885,7 +886,7 @@ class DataCopy {
     this.context = this.canvas.getContext('2d');
   }
 
-  init(reusedMesh ) {
+  init( reusedMesh ) {
     this.width = reusedMesh.width;
     this.centerX = reusedMesh.centerX;
     this.centerZ = reusedMesh.centerZ;
