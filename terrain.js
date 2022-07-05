@@ -147,6 +147,7 @@ export function update() {
     if ( squares[i].reusedMesh != null ) {
       if ( squares[i].reusedMesh.needsRefresh ) {
         squares[i].reusedMesh.refreshMesh();
+        squares[i].reusedMesh.needsRefresh = false;
         break;
       }
     }
