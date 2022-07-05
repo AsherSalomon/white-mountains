@@ -89,7 +89,6 @@ export function init( newScene, newCamera ) {
 }
 
 let callsPerUpdate = 0;
-// callsPerUpdate++;
 
 let frameCount = 0;
 export function update() {
@@ -431,6 +430,7 @@ class Edge {
   }
 
   recursiveVisibleSquares() {
+    callsPerUpdate++;
     let visibleList = [];
     for ( let i = 0; i < this.squares.length; i++ ) {
       if ( this.squares[i].visible ) {
