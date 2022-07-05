@@ -422,6 +422,7 @@ class Edge {
   }
 
   findRootEdge() {
+    callsPerUpdate++;
     let root = this;
     while ( root.parent != null ) {
       root = root.parent;
@@ -490,7 +491,6 @@ class Edge {
   }
 
   pointIsWithinEnds( x, z ) {
-    callsPerUpdate++;
     let xz = new THREE.Vector3( x, 0, z );
     xz.sub( this.endA );
     let direction = new THREE.Vector3().subVectors( this.endB, this.endA );
