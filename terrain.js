@@ -430,6 +430,8 @@ class Edge {
   }
 
   recursiveVisibleSquares() {
+    callsPerUpdate++;
+    
     let visibleList = [];
     for ( let i = 0; i < this.squares.length; i++ ) {
       if ( this.squares[i].visible ) {
@@ -505,7 +507,6 @@ class Edge {
 
 class ReusedMesh {
   constructor() {
-    callsPerUpdate++;
     let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
     geometry.rotateX( - Math.PI / 2 );
 
