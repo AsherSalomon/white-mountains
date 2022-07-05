@@ -690,7 +690,7 @@ class ReusedMesh {
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
-    // console.log( timeReport );
+    console.log( timeReport );
 
     this.loadSatellite();
   }
