@@ -73,18 +73,18 @@ export function init( newScene, newCamera ) {
   let centerX = minZoomSquare.centerX;
   let centerZ = minZoomSquare.centerZ;
   let widthOverTwo = minZoomSquare.width / 2;
-  // minZoomSquare.northEdge = new Edge(
-  //   new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
-  //   new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ) );
-  // minZoomSquare.southEdge = new Edge(
-  //   new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ),
-  //   new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
-  // minZoomSquare.eastEdge = new Edge(
-  //   new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ),
-  //   new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
-  // minZoomSquare.westEdge = new Edge(
-  //   new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
-  //   new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
+  minZoomSquare.northEdge = new Edge(
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ) );
+  minZoomSquare.southEdge = new Edge(
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ),
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
+  minZoomSquare.eastEdge = new Edge(
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ - widthOverTwo ),
+    new THREE.Vector3( centerX + widthOverTwo, 0, centerZ + widthOverTwo ) );
+  minZoomSquare.westEdge = new Edge(
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ - widthOverTwo ),
+    new THREE.Vector3( centerX - widthOverTwo, 0, centerZ + widthOverTwo ) );
   minZoomSquare.makeVisible();
 }
 
@@ -270,44 +270,44 @@ class Square {
         this.children.push( newSquare );
       }
 
-      // this.northEdge.split();
-      // this.southEdge.split();
-      // this.eastEdge.split();
-      // this.westEdge.split();
-      //
-      // this.children[0].northEdge = this.northEdge.children[0];
-      // this.children[1].northEdge = this.northEdge.children[1];
-      // this.children[1].eastEdge = this.eastEdge.children[0];
-      // this.children[2].eastEdge = this.eastEdge.children[1];
-      // this.children[2].southEdge = this.southEdge.children[1];
-      // this.children[3].southEdge = this.southEdge.children[0];
-      // this.children[3].westEdge = this.westEdge.children[1];
-      // this.children[0].westEdge = this.westEdge.children[0];
-      //
-      // let newEdgeNS = new Edge(
-      //   new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
-      //   new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
-      // let newEdgeEW = new Edge(
-      //   new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
-      //   new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
-      // newEdgeNS.split();
-      // newEdgeEW.split();
-      //
-      // this.children[0].eastEdge = newEdgeNS.children[0];
-      // this.children[0].southEdge = newEdgeEW.children[0];
-      // this.children[1].westEdge = newEdgeNS.children[0];
-      // this.children[1].southEdge = newEdgeEW.children[1];
-      // this.children[2].northEdge = newEdgeEW.children[1];
-      // this.children[2].westEdge = newEdgeNS.children[1];
-      // this.children[3].northEdge = newEdgeEW.children[0];
-      // this.children[3].eastEdge = newEdgeNS.children[1];
-      //
-      // for ( let i = 0; i < this.children.length; i ++ ) {
-      //   this.children[i].northEdge.squares.push( this.children[i] );
-      //   this.children[i].southEdge.squares.push( this.children[i] );
-      //   this.children[i].eastEdge.squares.push( this.children[i] );
-      //   this.children[i].westEdge.squares.push( this.children[i] );
-      // }
+      this.northEdge.split();
+      this.southEdge.split();
+      this.eastEdge.split();
+      this.westEdge.split();
+
+      this.children[0].northEdge = this.northEdge.children[0];
+      this.children[1].northEdge = this.northEdge.children[1];
+      this.children[1].eastEdge = this.eastEdge.children[0];
+      this.children[2].eastEdge = this.eastEdge.children[1];
+      this.children[2].southEdge = this.southEdge.children[1];
+      this.children[3].southEdge = this.southEdge.children[0];
+      this.children[3].westEdge = this.westEdge.children[1];
+      this.children[0].westEdge = this.westEdge.children[0];
+
+      let newEdgeNS = new Edge(
+        new THREE.Vector3( this.centerX, 0, this.centerZ - this.width / 2 ),
+        new THREE.Vector3( this.centerX, 0, this.centerZ + this.width / 2 ) );
+      let newEdgeEW = new Edge(
+        new THREE.Vector3( this.centerX - this.width / 2, 0, this.centerZ ),
+        new THREE.Vector3( this.centerX + this.width / 2, 0, this.centerZ ) );
+      newEdgeNS.split();
+      newEdgeEW.split();
+
+      this.children[0].eastEdge = newEdgeNS.children[0];
+      this.children[0].southEdge = newEdgeEW.children[0];
+      this.children[1].westEdge = newEdgeNS.children[0];
+      this.children[1].southEdge = newEdgeEW.children[1];
+      this.children[2].northEdge = newEdgeEW.children[1];
+      this.children[2].westEdge = newEdgeNS.children[1];
+      this.children[3].northEdge = newEdgeEW.children[0];
+      this.children[3].eastEdge = newEdgeNS.children[1];
+
+      for ( let i = 0; i < this.children.length; i ++ ) {
+        this.children[i].northEdge.squares.push( this.children[i] );
+        this.children[i].southEdge.squares.push( this.children[i] );
+        this.children[i].eastEdge.squares.push( this.children[i] );
+        this.children[i].westEdge.squares.push( this.children[i] );
+      }
     }
 
     for ( let i = 0; i < this.children.length; i ++ ) {
@@ -630,10 +630,10 @@ class ReusedMesh {
     yield;
     timeList.push( performance.now() );
 
-    // let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
-    // let westAdjacents = this.square.westEdge.findAdjacents( this.square, 'z' );
-    // let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
-    // let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
+    let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
+    let westAdjacents = this.square.westEdge.findAdjacents( this.square, 'z' );
+    let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
+    let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
 
     if ( flashAdjacentColors ) {
       this.mesh.material.color = new THREE.Color( Math.random(), Math.random(), Math.random() );
@@ -647,43 +647,43 @@ class ReusedMesh {
     yield;
     timeList.push( performance.now() );
 
-    // for ( let i = 0; i < southAdjacents.length; i++ ) {
-    //   let adjReusedMesh = southAdjacents[i].square.reusedMesh;
-    //   let adjEdge = southAdjacents[i].edge;
-    //   if ( adjReusedMesh != null ) {
-    //     // adjReusedMesh.restoreEdge( 'n', this.square.southEdge );
-    //     this.clampEdge( this.square.southEdge, adjReusedMesh, adjEdge );
-    //     adjReusedMesh.clampEdge( adjEdge, this, this.square.southEdge );
-    //   }
-    // }
-    //
-    // for ( let i = 0; i < eastAdjacents.length; i++ ) {
-    //   let adjReusedMesh = eastAdjacents[i].square.reusedMesh;
-    //   let adjEdge = eastAdjacents[i].edge;
-    //   if ( adjReusedMesh != null ) {
-    //     // adjReusedMesh.restoreEdge( 'w', this.square.eastEdge );
-    //     this.clampEdge( this.square.eastEdge, adjReusedMesh, adjEdge );
-    //     adjReusedMesh.clampEdge( adjEdge, this, this.square.eastEdge );
-    //   }
-    // }
-    //
-    // for ( let i = 0; i < northAdjacents.length; i++ ) {
-    //   let adjReusedMesh = northAdjacents[i].square.reusedMesh;
-    //   let adjEdge = northAdjacents[i].edge;
-    //   if ( adjReusedMesh != null ) {
-    //     adjReusedMesh.clampEdge( adjEdge, this, this.square.northEdge );
-    //     this.clampEdge( this.square.northEdge, adjReusedMesh, adjEdge );
-    //   }
-    // }
-    //
-    // for ( let i = 0; i < westAdjacents.length; i++ ) {
-    //   let adjReusedMesh = westAdjacents[i].square.reusedMesh;
-    //   let adjEdge = westAdjacents[i].edge;
-    //   if ( adjReusedMesh != null ) {
-    //     adjReusedMesh.clampEdge( adjEdge, this, this.square.westEdge );
-    //     this.clampEdge( this.square.westEdge, adjReusedMesh, adjEdge );
-    //   }
-    // }
+    for ( let i = 0; i < southAdjacents.length; i++ ) {
+      let adjReusedMesh = southAdjacents[i].square.reusedMesh;
+      let adjEdge = southAdjacents[i].edge;
+      if ( adjReusedMesh != null ) {
+        // adjReusedMesh.restoreEdge( 'n', this.square.southEdge );
+        this.clampEdge( this.square.southEdge, adjReusedMesh, adjEdge );
+        adjReusedMesh.clampEdge( adjEdge, this, this.square.southEdge );
+      }
+    }
+
+    for ( let i = 0; i < eastAdjacents.length; i++ ) {
+      let adjReusedMesh = eastAdjacents[i].square.reusedMesh;
+      let adjEdge = eastAdjacents[i].edge;
+      if ( adjReusedMesh != null ) {
+        // adjReusedMesh.restoreEdge( 'w', this.square.eastEdge );
+        this.clampEdge( this.square.eastEdge, adjReusedMesh, adjEdge );
+        adjReusedMesh.clampEdge( adjEdge, this, this.square.eastEdge );
+      }
+    }
+
+    for ( let i = 0; i < northAdjacents.length; i++ ) {
+      let adjReusedMesh = northAdjacents[i].square.reusedMesh;
+      let adjEdge = northAdjacents[i].edge;
+      if ( adjReusedMesh != null ) {
+        adjReusedMesh.clampEdge( adjEdge, this, this.square.northEdge );
+        this.clampEdge( this.square.northEdge, adjReusedMesh, adjEdge );
+      }
+    }
+
+    for ( let i = 0; i < westAdjacents.length; i++ ) {
+      let adjReusedMesh = westAdjacents[i].square.reusedMesh;
+      let adjEdge = westAdjacents[i].edge;
+      if ( adjReusedMesh != null ) {
+        adjReusedMesh.clampEdge( adjEdge, this, this.square.westEdge );
+        this.clampEdge( this.square.westEdge, adjReusedMesh, adjEdge );
+      }
+    }
 
     yield;
     timeList.push( performance.now() );
@@ -691,26 +691,26 @@ class ReusedMesh {
     this.refreshMesh();
     // this.needsRefresh = true;
 
-    // let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
-    // let adjacents = [];
-    // for ( let i = 0; i < simpleConcat.length; i++ ) {
-    //   let allreadyAdded = false;
-    //   for ( let j = 0; j < adjacents.length; j++ ) {
-    //     if ( simpleConcat[i].square == adjacents[j].square ) {
-    //       allreadyAdded = true;
-    //       break;
-    //     }
-    //   }
-    //   if ( allreadyAdded == false ) {
-    //     adjacents.push( simpleConcat[i] );
-    //   }
-    // }
-    // for ( let i = 0; i < adjacents.length; i++ ) {
-    //   if ( adjacents[i].square.reusedMesh != null ) {
-    //     adjacents[i].square.reusedMesh.refreshMesh();
-    //     // adjacents[i].square.reusedMesh.needsRefresh = true;
-    //   }
-    // }
+    let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    let adjacents = [];
+    for ( let i = 0; i < simpleConcat.length; i++ ) {
+      let allreadyAdded = false;
+      for ( let j = 0; j < adjacents.length; j++ ) {
+        if ( simpleConcat[i].square == adjacents[j].square ) {
+          allreadyAdded = true;
+          break;
+        }
+      }
+      if ( allreadyAdded == false ) {
+        adjacents.push( simpleConcat[i] );
+      }
+    }
+    for ( let i = 0; i < adjacents.length; i++ ) {
+      if ( adjacents[i].square.reusedMesh != null ) {
+        adjacents[i].square.reusedMesh.refreshMesh();
+        // adjacents[i].square.reusedMesh.needsRefresh = true;
+      }
+    }
 
     timeList.push( performance.now() );
     let timeReport = '';
