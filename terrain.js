@@ -235,7 +235,7 @@ class Square {
   }
 
   split() {
-    // dataCopy.init( this.reusedMesh );
+    dataCopy.init( this.reusedMesh );
     this.makeNotVisible();
 
     if ( this.splitAlready == false ) {
@@ -290,7 +290,7 @@ class Square {
 
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
-      // this.children[i].reusedMesh.pasteDataCopy( dataCopy );
+      this.children[i].reusedMesh.pasteDataCopy( dataCopy );
       this.children[i].reusedMesh.refreshMesh();
       this.children[i].reusedMesh.mapAndUpdate();
     }
@@ -299,8 +299,8 @@ class Square {
   merge() {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
-      // dataCopy.init( this.children[i].reusedMesh );
-      // this.reusedMesh.pasteDataCopy( dataCopy );
+      dataCopy.init( this.children[i].reusedMesh );
+      this.reusedMesh.pasteDataCopy( dataCopy );
       this.children[i].makeNotVisible();
     }
     this.reusedMesh.refreshMesh();
