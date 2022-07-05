@@ -89,6 +89,7 @@ export function init( newScene, newCamera ) {
 }
 
 let callsPerUpdate = 0;
+// callsPerUpdate++;
 
 let frameCount = 0;
 export function update() {
@@ -424,7 +425,6 @@ class Edge {
   findRootEdge() {
     let root = this;
     while ( root.parent != null ) {
-      callsPerUpdate++;
       root = root.parent;
     }
     return root;
