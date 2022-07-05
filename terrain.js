@@ -957,11 +957,11 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 function dataToHeight( data ) {
-  callsPerUpdate++;
   // Elevation in meters
   return -10000 + ( data[0] * 65536 + data[1] * 256 + data[2] ) * 0.1;
 }
 function curvatureOfTheEarth( x, z ) {
+  callsPerUpdate++;
   return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
   // return earthsRaius - Math.sqrt( earthsRaius ** 2 - ( x ** 2 + z ** 2 ) );
 }
