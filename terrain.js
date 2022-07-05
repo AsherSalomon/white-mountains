@@ -24,8 +24,8 @@ let delayUpdate = false;
 // let delayUpdate = true;
 let delayFactor = 10;
 
-// let showGridHelper = false;
-let showGridHelper = true;
+let showGridHelper = false;
+// let showGridHelper = true;
 
 let showBoundingBoxHelper = false;
 // let showBoundingBoxHelper = true;
@@ -566,7 +566,7 @@ class ReusedMesh {
 
     this.clearTexture();
 
-    // scene.add( this.mesh ); // asher
+    scene.add( this.mesh );
 
     this.readyToLoad = true;
   }
