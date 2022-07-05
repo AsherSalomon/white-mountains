@@ -14,7 +14,7 @@ const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5; // 0
 const terrainZoom = 12;
-const polygonReduction = 3;
+const polygonReduction = 4;
 const maxZoom = terrainZoom + polygonReduction;
 const satilliteZoom = 2;
 const satiliteTilesWidth = 2 ** satilliteZoom;
@@ -717,7 +717,7 @@ class ReusedMesh {
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
-    // console.log( timeReport );
+    console.log( timeReport );
 
     this.loadSatellite();
   }
