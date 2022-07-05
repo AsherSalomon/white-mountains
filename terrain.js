@@ -110,16 +110,12 @@ export function update() {
       camera.position.y = elevationAtCamera + eyeHeight;
     }
 
-    let splitOrMergeOccurred = false;
     for ( let i = squares.length - 1; i >= 0; i-- ) {
       if ( squares[i].removeFromSquares ) {
         squares[i].removeFromSquares = false;
         squares.splice( i, 1 );
       } else {
-        if ( splitOrMergeOccurred == false ) {
-          let splitOrMerge = squares[i].update();
-          if ( splitOrMerge ) { splitOrMergeOccurred = true; }
-        }
+        squares[i].update();
       }
     }
 
@@ -162,13 +158,10 @@ class Square {
   }
 
   update() {
-    let splitOrMerge = false;
     if ( this.zoom < maxZoom && this.isTooBig() && this.visible ) {
       this.split();
-      splitOrMerge = true;
     } else if ( this.zoom > minZoom && this.parent.allChildrenSmall() ) {
       this.parent.merge();
-      splitOrMerge = true;
     } else if ( this.reusedMesh != null ) {
       if ( this.reusedMesh.readyToLoad ) {
         this.reusedMesh.loadUrl();
@@ -181,7 +174,6 @@ class Square {
     if ( flashAdjacentColors && this.reusedMesh != null ) {
       this.reusedMesh.mesh.material.color = pineGreen;
     }
-    return splitOrMerge;
   }
 
   makeVisible() {
