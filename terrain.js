@@ -707,6 +707,10 @@ class ReusedMesh {
     }
     for ( let i = 0; i < adjacents.length; i++ ) {
       if ( adjacents[i].square.reusedMesh != null ) {
+
+        yield;
+        timeList.push( performance.now() );
+
         adjacents[i].square.reusedMesh.refreshMesh();
         // adjacents[i].square.reusedMesh.needsRefresh = true;
       }
