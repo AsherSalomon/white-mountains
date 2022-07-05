@@ -466,7 +466,6 @@ class Edge {
   }
 
   findAdjacents( square, xorz ) {
-    callsPerUpdate++;
     let adjacents = [];
     let root = this.findRootEdge();
     let visibleList = root.recursiveVisibleSquares();
@@ -491,6 +490,7 @@ class Edge {
   }
 
   pointIsWithinEnds( x, z ) {
+    callsPerUpdate++;
     let xz = new THREE.Vector3( x, 0, z );
     xz.sub( this.endA );
     let direction = new THREE.Vector3().subVectors( this.endB, this.endA );
