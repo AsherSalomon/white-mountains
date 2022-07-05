@@ -505,6 +505,7 @@ class Edge {
 
 class ReusedMesh {
   constructor() {
+    callsPerUpdate++;
     let geometry = new THREE.PlaneGeometry( 1, 1, downSize, downSize );
     geometry.rotateX( - Math.PI / 2 );
 
@@ -567,7 +568,6 @@ class ReusedMesh {
   }
 
   loadUrl() {
-    callsPerUpdate++;
     this.readyToLoad = false;
     let urlTile = this.square.tile;
     if ( urlTile[2] > terrainZoom ) { this.mesh.frustumCulled = false; }
