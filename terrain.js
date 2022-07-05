@@ -291,10 +291,9 @@ class Square {
 
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
-      this.children[i].reusedMesh.pasteDataCopy( dataCopy );
-      this.children[i].reusedMesh.refreshMesh();
-      this.children[i].reusedMesh.mapAndUpdate();
-
+      // this.children[i].reusedMesh.pasteDataCopy( dataCopy );
+      // this.children[i].reusedMesh.refreshMesh();
+      // this.children[i].reusedMesh.mapAndUpdate();
     }
   }
 
@@ -302,11 +301,11 @@ class Square {
     this.makeVisible();
     for ( let i = 0; i < this.children.length; i ++ ) {
       dataCopy.init( this.children[i].reusedMesh );
-      this.reusedMesh.pasteDataCopy( dataCopy );
+      // this.reusedMesh.pasteDataCopy( dataCopy );
       this.children[i].makeNotVisible();
     }
-    this.reusedMesh.refreshMesh();
-    this.reusedMesh.mapAndUpdate();
+    // this.reusedMesh.refreshMesh();
+    // this.reusedMesh.mapAndUpdate();
   }
 
   distanceFromCamera() {
@@ -664,7 +663,7 @@ class ReusedMesh {
     // timeList.push( performance.now() );
 
     // this.refreshMesh();
-    // 
+    //
     // let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     // let adjacents = [];
     // for ( let i = 0; i < simpleConcat.length; i++ ) {
