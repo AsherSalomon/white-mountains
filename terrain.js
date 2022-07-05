@@ -98,8 +98,9 @@ export function update() {
     callsPerUpdate = 0;
   }
 
+  console.log( memory.usedJSHeapSize / 1048576 );
+
   frameCount++;
-  console.log( frameCount );
   if ( frameCount % delayFactor == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
 
