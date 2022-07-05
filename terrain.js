@@ -567,6 +567,7 @@ class ReusedMesh {
   }
 
   loadUrl() {
+    callsPerUpdate++;
     this.readyToLoad = false;
     let urlTile = this.square.tile;
     if ( urlTile[2] > terrainZoom ) { this.mesh.frustumCulled = false; }
@@ -754,7 +755,6 @@ class ReusedMesh {
   }
 
   *satelliteGenerator( image, x, y ) {
-    callsPerUpdate++;
     this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.mapAndUpdate();
   }
