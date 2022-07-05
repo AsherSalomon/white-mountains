@@ -962,6 +962,7 @@ function dataToHeight( data ) {
 }
 function curvatureOfTheEarth( x, z ) {
   callsPerUpdate++;
-  return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
+  // return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
   // return earthsRaius - Math.sqrt( earthsRaius ** 2 - ( x ** 2 + z ** 2 ) );
+  return 0;
 }
