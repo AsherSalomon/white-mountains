@@ -143,15 +143,15 @@ export function update() {
     }
   }
 
-  for ( let i = 0; i < squares.length; i++ ) {
-    if ( squares[i].reusedMesh != null ) {
-      if ( squares[i].reusedMesh.needsRefresh ) {
-        squares[i].reusedMesh.refreshMesh();
-        squares[i].reusedMesh.needsRefresh = false;
-        break;
-      }
-    }
-  }
+  // for ( let i = 0; i < squares.length; i++ ) {
+  //   if ( squares[i].reusedMesh != null ) {
+  //     if ( squares[i].reusedMesh.needsRefresh ) {
+  //       squares[i].reusedMesh.refreshMesh();
+  //       squares[i].reusedMesh.needsRefresh = false;
+  //       break;
+  //     }
+  //   }
+  // }
 }
 
 class Square {
@@ -308,8 +308,8 @@ class Square {
     for ( let i = 0; i < this.children.length; i ++ ) {
       this.children[i].makeVisible();
       this.children[i].reusedMesh.pasteDataCopy( dataCopy );
-      // this.children[i].reusedMesh.refreshMesh();
-      this.children[i].reusedMesh.needsRefresh = true;
+      this.children[i].reusedMesh.refreshMesh();
+      // this.children[i].reusedMesh.needsRefresh = true;
       this.children[i].reusedMesh.mapAndUpdate();
     }
   }
@@ -321,8 +321,8 @@ class Square {
       this.reusedMesh.pasteDataCopy( dataCopy );
       this.children[i].makeNotVisible();
     }
-    // this.reusedMesh.refreshMesh();
-    this.reusedMesh.needsRefresh = true;
+    this.reusedMesh.refreshMesh();
+    // this.reusedMesh.needsRefresh = true;
     this.reusedMesh.mapAndUpdate();
   }
 
@@ -535,7 +535,7 @@ class ReusedMesh {
     this.texture = new THREE.CanvasTexture( this.satelliteCanvas );
     this.satilliteCtx = this.satelliteCanvas.getContext( '2d' );
 
-    this.needsRefresh = false;
+    // this.needsRefresh = false;
   }
 
   reuse( square ) {
@@ -556,8 +556,8 @@ class ReusedMesh {
       }
     }
 
-    // this.refreshMesh();
-    this.needsRefresh = true;
+    this.refreshMesh();
+    // this.needsRefresh = true;
 
     this.clearTexture();
 
@@ -683,8 +683,8 @@ class ReusedMesh {
     yield;
     timeList.push( performance.now() );
 
-    // this.refreshMesh();
-    this.needsRefresh = true;
+    this.refreshMesh();
+    // this.needsRefresh = true;
 
     let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     let adjacents = [];
@@ -702,8 +702,8 @@ class ReusedMesh {
     }
     for ( let i = 0; i < adjacents.length; i++ ) {
       if ( adjacents[i].square.reusedMesh != null ) {
-        // adjacents[i].square.reusedMesh.refreshMesh();
-        adjacents[i].square.reusedMesh.needsRefresh = true;
+        adjacents[i].square.reusedMesh.refreshMesh();
+        // adjacents[i].square.reusedMesh.needsRefresh = true;
       }
     }
 
