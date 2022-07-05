@@ -754,13 +754,13 @@ class ReusedMesh {
   }
 
   *satelliteGenerator( image, x, y ) {
-    callsPerUpdate++;
-
     this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.mapAndUpdate();
   }
 
   mapAndUpdate() {
+    callsPerUpdate++;
+
     this.mesh.material.map = this.texture;
     this.mesh.material.color = new THREE.Color();
     this.mesh.material.needsUpdate = true;
