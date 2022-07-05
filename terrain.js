@@ -446,7 +446,6 @@ class Edge {
   }
 
   overlapsEdge( edge, xorz ) {
-    callsPerUpdate++;
     let minLength = Math.min( this.length, edge.length );
     let overlaps = false;
     if ( xorz == 'x' ) {
@@ -467,6 +466,7 @@ class Edge {
   }
 
   findAdjacents( square, xorz ) {
+    callsPerUpdate++;
     let adjacents = [];
     let root = this.findRootEdge();
     let visibleList = root.recursiveVisibleSquares();
