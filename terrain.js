@@ -661,8 +661,8 @@ class ReusedMesh {
     // yield;
     // timeList.push( performance.now() );
 
-    // this.refreshMesh();
-    //
+    this.refreshMesh();
+
     // let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     // let adjacents = [];
     // for ( let i = 0; i < simpleConcat.length; i++ ) {
