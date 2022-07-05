@@ -824,6 +824,7 @@ class ReusedMesh {
   }
 
   refreshMesh() {
+    callsPerUpdate++;
     let vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
@@ -961,8 +962,7 @@ function dataToHeight( data ) {
   return -10000 + ( data[0] * 65536 + data[1] * 256 + data[2] ) * 0.1;
 }
 function curvatureOfTheEarth( x, z ) {
-  callsPerUpdate++;
+  // return 0;
   // return earthsRaius - Math.sqrt( earthsRaius ** 2 - ( x ** 2 + z ** 2 ) );
-  // return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
-  return 0;
+  return ( x ** 2 + z ** 2 ) / ( 2 * earthsRaius );
 }
