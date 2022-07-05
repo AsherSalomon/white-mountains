@@ -754,6 +754,7 @@ class ReusedMesh {
   }
 
   *satelliteGenerator( image, x, y ) {
+    callsPerUpdate++;
     this.satilliteCtx.drawImage( image, x * IMAGERY_TILE_SIZE, y * IMAGERY_TILE_SIZE );
     this.mapAndUpdate();
   }
@@ -906,7 +907,6 @@ class DataCopy {
   }
 
   lookupData( x, z ) {
-    callsPerUpdate++;
     let m = ( z - ( this.centerZ - this.width / 2 ) ) / this.width * downSize;
     let n = ( x - ( this.centerX - this.width / 2 ) ) / this.width * downSize;
 
