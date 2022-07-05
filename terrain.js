@@ -606,20 +606,8 @@ class ReusedMesh {
     timeList.push( performance.now() );
 
     let northAdjacents = this.square.northEdge.findAdjacents( this.square, 'x' );
-
-    yield;
-    timeList.push( performance.now() );
-
     let westAdjacents = this.square.westEdge.findAdjacents( this.square, 'z' );
-
-    yield;
-    timeList.push( performance.now() );
-
     let southAdjacents = this.square.southEdge.findAdjacents( this.square, 'x' );
-
-    yield;
-    timeList.push( performance.now() );
-    
     let eastAdjacents = this.square.eastEdge.findAdjacents( this.square, 'z' );
 
     if ( flashAdjacentColors ) {
@@ -677,6 +665,9 @@ class ReusedMesh {
 
     this.refreshMesh();
 
+    yield;
+    timeList.push( performance.now() );
+
     let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
     let adjacents = [];
     for ( let i = 0; i < simpleConcat.length; i++ ) {
@@ -694,6 +685,10 @@ class ReusedMesh {
     for ( let i = 0; i < adjacents.length; i++ ) {
       if ( adjacents[i].square.reusedMesh != null ) {
         adjacents[i].square.reusedMesh.refreshMesh();
+
+        yield;
+        timeList.push( performance.now() );
+
       }
     }
 
