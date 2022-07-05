@@ -14,7 +14,7 @@ const pineGreen = new THREE.Color( 0x204219 );
 
 const minZoom = 5; // 0
 const terrainZoom = 12;
-const polygonReduction = 2;
+const polygonReduction = 5;
 const maxZoom = terrainZoom + polygonReduction;
 const satilliteZoom = 2;
 const satiliteTilesWidth = 2 ** satilliteZoom;
