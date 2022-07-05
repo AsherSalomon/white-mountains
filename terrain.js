@@ -748,6 +748,8 @@ class ReusedMesh {
   }
 
   clearTexture() {
+    callsPerUpdate++;
+
     this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
     this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
     this.mapAndUpdate();
@@ -759,8 +761,6 @@ class ReusedMesh {
   }
 
   mapAndUpdate() {
-    callsPerUpdate++;
-
     this.mesh.material.map = this.texture;
     this.mesh.material.color = new THREE.Color();
     this.mesh.material.needsUpdate = true;
