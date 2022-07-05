@@ -98,9 +98,9 @@ export function update() {
     callsPerUpdate = 0;
   }
 
-	if ( performance.memory ) {
-    console.log( performance.memory.usedJSHeapSize / 1048576 );
-  }
+	// if ( performance.memory ) {
+  //   console.log( performance.memory.usedJSHeapSize / 1048576 );
+  // }
 
   frameCount++;
   if ( frameCount % delayFactor == 0 || delayUpdate == false ) {
