@@ -691,26 +691,26 @@ class ReusedMesh {
     this.refreshMesh();
     // this.needsRefresh = true;
 
-    let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
-    let adjacents = [];
-    for ( let i = 0; i < simpleConcat.length; i++ ) {
-      let allreadyAdded = false;
-      for ( let j = 0; j < adjacents.length; j++ ) {
-        if ( simpleConcat[i].square == adjacents[j].square ) {
-          allreadyAdded = true;
-          break;
-        }
-      }
-      if ( allreadyAdded == false ) {
-        adjacents.push( simpleConcat[i] );
-      }
-    }
-    for ( let i = 0; i < adjacents.length; i++ ) {
-      if ( adjacents[i].square.reusedMesh != null ) {
-        adjacents[i].square.reusedMesh.refreshMesh();
-        // adjacents[i].square.reusedMesh.needsRefresh = true;
-      }
-    }
+    // let simpleConcat = [].concat( northAdjacents, westAdjacents, southAdjacents, eastAdjacents );
+    // let adjacents = [];
+    // for ( let i = 0; i < simpleConcat.length; i++ ) {
+    //   let allreadyAdded = false;
+    //   for ( let j = 0; j < adjacents.length; j++ ) {
+    //     if ( simpleConcat[i].square == adjacents[j].square ) {
+    //       allreadyAdded = true;
+    //       break;
+    //     }
+    //   }
+    //   if ( allreadyAdded == false ) {
+    //     adjacents.push( simpleConcat[i] );
+    //   }
+    // }
+    // for ( let i = 0; i < adjacents.length; i++ ) {
+    //   if ( adjacents[i].square.reusedMesh != null ) {
+    //     adjacents[i].square.reusedMesh.refreshMesh();
+    //     // adjacents[i].square.reusedMesh.needsRefresh = true;
+    //   }
+    // }
 
     timeList.push( performance.now() );
     let timeReport = '';
