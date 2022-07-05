@@ -422,9 +422,9 @@ class Edge {
   }
 
   findRootEdge() {
-    callsPerUpdate++;
     let root = this;
     while ( root.parent != null ) {
+      callsPerUpdate++;
       root = root.parent;
     }
     return root;
