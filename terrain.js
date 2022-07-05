@@ -718,6 +718,8 @@ class ReusedMesh {
   }
 
   loadSatellite() {
+    callsPerUpdate++;
+
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
@@ -748,8 +750,6 @@ class ReusedMesh {
   }
 
   clearTexture() {
-    callsPerUpdate++;
-
     this.satilliteCtx.fillStyle = '#' + pineGreen.getHexString();
     this.satilliteCtx.fillRect(0, 0, this.satelliteCanvas.width, this.satelliteCanvas.height);
     this.mapAndUpdate();
