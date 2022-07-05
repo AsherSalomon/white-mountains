@@ -836,48 +836,23 @@ class ReusedMesh {
         let z = this.centerZ + this.width * ( m / downSize - 0.5 );
         if ( dataCopy.pointWithinData( x, z ) ) {
           let j = m * ( downSize + 1 ) + n;
-          this.heightData[j] = dataCopy.lookupData( x, z );
+          let dataPoint = dataCopy.lookupData( x, z );
+          if ( dataPoint != 0 ) {
+            this.heightData[j] = dataPoint;
+          }
         }
       }
     }
 
-    // let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
-    // let sizeRatio = dataCopy.width / this.width;
-    // // position to place the image data in the destination canvas.
-    // let dx = 0;
-    // let dy = 0;
-    // // position of the top-left corner the image data will be extracted.
-    // let dirtyX = 0; // ( dataCopy.centerX - this.centerX ) / this.width;
-    // let dirtyY = 0; // ( dataCopy.centerZ - this.centerZ ) / this.width;
-    // // size of the rectangle to be painted. Defaults to the width of the image data.
-    // let dirtyWidth = size / sizeRatio;
-    // let dirtyHeight = size / sizeRatio;
-    // this.satilliteCtx.putImageData(
-    //   // dataCopy.imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight
-    //   dataCopy.imageData, dx, dy, dirtyX, dirtyY
-    // );
-
-    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth; // this.imageData.width
+    let size = IMAGERY_TILE_SIZE * satiliteTilesWidth;
     let sizeRatio = dataCopy.width / this.width;
-    // let sx = 0;
-    // let sy = 0;
-    // let sWidth = size;
-    // let sHeight = size;
-    // let dx = ( dataCopy.centerX - this.centerX ) / this.width * size;
-    // let dy = ( dataCopy.centerZ - this.centerZ ) / this.width * size;
+
     let dx = ( ( dataCopy.centerX - dataCopy.width / 2 ) - ( this.centerX - this.width / 2 ) ) / this.width * size;
     let dy = ( ( dataCopy.centerZ - dataCopy.width / 2 ) - ( this.centerZ - this.width / 2 ) ) / this.width * size;
     let dWidth = size * sizeRatio;
     let dHeight = size * sizeRatio;
-    // let thisReusedMesh = this;
-    // dataCopy.savedImage.onload = function() {
-    //   thisReusedMesh.satilliteCtx.drawImage( dataCopy.savedImage, dx, dy, dWidth, dHeight );
-    // };
 
     this.satilliteCtx.drawImage( dataCopy.canvas, dx, dy, dWidth, dHeight );
-    // this.satilliteCtx.drawImage(
-    //   dataCopy.canvas, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
-    // );
   }
 }
 
