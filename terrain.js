@@ -88,8 +88,15 @@ export function init( newScene, newCamera ) {
   minZoomSquare.makeVisible();
 }
 
+let callsPerUpdate = 0;
+
 let frameCount = 0;
 export function update() {
+  if ( callsPerUpdate > 0 ) {
+    console.log( callsPerUpdate );
+    callsPerUpdate = 0;
+  }
+
   frameCount++;
   if ( frameCount % delayFactor == 0 || delayUpdate == false ) {
     frustum.setFromProjectionMatrix( new THREE.Matrix4().multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse ) );
@@ -688,7 +695,7 @@ class ReusedMesh {
     for ( let i = 0; i < timeList.length - 1; i++ ) {
       timeReport += Math.round( timeList[i + 1] - timeList[i] ) + 'ms ';
     }
-    console.log( timeReport );
+    // console.log( timeReport );
 
     this.loadSatellite();
   }
@@ -800,6 +807,8 @@ class ReusedMesh {
   }
 
   refreshMesh() {
+    callsPerUpdate++;
+    
     let vertices = this.mesh.geometry.attributes.position.array;
     for ( let m = 0; m <= downSize; m++ ) {
       for ( let n = 0; n <= downSize; n++ ) {
