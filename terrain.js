@@ -718,8 +718,6 @@ class ReusedMesh {
   }
 
   loadSatellite() {
-    callsPerUpdate++;
-
     const loader = new THREE.ImageLoader();
     for ( let x = 0; x < satiliteTilesWidth; x++ ) {
       for ( let y = 0; y < satiliteTilesWidth; y++ ) {
@@ -959,6 +957,7 @@ function urlForTile( x, y, z, type ) {
     .replace( '{z}', z ).replace( '{apiKey}', apiKey );
 }
 function dataToHeight( data ) {
+  callsPerUpdate++;
   // Elevation in meters
   return -10000 + ( data[0] * 65536 + data[1] * 256 + data[2] ) * 0.1;
 }
